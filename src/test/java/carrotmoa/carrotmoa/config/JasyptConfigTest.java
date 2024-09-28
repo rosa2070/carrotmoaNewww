@@ -15,7 +15,7 @@ public class JasyptConfigTest {
         // Jasypt 설정
         PooledPBEStringEncryptor encryptor = new PooledPBEStringEncryptor();
         SimpleStringPBEConfig config = new SimpleStringPBEConfig();
-        config.setPassword("carrotmoa");
+        config.setPassword(""); // Jasypt 암호화 및 복호화 과정에서 사용되는 비밀번호 설정
 
         // 암호화 알고리즘 및 설정
         config.setAlgorithm("PBEWithMD5AndDES");
