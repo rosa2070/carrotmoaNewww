@@ -1,0 +1,14 @@
+/*------------------------------------------------
+
+  service
+
+------------------------------------------------*/
+.main-banner {
+  display: flex;
+  width: 996px;
+  height: 315px;
+  padding: 16px 0;
+  align-items: center;
+  justify-content: center;
+  background-color: #FE6F0F;
+}
