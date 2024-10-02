@@ -1,16 +1,74 @@
-#gnb-1 {
+/*------------------------------------------------
+
+  GNB
+
+------------------------------------------------*/
+#gnb {
   width: 100%;
   height: 64px;
-  background-color: indigo;
+  display: flex;
+  justify-content: center;
+  background-color: #FFFFFF;
   color: white;
 }
 
-#footer-1 {
+.gnb-container {
+  display: flex;
+  width: 1160px;
+  height: 40px;
+  padding: 12px 20px;
+  align-items: center;
+  justify-content: center;
+}
+
+.gnb-logo {
+  display: flex;
+  gap: 5px;
+  margin-right: 36px;
+}
+
+.gnb-logo span {
+  display: flex;
+  align-items: center;
+  font-weight: bold;
+  font-size: 23px;
+  color: #FE6F0F;
+}
+
+.gnb-menu-box {
+  display: flex;
+  margin-right: 36px;
+}
+
+.gnb-menu {
+  display: flex;
+  cursor: pointer;
+  flex-wrap: nowrap;
+  white-space: nowrap;
+  text-decoration: none;
+}
+
+.gnb-menu span {
+  color: #4D5159;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.gnb-menu:hover span  {
+  color: #868B94;
+}
+
+
+
+
+
+#footer {
   width: 100%;
   height: 670px;
-  background-color: darkslateblue;
+  background-color: #FFFFFF;
   color: white;
 }
+
 
 .test-side {
   width: 100px;
@@ -20,13 +78,13 @@
 
 .test-container {
   width: 100%;
-  height: 1000px;
+  /*height: 1000px;*/
   display: flex;
   justify-content: space-between;
   flex-direction: row;
 }
 
-.test-container div{
+.test-container div {
   display: flex;
 }
 
@@ -34,14 +92,4 @@
   margin: 0;
   padding: 0;
   outline: none;
-}
-
-#gnb {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  height: 64px;
-  padding: 0;
-  margin: 0;
-  background-color: red;
 }
