@@ -1,3 +1,41 @@
+#gnb-1 {
+  width: 100%;
+  height: 64px;
+  background-color: indigo;
+  color: white;
+}
+
+#footer-1 {
+  width: 100%;
+  height: 670px;
+  background-color: darkslateblue;
+  color: white;
+}
+
+.test-side {
+  width: 100px;
+  background-color: royalblue;
+  color: white;
+}
+
+.test-container {
+  width: 100%;
+  height: 1000px;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+}
+
+.test-container div{
+  display: flex;
+}
+
+.test-body {
+  margin: 0;
+  padding: 0;
+  outline: none;
+}
+
 #gnb {
   display: flex;
   align-items: center;
