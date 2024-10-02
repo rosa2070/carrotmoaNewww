@@ -18,11 +18,12 @@
   height: 40px;
   padding: 12px 20px;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
 }
 
 .gnb-logo {
   display: flex;
+  justify-content: left;
 }
 
 .gnb-logo a {
@@ -46,6 +47,7 @@
 
 .gnb-service {
   display: flex;
+  flex-grow: 1
 }
 
 .gnb-service a {
@@ -68,12 +70,24 @@
 }
 
 .gnb-search {
-  margin-right: 20px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin-right: 10px;
 }
 
 .gnb-search input {
   width: 264px;
   height: 22px;
+  padding: 9px 12px;
+  border: 1px solid #ffffff;
+  background-color: #F2F3F6;
+  border-radius: 5px;
+  outline: none;
+}
+.gnb-search input::placeholder {
+  color: #868B94;
+  font-size: 16px;
 }
 
 .gnb-tool {
