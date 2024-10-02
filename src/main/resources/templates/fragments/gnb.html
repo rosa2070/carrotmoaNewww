@@ -2,8 +2,43 @@
 
 <div id="gnb" th:fragment="gnb">
 
-  <div class="test-gnb">
-    GNB
+  <div class="gnb-container">
+
+    <div class="gnb-logo">
+      <a href="/">
+        <img src="/images/main-logo.png" alt="logo">
+        <span>당근모아</span>
+      </a>
+    </div>
+
+    <div class="gnb-service">
+      <a class="gnb-service-menu" href="/fleamarket">
+        <span>중고거래</span>
+      </a>
+      <a class="gnb-service-menu" href="/pension">
+        <span>숙소</span>
+      </a>
+      <a class="gnb-service-menu" href="/community">
+        <span>동네생활</span>
+      </a>
+    </div>
+
+    <div class="gnb-search">
+      <label>
+        <input type="text" placeholder="물품이나 동네를 검색해보세요">
+      </label>
+      <div class="gnb-tool">
+        <a href="">
+          <span>검색</span>
+        </a>
+      </div>
+    </div>
+
+    <div class="gnb-tool">
+      <a>
+        <span>로그인</span>
+      </a>
+    </div>
   </div>
 </div>
 </html>
