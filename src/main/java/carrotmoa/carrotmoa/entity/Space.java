@@ -11,21 +11,19 @@ import lombok.Setter;
 import lombok.ToString;
 
 @Entity
-@Table(name = "accommodation_amenity")
+@Table(name = "space")
 @Getter
 @Setter
 @ToString
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class AccommodationAmenity extends BaseEntity {
+public class Space extends BaseEntity {
 
-    @Column(name = "accommodation_id")
-    private Long accommodationId; // 숙소 ID
+    @Column(name="type")
+    private String type; // 공간 유형 (방, 화장실, 거실, 주방)
 
-    @Column(name = "amenity_id")
-    private Long amenityId; // 편의시설 ID
-
-    // 숙소와 편의시설 간의 관계
+    @Column(name="icon")
+    private String icon; // 공간 아이콘
 
 }

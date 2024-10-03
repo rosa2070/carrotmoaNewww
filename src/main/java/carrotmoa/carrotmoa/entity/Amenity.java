@@ -22,9 +22,6 @@ public class Amenity extends BaseEntity {
     @Column(name = "name")
     private String name; // 옵션 이름
 
-    @Column(name = "type")
-    private Integer type; // 옵션 유형
-
     @Column(name = "icon_url")
     private String iconUrl; // 아이콘 URL
 
