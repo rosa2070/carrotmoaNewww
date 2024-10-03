@@ -40,16 +40,17 @@ public class Accommodation extends BaseEntity {
     @Column(name = "floor")
     private Integer floor; // 현재 층 정보
 
-    @Column(name = "total_floors")
-    private Integer total_floors; // 총 층 정보
+    @Column(name = "total_floor")
+    private Integer total_floor; // 총 층 정보
 
     @Column(name = "price")
     private BigDecimal price; // 숙소 1박 가격
 
-    @Column(name = "details")
-    private String details; // 숙소에 대한 상세 정보 (소개, 이용 방법, 방 몇개, 화장실 몇개)
+    @Column(name = "detail")
+    private String detail; // 숙소에 대한 상세 정보 (소개, 이용 방법, 방 몇개, 화장실 몇개)
 
     @Column(name = "transportation_info")
     private String transportationInfo; // 교통 정보
+
 
 }
