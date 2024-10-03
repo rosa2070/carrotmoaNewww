@@ -26,7 +26,7 @@ public class Accommodation extends BaseEntity {
     private Long userId; // 호스트 ID
 
     @Column(name="name")
-    private Long name; // 숙소 이름
+    private String name; // 숙소 이름
 
     @Column(name = "road_address")
     private String roadAddress; // 도로명 주소
