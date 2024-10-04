@@ -38,10 +38,10 @@ public class Accommodation extends BaseEntity {
     private String detailAddress; // 상세 주소
 
     @Column(name = "floor")
-    private Integer floor; // 현재 층 정보
+    private Integer floor; // 현재 층 정보   (지하, 반지하 추가하려면 String으로??)
 
     @Column(name = "total_floor")
-    private Integer total_floor; // 총 층 정보
+    private Integer totalFloor; // 총 층 정보
 
     @Column(name = "price")
     private BigDecimal price; // 숙소 1박 가격
