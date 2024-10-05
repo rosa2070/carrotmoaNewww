@@ -90,6 +90,7 @@
                                         <option value="9">9</option>
                                         <option value="10">10</option>
                                     </select>
+                                    <input type="hidden" th:field="*{accommodationSpaces[0].spaceId}" value="1"> <!-- 방 ID -->
                                     <label for="bathroom_cnt">화장실 수</label>
                                     <select id="bathroom_cnt" th:field="*{accommodationSpaces[1].count}"
                                             style="width:150px; margin-right:50px;"
@@ -99,6 +100,7 @@
                                         <option value="2">2</option>
                                         <option value="3">3</option>
                                     </select>
+                                    <input type="hidden" th:field="*{accommodationSpaces[1].spaceId}" value="2"> <!-- 화장실 ID -->
                                 </div>
                                 <div class="select_group">
                                     <label for="sittingroom_cnt">거실 수</label>
@@ -109,6 +111,7 @@
                                         <option value="1">1</option>
                                         <option value="2">2</option>
                                     </select>
+                                    <input type="hidden" th:field="*{accommodationSpaces[2].spaceId}" value="3"> <!-- 거실 수 -->
 
                                     <label for="cookroom_cnt">주방 수</label>
                                     <select id="cookroom_cnt" th:field="*{accommodationSpaces[3].count}"
@@ -118,6 +121,7 @@
                                         <option value="1">1</option>
                                         <option value="2">2</option>
                                     </select>
+                                    <input type="hidden" th:field="*{accommodationSpaces[3].spaceId}" value="4"> <!-- 주방 수 -->
                                 </div>
                             </div>
                         </div>
@@ -215,7 +219,7 @@
                     </div>
 
                     <div class="button_center">
-                        <button type="button" class="btn medium orange" id="btn_save_3">작성 완료</button>
+                        <button type="submit" class="btn medium orange" id="btn_save_3">작성 완료</button>
                     </div>
 
 
@@ -228,21 +232,6 @@
 
 <div th:replace="~{fragments/side-right::side-right}">오른쪽 사이드바</div>
 
-<!-- JavaScript 코드 -->
-<script>
-    document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
-        checkbox.addEventListener('change', function() {
-            const label = this.nextElementSibling;
-
-            // 체크 상태에 따라 배경 이미지 변경
-            if (this.checked) {
-                label.style.backgroundImage = "url('../images/accommodation/icon_check_active.svg')";
-            } else {
-                label.style.backgroundImage = "url('../images/accommodation/check_box_icon.svg')";
-            }
-        });
-    });
-</script>
 
 </body>
 </html>

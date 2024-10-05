@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 @NoArgsConstructor
@@ -24,7 +25,8 @@ public class AccommodationRequestDto {
     private String detail;
     private String transportationInfo;
 
-    private List<AccommodationSpaceDto> accommodationSpaces; // 관계 테이블 리스트 (방, 화장실, 거실, 주방 순서로 담겨야)
+    // 관계 테이블 리스트 (방, 화장실, 거실, 주방 순서로 담겨야)
+    private List<AccommodationSpaceDto> accommodationSpaces = new ArrayList<>(); // 초기화
     private List<Long> amenityIds; // 선택된 편의시설 IDs
     private List<MultipartFile> images; // 업로드된 이미지 파일들
 
