@@ -40,7 +40,7 @@
                                 <div class="road-container">
                                     <input type="text" id="roadAddress" th:field="*{roadAddress}" class="style-border"
                                            placeholder="도로명 주소를 입력해 주세요."
-                                           value readonly style="width: 500px;">
+                                           value style="width: 500px;">
                                     <button type="button" id="btn_search_addr"
                                             style=" margin-left: 6px; width: 150px; height: 50px; padding: 13px 16px; border-radius: 4px; border: 1px solid #5C5C5C; background: #FFF">
                                         주소 찾기
@@ -49,7 +49,7 @@
                                 <input type="text" id="lotAddress" th:field="*{lotAddress}" class="style-border"
                                        placeholder="지번주소를 입력해 주세요."
                                        value
-                                       readonly>
+                                       >
                                 <input type="text" id="detailAddress" th:field="*{detailAddress}" class="style-border"
                                        placeholder="상세주소를 입력해주세요."
                                        value>
@@ -76,6 +76,7 @@
                             <div class="flex_column">
                                 <div class="select_group">
                                     <label for="room_cnt">방 수</label>
+                                    <input type="hidden" th:field="*{accommodationSpaces[0].spaceId}" > <!-- 방 ID -->
                                     <select id="room_cnt" th:field="*{accommodationSpaces[0].count}"
                                             style="width:150px; margin-right:50px;" class="my_select_box">
                                         <option value="0">0</option>
@@ -90,8 +91,9 @@
                                         <option value="9">9</option>
                                         <option value="10">10</option>
                                     </select>
-                                    <input type="hidden" th:field="*{accommodationSpaces[0].spaceId}" value="1"> <!-- 방 ID -->
+
                                     <label for="bathroom_cnt">화장실 수</label>
+                                    <input type="hidden" th:field="*{accommodationSpaces[1].spaceId}"> <!-- 화장실 ID -->
                                     <select id="bathroom_cnt" th:field="*{accommodationSpaces[1].count}"
                                             style="width:150px; margin-right:50px;"
                                             class="my_select_box">
@@ -100,10 +102,10 @@
                                         <option value="2">2</option>
                                         <option value="3">3</option>
                                     </select>
-                                    <input type="hidden" th:field="*{accommodationSpaces[1].spaceId}" value="2"> <!-- 화장실 ID -->
                                 </div>
                                 <div class="select_group">
                                     <label for="sittingroom_cnt">거실 수</label>
+                                    <input type="hidden" th:field="*{accommodationSpaces[2].spaceId}"> <!-- 거실 ID -->
                                     <select id="sittingroom_cnt" th:field="*{accommodationSpaces[2].count}"
                                             style="width:150px; margin-right:50px;"
                                             class="my_select_box ">
@@ -111,9 +113,9 @@
                                         <option value="1">1</option>
                                         <option value="2">2</option>
                                     </select>
-                                    <input type="hidden" th:field="*{accommodationSpaces[2].spaceId}" value="3"> <!-- 거실 수 -->
 
                                     <label for="cookroom_cnt">주방 수</label>
+                                    <input type="hidden" th:field="*{accommodationSpaces[3].spaceId}"> <!-- 주방 ID -->
                                     <select id="cookroom_cnt" th:field="*{accommodationSpaces[3].count}"
                                             style="width:150px; margin-right:50px;"
                                             class="my_select_box ">
@@ -121,7 +123,6 @@
                                         <option value="1">1</option>
                                         <option value="2">2</option>
                                     </select>
-                                    <input type="hidden" th:field="*{accommodationSpaces[3].spaceId}" value="4"> <!-- 주방 수 -->
                                 </div>
                             </div>
                         </div>
