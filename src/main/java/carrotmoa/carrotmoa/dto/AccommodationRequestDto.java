@@ -24,8 +24,8 @@ public class AccommodationRequestDto {
     private String detail;
     private String transportationInfo;
 
+    private List<AccommodationSpaceDto> accommodationSpaces; // 관계 테이블 리스트 (방, 화장실, 거실, 주방 순서로 담겨야)
     private List<Long> amenityIds; // 선택된 편의시설 IDs
-    private List<Long> spaceIds; // 선택된 공간 유형 IDs
     private List<MultipartFile> images; // 업로드된 이미지 파일들
 
 }

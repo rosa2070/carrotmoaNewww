@@ -9,205 +9,240 @@
 <body>
 <div th:replace="~{fragments/side-left::side-left}">왼쪽 사이드바</div>
 
+<!--th:field를 사용하면 name 속성을 자동으로 생성해 주기 때문에, 굳이 name을 별도로 명시할 필요는 없습니다.-->
 <main layout:fragment="main" class="main-content">
     <div class="wrap bg_wrap">
         <section class="content">
-            <div class="host_room_reg">
-                <div class="flex">
-                    <p class="title_left">방 등록하기</p>
-                </div>
+            <form th:action="@{/host/room/register}" method="post" enctype="multipart/form-data"
+                  th:object="${accommodationRequestDto}">
 
-                <div class="white_box">
-                    <div class="room_input">
-                        <label for="name">방이름</label>
-                        <input type="text" id="name" class="style-border" maxlength="12"
-                               placeholder="방 이름을 입력해 주세요. (최대 12자)"
-                               required>
+                <div class="host_room_reg">
+                    <div class="flex">
+                        <p class="title_left">방 등록하기</p>
                     </div>
-                </div>
 
-                <div class="white_box">
-                    <div class="room_input" style="justify-content: flex-start;" id="div_address_area">
-                        <label style="margin-bottom: 212px;">주소</label>
-                        <div style="position: absolute; top:32px; left:165px; color:#5C5C5C;font-size: 13px;font-weight: 400;line-height: 19px;;">
-                            정확한 주소를 기입해주세요. 주소는 안전한 단기 임대 계약의 필수 구성 요소입니다.
-                        </div>
-                        <div class="input-group" style="width: 392px; margin-top: 16px;">
-                            <div class="road-container">
-                                <input type="text" id="roadAddress" class="style-border"
-                                       placeholder="도로명 주소를 입력해 주세요."
-                                       value readonly style="width: 500px;">
-                                <button type="button" id="btn_search_addr"
-                                        style=" margin-left: 6px; width: 150px; height: 50px; padding: 13px 16px; border-radius: 4px; border: 1px solid #5C5C5C; background: #FFF">
-                                    주소 찾기
-                                </button>
-                            </div>
-                            <input type="text" id="lotAddress" class="style-border" placeholder="지번주소를 입력해 주세요." value
-                                   readonly>
-                            <input type="text" id="detailAddress" class="style-border" placeholder="상세주소를 입력해주세요."
-                                   value>
+                    <div class="white_box">
+                        <div class="room_input">
+                            <label for="name">방이름</label>
+                            <input type="text" id="name" th:field="*{name}" class="style-border" maxlength="12"
+                                   placeholder="방 이름을 입력해 주세요. (최대 12자)"
+                                   required>
                         </div>
                     </div>
 
-                    <div class="room_input">
-                        <label>층</label>
-                        <input type="number" id="floor" placeholder="층 입력" min="1"
-                               class="floor-box">
-                        <span>&nbsp;&nbsp;/&nbsp;&nbsp; </span>
-                        <input type="number" id="totalFloor" placeholder="총 층 입력" min="1"
-                               class="floor-box">
-                    </div>
-                </div>
-
-                <div class="white_box">
-                    <div class="room_input">
-                        <span class="label">구조</span>
-                        <div style="color:#777;">게스트가 이용하는 공간에 대해서 입력해주세요.</div>
-                    </div>
-
-                    <div class="room_input" style="margin-top: 20px; align-items:start">
-                        <div class="flex_column">
-                            <div class="select_group">
-                                <label for="room_cnt">방 수</label>
-                                <select id="room_cnt" style="width:150px; margin-right:50px;" class="my_select_box">
-                                    <option value="0">0</option>
-                                    <option value="1" selected="">1</option>
-                                    <option value="2">2</option>
-                                    <option value="3">3</option>
-                                    <option value="4">4</option>
-                                    <option value="5">5</option>
-                                    <option value="6">6</option>
-                                    <option value="7">7</option>
-                                    <option value="8">8</option>
-                                    <option value="9">9</option>
-                                    <option value="10">10</option>
-                                </select>
-                                <label for="bathroom_cnt">화장실 수</label>
-                                <select id="bathroom_cnt" style="width:150px; margin-right:50px;" class="my_select_box">
-                                    <option value="0">0</option>
-                                    <option value="1" selected="">1</option>
-                                    <option value="2">2</option>
-                                    <option value="3">3</option>
-                                </select>
+                    <div class="white_box">
+                        <div class="room_input" style="justify-content: flex-start;" id="div_address_area">
+                            <label style="margin-bottom: 212px;">주소</label>
+                            <div style="position: absolute; top:32px; left:165px; color:#5C5C5C;font-size: 13px;font-weight: 400;line-height: 19px;;">
+                                정확한 주소를 기입해주세요. 주소는 안전한 단기 임대 계약의 필수 구성 요소입니다.
                             </div>
+                            <div class="input-group" style="width: 392px; margin-top: 16px;">
+                                <div class="road-container">
+                                    <input type="text" id="roadAddress" th:field="*{roadAddress}" class="style-border"
+                                           placeholder="도로명 주소를 입력해 주세요."
+                                           value readonly style="width: 500px;">
+                                    <button type="button" id="btn_search_addr"
+                                            style=" margin-left: 6px; width: 150px; height: 50px; padding: 13px 16px; border-radius: 4px; border: 1px solid #5C5C5C; background: #FFF">
+                                        주소 찾기
+                                    </button>
+                                </div>
+                                <input type="text" id="lotAddress" th:field="*{lotAddress}" class="style-border"
+                                       placeholder="지번주소를 입력해 주세요."
+                                       value
+                                       readonly>
+                                <input type="text" id="detailAddress" th:field="*{detailAddress}" class="style-border"
+                                       placeholder="상세주소를 입력해주세요."
+                                       value>
+                            </div>
+                        </div>
 
-                            <div class="select_group">
-                                <label for="sittingroom_cnt">거실 수</label>
-                                <select id="sittingroom_cnt" style="width:150px; margin-right:50px;"
-                                        class="my_select_box ">
-                                    <option value="0" selected="">0</option>
-                                    <option value="1">1</option>
-                                    <option value="2">2</option>
-                                </select>
+                        <div class="room_input">
+                            <label>층</label>
+                            <input type="number" id="floor" th:field="*{floor}" placeholder="층 입력" min="1"
+                                   class="floor-box">
+                            <span>&nbsp;&nbsp;/&nbsp;&nbsp; </span>
+                            <input type="number" id="totalFloor" th:field="*{totalFloor}" placeholder="총 층 입력" min="1"
+                                   class="floor-box">
+                        </div>
+                    </div>
 
-                                <label for="cookroom_cnt">주방 수</label>
-                                <select id="cookroom_cnt" style="width:150px; margin-right:50px;"
-                                        class="my_select_box ">
-                                    <option value="0" selected="">0</option>
-                                    <option value="1">1</option>
-                                    <option value="2">2</option>
-                                </select>
+                    <div class="white_box">
+                        <div class="room_input">
+                            <span class="label">구조</span>
+                            <div style="color:#777;">게스트가 이용하는 공간에 대해서 입력해주세요.</div>
+                        </div>
+
+                        <div class="room_input" style="margin-top: 20px; align-items:start">
+                            <div class="flex_column">
+                                <div class="select_group">
+                                    <label for="room_cnt">방 수</label>
+                                    <select id="room_cnt" th:field="*{accommodationSpaces[0].count}"
+                                            style="width:150px; margin-right:50px;" class="my_select_box">
+                                        <option value="0">0</option>
+                                        <option value="1" selected="">1</option>
+                                        <option value="2">2</option>
+                                        <option value="3">3</option>
+                                        <option value="4">4</option>
+                                        <option value="5">5</option>
+                                        <option value="6">6</option>
+                                        <option value="7">7</option>
+                                        <option value="8">8</option>
+                                        <option value="9">9</option>
+                                        <option value="10">10</option>
+                                    </select>
+                                    <label for="bathroom_cnt">화장실 수</label>
+                                    <select id="bathroom_cnt" th:field="*{accommodationSpaces[1].count}"
+                                            style="width:150px; margin-right:50px;"
+                                            class="my_select_box">
+                                        <option value="0">0</option>
+                                        <option value="1" selected="">1</option>
+                                        <option value="2">2</option>
+                                        <option value="3">3</option>
+                                    </select>
+                                </div>
+                                <div class="select_group">
+                                    <label for="sittingroom_cnt">거실 수</label>
+                                    <select id="sittingroom_cnt" th:field="*{accommodationSpaces[2].count}"
+                                            style="width:150px; margin-right:50px;"
+                                            class="my_select_box ">
+                                        <option value="0" selected="">0</option>
+                                        <option value="1">1</option>
+                                        <option value="2">2</option>
+                                    </select>
+
+                                    <label for="cookroom_cnt">주방 수</label>
+                                    <select id="cookroom_cnt" th:field="*{accommodationSpaces[3].count}"
+                                            style="width:150px; margin-right:50px;"
+                                            class="my_select_box ">
+                                        <option value="0" selected="">0</option>
+                                        <option value="1">1</option>
+                                        <option value="2">2</option>
+                                    </select>
+                                </div>
                             </div>
                         </div>
                     </div>
 
-
-                </div>
-
-                <div class="white_box">
-                    <div class="room_input">
-                        <label for="name">가격</label>
-                        <input type="text" id="price" class="style-border" maxlength="12"
-                               placeholder="1박 가격을 입력해 주세요."
-                               required>
-                        <span>&nbsp;&nbsp; / 1박</span>
+                    <div class="white_box">
+                        <div class="room_input">
+                            <label for="name">가격</label>
+                            <input type="text" id="price" th:field="*{price}" class="style-border" maxlength="12"
+                                   placeholder="1박 가격을 입력해 주세요."
+                                   required>
+                            <span>&nbsp;&nbsp; / 1박</span>
+                        </div>
                     </div>
-                </div>
 
-                <div class="white_box">
-                    <div class="textarea_box">
-                        <label for="detail">
-                            방 설명 및 이용 방법
-                        </label>
-                        <div class="text_box length_500">
-                            <textarea id="detail" maxlength="500"
+                    <div class="white_box">
+                        <div class="textarea_box">
+                            <label for="detail">
+                                방 설명 및 이용 방법
+                            </label>
+                            <div class="text_box length_500">
+                            <textarea id="detail" th:field="*{detail}" maxlength="500"
                                       placeholder="- 최근 리모델링 완료 후 첫 집주인 방입니다. -깨끗한 화이트 톤의 모던한 인테리어입니다. "></textarea>
+                            </div>
+                        </div>
+
+                        <div class="textarea_box">
+                            <label for="transportationInfo">교통편</label>
+                            <div class="text_box length_300">
+                                <textarea id="transportationInfo" th:field="*{transportationInfo}" maxlength="500"
+                                          placeholder="- 신촌역 3분 거리입니다."></textarea>
+                            </div>
                         </div>
                     </div>
 
-                    <div class="textarea_box">
-                        <label for="transportationInfo">교통편</label>
-                        <div class="text_box length_300">
-                            <textarea id="transportationInfo" maxlength="500" placeholder="- 신촌역 3분 거리입니다."></textarea>
+                    <div class="white_box">
+                        <div class="images_add">
+                            <div class="title">
+                                <strong>방 사진 등록</strong>
+                            </div>
+                        </div>
+                        <div class="title_text">
+                            방 사진은 &nbsp;<strong>최소 6장 - 최대 20장</strong>까지 등록이 가능합니다.
+                        </div>
+                        <!--                    사진 첨부는 나중에 아마존 s3 이용 /삼삼엠투 f12 참고 -->
+                        <div class="file_upload">
+                            <label for="images" class="btn_upload">사진 첨부</label>
+                            <!--                            accept="image/*": 사용자가 선택할 수 있는 파일 유형을 제한 -->
+                            <input type="file" id="images" th:field="*{images}" multiple accept="image/*"
+                                   style="display: none;">
+                        </div>
+                        <div class="images_view ui-sortable" id="div_added_pictures">
+                            <!-- 업로드된 이미지 미리보기 영역 -->
                         </div>
                     </div>
-                </div>
 
-                <div class="white_box">
-                    <div class="images_add">
-                        <div class="title">
-                            <strong>방 사진 등록</strong>
+                    <div class="white_box check_box">
+                        <div class="room_input align_top">
+                            <span class="label width_150">기본 옵션</span>
+                            <div class="checkbox_group">
+<!--                                value 값이 amenity의 id값과 일치해야-->
+<!--                                나중에 th:each로 동적으로 amenity 받아와서 뿌리는 방식으로-->
+                                <ul>
+                                    <li>
+                                        <input type="checkbox" id="opt_basic_1" th:field="*{amenityIds}" value="1" >
+                                        <label for="opt_basic_1">냉장고</label>
+                                    </li>
+                                    <li>
+                                        <input type="checkbox" id="opt_basic_2" th:field="*{amenityIds}" value="2">
+                                        <label for="opt_basic_2">세탁기</label>
+                                    </li>
+                                    <li>
+                                        <input type="checkbox" id="opt_basic_3" th:field="*{amenityIds}" value="3">
+                                        <label for="opt_basic_3">에어컨</label>
+                                    </li>
+                                    <li>
+                                        <input type="checkbox" id="opt_basic_4" th:field="*{amenityIds}" value="4">
+                                        <label for="opt_basic_4">싱크대</label>
+                                    </li>
+                                    <li>
+                                        <input type="checkbox" id="opt_basic_5" th:field="*{amenityIds}" value="5">
+                                        <label for="opt_basic_5">침대</label>
+                                    </li>
+                                    <li>
+                                        <input type="checkbox" id="opt_basic_6" th:field="*{amenityIds}" value="6">
+                                        <label for="opt_basic_6">TV</label>
+                                    </li>
+                                    <li>
+                                        <input type="checkbox" id="opt_append_1" th:field="*{amenityIds}" value="7">
+                                        <label for="opt_append_1">인터넷</label>
+                                    </li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
-                    <div class="title_text">
-                        방 사진은 &nbsp;<strong>최소 6장 - 최대 20장</strong>까지 등록이 가능합니다.
+
+                    <div class="button_center">
+                        <button type="button" class="btn medium orange" id="btn_save_3">작성 완료</button>
                     </div>
-                    <!--                    사진 첨부는 나중에 아마존 s3 이용 /삼삼엠투 f12 참고 -->
-                    <div class="file_upload">
-                        <label class="btn_upload">사진 첨부</label>
-                    </div>
-                    <div class="images_view ui-sortable" id="div_added_pictures">
-                    </div>
+
+
                 </div>
-
-                <div class="white_box check_box">
-                    <div class="room_input align_top">
-                        <span class="label width_150">기본 옵션</span>
-                        <div class="checkbox_group">
-                            <ul>
-                                <li>
-                                    <input type="checkbox" id="opt_basic_1">
-                                    <label for="opt_basic_1">냉장고</label>
-                                </li>
-                                <li>
-                                    <input type="checkbox" id="opt_basic_2">
-                                    <label for="opt_basic_2">세탁기</label>
-                                </li>
-                                <li>
-                                    <input type="checkbox" id="opt_basic_3">
-                                    <label for="opt_basic_3">에어컨</label>
-                                </li>
-                                <li>
-                                    <input type="checkbox" id="opt_basic_4">
-                                    <label for="opt_basic_4">싱크대</label>
-                                </li>
-                                <li>
-                                    <input type="checkbox" id="opt_basic_5">
-                                    <label for="opt_basic_5">침대</label>
-                                </li>
-                                <li>
-                                    <input type="checkbox" id="opt_basic_6">
-                                    <label for="opt_basic_6">TV</label>
-                                </li>
-                                <li>
-                                    <input type="checkbox" id="opt_append_1">
-                                    <label for="opt_append_1">인터넷 (Wi-Fi)</label>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="button_center">
-                    <button type="button" class="btn medium orange" id="btn_save_3">작성 완료</button>
-                </div>
-
-
-            </div>
+            </form>
         </section>
     </div>
+
 </main>
 
 <div th:replace="~{fragments/side-right::side-right}">오른쪽 사이드바</div>
+
+<!-- JavaScript 코드 -->
+<script>
+    document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
+        checkbox.addEventListener('change', function() {
+            const label = this.nextElementSibling;
+
+            // 체크 상태에 따라 배경 이미지 변경
+            if (this.checked) {
+                label.style.backgroundImage = "url('../images/accommodation/icon_check_active.svg')";
+            } else {
+                label.style.backgroundImage = "url('../images/accommodation/check_box_icon.svg')";
+            }
+        });
+    });
+</script>
+
 </body>
 </html>
