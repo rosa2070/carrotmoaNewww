@@ -23,7 +23,6 @@ public class FleaMarketService {
 
         Post post = postRepository.save(saveFleaMarketPostRequest.toPostEntity());
         productRepository.save(saveFleaMarketPostRequest.toProductEntity(post.getId()));
-
         return post.getId();
     }
 
