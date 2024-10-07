@@ -1,7 +1,7 @@
-package carrotmoa.carrotmoa.controller.view;
+package carrotmoa.carrotmoa.controller.api;
 
-import carrotmoa.carrotmoa.dto.AccommodationRequestDto;
-import carrotmoa.carrotmoa.dto.AccommodationSpaceDto;
+import carrotmoa.carrotmoa.model.request.AccommodationRequestDto;
+import carrotmoa.carrotmoa.model.request.AccommodationSpaceDto;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -40,6 +40,7 @@ public class HostRoomController {
 
     @PostMapping("/register")
     public String registerRoom(@ModelAttribute AccommodationRequestDto accommodationRequestDto) {
+
         // 로그로 값 확인
         log.info("Host ID: {}", accommodationRequestDto.getUserId());
         log.info("Accommodation Name: {}", accommodationRequestDto.getName());

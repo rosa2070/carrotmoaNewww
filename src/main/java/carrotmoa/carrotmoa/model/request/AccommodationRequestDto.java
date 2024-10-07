@@ -1,19 +1,15 @@
-package carrotmoa.carrotmoa.dto;
+package carrotmoa.carrotmoa.model.request;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
-@NoArgsConstructor
-@AllArgsConstructor
-@Data
+@Getter
+@Setter
 public class AccommodationRequestDto {
-    // id없어도..?
     private Long userId; //호스트 ID
     private String name; // 숙소 이름
     private String roadAddress; // 도로명 주소

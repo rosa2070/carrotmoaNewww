@@ -8,7 +8,7 @@ public class JasyptConfigTest {
     @Test
     public void jasypt_test() {
         // 테스트할 값들 (RDS 정보)
-        String endpoint = ""; // 엔드포인트 입력
+        String endpoint = "jdbc:mysql://carrot-moa.czioa0eq2ly1.ap-northeast-2.rds.amazonaws.com:3306/carrot_moa"; // 엔드포인트 입력
         String username = ""; // 사용자 이름 입력
         String password = ""; //비번 입력
 
