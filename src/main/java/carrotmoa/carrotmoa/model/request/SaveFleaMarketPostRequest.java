@@ -1,8 +1,8 @@
 package carrotmoa.carrotmoa.model.request;
 
-import carrotmoa.carrotmoa.entity.Hit;
 import carrotmoa.carrotmoa.entity.Post;
-import jakarta.persistence.Column;
+import carrotmoa.carrotmoa.entity.Product;
+import carrotmoa.carrotmoa.enums.ProductStatus;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -16,12 +16,29 @@ public class SaveFleaMarketPostRequest {
     private String content;
     private boolean isDeleted;
 
+    private Long postId;
+    private Integer price;
+    private boolean isPriceOffer;
+    private boolean isFree;
+    private ProductStatus status;
+
     public Post toPostEntity() {
         return Post.builder()
             .categoryId(categoryId)
             .userId(userId)
             .title(title)
             .content(content)
+            .isDeleted(false)
+            .build();
+    }
+
+    public Product toProductEntity(Long id) {
+        return Product.builder()
+            .postId(id)
+            .price(price)
+            .isPriceOffer(isPriceOffer)
+            .isFree(isFree)
+            .status(ProductStatus.ON_SALE)
             .build();
     }
 }
