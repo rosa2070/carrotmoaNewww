@@ -14,7 +14,10 @@
     <div class="wrap bg_wrap">
         <section class="content">
             <form th:action="@{/host/room/register}" method="post" enctype="multipart/form-data"
-                  th:object="${accommodationRequestDto}">
+                  th:object="${accommodationRequest}">
+
+                <!-- userId 입력 필드 추가 -->
+                <input type="hidden" th:field="*{userId}">
 
                 <div class="host_room_reg">
                     <div class="flex">
