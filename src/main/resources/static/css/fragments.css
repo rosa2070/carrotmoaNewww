@@ -1,7 +1,30 @@
 /*------------------------------------------------
+  body, main
+------------------------------------------------*/
+.body {
+  margin: 0;
+  padding: 0;
+  outline: none;
+}
 
+.main-container {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.main-container div {
+  display: flex;
+}
+
+#main {
+  display: flex;
+  width: 100%;
+}
+
+/*------------------------------------------------
   gnb
-
 ------------------------------------------------*/
 #gnb {
   width: 100%;
@@ -85,6 +108,7 @@
   border-radius: 5px;
   outline: none;
 }
+
 .gnb-search input::placeholder {
   color: #868B94;
   font-size: 16px;
@@ -122,37 +146,11 @@
 
 
 /*------------------------------------------------
-
   footer
-
 ------------------------------------------------*/
 #footer {
   width: 100%;
   height: 670px;
   background-color: #FFFFFF;
   color: white;
-}
-
-
-.test-side {
-  width: 100px;
-  background-color: royalblue;
-  color: white;
-}
-
-.main-container {
-  display: flex;
-  width: 100%;
-  justify-content: center;
-  flex-direction: row;
-}
-
-.main-container div {
-  display: flex;
-}
-
-.test-body {
-  margin: 0;
-  padding: 0;
-  outline: none;
 }

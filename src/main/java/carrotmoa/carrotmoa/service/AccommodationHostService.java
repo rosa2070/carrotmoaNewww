@@ -16,6 +16,8 @@ import java.util.List;
 @Service
 public class AccommodationHostService {
 
+    // 생성자 주입으로!!
+
     @Autowired
     AccommodationRepository accommodationRepository;
 

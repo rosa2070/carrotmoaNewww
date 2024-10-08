@@ -23,6 +23,9 @@ public class HostRoomApiController {
     @PostMapping("/register")
 //    @PostMapping(value = "/register", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<Long> registerAccommodation(@ModelAttribute AccommodationRequest accommodationRequest) {
+        // 페이지 이동은 자바스크립트에서 하는게 좋 (api Controller는 api 받는거만 할수있도록)
+        // service로 따로 빼거나
+//        accommodationRequest에 따로 빽?
         //        // 로그로 값 확인
         log.info("Host ID: {}", accommodationRequest.getUserId());
         log.info("Accommodation Name: {}", accommodationRequest.getName());

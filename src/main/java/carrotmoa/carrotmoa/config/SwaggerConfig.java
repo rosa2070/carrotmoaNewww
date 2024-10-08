@@ -1,4 +1,5 @@
 package carrotmoa.carrotmoa.config;
+
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
@@ -11,14 +12,14 @@ public class SwaggerConfig {
     @Bean
     public OpenAPI openAPI() {
         return new OpenAPI()
-                .components(new Components())
-                .info(apiInfo());
+            .components(new Components())
+            .info(apiInfo());
     }
 
     private Info apiInfo() {
         return new Info()
-                .title("당근모아 API")
-                .description("파이널 프로젝트 API")
-                .version("2.4.0");
+            .title("당근모아 API")
+            .description("파이널 프로젝트 API")
+            .version("2.4.0");
     }
 }
