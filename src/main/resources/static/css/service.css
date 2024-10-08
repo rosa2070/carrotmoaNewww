@@ -1,13 +1,6 @@
 /*------------------------------------------------
-
   service
-
 ------------------------------------------------*/
-#main {
-  display: flex;
-  width: 100%;
-}
-
 .cover {
   display: flex;
   width: 100%;
@@ -17,12 +10,14 @@
   justify-content: center;
 }
 
-.cover-color1 {
+.cover-flea-market {
   background-color: #FFF0AA;
 }
+
 .cover-color2 {
   background-color: #D2EDF9;
 }
+
 .cover-color3 {
   background-color: #FFE2D2;
 }
@@ -42,7 +37,6 @@
   letter-spacing: -0.32px;
 }
 
-
 .cover-description {
   display: block;
   line-height: 1.32;
@@ -57,4 +51,19 @@
   position: absolute;
   height: 90%;
   right: 0;
+}
+
+/*------------------------------------------------
+  flea-market
+------------------------------------------------*/
+.flea-market-article-list {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-top: 64px;
+}
+
+.article-list-title {
+  font-size: 32px;
+  font-weight: bold;
 }

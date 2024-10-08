@@ -10,6 +10,6 @@ public class FleaMarketViewController {
 
     @GetMapping
     public String getFleaMarket() {
-        return "fleamarket";
+        return "flea-market";
     }
 }

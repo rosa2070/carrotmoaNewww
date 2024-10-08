@@ -10,7 +10,8 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class JasyptConfig {
 
-    @Value("${jasypt.encryptor.password}") // VM option으로 설정된 Jasypt 암호화 비밀번호
+    // VM option으로 설정된 Jasypt 암호화 비밀번호
+    @Value("${jasypt.encryptor.password}")
     private String encryptKey;
 
     // 암호화기 Bean 설정
@@ -28,5 +29,4 @@ public class JasyptConfig {
         encryptor.setConfig(config);
         return encryptor;
     }
-
 }
