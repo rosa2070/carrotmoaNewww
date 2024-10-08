@@ -15,7 +15,6 @@ public class SaveFleaMarketPostRequest {
     private String title;
     private String content;
     private boolean isDeleted;
-
     private Long postId;
     private Integer price;
     private boolean isPriceOffer;

@@ -108,6 +108,7 @@
   border-radius: 5px;
   outline: none;
 }
+
 .gnb-search input::placeholder {
   color: #868B94;
   font-size: 16px;

@@ -20,6 +20,6 @@ public class FleaMarketController {
     @PostMapping
     public Long createPost(@RequestBody SaveFleaMarketPostRequest saveFleaMarketPostRequest) {
         //TODO : 로그인된 유저의 id를 가져오는 과정 추가 필요
-       return fleaMarketService.savePost(saveFleaMarketPostRequest);
+        return fleaMarketService.savePost(saveFleaMarketPostRequest);
     }
 }
