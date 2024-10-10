@@ -16,6 +16,7 @@ import java.util.stream.Collectors;
 public class AccommodationRequest {
     private Long userId; //호스트 ID
     private String name; // 숙소 이름
+    private Integer totalArea;
     private String roadAddress; // 도로명 주소
     private String lotAddress;
     private String detailAddress;
@@ -34,6 +35,7 @@ public class AccommodationRequest {
         return Accommodation.builder()
                 .userId(userId)
                 .name(name)
+                .totalArea(totalArea)
                 .roadAddress(roadAddress)
                 .lotAddress(lotAddress)
                 .detailAddress(detailAddress)
