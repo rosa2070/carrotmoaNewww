@@ -4,6 +4,7 @@ import carrotmoa.carrotmoa.entity.Accommodation;
 import carrotmoa.carrotmoa.entity.AccommodationAmenity;
 import carrotmoa.carrotmoa.entity.AccommodationSpace;
 import lombok.*;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.math.BigDecimal;
@@ -13,6 +14,7 @@ import java.util.stream.Collectors;
 
 @Getter
 @Setter
+@Slf4j
 public class AccommodationRequest {
     private Long userId; //호스트 ID
     private String name; // 숙소 이름
@@ -66,6 +68,31 @@ public class AccommodationRequest {
             AccommodationSpaceRequest accommodationSpaceRequest = new AccommodationSpaceRequest();
             accommodationSpaceRequest.setSpaceId((long) (i + 1));
             accommodationSpaces.add(accommodationSpaceRequest);
+        }
+    }
+
+    public void logRequestDetails() {
+        log.info("Host ID: {}", userId);
+        log.info("Accommodation Name: {}", name);
+        log.info("Total Area: {}", totalArea);
+        log.info("Road Address: {}", roadAddress);
+        log.info("Lot Address: {}", lotAddress);
+        log.info("Detail Address: {}", detailAddress);
+        log.info("Floor: {}", floor);
+        log.info("Total Floors: {}", totalFloor);
+        log.info("Price: {}", price);
+        log.info("Details: {}", detail);
+        log.info("Transportation Info: {}", transportationInfo);
+        log.info("Selected Amenities IDs: {}", amenityIds);
+        log.info("Number of uploaded images: {}", (images != null ? images.size() : 0));
+
+        // AccommodationSpaces 로그 추가
+        if (accommodationSpaces != null && !accommodationSpaces.isEmpty()) {
+            for (AccommodationSpaceRequest space : accommodationSpaces) {
+                log.info("Accommodation Space - Space ID: {}, Count: {}", space.getSpaceId(), space.getCount());
+            }
+        } else {
+            log.info("No accommodation spaces provided.");
         }
     }
 
