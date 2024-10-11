@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <title>파일 미리보기 테스트</title>
+</head>
+<body>
+
+<div class="file_upload">
+    <label for="images" class="btn_upload">사진 첨부</label>
+    <input type="file" id="images" multiple accept="image/*" style="display: none;">
+</div>
+<div class="images_view" id="div_added_pictures">
+    <!-- 업로드된 이미지 미리보기 영역 -->
+</div>
+
+<script>
+    console.log("안녕")
+    document.getElementById('images').addEventListener('change', function(event) {
+        console.log("파일 선택됨");
+        const files = event.target.files;
+        const imageContainer = document.getElementById('div_added_pictures');
+        imageContainer.innerHTML = '';
+
+        for (let i = 0; i < files.length; i++) {
+            const file = files[i];
+            const reader = new FileReader();
+
+            reader.onload = function(e) {
+                const imageItem = document.createElement('div');
+                imageItem.innerHTML = `<img src="${e.target.result}" alt="미리보기 이미지">`;
+                imageContainer.appendChild(imageItem);
+            };
+
+            reader.readAsDataURL(file);
+        }
+    });
+</script>
+
+</body>
+</html>

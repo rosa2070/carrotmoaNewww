@@ -1,12 +1,8 @@
 package carrotmoa.carrotmoa.service;
 
-import carrotmoa.carrotmoa.repository.AccommodationAmenityRepository;
-import carrotmoa.carrotmoa.repository.AccommodationRepository;
-import carrotmoa.carrotmoa.repository.AccommodationSpaceRepository;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import lombok.extern.slf4j.Slf4j;
-import org.codehaus.groovy.tools.shell.IO;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,7 +18,7 @@ import java.util.UUID;
 @Service
 @Transactional
 @Slf4j
-public class AwsFileService implements FileService {
+public class AwsFileService {
 
     private final AmazonS3 amazonS3Client;
 
