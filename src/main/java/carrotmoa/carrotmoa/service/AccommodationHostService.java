@@ -2,56 +2,71 @@ package carrotmoa.carrotmoa.service;
 
 import carrotmoa.carrotmoa.entity.Accommodation;
 import carrotmoa.carrotmoa.entity.AccommodationAmenity;
+import carrotmoa.carrotmoa.entity.AccommodationImage;
 import carrotmoa.carrotmoa.entity.AccommodationSpace;
 import carrotmoa.carrotmoa.model.request.AccommodationRequest;
 import carrotmoa.carrotmoa.repository.AccommodationAmenityRepository;
+import carrotmoa.carrotmoa.repository.AccommodationImageRepository;
 import carrotmoa.carrotmoa.repository.AccommodationRepository;
 import carrotmoa.carrotmoa.repository.AccommodationSpaceRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 @Service
+@Slf4j
 public class AccommodationHostService {
 
-    // 생성자 주입으로!!
+    private final AccommodationRepository accommodationRepository;
+    private final AccommodationSpaceRepository accommodationSpaceRepository;
+    private final AccommodationAmenityRepository accommodationAmenityRepository;
+    private final AccommodationImageRepository accommodationImageRepository;
+    private final AwsFileService awsFileService;
 
-    @Autowired
-    AccommodationRepository accommodationRepository;
-
-    @Autowired
-    AccommodationSpaceRepository accommodationSpaceRepository;
-
-    @Autowired
-    AccommodationAmenityRepository accommodationAmenityRepository;
-
-//    @Transactional
-//    public Long saveTest(AccommodationRequest accommodationRequest) {
-//
-//        Accommodation accommodation = accommodationRepository.save(accommodationRequest.toAccommodationEntity());
-//
-//        return accommodation.getId();
-//    }
+    public AccommodationHostService(AccommodationRepository accommodationRepository,
+                                    AccommodationSpaceRepository accommodationSpaceRepository,
+                                    AccommodationAmenityRepository accommodationAmenityRepository,
+                                    AccommodationImageRepository accommodationImageRepository,
+                                    AwsFileService awsFileService) {
+        this.accommodationRepository = accommodationRepository;
+        this.accommodationSpaceRepository = accommodationSpaceRepository;
+        this.accommodationAmenityRepository = accommodationAmenityRepository;
+        this.accommodationImageRepository = accommodationImageRepository;
+        this.awsFileService = awsFileService;
+    }
 
     @Transactional
     public Long createAccommodation(AccommodationRequest accommodationRequest) {
-        // Accommodation 엔티티 생성
-        Accommodation accommodation = accommodationRequest.toAccommodationEntity();
-        Accommodation savedAccommodation = accommodationRepository.save(accommodation);
+        try {
+            // Accommodation 엔티티 생성
+            Accommodation accommodation = accommodationRequest.toAccommodationEntity();
+            Accommodation savedAccommodation = accommodationRepository.save(accommodation);
 
-        // AccommodationSpace 저장
-        List<AccommodationSpace> accommodationSpaces = accommodationRequest.toAccommodationSpaceEntities();
-        accommodationSpaces.forEach(accommodationSpace -> {
-            accommodationSpace.setAccommodationId(savedAccommodation.getId());
-            accommodationSpaceRepository.save(accommodationSpace);
-        });
+            // AccommodationSpace 저장
+            List<AccommodationSpace> accommodationSpaces = accommodationRequest.toAccommodationSpaceEntities();
+            accommodationSpaces.forEach(accommodationSpace -> {
+                accommodationSpace.setAccommodationId(savedAccommodation.getId());
+                accommodationSpaceRepository.save(accommodationSpace);
+            });
 
-        // AccommodationAmenity 저장
-        saveAmenities(savedAccommodation.getId(),accommodationRequest.getAmenityIds());
+            // AccommodationAmenity 저장
+            saveAmenities(savedAccommodation.getId(), accommodationRequest.getAmenityIds());
 
-        return savedAccommodation.getId();
+            // AccommodationImage 저장
+            saveAccommodationImages(savedAccommodation.getId(),accommodationRequest.getImages());
+
+            return savedAccommodation.getId();
+        } catch (IOException e) {
+            // IOException 처리
+            // 예: 로그 남기기, 사용자에게 에러 메시지 전달하기 등
+            log.error("Image upload failed: {}", e.getMessage());
+            throw new RuntimeException("Image upload failed");
+        }
 
     }
 
@@ -63,6 +78,26 @@ public class AccommodationHostService {
                 accommodationAmenity.setAmenityId(amenityId);
                 accommodationAmenityRepository.save(accommodationAmenity);
             });
+        }
+    }
+
+    private void saveAccommodationImages(Long accommodationId, List<MultipartFile> images) throws IOException {
+        if (images != null) {
+            for (int i = 0; i < images.size(); i++) {
+                MultipartFile image = images.get(i);
+
+                // S3에 이미지 업로드 후 URL을 가져오는 로직
+                String imageUrl = awsFileService.saveRoomImg(image, accommodationId);
+
+                AccommodationImage accommodationImage = AccommodationImage.builder()
+                        .accommodationId(accommodationId)
+                        .imageUrl(imageUrl)
+                        .imageOrder(i)
+                        .build();
+
+                accommodationImageRepository.save(accommodationImage);
+
+            }
         }
     }
 }
