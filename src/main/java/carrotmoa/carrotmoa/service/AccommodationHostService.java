@@ -5,6 +5,7 @@ import carrotmoa.carrotmoa.entity.AccommodationAmenity;
 import carrotmoa.carrotmoa.entity.AccommodationImage;
 import carrotmoa.carrotmoa.entity.AccommodationSpace;
 import carrotmoa.carrotmoa.model.request.AccommodationRequest;
+import carrotmoa.carrotmoa.model.response.HostManagedAccommodationResponse;
 import carrotmoa.carrotmoa.repository.AccommodationAmenityRepository;
 import carrotmoa.carrotmoa.repository.AccommodationImageRepository;
 import carrotmoa.carrotmoa.repository.AccommodationRepository;
@@ -17,6 +18,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Optional;
 
 @Service
 @Slf4j
@@ -99,5 +102,24 @@ public class AccommodationHostService {
 
             }
         }
+    }
+
+    // 호스트가 등록한 방 리스트
+    public HostManagedAccommodationResponse getManagedAccommodationById(Long accommodationId) {
+        List<Object[]> results = accommodationRepository.findAccommodationWithImageById(accommodationId);
+
+        if (!results.isEmpty()) {
+            Object[] data = results.get(0); // 첫 번째 결과 가져오기
+
+            // 데이터 배열의 길이를 체크
+//            if (data.length < 5) {
+//                throw new IllegalArgumentException("Invalid data array length");
+//            }
+
+            return HostManagedAccommodationResponse.fromData(data, accommodationId);
+        } else {
+            throw new NoSuchElementException("Accommodation not found with id: " + accommodationId);
+        }
+
     }
 }

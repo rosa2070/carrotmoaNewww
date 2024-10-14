@@ -2,6 +2,7 @@ package carrotmoa.carrotmoa.controller.api;
 
 import carrotmoa.carrotmoa.model.request.AccommodationRequest;
 import carrotmoa.carrotmoa.model.request.AccommodationSpaceRequest;
+import carrotmoa.carrotmoa.model.response.HostManagedAccommodationResponse;
 import carrotmoa.carrotmoa.service.AccommodationHostService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,14 +21,22 @@ public class HostRoomApiController {
     @Autowired
     AccommodationHostService accommodationHostService;
 
+    // 방 등록 폼 제출 후 테이블에 값 들어옴
     @PostMapping("/register")
-//    @PostMapping(value = "/register", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<Long> registerAccommodation(@ModelAttribute AccommodationRequest accommodationRequest) {
         // 페이지 이동은 자바스크립트에서 하는게 좋 (api Controller는 api 받는거만 할수있도록)
         accommodationRequest.logRequestDetails(); // 입력한 거 로그 찍기
 
         Long accommodationId = accommodationHostService.createAccommodation(accommodationRequest);
         return new ResponseEntity<>(accommodationId, HttpStatus.CREATED);
+    }
+
+
+    // 호스트가 등록한 방 리스트 보이기
+    @GetMapping("/manage/{id}")
+    public ResponseEntity<HostManagedAccommodationResponse> getManagedAccommodation(@PathVariable("id") Long id) {
+        HostManagedAccommodationResponse response = accommodationHostService.getManagedAccommodationById(id);
+        return ResponseEntity.ok(response); // HTTP 200 OK와 함께 응답 반환
     }
 
 }
