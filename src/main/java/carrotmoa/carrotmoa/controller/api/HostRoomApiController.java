@@ -33,10 +33,11 @@ public class HostRoomApiController {
 
 
     // 호스트가 등록한 방 리스트 보이기
-    @GetMapping("/manage/{id}")
-    public ResponseEntity<HostManagedAccommodationResponse> getManagedAccommodation(@PathVariable("id") Long id) {
-        HostManagedAccommodationResponse response = accommodationHostService.getManagedAccommodationById(id);
-        return ResponseEntity.ok(response); // HTTP 200 OK와 함께 응답 반환
+    @GetMapping("/manage/{userId}")
+    public ResponseEntity<List<HostManagedAccommodationResponse>> getManagedAccommodations(@PathVariable("userId") Long userId) {
+        List<HostManagedAccommodationResponse> accommodations = accommodationHostService.getManagedAccommodationsByUserId(userId);
+        return ResponseEntity.ok(accommodations);
     }
+
 
 }

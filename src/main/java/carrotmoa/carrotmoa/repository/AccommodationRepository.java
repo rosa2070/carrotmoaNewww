@@ -12,6 +12,15 @@ import java.util.Optional;
 @Repository
 public interface AccommodationRepository extends JpaRepository<Accommodation, Long> {
 
-    @Query("SELECT a.name, a.lotAddress, a.detailAddress, a.price, ai.imageUrl FROM Accommodation a JOIN AccommodationImage ai ON a.id = ai.accommodationId WHERE a.id = :accommodationId")
-    List<Object[]> findAccommodationWithImageById(@Param("accommodationId") Long accommodationId);
+    @Query("SELECT a.id, a.name, a.lotAddress, a.detailAddress, a.price, " +
+            "MIN(ai.imageUrl) AS imageUrl " +
+            "FROM Accommodation a " +
+            "LEFT JOIN AccommodationImage ai ON a.id = ai.accommodationId " +
+            "WHERE a.userId = :userId " +
+            "GROUP BY a.id, a.name, a.lotAddress, a.detailAddress, a.price")
+    List<Object[]> findAccommodationsByUserId(@Param("userId") Long userId);
+
+
+
+
 }
