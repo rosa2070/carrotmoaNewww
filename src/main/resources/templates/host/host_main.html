@@ -3,31 +3,67 @@
       layout:decorate="~{layout/layout}"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <head>
-  <title>테스트</title>
-  <link rel="stylesheet" th:href="@{/css/host_main.css}"/>
+    <title>호스트 메인</title>
+    <link rel="stylesheet" th:href="@{/css/host_main.css}"/>
 </head>
 <body>
 <div th:replace="~{fragments/side-left::side-left}">왼쪽 사이드바</div>
 
 <main layout:fragment="main">
-  <div class="small-gnb">
-    <div class="small-gnb-container">
-      <a class="small-gnb-item" href="/room-management">방관리</a>
-      <a class="small-gnb-item" href="/contract">계약</a>
-      <a class="small-gnb-item" href="/chat">채팅</a>
-      <a class="small-gnb-item" href="/settlement">정산</a>
-      <a class="small-gnb-item" href="/more">더보기</a>
+    <div class="small-gnb">
+        <div class="small-gnb-container">
+            <a class="small-gnb-item" href="/room-management">방관리</a>
+            <a class="small-gnb-item" href="/contract">계약</a>
+            <a class="small-gnb-item" href="/chat">채팅</a>
+            <a class="small-gnb-item" href="/settlement">정산</a>
+            <a class="small-gnb-item" href="/more">더보기</a>
+        </div>
     </div>
-  </div>
 
-  <section class="content">
-    <div class="host_room_list">
-      <p class="title_left">방관리</p>
-    </div>
-    <div class="flex list_option">
-      <button type="button" class="btn medium purple" onclick="window.location.href='/webpc/host/room/update/1/0'">방 등록하기</button>
-    </div>
-  </section>
+    <section class="content">
+        <div class="host_room_list">
+            <p class="title_left">방관리</p>
+        </div>
+        <div class="flex list_option">
+            <button type="button" class="btn medium purple"
+                    onclick="window.location.href='/webpc/host/room/update/1/0'">방 등록하기
+            </button>
+        </div>
+        <ul class="list_item" id="room_list">
+            <li roomitem>
+                <dl class="room_item">
+                    <dt>
+                        <img src="https://d1pviohoskiraj.cloudfront.net/room/6eb8019e-557f-42ea-8d82-ce56d3e70d73.jpg?b=samsamm2&amp;d=240x240"
+                             alt="">
+                    </dt>
+                    <dd>
+                        <p class="room_name ellipsis">
+                            <a class="disable_preview">ㅇㄴㄹㅇㄴ </a>
+
+                        </p>
+                        <p class="room_address">서울특별시 강남구 역삼동 831-44 한국정보통신진흥협회 빌딩 ㅇㄴㄹㄴㅇ</p>
+                        <div class="room_pay">
+                            <p>
+                                <strong>2,354,340</strong><em>원</em>
+                                <span>/1주</span>
+                            </p>
+                        </div>
+                    </dd>
+                </dl>
+                <div class="drop_down">
+                    <button type="button" class="btn_drop"><span>더보기</span></button>
+                    <div class="drop_layer">
+                        <ul class="btn_more">
+                            <li class="icon_more_modify"><a btn-room-modify="44064">수정하기</a></li>
+
+
+                            <li class="icon_more_del"><a btn-room-delete="44064">삭제하기</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </section>
 </main>
 
 <div th:replace="~{fragments/side-right::side-right}">오른쪽 사이드바</div>

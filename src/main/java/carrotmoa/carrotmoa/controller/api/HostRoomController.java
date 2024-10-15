@@ -32,7 +32,7 @@ public class HostRoomController {
 
     @GetMapping("/main")
     public String showHostMain() {
-        return "host/host_main";
+        return "host/host_main2";
     }
 
 
