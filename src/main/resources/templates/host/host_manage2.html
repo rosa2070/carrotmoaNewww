@@ -38,28 +38,33 @@
                     </button>
                 </div>
 
-                <ul class="list_item" id="room_list">
+                <!-- 방 리스트를 표시할 ul 요소 추가 -->
+                <ul class="list_item" id="room_list"></ul>
+                <script>
+                    const userId = 3; // 실제 사용자 ID를 여기에 설정
+                </script>
+                <script src="/js/roomManagement.js"></script> <!-- 외부 JavaScript 파일 포함 -->
 
-
-                    <li roomitem="">
-                        <dl class="room_item" room-status="saving" filled-status="false">
-                            <dt>
-                                <img src="https://d1pviohoskiraj.cloudfront.net/room/6eb8019e-557f-42ea-8d82-ce56d3e70d73.jpg?b=samsamm2&amp;d=240x240"
-                                     alt="">
-                            </dt>
-                            <dd>
-                                <p class="room_name ellipsis">
-                                    <a class="disable_preview">ㅇㄴㄹㅇㄴ </a>
-                                </p>
-                                <p class="room_address">서울특별시 강남구 역삼동 831-44 한국정보통신진흥협회 빌딩 ㅇㄴㄹㄴㅇ</p>
-                                <div class="room_pay">
-                                    <p>
-                                        <strong>2,354,340</strong><em>원</em>
-                                        <span>/1박</span>
-                                    </p>
-                                </div>
-                            </dd>
-                        </dl>
+                <!--                <ul class="list_item" id="room_list">-->
+<!--                    <li roomitem>-->
+<!--                        <dl class="room_item" room-status="saving" filled-status="false">-->
+<!--                            <dt>-->
+<!--                                <img src="https://d1pviohoskiraj.cloudfront.net/room/6eb8019e-557f-42ea-8d82-ce56d3e70d73.jpg?b=samsamm2&amp;d=240x240"-->
+<!--                                     alt="">-->
+<!--                            </dt>-->
+<!--                            <dd>-->
+<!--                                <p class="room_name ellipsis">-->
+<!--                                    <a class="disable_preview">ㅇㄴㄹㅇㄴ </a>-->
+<!--                                </p>-->
+<!--                                <p class="room_address">서울특별시 강남구 역삼동 831-44 한국정보통신진흥협회 빌딩 ㅇㄴㄹㄴㅇ</p>-->
+<!--                                <div class="room_pay">-->
+<!--                                    <p>-->
+<!--                                        <strong>2,354,340</strong><em>원</em>-->
+<!--                                        <span>/1박</span>-->
+<!--                                    </p>-->
+<!--                                </div>-->
+<!--                            </dd>-->
+<!--                        </dl>-->
 
                         <div class="drop_down" id="dropDown">
                             <button type="button" class="btn_drop" id="toggleButton"><span>더보기</span></button>
@@ -73,9 +78,9 @@
                     </li>
 
 
-                 
 
-                </ul>
+
+<!--                </ul>-->
 
 
             </div>
@@ -83,6 +88,7 @@
 
         </section>
     </div>
+
     <script>
         document.addEventListener("DOMContentLoaded", function () {
             const toggleButton = document.getElementById("toggleButton");

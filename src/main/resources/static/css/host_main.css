@@ -179,23 +179,15 @@ img {
     color: #000;
 }
 
-/* 드롭다운 연습 */
-
-/*드롭다운 비활성화일때 */
-.list_item .drop_down {
-    margin: 0 auto;
-}
+/* 드롭다운 스타일 */
 .drop_down {
     position: relative;
-}
-
-.list_item .drop_down .btn_drop {
-    width: 110px;
+    margin: 0 auto;
 }
 
 .drop_down .btn_drop {
-    display: flex;
-    align-items: center;
+    /*display: flex;*/
+    /*align-items: center;*/
     padding: 8px 12px;
     border-radius: 4px;
     border: 1px solid #DFDFDF;
@@ -204,119 +196,79 @@ img {
     font-weight: 500;
     line-height: 18px;
     color: #333;
-}
-
-.drop_down .btn_drop span {
-    display: inline-block;
-    max-width: 160px;
-}
-
-.list_item .drop_down .btn_drop:after {
-    width: 24px;
-    height: 24px;
-    margin-left: 20px;
-    background-image: url(	https://33m2.co.kr/images/webpc/icon_selectbox-0df47dcffb557dbc6c19dce5dc6ccd9a.svg);
-    background-size: 24px 24px;
-}
-
-.drop_down .btn_drop:after {
-    display: inline-block;
-    content: "";
-    width: 14px;
-    height: 14px;
-    margin-left: 6px;
-    background: url(https://33m2.co.kr/images/webpc/icon_dropdown-1b58339606c03b8cfb6d1550f0c426f4.svg) 0 0 no-repeat;
-    background-size: 14px 14px;
-}
-
-/*드롭다운 활성화일때*/
-.list_item .drop_down .btn_drop {
-    width: 110px;
-    display: flex;
-    align-items: center;
-    padding: 8px 12px;
-    border-radius: 4px;
-    border: 1px solid #DFDFDF;
-    background: #fff;
-    font-size: 13px;
-    font-weight: 500;
-    line-height: 18px;
-    color: #333;
-}
-
-.list_item .drop_down {
-    margin: 0 auto;
-    position: relative;
 }
 
 .drop_layer {
-    visibility: hidden;
-    z-index: 9999;
+    display: none; /* 기본적으로 숨김 */
     position: absolute;
-    top: 48px;
+    top: 40px;
     border-radius: 6px;
     background: #FFF;
     box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.15);
+    z-index: 9999;
 }
 
-/* 기본 드롭다운 버튼 아이콘 */
-.list_item .drop_down .btn_drop:after {
-    content: ""; /* 가상 요소 생성 */
-    display: inline-block;
-    width: 24px; /* 아이콘 너비 */
-    height: 24px; /* 아이콘 높이 */
-    margin-left: 20px; /* 버튼과 아이콘 간격 */
-    background-image: url(https://33m2.co.kr/images/webpc/icon_selectbox-0df47dcffb557dbc6c19dce5dc6ccd9a.svg); /* 기본 아이콘 이미지 */
-    background-size: 24px 24px; /* 아이콘 크기 조정 */
-    transition: transform 0.3s ease; /* 회전 애니메이션 추가 */
+.drop_down.is_active .drop_layer {
+    display: block; /* 활성화 상태에서 보이기 */
 }
 
-/* 드롭다운 활성화 상태 */
 .drop_down.is_active .btn_drop:after {
     transform: rotate(180deg); /* 아이콘을 180도 회전 */
 }
 
-
-
-.drop_down.is_active .btn_drop + .drop_layer {
-    visibility: visible;
-}
-
-.list_item .drop_down .drop_layer {
-    width: 131px;
-    padding: 0;
+.list_item .drop_down .btn_drop:after {
+    content: "";
+    display: inline-block;
+    width: 14px;
+    height: 14px;
+    margin-left: 6px;
+    background: url(https://33m2.co.kr/images/webpc/icon_dropdown-1b58339606c03b8cfb6d1550f0c426f4.svg) no-repeat;
+    background-size: 14px 14px;
+    transition: transform 0.3s ease; /* 회전 애니메이션 추가 */
 }
 
 .drop_layer .btn_more {
-    padding: 6px 0;
+    padding: 0; /* 전체 패딩 제거 */
+    margin: 0; /* 전체 마진 제거 */
 }
 
 .drop_layer .btn_more li {
-    padding: 8px 12px;
-    border: none;
+    display: flex; /* Flexbox로 설정 */
+    align-items: center; /* 세로 중앙 정렬 */
+    padding: 8px 0; /* 수직 패딩만 남김 */
+    border: none; /* 테두리 제거 */
 }
 
 .drop_layer .btn_more li a {
-    padding-left: 28px;
+    padding: 0; /* 패딩을 0으로 설정 */
     background-size: 20px 20px;
     background-repeat: no-repeat;
     background-position: 0 center;
     font-size: 13px;
     font-weight: 500;
     line-height: 21px;
+    display: flex; /* Flexbox로 중앙 정렬 */
+    align-items: center; /* 세로 중앙 정렬 */
 }
 
+/* 아이콘 */
 .icon_more_modify a {
-    background-image: url(	https://33m2.co.kr/images/webpc/icon_modify-95f2c36de5b40ffffecf0b46180b4290.svg);
+    background-image: url(https://33m2.co.kr/images/webpc/icon_modify-95f2c36de5b40ffffecf0b46180b4290.svg);
+}
+
+.icon_more_del a {
+    background-image: url(https://33m2.co.kr/images/webpc/icon_del-990641c4b47662788fbaa7ffcfb64e59.svg);
 }
 
 a {
     text-decoration: none;
 }
+
 button, a {
     cursor: pointer;
 }
 
-.icon_more_del a {
-    background-image: url(https://33m2.co.kr/images/webpc/icon_del-990641c4b47662788fbaa7ffcfb64e59.svg);
+.btn_more li {
+    writing-mode: horizontal-tb; /* 가로로 텍스트를 표시 */
+    display: block; /* 기본 블록 요소로 설정 */
 }

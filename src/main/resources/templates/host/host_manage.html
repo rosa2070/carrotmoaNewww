@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="ko"
+      layout:decorate="~{layout/layout}"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <title>호스트 메인</title>
+    <link rel="stylesheet" th:href="@{/css/host_main.css}"/>
+</head>
+<body>
+<div th:replace="~{fragments/side-left::side-left}">왼쪽 사이드바</div>
+
+<main layout:fragment="main">
+    <div class="small-gnb">
+        <div class="small-gnb-container">
+            <a class="small-gnb-item" href="/room-management">방관리</a>
+            <a class="small-gnb-item" href="/contract">계약</a>
+            <a class="small-gnb-item" href="/chat">채팅</a>
+            <a class="small-gnb-item" href="/settlement">정산</a>
+            <a class="small-gnb-item" href="/more">더보기</a>
+        </div>
+    </div>
+
+    <!-- 방리스트 -->
+    <div class="wrap bg_wrap">
+        <section class="content">
+            <div class="host_room_reg">
+                <div class="flex">
+                    <p class="title_left">방관리</p>
+                </div>
+                <div class="flex list_option">
+                    <button type="button" class="btn medium purple"
+                            onclick="window.location.href='/webpc/host/room/update/1/0'">방 등록하기
+                    </button>
+                </div>
+
+                <!-- 방 리스트를 표시할 ul 요소 추가 -->
+                <ul class="list_item" id="roomList"></ul>
+                <script>
+                    const userId = 3; // 실제 사용자 ID를 여기에 설정
+                    window.userId = userId; // window 객체에 userId 저장
+
+                    console.log(`사용자 ID: ${userId}`);
+                </script>
+                <script src="/js/roomManagement.js"></script> <!-- 외부 JavaScript 파일 포함 -->
+            </div>
+        </section>
+    </div>
+<!--    <script>-->
+<!--        document.addEventListener("DOMContentLoaded", function () {-->
+<!--            const toggleButton = document.getElementById("toggleButton");-->
+<!--            const dropDown = document.getElementById("dropDown");-->
+
+<!--            toggleButton.addEventListener("click", function () {-->
+<!--                dropDown.classList.toggle("is_active"); // 'is_active' 클래스를 토글-->
+<!--            })-->
+<!--        })-->
+<!--    </script>-->
+</main>
+
+<div th:replace="~{fragments/side-right::side-right}">오른쪽 사이드바</div>
+</body>
+</html>
