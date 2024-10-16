@@ -100,7 +100,7 @@ button {
     cursor: pointer;
 }
 
-ul, li, div, dt, dd {
+ul, li, dt, dd {
     list-style: none;
     box-sizing: border-box;
 }
@@ -200,6 +200,7 @@ img {
 
 .drop_layer {
     display: none; /* 기본적으로 숨김 */
+    width: 100px;
     position: absolute;
     top: 40px;
     border-radius: 6px;
@@ -235,16 +236,16 @@ img {
 .drop_layer .btn_more li {
     display: flex; /* Flexbox로 설정 */
     align-items: center; /* 세로 중앙 정렬 */
-    padding: 8px 0; /* 수직 패딩만 남김 */
+    padding: 8px 12px; /* 수직 패딩만 남김 */
     border: none; /* 테두리 제거 */
 }
 
 .drop_layer .btn_more li a {
-    padding: 0; /* 패딩을 0으로 설정 */
+    padding-left: 28px;
     background-size: 20px 20px;
     background-repeat: no-repeat;
     background-position: 0 center;
-    font-size: 13px;
+    font-size: 12px;
     font-weight: 500;
     line-height: 21px;
     display: flex; /* Flexbox로 중앙 정렬 */
