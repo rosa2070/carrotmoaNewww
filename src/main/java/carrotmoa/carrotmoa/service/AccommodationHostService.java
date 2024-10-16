@@ -4,22 +4,19 @@ import carrotmoa.carrotmoa.entity.Accommodation;
 import carrotmoa.carrotmoa.entity.AccommodationAmenity;
 import carrotmoa.carrotmoa.entity.AccommodationImage;
 import carrotmoa.carrotmoa.entity.AccommodationSpace;
-import carrotmoa.carrotmoa.model.request.AccommodationRequest;
+import carrotmoa.carrotmoa.model.request.HostAccommodationRequest;
 import carrotmoa.carrotmoa.model.response.HostManagedAccommodationResponse;
 import carrotmoa.carrotmoa.repository.AccommodationAmenityRepository;
 import carrotmoa.carrotmoa.repository.AccommodationImageRepository;
 import carrotmoa.carrotmoa.repository.AccommodationRepository;
 import carrotmoa.carrotmoa.repository.AccommodationSpaceRepository;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -45,24 +42,24 @@ public class AccommodationHostService {
     }
 
     @Transactional
-    public Long createAccommodation(AccommodationRequest accommodationRequest) {
+    public Long createAccommodation(HostAccommodationRequest hostAccommodationRequest) {
         try {
             // Accommodation 엔티티 생성
-            Accommodation accommodation = accommodationRequest.toAccommodationEntity();
+            Accommodation accommodation = hostAccommodationRequest.toAccommodationEntity();
             Accommodation savedAccommodation = accommodationRepository.save(accommodation);
 
             // AccommodationSpace 저장
-            List<AccommodationSpace> accommodationSpaces = accommodationRequest.toAccommodationSpaceEntities();
+            List<AccommodationSpace> accommodationSpaces = hostAccommodationRequest.toAccommodationSpaceEntities();
             accommodationSpaces.forEach(accommodationSpace -> {
                 accommodationSpace.setAccommodationId(savedAccommodation.getId());
                 accommodationSpaceRepository.save(accommodationSpace);
             });
 
             // AccommodationAmenity 저장
-            saveAmenities(savedAccommodation.getId(), accommodationRequest.getAmenityIds());
+            saveAmenities(savedAccommodation.getId(), hostAccommodationRequest.getAmenityIds());
 
             // AccommodationImage 저장
-            saveAccommodationImages(savedAccommodation.getId(),accommodationRequest.getImages());
+            saveAccommodationImages(savedAccommodation.getId(), hostAccommodationRequest.getImages());
 
             return savedAccommodation.getId();
         } catch (IOException e) {

@@ -5,20 +5,13 @@
 <head>
     <title>호스트 메인</title>
     <link rel="stylesheet" th:href="@{/css/host_main.css}"/>
+    <link rel="stylesheet" th:href="@{/css/small-gnb.css}"/>
 </head>
 <body>
 <div th:replace="~{fragments/side-left::side-left}">왼쪽 사이드바</div>
 
 <main layout:fragment="main">
-    <div class="small-gnb">
-        <div class="small-gnb-container">
-            <a class="small-gnb-item" href="/room-management">방관리</a>
-            <a class="small-gnb-item" href="/contract">계약</a>
-            <a class="small-gnb-item" href="/chat">채팅</a>
-            <a class="small-gnb-item" href="/settlement">정산</a>
-            <a class="small-gnb-item" href="/more">더보기</a>
-        </div>
-    </div>
+    <div th:replace="~{fragments/small-gnb}"></div>
 
     <!-- 방리스트 -->
     <div class="wrap bg_wrap">
@@ -45,16 +38,7 @@
             </div>
         </section>
     </div>
-<!--    <script>-->
-<!--        document.addEventListener("DOMContentLoaded", function () {-->
-<!--            const toggleButton = document.getElementById("toggleButton");-->
-<!--            const dropDown = document.getElementById("dropDown");-->
 
-<!--            toggleButton.addEventListener("click", function () {-->
-<!--                dropDown.classList.toggle("is_active"); // 'is_active' 클래스를 토글-->
-<!--            })-->
-<!--        })-->
-<!--    </script>-->
 </main>
 
 <div th:replace="~{fragments/side-right::side-right}">오른쪽 사이드바</div>

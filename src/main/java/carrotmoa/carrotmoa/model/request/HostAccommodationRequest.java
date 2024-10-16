@@ -1,7 +1,6 @@
 package carrotmoa.carrotmoa.model.request;
 
 import carrotmoa.carrotmoa.entity.Accommodation;
-import carrotmoa.carrotmoa.entity.AccommodationAmenity;
 import carrotmoa.carrotmoa.entity.AccommodationSpace;
 import lombok.*;
 import lombok.extern.slf4j.Slf4j;
@@ -15,7 +14,7 @@ import java.util.stream.Collectors;
 @Getter
 @Setter
 @Slf4j
-public class AccommodationRequest {
+public class HostAccommodationRequest {
     private Long userId; //호스트 ID
     private String name; // 숙소 이름
     private Integer totalArea;

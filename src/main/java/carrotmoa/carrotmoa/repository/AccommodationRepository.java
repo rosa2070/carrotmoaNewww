@@ -17,7 +17,8 @@ public interface AccommodationRepository extends JpaRepository<Accommodation, Lo
             "FROM Accommodation a " +
             "LEFT JOIN AccommodationImage ai ON a.id = ai.accommodationId " +
             "WHERE a.userId = :userId " +
-            "GROUP BY a.id, a.name, a.lotAddress, a.detailAddress, a.price")
+            "GROUP BY a.id, a.name, a.lotAddress, a.detailAddress, a.price " +
+            "ORDER BY a.createdAt DESC") // 최신 등록 순으로 정렬
     List<Object[]> findAccommodationsByUserId(@Param("userId") Long userId);
 
 

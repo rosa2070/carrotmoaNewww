@@ -39,8 +39,8 @@ document.addEventListener("DOMContentLoaded", function () {
                         <button type="button" class="btn_drop"><span>더보기</span></button>
                         <div class="drop_layer">
                             <ul class="btn_more">
-                                <li class="icon_more_modify"><a btn-room-modify>수정하기</a></li>
-                                <li class="icon_more_del"><a btn-room-delete>삭제하기</a></li>
+                                <li class="icon_more_modify"><a data-room-modify data-id="${accommodation.id}">수정하기</a></li>
+                                <li class="icon_more_del"><a data-room-delete data-id="${accommodation.id}">삭제하기</a></li>
                             </ul>
                         </div>
                     </div>
@@ -55,6 +55,20 @@ document.addEventListener("DOMContentLoaded", function () {
                     const isActive = dropDown.parentElement.classList.toggle("is_active");
                     dropDown.style.display = isActive ? "block" : "none"; // 드롭다운 보이기/숨기기
                 });
+
+                // 수정하기 버튼 클릭 이벤트 추가
+                const modifyButton = listItem.querySelector('[data-room-modify]');
+                modifyButton.addEventListener("click", function () {
+                    const accommodationId = modifyButton.dataset.id; // 방 ID 가져오기
+                    window.location.href = `/host/room/edit/${accommodationId}`; // 수정 폼으로 이동
+                });
+
+                // 삭제하기 버튼 클릭 이벤트 추가
+                const deleteButton = listItem.querySelector('[data-room-delete]');
+                deleteButton.addEventListener("click", function() {
+                    const accommodationId = deleteButton.dataset.id; // 방 ID 가져오기
+                    // 삭제 로직 추가
+                })
             });
         })
         .catch(error => {
