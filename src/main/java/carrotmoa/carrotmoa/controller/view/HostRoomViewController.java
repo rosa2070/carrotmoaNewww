@@ -26,7 +26,7 @@ public class HostRoomViewController {
     @GetMapping("/register")
     public String showRegisterForm(Model model) {
         HostAccommodationRequest hostAccommodationRequest = new HostAccommodationRequest();
-        hostAccommodationRequest.setUserId(3L);
+//        hostAccommodationRequest.setUserId(3L);
 
         // 공간 초기화 메서드 호출
         hostAccommodationRequest.initializeSpaces(DEFAULT_SPACE_COUNT);
@@ -45,7 +45,7 @@ public class HostRoomViewController {
 
     // 방 수정
     @GetMapping("/edit/{accommodationId}")
-    public String editRoom(@PathVariable Long accommodationId) {
+    public String showEditRoomForm(@PathVariable Long accommodationId) {
         return "host/room_edit";
     }
 }

@@ -1,15 +1,9 @@
 package carrotmoa.carrotmoa.service;
 
-import carrotmoa.carrotmoa.entity.Accommodation;
-import carrotmoa.carrotmoa.entity.AccommodationAmenity;
-import carrotmoa.carrotmoa.entity.AccommodationImage;
-import carrotmoa.carrotmoa.entity.AccommodationSpace;
+import carrotmoa.carrotmoa.entity.*;
 import carrotmoa.carrotmoa.model.request.HostAccommodationRequest;
 import carrotmoa.carrotmoa.model.response.HostManagedAccommodationResponse;
-import carrotmoa.carrotmoa.repository.AccommodationAmenityRepository;
-import carrotmoa.carrotmoa.repository.AccommodationImageRepository;
-import carrotmoa.carrotmoa.repository.AccommodationRepository;
-import carrotmoa.carrotmoa.repository.AccommodationSpaceRepository;
+import carrotmoa.carrotmoa.repository.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,17 +17,20 @@ import java.util.stream.Collectors;
 @Slf4j
 public class AccommodationHostService {
 
+    private final PostRepository postRepository;
     private final AccommodationRepository accommodationRepository;
     private final AccommodationSpaceRepository accommodationSpaceRepository;
     private final AccommodationAmenityRepository accommodationAmenityRepository;
     private final AccommodationImageRepository accommodationImageRepository;
     private final AwsFileService awsFileService;
 
-    public AccommodationHostService(AccommodationRepository accommodationRepository,
+    public AccommodationHostService(PostRepository postRepository,
+                                    AccommodationRepository accommodationRepository,
                                     AccommodationSpaceRepository accommodationSpaceRepository,
                                     AccommodationAmenityRepository accommodationAmenityRepository,
                                     AccommodationImageRepository accommodationImageRepository,
                                     AwsFileService awsFileService) {
+        this.postRepository = postRepository;
         this.accommodationRepository = accommodationRepository;
         this.accommodationSpaceRepository = accommodationSpaceRepository;
         this.accommodationAmenityRepository = accommodationAmenityRepository;
@@ -44,8 +41,13 @@ public class AccommodationHostService {
     @Transactional
     public Long createAccommodation(HostAccommodationRequest hostAccommodationRequest) {
         try {
+            // Post 저장
+            Post post = hostAccommodationRequest.toPostEntity();
+            Post savedPost = postRepository.save(post);
+
             // Accommodation 엔티티 생성
             Accommodation accommodation = hostAccommodationRequest.toAccommodationEntity();
+            accommodation.setPostId(savedPost.getId());
             Accommodation savedAccommodation = accommodationRepository.save(accommodation);
 
             // AccommodationSpace 저장
@@ -103,12 +105,12 @@ public class AccommodationHostService {
     }
 
     // 호스트가 등록한 방 리스트
-    public List<HostManagedAccommodationResponse> getManagedAccommodationsByUserId(Long userId) {
-        List<Object[]> results = accommodationRepository.findAccommodationsByUserId(userId);
-        return results.stream()
-                .map(HostManagedAccommodationResponse::fromData)
-                .collect(Collectors.toList());
-    }
+//    public List<HostManagedAccommodationResponse> getManagedAccommodationsByUserId(Long userId) {
+//        List<Object[]> results = accommodationRepository.findAccommodationsByUserId(userId);
+//        return results.stream()
+//                .map(HostManagedAccommodationResponse::fromData)
+//                .collect(Collectors.toList());
+//    }
 
 
 }

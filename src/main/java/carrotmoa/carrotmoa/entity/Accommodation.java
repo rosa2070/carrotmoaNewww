@@ -3,12 +3,7 @@ package carrotmoa.carrotmoa.entity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 import java.math.BigDecimal;
 
@@ -22,11 +17,8 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 public class Accommodation extends BaseEntity {
 
-    @Column(name = "user_id")
-    private Long userId; // 호스트 ID
-
-    @Column(name = "name")
-    private String name; // 숙소 이름
+    @Column(name = "post_id")
+    private Long postId; // 포스트 ID
 
     @Column(name = "total_area")
     private Integer totalArea; // 총 면적
@@ -48,9 +40,6 @@ public class Accommodation extends BaseEntity {
 
     @Column(name = "price")
     private BigDecimal price; // 숙소 1박 가격
-
-    @Column(name = "detail")
-    private String detail; // 숙소에 대한 상세 정보 (소개, 이용 방법, 방 몇개, 화장실 몇개)
 
     @Column(name = "transportation_info")
     private String transportationInfo; // 교통 정보

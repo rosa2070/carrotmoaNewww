@@ -2,6 +2,7 @@ package carrotmoa.carrotmoa.model.request;
 
 import carrotmoa.carrotmoa.entity.Accommodation;
 import carrotmoa.carrotmoa.entity.AccommodationSpace;
+import carrotmoa.carrotmoa.entity.Post;
 import lombok.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.multipart.MultipartFile;
@@ -31,11 +32,8 @@ public class HostAccommodationRequest {
     private List<Long> amenityIds = new ArrayList<>();
     private List<MultipartFile> images; // 업로드된 이미지 파일들
 
-
     public Accommodation toAccommodationEntity() {
         return Accommodation.builder()
-                .userId(userId)
-                .name(name)
                 .totalArea(totalArea)
                 .roadAddress(roadAddress)
                 .lotAddress(lotAddress)
@@ -43,8 +41,16 @@ public class HostAccommodationRequest {
                 .floor(floor)
                 .totalFloor(totalFloor)
                 .price(price)
-                .detail(detail)
                 .transportationInfo(transportationInfo)
+                .build();
+    }
+
+    public Post toPostEntity() {
+        return Post.builder()
+                .categoryId(6L)
+                .userId(userId)
+                .title(name)
+                .content(detail)
                 .build();
     }
 
