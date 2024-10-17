@@ -2,6 +2,7 @@ package carrotmoa.carrotmoa.controller.api;
 
 import carrotmoa.carrotmoa.entity.Accommodation;
 import carrotmoa.carrotmoa.model.request.HostAccommodationRequest;
+import carrotmoa.carrotmoa.model.response.AccommodationDetailResponse;
 import carrotmoa.carrotmoa.model.response.HostManagedAccommodationResponse;
 import carrotmoa.carrotmoa.service.AccommodationHostService;
 import lombok.extern.slf4j.Slf4j;
@@ -33,11 +34,16 @@ public class HostRoomApiController {
     }
 
 
-    // 테스트
+    // 방 상세
     @GetMapping("/{id}")
-    public Accommodation getAccommodation(@PathVariable("id") Long id) {
-        return accommodationHostService.getAccommodationById(id);
+    public ResponseEntity<AccommodationDetailResponse> getAccommodationDetail(@PathVariable("id") Long id) {
+        AccommodationDetailResponse accommodationDetailResponse = accommodationHostService.getAccommodationDetail(id);
+        if (accommodationDetailResponse == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(accommodationDetailResponse);
     }
+
 
 
     // 호스트가 등록한 방 리스트 보이기

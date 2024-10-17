@@ -2,6 +2,7 @@ package carrotmoa.carrotmoa.service;
 
 import carrotmoa.carrotmoa.entity.*;
 import carrotmoa.carrotmoa.model.request.HostAccommodationRequest;
+import carrotmoa.carrotmoa.model.response.AccommodationDetailResponse;
 import carrotmoa.carrotmoa.model.response.HostManagedAccommodationResponse;
 import carrotmoa.carrotmoa.repository.*;
 import lombok.extern.slf4j.Slf4j;
@@ -108,9 +109,8 @@ public class AccommodationHostService {
         }
     }
 
-
-    public Accommodation getAccommodationById(Long accommodationId) {
-        return accommodationDetailCustomRepository.getAccommodationById(accommodationId);
+    public AccommodationDetailResponse getAccommodationDetail(Long id) {
+        return accommodationDetailCustomRepository.getAccommodationDetailById(id);
     }
 
     // 호스트가 등록한 방 리스트
