@@ -1,5 +1,6 @@
 package carrotmoa.carrotmoa.controller.api;
 
+import carrotmoa.carrotmoa.entity.Accommodation;
 import carrotmoa.carrotmoa.model.request.HostAccommodationRequest;
 import carrotmoa.carrotmoa.model.response.HostManagedAccommodationResponse;
 import carrotmoa.carrotmoa.service.AccommodationHostService;
@@ -29,6 +30,13 @@ public class HostRoomApiController {
 
         Long accommodationId = accommodationHostService.createAccommodation(hostAccommodationRequest);
         return new ResponseEntity<>(accommodationId, HttpStatus.CREATED);
+    }
+
+
+    // 테스트
+    @GetMapping("/{id}")
+    public Accommodation getAccommodation(@PathVariable("id") Long id) {
+        return accommodationHostService.getAccommodationById(id);
     }
 
 

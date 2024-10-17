@@ -22,6 +22,8 @@ public class AccommodationHostService {
     private final AccommodationSpaceRepository accommodationSpaceRepository;
     private final AccommodationAmenityRepository accommodationAmenityRepository;
     private final AccommodationImageRepository accommodationImageRepository;
+    private final AccommodationDetailCustomRepository accommodationDetailCustomRepository;
+
     private final AwsFileService awsFileService;
 
     public AccommodationHostService(PostRepository postRepository,
@@ -29,12 +31,14 @@ public class AccommodationHostService {
                                     AccommodationSpaceRepository accommodationSpaceRepository,
                                     AccommodationAmenityRepository accommodationAmenityRepository,
                                     AccommodationImageRepository accommodationImageRepository,
+                                    AccommodationDetailCustomRepository accommodationDetailCustomRepository,
                                     AwsFileService awsFileService) {
         this.postRepository = postRepository;
         this.accommodationRepository = accommodationRepository;
         this.accommodationSpaceRepository = accommodationSpaceRepository;
         this.accommodationAmenityRepository = accommodationAmenityRepository;
         this.accommodationImageRepository = accommodationImageRepository;
+        this.accommodationDetailCustomRepository = accommodationDetailCustomRepository;
         this.awsFileService = awsFileService;
     }
 
@@ -102,6 +106,11 @@ public class AccommodationHostService {
 
             }
         }
+    }
+
+
+    public Accommodation getAccommodationById(Long accommodationId) {
+        return accommodationDetailCustomRepository.getAccommodationById(accommodationId);
     }
 
     // 호스트가 등록한 방 리스트
