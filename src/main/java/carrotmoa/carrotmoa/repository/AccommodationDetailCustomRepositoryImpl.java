@@ -2,6 +2,7 @@ package carrotmoa.carrotmoa.repository;
 
 import carrotmoa.carrotmoa.entity.*;
 import carrotmoa.carrotmoa.model.response.AccommodationDetailResponse;
+import carrotmoa.carrotmoa.model.response.HostManagedAccommodationResponse;
 import com.querydsl.core.group.GroupBy;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -72,6 +73,12 @@ public class AccommodationDetailCustomRepositoryImpl implements AccommodationDet
 
         return detailResponse;
     }
+
+//    public List<HostManagedAccommodationResponse> getAccommodationsByUserId(Long userId) {
+//
+//    }
+
+
 
 
 }
