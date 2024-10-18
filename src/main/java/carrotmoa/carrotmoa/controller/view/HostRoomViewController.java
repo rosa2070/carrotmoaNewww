@@ -45,7 +45,7 @@ public class HostRoomViewController {
 
     // 방 수정
     @GetMapping("/edit/{accommodationId}")
-    public String showEditRoomForm(@PathVariable Long accommodationId) {
+    public String showEditRoomForm(@PathVariable("accommodationId") Long accommodationId) {
         return "host/room_edit";
     }
 }

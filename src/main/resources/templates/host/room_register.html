@@ -118,9 +118,9 @@
                                     </select>
                                 </div>
                                 <div class="select_group">
-                                    <label for="sittingroom_cnt">거실 수</label>
+                                    <label for="livingRoom_cnt">거실 수</label>
                                     <input type="hidden" th:field="*{accommodationSpaces[2].spaceId}"> <!-- 거실 ID -->
-                                    <select id="sittingroom_cnt" th:field="*{accommodationSpaces[2].count}"
+                                    <select id="livingRoom_cnt" th:field="*{accommodationSpaces[2].count}"
                                             style="width:150px; margin-right:50px;"
                                             class="my_select_box ">
                                         <option value="0" selected="">0</option>
@@ -128,9 +128,9 @@
                                         <option value="2">2</option>
                                     </select>
 
-                                    <label for="cookroom_cnt">주방 수</label>
+                                    <label for="kitchen_cnt">주방 수</label>
                                     <input type="hidden" th:field="*{accommodationSpaces[3].spaceId}"> <!-- 주방 ID -->
-                                    <select id="cookroom_cnt" th:field="*{accommodationSpaces[3].count}"
+                                    <select id="kitchen_cnt" th:field="*{accommodationSpaces[3].count}"
                                             style="width:150px; margin-right:50px;"
                                             class="my_select_box ">
                                         <option value="0" selected="">0</option>
@@ -223,8 +223,8 @@
                                         <label for="opt_basic_6">TV</label>
                                     </li>
                                     <li>
-                                        <input type="checkbox" id="opt_append_1" th:field="*{amenityIds}" value="7">
-                                        <label for="opt_append_1">인터넷(Wi-Fi)</label>
+                                        <input type="checkbox" id="opt_basic_7" th:field="*{amenityIds}" value="7">
+                                        <label for="opt_basic_7">인터넷(Wi-Fi)</label>
                                     </li>
                                 </ul>
                             </div>
