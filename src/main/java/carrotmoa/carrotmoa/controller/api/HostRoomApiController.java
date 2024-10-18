@@ -47,11 +47,16 @@ public class HostRoomApiController {
 
 
     // 호스트가 등록한 방 리스트 보이기
-//    @GetMapping("/manage/{userId}")
-//    public ResponseEntity<List<HostManagedAccommodationResponse>> getManagedAccommodations(@PathVariable("userId") Long userId) {
-//        List<HostManagedAccommodationResponse> accommodations = accommodationHostService.getManagedAccommodationsByUserId(userId);
-//        return ResponseEntity.ok(accommodations);
-//    }
+    @GetMapping("/manage/{userId}")
+    public ResponseEntity<List<HostManagedAccommodationResponse>> getAccommodationsByUserId(@PathVariable("userId") Long userId) {
+        List<HostManagedAccommodationResponse> accommodations = accommodationHostService.getAccommodationsByUserId(userId);
+
+        if (accommodations == null || accommodations.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null); // 404 Not Found
+        }
+
+        return ResponseEntity.ok(accommodations);
+    }
 
     // 수정을 위해 방 가져오기
 //    @GetMapping("/manage/{accommodationId}")

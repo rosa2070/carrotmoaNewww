@@ -26,6 +26,7 @@ public class AccommodationHostService {
     private final AccommodationDetailCustomRepository accommodationDetailCustomRepository;
 
     private final AwsFileService awsFileService;
+    private final AccommodationDetailCustomRepositoryImpl accommodationDetailCustomRepositoryImpl;
 
     public AccommodationHostService(PostRepository postRepository,
                                     AccommodationRepository accommodationRepository,
@@ -33,7 +34,7 @@ public class AccommodationHostService {
                                     AccommodationAmenityRepository accommodationAmenityRepository,
                                     AccommodationImageRepository accommodationImageRepository,
                                     AccommodationDetailCustomRepository accommodationDetailCustomRepository,
-                                    AwsFileService awsFileService) {
+                                    AwsFileService awsFileService, AccommodationDetailCustomRepositoryImpl accommodationDetailCustomRepositoryImpl) {
         this.postRepository = postRepository;
         this.accommodationRepository = accommodationRepository;
         this.accommodationSpaceRepository = accommodationSpaceRepository;
@@ -41,6 +42,7 @@ public class AccommodationHostService {
         this.accommodationImageRepository = accommodationImageRepository;
         this.accommodationDetailCustomRepository = accommodationDetailCustomRepository;
         this.awsFileService = awsFileService;
+        this.accommodationDetailCustomRepositoryImpl = accommodationDetailCustomRepositoryImpl;
     }
 
     @Transactional
@@ -114,12 +116,9 @@ public class AccommodationHostService {
     }
 
     // 호스트가 등록한 방 리스트
-//    public List<HostManagedAccommodationResponse> getManagedAccommodationsByUserId(Long userId) {
-//        List<Object[]> results = accommodationRepository.findAccommodationsByUserId(userId);
-//        return results.stream()
-//                .map(HostManagedAccommodationResponse::fromData)
-//                .collect(Collectors.toList());
-//    }
+    public List<HostManagedAccommodationResponse> getAccommodationsByUserId(Long userId) {
+        return accommodationDetailCustomRepository.findAccommodationsByUserId(userId);
+    }
 
 
 }

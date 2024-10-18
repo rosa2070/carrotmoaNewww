@@ -23,7 +23,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         </dt>
                         <dd>
                             <p class="room_name ellipsis">
-                                <a class="disable_preview">${accommodation.name}</a>
+                                <a class="disable_preview">${accommodation.title}</a>
                             </p>
                             <p class="room_address">${accommodation.lotAddress} ${accommodation.detailAddress}</p>
                             <div class="room_pay">
