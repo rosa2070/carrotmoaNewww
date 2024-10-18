@@ -244,7 +244,7 @@
     <script>
         function sample4_execDaumPostcode() {
             new daum.Postcode({
-                oncomplete: function(data) {
+                oncomplete: function (data) {
                     var roadAddr = data.roadAddress; // 도로명 주소 변수
                     // 우편번호와 주소 정보를 해당 필드에 넣는다.
                     document.getElementById('roadAddress').value = roadAddr;
@@ -253,27 +253,30 @@
             }).open();
         }
 
+        // 이미지 미리보기에 등록
         document.getElementById('images').addEventListener('change', function(event) {
             const files = event.target.files;
             const imageContainer = document.getElementById('div_added_pictures');
             imageContainer.innerHTML = ''; // 기존 미리보기 이미지 제거
 
-            for (let i = 0; i < files.length; i++) {
-                const file = files[i];
+            Array.from(files).forEach(file => {
                 const reader = new FileReader();
 
                 reader.onload = function(e) {
+                    // 이미지 미리보기 생성
                     const imageItem = document.createElement('div');
                     imageItem.className = 'image_item';
                     imageItem.innerHTML = `<img src="${e.target.result}" alt="미리보기 이미지">`;
                     imageContainer.appendChild(imageItem);
                 };
 
-                reader.readAsDataURL(file); // 파일을 읽고 미리보기 생성
-            }
-        });
+                reader.readAsDataURL(file);
 
-        document.querySelector('form').addEventListener('submit', function(event) {
+
+            })
+        })
+
+        document.querySelector('form').addEventListener('submit', function (event) {
             const checkboxes = document.querySelectorAll('input[type="checkbox"]');
             const isChecked = Array.from(checkboxes).some(checkbox => checkbox.checked);
 
