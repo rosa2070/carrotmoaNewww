@@ -15,17 +15,17 @@ public class AccommodationDetailCustomRepositoryImpl implements AccommodationDet
 
     private final JPAQueryFactory jpaQueryFactory;
 
+    private final QAccommodation accommodation = QAccommodation.accommodation;
+    private final QAccommodationImage accommodationImage = QAccommodationImage.accommodationImage;
+    private final QAccommodationAmenity accommodationAmenity = QAccommodationAmenity.accommodationAmenity;
+    private final QAccommodationSpace accommodationSpace = QAccommodationSpace.accommodationSpace;
+    private final QPost post = QPost.post;
+
     public AccommodationDetailCustomRepositoryImpl(JPAQueryFactory jpaQueryFactory) {
         this.jpaQueryFactory = jpaQueryFactory;
     }
 
     public AccommodationDetailResponse getAccommodationDetailById(Long id) {
-        QAccommodation accommodation = QAccommodation.accommodation;
-        QAccommodationImage accommodationImage = QAccommodationImage.accommodationImage;
-        QAccommodationAmenity accommodationAmenity = QAccommodationAmenity.accommodationAmenity;
-        QAccommodationSpace accommodationSpace = QAccommodationSpace.accommodationSpace;
-        QPost post = QPost.post;
-
         AccommodationDetailResponse detailResponse = jpaQueryFactory
                 .select(Projections.fields(AccommodationDetailResponse.class,
                         accommodation.id,
@@ -74,9 +74,26 @@ public class AccommodationDetailCustomRepositoryImpl implements AccommodationDet
         return detailResponse;
     }
 
-//    public List<HostManagedAccommodationResponse> getAccommodationsByUserId(Long userId) {
-//
-//    }
+    public List<HostManagedAccommodationResponse> findAccommodationsByUserId(Long userId) {
+        // userId 필터링
+
+        return jpaQueryFactory
+                .select(Projections.fields(HostManagedAccommodationResponse.class,
+                        accommodation.id,
+                        post.title,
+                        accommodation.lotAddress,
+                        accommodation.detailAddress,
+                        accommodation.price,
+                        accommodationImage.imageUrl
+                ))
+                .from(accommodation)
+                .leftJoin(post).on(accommodation.postId.eq(post.id))
+                .leftJoin(accommodationImage).on(accommodationImage.accommodationId.eq(accommodation.id))
+                .where(post.userId.eq(userId)) // userId 필터링
+                .fetch();
+
+
+    }
 
 
 
