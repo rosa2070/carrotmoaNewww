@@ -14,28 +14,17 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class HostRoomViewController {
 
-    // 기본 생성 공간 수 (방, 화장실, 거실, 주방)
-    private static final int DEFAULT_SPACE_COUNT = 4;
     private final AccommodationHostService accommodationHostService;
 
     public HostRoomViewController(AccommodationHostService accommodationHostService) {
         this.accommodationHostService = accommodationHostService;
     }
 
-    // 방 등록 페이지로 이동
+    // 방 등록
     @GetMapping("/register")
-    public String showRegisterForm(Model model) {
-        HostAccommodationRequest hostAccommodationRequest = new HostAccommodationRequest();
-//        hostAccommodationRequest.setUserId(3L);
-
-        // 공간 초기화 메서드 호출
-        hostAccommodationRequest.initializeSpaces(DEFAULT_SPACE_COUNT);
-
-        // 수정된 AccommodationRequestDto를 모델에 추가
-        model.addAttribute("hostAccommodationRequest", hostAccommodationRequest);
+    public String showRegisterForm() {
         return "host/room_register";
     }
-
 
     // 방 관리 이동
     @GetMapping("/manage")

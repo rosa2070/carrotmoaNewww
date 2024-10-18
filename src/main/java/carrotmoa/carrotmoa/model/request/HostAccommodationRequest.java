@@ -72,6 +72,7 @@ public class HostAccommodationRequest {
         for (int i = 0; i < spaceCount; i++) {
             AccommodationSpaceRequest accommodationSpaceRequest = new AccommodationSpaceRequest();
             accommodationSpaceRequest.setSpaceId((long) (i + 1));
+            accommodationSpaceRequest.setCount(0);
             accommodationSpaces.add(accommodationSpaceRequest);
         }
     }

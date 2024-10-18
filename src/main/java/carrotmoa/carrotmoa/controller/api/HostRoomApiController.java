@@ -1,6 +1,7 @@
 package carrotmoa.carrotmoa.controller.api;
 
 import carrotmoa.carrotmoa.entity.Accommodation;
+import carrotmoa.carrotmoa.model.request.AccommodationSpaceRequest;
 import carrotmoa.carrotmoa.model.request.HostAccommodationRequest;
 import carrotmoa.carrotmoa.model.response.AccommodationDetailResponse;
 import carrotmoa.carrotmoa.model.response.HostManagedAccommodationResponse;
@@ -8,8 +9,10 @@ import carrotmoa.carrotmoa.service.AccommodationHostService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -17,6 +20,8 @@ import java.util.List;
 @RestController
 @RequestMapping("/host/room")
 public class HostRoomApiController {
+    // 기본 생성 공간 수 (방, 화장실, 거실, 주방)
+    private static final int DEFAULT_SPACE_COUNT = 4;
 
     @Autowired
     AccommodationHostService accommodationHostService;
@@ -24,10 +29,12 @@ public class HostRoomApiController {
     // 방 등록 폼 제출 후 테이블에 값 들어옴
     @PostMapping("/register")
     public ResponseEntity<Long> registerAccommodation(@ModelAttribute HostAccommodationRequest hostAccommodationRequest) {
-        // 페이지 이동은 자바스크립트에서 하는게 좋 (api Controller는 api 받는거만 할수있도록)
+        // 공간 초기화 메서드 호출
+        hostAccommodationRequest.initializeSpaces(DEFAULT_SPACE_COUNT);
         hostAccommodationRequest.setUserId(3L);
-        hostAccommodationRequest.logRequestDetails(); // 입력한 거 로그 찍기
 
+        // 입력한 거 로그 찍기
+        hostAccommodationRequest.logRequestDetails();
 
         Long accommodationId = accommodationHostService.createAccommodation(hostAccommodationRequest);
         return new ResponseEntity<>(accommodationId, HttpStatus.CREATED);
@@ -57,10 +64,6 @@ public class HostRoomApiController {
 
         return ResponseEntity.ok(accommodations);
     }
-
-    // 수정을 위해 방 가져오기
-//    @GetMapping("/manage/{accommodationId}")
-//    public ResponseEntity<>
 
 
 }

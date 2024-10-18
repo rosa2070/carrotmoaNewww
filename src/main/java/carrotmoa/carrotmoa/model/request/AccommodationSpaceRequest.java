@@ -10,12 +10,4 @@ public class AccommodationSpaceRequest {
     private Long spaceId;
     private Integer count;
 
-//    public AccommodationSpace toAccommodationSpaceEntity() {
-//        return AccommodationSpace.builder()
-//                .accommodationId(accommodationId)
-//                .spaceId(spaceId)
-//                .count(count)
-//                .build();
-//    }
-
 }
