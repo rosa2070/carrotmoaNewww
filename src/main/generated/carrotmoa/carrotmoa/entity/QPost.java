@@ -21,8 +21,6 @@ public class QPost extends EntityPathBase<Post> {
 
     public final QBaseEntity _super = new QBaseEntity(this);
 
-    public final NumberPath<Long> categoryId = createNumber("categoryId", Long.class);
-
     public final StringPath content = createString("content");
 
     //inherited
@@ -32,6 +30,8 @@ public class QPost extends EntityPathBase<Post> {
     public final NumberPath<Long> id = _super.id;
 
     public final BooleanPath isDeleted = createBoolean("isDeleted");
+
+    public final NumberPath<Long> serviceId = createNumber("serviceId", Long.class);
 
     public final StringPath title = createString("title");
 

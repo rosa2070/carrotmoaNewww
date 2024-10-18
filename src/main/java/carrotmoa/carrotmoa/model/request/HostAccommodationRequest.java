@@ -47,7 +47,7 @@ public class HostAccommodationRequest {
 
     public Post toPostEntity() {
         return Post.builder()
-                .categoryId(6L)
+                .serviceId(8L)
                 .userId(userId)
                 .title(name)
                 .content(detail)
