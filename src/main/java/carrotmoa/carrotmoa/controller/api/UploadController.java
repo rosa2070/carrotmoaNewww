@@ -1,6 +1,8 @@
-package carrotmoa.carrotmoa.controller;
+package carrotmoa.carrotmoa.controller.api;
 
 import com.amazonaws.services.s3.AmazonS3;
+import com.amazonaws.services.s3.model.ObjectMetadata;
+import java.io.IOException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -11,12 +13,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
-
-import com.amazonaws.services.s3.model.ObjectMetadata;
-
-@RestController
 @RequestMapping("/upload")
+@RestController
 @RequiredArgsConstructor
 public class UploadController {
 
@@ -30,10 +28,10 @@ public class UploadController {
         try {
             String fileName = file.getOriginalFilename();
             String fileUrl = "https://" + bucket + "/test" + fileName;
-            ObjectMetadata metadata= new ObjectMetadata();
+            ObjectMetadata metadata = new ObjectMetadata();
             metadata.setContentType(file.getContentType());
             metadata.setContentLength(file.getSize());
-            s3Client.putObject(bucket,fileName,file.getInputStream(), metadata);
+            s3Client.putObject(bucket, fileName, file.getInputStream(), metadata);
             return ResponseEntity.ok(fileUrl);
         } catch (IOException e) {
             e.printStackTrace();

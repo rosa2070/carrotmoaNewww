@@ -21,9 +21,8 @@ import lombok.ToString;
 public class WishList extends BaseEntity {
 
     @Column(name = "user_id")
-    private Long userId; // 사용자 ID
+    private Long userId;
 
     @Column(name = "accommodation_id")
-    private Long accommodationId; // 숙소 ID
-
+    private Long accommodationId;
 }

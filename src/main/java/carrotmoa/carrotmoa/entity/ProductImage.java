@@ -25,5 +25,4 @@ public class ProductImage extends BaseEntity {
 
     @Column(name = "url")
     private String url;
-
 }

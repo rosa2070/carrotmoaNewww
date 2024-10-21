@@ -21,11 +21,8 @@ import lombok.ToString;
 public class AccommodationAmenity extends BaseEntity {
 
     @Column(name = "accommodation_id")
-    private Long accommodationId; // 숙소 ID
+    private Long accommodationId;
 
     @Column(name = "amenity_id")
-    private Long amenityId; // 편의시설 ID
-
-    // 숙소와 편의시설 간의 관계
-
+    private Long amenityId;
 }

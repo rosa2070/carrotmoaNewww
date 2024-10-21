@@ -3,14 +3,13 @@ package carrotmoa.carrotmoa.entity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
+import java.math.BigDecimal;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
-
-import java.math.BigDecimal;
 
 @Entity
 @Table(name = "accommodation")
@@ -22,35 +21,33 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 public class Accommodation extends BaseEntity {
 
-    @Column(name="user_id")
-    private Long userId; // 호스트 ID
+    @Column(name = "user_id")
+    private Long userId;
 
-    @Column(name="name")
-    private String name; // 숙소 이름
+    @Column(name = "name")
+    private String name;
 
     @Column(name = "road_address")
-    private String roadAddress; // 도로명 주소
+    private String roadAddress;
 
     @Column(name = "lot_address")
-    private String lotAddress; // 지번 주소
+    private String lotAddress;
 
     @Column(name = "detail_address")
-    private String detailAddress; // 상세 주소
+    private String detailAddress;
 
     @Column(name = "floor")
-    private Integer floor; // 현재 층 정보
+    private Integer floor;
 
     @Column(name = "total_floor")
-    private Integer total_floor; // 총 층 정보
+    private Integer total_floor;
 
     @Column(name = "price")
-    private BigDecimal price; // 숙소 1박 가격
+    private BigDecimal price;
 
     @Column(name = "detail")
-    private String detail; // 숙소에 대한 상세 정보 (소개, 이용 방법, 방 몇개, 화장실 몇개)
+    private String detail;
 
     @Column(name = "transportation_info")
-    private String transportationInfo; // 교통 정보
-
-
+    private String transportationInfo;
 }

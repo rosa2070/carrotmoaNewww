@@ -20,8 +20,8 @@ import lombok.ToString;
 @AllArgsConstructor
 public class Post extends BaseEntity {
 
-    @Column(name = "category_id")
-    private Long categoryId;
+    @Column(name = "service_id")
+    private Long serviceId;
 
     @Column(name = "user_id")
     private Long userId;

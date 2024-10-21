@@ -10,7 +10,7 @@ import lombok.Setter;
 @Setter
 public class SaveFleaMarketPostRequest {
 
-    private Long categoryId;
+    private Long serviceId;
     private Long userId;
     private String title;
     private String content;
@@ -23,7 +23,7 @@ public class SaveFleaMarketPostRequest {
 
     public Post toPostEntity() {
         return Post.builder()
-            .categoryId(categoryId)
+            .serviceId(serviceId)
             .userId(userId)
             .title(title)
             .content(content)

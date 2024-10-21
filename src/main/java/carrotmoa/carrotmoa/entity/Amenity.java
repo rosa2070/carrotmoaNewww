@@ -19,11 +19,10 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Amenity extends BaseEntity {
+
     @Column(name = "name")
-    private String name; // 옵션 이름
+    private String name;
 
     @Column(name = "icon_url")
-    private String iconUrl; // 아이콘 URL
-
-
+    private String iconUrl;
 }
