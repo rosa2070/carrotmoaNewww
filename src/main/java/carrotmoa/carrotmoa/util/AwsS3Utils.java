@@ -24,6 +24,9 @@ public class AwsS3Utils {
     @Value("${cloud.aws.s3.bucket}")
     private String bucketName;
 
+    @Value("${cloud.aws.region.static}")
+    private String region;
+
     // 특정 roomId에 이미지를 S3에 업로드하는 메서드
     public String uploadRoomImage(Long roomId, MultipartFile file) {
         String fileName = "room/" + roomId + "/" + UUID.randomUUID() + getFileExtension(Objects.requireNonNull(file.getOriginalFilename()));
@@ -61,7 +64,9 @@ public class AwsS3Utils {
 
     // 업로드된 이미지의 URL을 반환하는 메서드
     public String getImageUrl(String fileName) {
-        return String.format("https://%s.s3.amazonaws.com/%s", bucketName, fileName);
+        return String.format("https://%s.s3.%s.amazonaws.com/%s", bucketName, region, fileName);
     }
+
+
 
 }
