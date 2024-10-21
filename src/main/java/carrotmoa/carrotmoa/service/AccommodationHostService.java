@@ -5,6 +5,7 @@ import carrotmoa.carrotmoa.model.request.HostAccommodationRequest;
 import carrotmoa.carrotmoa.model.response.AccommodationDetailResponse;
 import carrotmoa.carrotmoa.model.response.HostManagedAccommodationResponse;
 import carrotmoa.carrotmoa.repository.*;
+import carrotmoa.carrotmoa.util.AwsS3Utils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,9 +25,9 @@ public class AccommodationHostService {
     private final AccommodationAmenityRepository accommodationAmenityRepository;
     private final AccommodationImageRepository accommodationImageRepository;
     private final AccommodationDetailCustomRepository accommodationDetailCustomRepository;
-
-    private final AwsFileService awsFileService;
     private final AccommodationDetailCustomRepositoryImpl accommodationDetailCustomRepositoryImpl;
+
+    private final AwsS3Utils awsS3Utils;
 
     public AccommodationHostService(PostRepository postRepository,
                                     AccommodationRepository accommodationRepository,
@@ -34,15 +35,17 @@ public class AccommodationHostService {
                                     AccommodationAmenityRepository accommodationAmenityRepository,
                                     AccommodationImageRepository accommodationImageRepository,
                                     AccommodationDetailCustomRepository accommodationDetailCustomRepository,
-                                    AwsFileService awsFileService, AccommodationDetailCustomRepositoryImpl accommodationDetailCustomRepositoryImpl) {
+                                    AccommodationDetailCustomRepositoryImpl accommodationDetailCustomRepositoryImpl,
+                                    AwsS3Utils awsS3Utils
+    ) {
         this.postRepository = postRepository;
         this.accommodationRepository = accommodationRepository;
         this.accommodationSpaceRepository = accommodationSpaceRepository;
         this.accommodationAmenityRepository = accommodationAmenityRepository;
         this.accommodationImageRepository = accommodationImageRepository;
         this.accommodationDetailCustomRepository = accommodationDetailCustomRepository;
-        this.awsFileService = awsFileService;
         this.accommodationDetailCustomRepositoryImpl = accommodationDetailCustomRepositoryImpl;
+        this.awsS3Utils = awsS3Utils;
     }
 
     @Transactional
@@ -92,25 +95,31 @@ public class AccommodationHostService {
     }
 
     private void saveAccommodationImages(Long accommodationId, List<MultipartFile> images) throws IOException {
-        if (images != null) {
+        if (images != null && !images.isEmpty()) {
             for (int i = 0; i < images.size(); i++) {
                 MultipartFile image = images.get(i);
-
-                // S3에 이미지 업로드 후 URL을 가져오는 로직
-                String imageUrl = awsFileService.saveRoomImg(image, accommodationId);
-
-                AccommodationImage accommodationImage = AccommodationImage.builder()
-                        .accommodationId(accommodationId)
-                        .imageUrl(imageUrl)
-                        .imageOrder(i)
-                        .build();
-
-                accommodationImageRepository.save(accommodationImage);
-
+                saveImage(accommodationId, image, i); // 순서를 함께 전달
             }
+
         }
     }
 
+    // 이미지 하나씩 저장
+    private void saveImage(Long accommodationId, MultipartFile image, int order) throws IOException {
+        String imageUrl = awsS3Utils.uploadRoomImage(accommodationId, image); // S3에 업로드 후 URL 반환
+
+        AccommodationImage accommodationImage = AccommodationImage.builder()
+                .accommodationId(accommodationId)
+                .imageUrl(imageUrl)
+                .imageOrder(order)
+                .build();
+
+        accommodationImageRepository.save(accommodationImage);
+    }
+
+
+
+    // 방 하나 디테일
     public AccommodationDetailResponse getAccommodationDetail(Long id) {
         return accommodationDetailCustomRepository.getAccommodationDetailById(id);
     }
