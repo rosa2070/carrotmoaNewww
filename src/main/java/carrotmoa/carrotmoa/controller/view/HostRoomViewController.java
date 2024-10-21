@@ -1,9 +1,7 @@
 package carrotmoa.carrotmoa.controller.view;
 
-import carrotmoa.carrotmoa.model.request.HostAccommodationRequest;
 import carrotmoa.carrotmoa.service.AccommodationHostService;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import lombok.extern.slf4j.Slf4j;

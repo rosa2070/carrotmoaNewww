@@ -2,7 +2,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const userId = window.userId; // HTML에서 정의한 userId를 가져옴
 
     console.log(`Calling API with userId: ${userId}`);
-    fetch(`/host/room/manage/${userId}`) // API 호출
+    fetch(`/api/host/room/manage/${userId}`) // API 호출
         .then(response => {
             if (!response.ok) {
                 throw new Error("네트워크 응답이 올바르지 않습니다.");

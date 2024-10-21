@@ -15,11 +15,10 @@
 
     <div class="wrap bg_wrap">
         <section class="content">
-            <form th:action="@{/host/room/register}" method="post" enctype="multipart/form-data"
-            >
-
+            <form th:action="@{/host/room/edit}" method="post" enctype="multipart/form-data">
+                <input type="hidden" id="accommodationId" name="accommodationId"  />
                 <!-- userId 입력 필드 추가 -->
-<!--                <input type="hidden">-->
+                <!--                <input type="hidden">-->
 
                 <div class="host_room_reg">
                     <div class="flex">
@@ -89,7 +88,7 @@
                             <div class="flex_column">
                                 <div class="select_group">
                                     <label for="room_cnt">방 수</label>
-                                    <input type="hidden" > <!-- 방 ID -->
+                                    <input type="hidden"> <!-- 방 ID -->
                                     <select id="room_cnt"
                                             style="width:150px; margin-right:50px;" class="my_select_box">
                                         <option value="0">0</option>
@@ -106,7 +105,7 @@
                                     </select>
 
                                     <label for="bathroom_cnt">화장실 수</label>
-                                    <input type="hidden" > <!-- 화장실 ID -->
+                                    <input type="hidden"> <!-- 화장실 ID -->
                                     <select id="bathroom_cnt"
                                             style="width:150px; margin-right:50px;"
                                             class="my_select_box">
@@ -118,7 +117,7 @@
                                 </div>
                                 <div class="select_group">
                                     <label for="livingRoom_cnt">거실 수</label>
-                                    <input type="hidden" > <!-- 거실 ID -->
+                                    <input type="hidden"> <!-- 거실 ID -->
                                     <select id="livingRoom_cnt"
                                             style="width:150px; margin-right:50px;"
                                             class="my_select_box ">
@@ -157,7 +156,7 @@
                                 방 설명 및 이용 방법
                             </label>
                             <div class="text_box length_500">
-                            <textarea id="detail"  maxlength="500"
+                            <textarea id="detail" maxlength="500"
                                       placeholder="- 최근 리모델링 완료 후 첫 집주인 방입니다." required></textarea>
                             </div>
                         </div>
@@ -183,7 +182,7 @@
                         <div class="file_upload">
                             <label for="images" class="btn_upload">사진 첨부</label>
                             <!--                            accept="image/*": 사용자가 선택할 수 있는 파일 유형을 제한 -->
-                            <input type="file" id="images"  multiple accept="image/*"
+                            <input type="file" id="images" multiple accept="image/*"
                                    style="display: none;">
                         </div>
                         <div class="images_view ui-sortable" id="div_added_pictures">
@@ -199,11 +198,11 @@
                                 <!--                                나중에 th:each로 동적으로 amenity 받아와서 뿌리는 방식으로-->
                                 <ul>
                                     <li>
-                                        <input type="checkbox" id="opt_basic_1"  value="1">
+                                        <input type="checkbox" id="opt_basic_1" value="1">
                                         <label for="opt_basic_1">냉장고</label>
                                     </li>
                                     <li>
-                                        <input type="checkbox" id="opt_basic_2"  value="2">
+                                        <input type="checkbox" id="opt_basic_2" value="2">
                                         <label for="opt_basic_2">세탁기</label>
                                     </li>
                                     <li>
@@ -211,11 +210,11 @@
                                         <label for="opt_basic_3">에어컨</label>
                                     </li>
                                     <li>
-                                        <input type="checkbox" id="opt_basic_4"  value="4">
+                                        <input type="checkbox" id="opt_basic_4" value="4">
                                         <label for="opt_basic_4">싱크대</label>
                                     </li>
                                     <li>
-                                        <input type="checkbox" id="opt_basic_5"  value="5">
+                                        <input type="checkbox" id="opt_basic_5" value="5">
                                         <label for="opt_basic_5">침대</label>
                                     </li>
                                     <li>
@@ -223,7 +222,7 @@
                                         <label for="opt_basic_6">TV</label>
                                     </li>
                                     <li>
-                                        <input type="checkbox" id="opt_basic_7"  value="7">
+                                        <input type="checkbox" id="opt_basic_7" value="7">
                                         <label for="opt_basic_7">인터넷(Wi-Fi)</label>
                                     </li>
                                 </ul>

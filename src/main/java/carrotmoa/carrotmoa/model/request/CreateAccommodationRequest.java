@@ -3,6 +3,8 @@ package carrotmoa.carrotmoa.model.request;
 import carrotmoa.carrotmoa.entity.Accommodation;
 import carrotmoa.carrotmoa.entity.AccommodationSpace;
 import carrotmoa.carrotmoa.entity.Post;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.multipart.MultipartFile;
@@ -15,17 +17,39 @@ import java.util.stream.Collectors;
 @Getter
 @Setter
 @Slf4j
-public class HostAccommodationRequest {
+public class CreateAccommodationRequest {
+    private static final Long SERVICE_ID = 8L;
+
     private Long userId; //호스트 ID
+
+    @NotBlank(message = "숙소 이름은 필수 입력입니다.")
     private String name; // 숙소 이름
+
+    @NotNull(message = "총 면적은 필수 입력입니다.")
     private Integer totalArea;
-    private String roadAddress; // 도로명 주소
+
+    @NotBlank(message = "도로명 주소는 필수 입력입니다.")
+    private String roadAddress;
+
+    @NotBlank(message = "지번 주소는 필수 입력입니다.")
     private String lotAddress;
+
+    @NotBlank(message = "상세 주소는 필수 입력입니다.")
     private String detailAddress;
+
+    @NotNull(message = "층 수는 필수 입력입니다.")
     private Integer floor;
+
+    @NotNull(message = "총 층 수는 필수 입력입니다.")
     private Integer totalFloor;
+
+    @NotNull(message = "가격은 필수 입력입니다.")
     private BigDecimal price;
+
+    @NotBlank(message = "상세 설명은 필수 입력입니다.")
     private String detail;
+
+    @NotBlank(message = "교통 정보는 필수 입력입니다.")
     private String transportationInfo;
     // 관계 테이블 리스트 (Space 테이블에 방, 화장실, 거실, 주방 순서로 담겨 있어야)
     private List<AccommodationSpaceRequest> accommodationSpaces = new ArrayList<>(); // 초기화
@@ -47,7 +71,7 @@ public class HostAccommodationRequest {
 
     public Post toPostEntity() {
         return Post.builder()
-                .serviceId(8L)
+                .serviceId(SERVICE_ID)
                 .userId(userId)
                 .title(name)
                 .content(detail)

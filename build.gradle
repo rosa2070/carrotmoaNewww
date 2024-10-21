@@ -77,7 +77,8 @@ dependencies {
     // - 최신 AWS SDK 기능을 활용하여 성능과 기능 향상
     implementation group: 'software.amazon.awssdk', name: 's3', version: '2.20.0'
 
-
+    // validation 추가
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
 
 }
 

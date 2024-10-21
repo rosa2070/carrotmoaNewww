@@ -70,7 +70,7 @@ document.querySelector('form').addEventListener('submit', function(event) {
 // 원래 데이터 뿌려주기
 document.addEventListener("DOMContentLoaded", function () {
     const accommodationId = window.location.pathname.split('/').pop(); // URL에서 ID 추출
-    fetch(`/host/room/${accommodationId}`)
+    fetch(`/api/host/room/${accommodationId}`)
         .then(response => {
             if (!response.ok) {
                 throw new Error("네트워크 응답이 올바르지 않습니다.");
@@ -80,6 +80,7 @@ document.addEventListener("DOMContentLoaded", function () {
         .then(data => {
             // 폼 필드에 데이터 삽입
             //userId 추가해야하나??
+            document.getElementById('accommodationId').value = data.id;
             document.getElementById('name').value = data.title;
             document.getElementById('roadAddress').value = data.roadAddress;
             document.getElementById('lotAddress').value = data.lotAddress;
@@ -94,7 +95,6 @@ document.addEventListener("DOMContentLoaded", function () {
             document.getElementById('price').value = data.price;
             document.getElementById('detail').value = data.content;
             document.getElementById('transportationInfo').value = data.transportationInfo;
-
 
             // 이미지 미리보기
             showImagePreviews(data.imageUrls);
