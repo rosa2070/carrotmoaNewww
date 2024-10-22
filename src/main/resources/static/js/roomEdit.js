@@ -1,7 +1,7 @@
 // 카카오 주소 찾기
 function sample4_execDaumPostcode() {
     new daum.Postcode({
-        oncomplete: function(data) {
+        oncomplete: function (data) {
             var roadAddr = data.roadAddress; // 도로명 주소 변수
             // 우편번호와 주소 정보를 해당 필드에 넣는다.
             document.getElementById('roadAddress').value = roadAddr;
@@ -24,7 +24,7 @@ function showImagePreviews(imageUrls) {
 }
 
 // 이미지 미리보기에 등록
-document.getElementById('images').addEventListener('change', function(event) {
+document.getElementById('images').addEventListener('change', function (event) {
     const files = event.target.files;
     const imageContainer = document.getElementById('div_added_pictures');
     imageContainer.innerHTML = ''; // 기존 미리보기 이미지 제거
@@ -32,7 +32,7 @@ document.getElementById('images').addEventListener('change', function(event) {
     Array.from(files).forEach(file => {
         const reader = new FileReader();
 
-        reader.onload = function(e) {
+        reader.onload = function (e) {
             // 이미지 미리보기 생성
             const imageItem = document.createElement('div');
             imageItem.className = 'image_item';
@@ -88,7 +88,7 @@ document.addEventListener("DOMContentLoaded", function () {
             originalData = data; // 원본 데이터 저장
 
             // 폼 필드에 데이터 삽입
-            document.getElementById('name').value = data.title;
+            document.getElementById('title').value = data.title;
             document.getElementById('roadAddress').value = data.roadAddress;
             document.getElementById('lotAddress').value = data.lotAddress;
             document.getElementById('detailAddress').value = data.detailAddress;
@@ -100,7 +100,7 @@ document.addEventListener("DOMContentLoaded", function () {
             document.getElementById('livingRoom_cnt').value = data.spaceCounts[2];
             document.getElementById('kitchen_cnt').value = data.spaceCounts[3];
             document.getElementById('price').value = data.price;
-            document.getElementById('detail').value = data.content;
+            document.getElementById('content').value = data.content;
             document.getElementById('transportationInfo').value = data.transportationInfo;
 
             // 이미지 미리보기
@@ -125,7 +125,8 @@ document.addEventListener("DOMContentLoaded", function () {
 function handleSubmit(event) {
     event.preventDefault();
     const updatedData = new FormData();
-    const fields = ['roadAddress', 'lotAddress', 'detailAddress', 'floor', 'totalFloor', 'totalArea', 'price', 'transportationInfo'];
+    const fields = ['title', 'roadAddress', 'lotAddress', 'detailAddress',
+        'floor', 'totalFloor', 'totalArea', 'price', 'content', 'transportationInfo'];
 
     fields.forEach(field => {
         const value = document.getElementById(field).value;
@@ -134,6 +135,28 @@ function handleSubmit(event) {
             console.log(`변경된 필드: ${field} => ${value}`); // 변경된 필드 로깅
         }
     });
+
+    // 공간 수 매핑 및 추가
+    const spaceIds = [1, 2, 3, 4];
+    const spaceCounts = [
+        parseInt(document.getElementById('room_cnt').value),
+        parseInt(document.getElementById('bathroom_cnt').value),
+        parseInt(document.getElementById('livingRoom_cnt').value),
+        parseInt(document.getElementById('kitchen_cnt').value)
+    ];
+
+    spaceIds.forEach((spaceId, index) => {
+        updatedData.append(`accommodationSpaces[${index}].spaceId`, spaceId);
+        updatedData.append(`accommodationSpaces[${index}].count`, spaceCounts[index]);
+    })
+
+    // 편의 시설 ID 추가
+    const currentAmenities =
+        Array.from(document.querySelectorAll('input[type="checkbox"]:checked')).map(checkbox => Number(checkbox.value));
+    currentAmenities.forEach(amenityId => {
+        updatedData.append('amenityIds', amenityId);
+    })
+
 
     // PATCH 요청
     fetch(`/api/host/room/edit/${accommodationId}`, {

@@ -59,6 +59,9 @@ public class AccommodationHostService {
     @Transactional
     public void updateAccommodation(Long accommodationId, UpdateAccommodationRequest updateAccommodationRequest) {
         accommodationService.updateAccommodation(accommodationId, updateAccommodationRequest);
+        postService.updatePost(accommodationId, updateAccommodationRequest);
+        accommodationSpaceService.updateAccommodationSpaces(accommodationId, updateAccommodationRequest);
+        accommodationAmenityService.updateAccommodationAmenities(accommodationId, updateAccommodationRequest);
     }
 
     public AccommodationDetailResponse getAccommodationDetail(Long id) {

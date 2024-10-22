@@ -3,10 +3,10 @@ package carrotmoa.carrotmoa.service;
 import carrotmoa.carrotmoa.entity.Accommodation;
 import carrotmoa.carrotmoa.model.request.CreateAccommodationRequest;
 import carrotmoa.carrotmoa.model.request.UpdateAccommodationRequest;
-import carrotmoa.carrotmoa.model.request.UpdateAccommodationRequest;
 import carrotmoa.carrotmoa.repository.AccommodationRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Slf4j
@@ -17,21 +17,17 @@ public class AccommodationService {
         this.accommodationRepository = accommodationRepository;
     }
 
+    @Transactional
     public Accommodation saveAccommodation(CreateAccommodationRequest request, Long postId) {
         Accommodation accommodation = request.toAccommodationEntity();
         accommodation.setPostId(postId);
         return accommodationRepository.save(accommodation);
     }
 
-    public Accommodation updateAccommodation(Long accommodationId, UpdateAccommodationRequest updateRequest) {
+    @Transactional
+    public void updateAccommodation(Long accommodationId, UpdateAccommodationRequest updateRequest) {
         Accommodation accommodation = accommodationRepository.findById(accommodationId)
                 .orElseThrow(() -> new IllegalArgumentException("숙소를 찾을 수 없습니다."));
-
-        // 숙소 이름 변경
-//        if (updateRequest.getName() != null) {
-//            log.info("숙소 이름 변경: {} -> {}", accommodation.getName(), updateRequest.getName());
-//            accommodation.setName(updateRequest.getName());
-//        }
 
         // 총 면적 변경
         if (updateRequest.getTotalArea() != null) {
@@ -75,12 +71,6 @@ public class AccommodationService {
             accommodation.setPrice(updateRequest.getPrice());
         }
 
-        // 상세 내용 변경
-//        if (updateRequest.getDetail() != null) {
-//            log.info("상세 내용 변경: {} -> {}", accommodation.getDetail(), updateRequest.getDetail());
-//            accommodation.setDetail(updateRequest.getDetail());
-//        }
-
         // 교통 정보 변경
         if (updateRequest.getTransportationInfo() != null) {
             log.info("교통 정보 변경: {} -> {}", accommodation.getTransportationInfo(), updateRequest.getTransportationInfo());
@@ -88,6 +78,6 @@ public class AccommodationService {
         }
 
         // 변경된 숙소 정보 저장
-        return accommodationRepository.save(accommodation);
+        accommodationRepository.save(accommodation);
     }
 }

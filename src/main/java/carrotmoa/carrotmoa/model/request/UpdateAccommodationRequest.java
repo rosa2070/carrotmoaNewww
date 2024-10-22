@@ -20,7 +20,7 @@ public class UpdateAccommodationRequest {
     private static final Long SERVICE_ID = 8L;
 
     private Long userId; //호스트 ID
-    private String name; // 숙소 이름
+    private String title; // 숙소 이름
     private Integer totalArea;
     private String roadAddress;
     private String lotAddress;
@@ -28,9 +28,8 @@ public class UpdateAccommodationRequest {
     private Integer floor;
     private Integer totalFloor;
     private BigDecimal price;
-    private String detail;
+    private String content;
     private String transportationInfo;
-
 
     // 관계 테이블 리스트 (Space 테이블에 방, 화장실, 거실, 주방 순서로 담겨 있어야)
     private List<AccommodationSpaceRequest> accommodationSpaces = new ArrayList<>(); // 초기화
@@ -54,8 +53,8 @@ public class UpdateAccommodationRequest {
         return Post.builder()
                 .serviceId(SERVICE_ID)
                 .userId(userId)
-                .title(name)
-                .content(detail)
+                .title(title)
+                .content(content)
                 .build();
     }
 
@@ -84,7 +83,7 @@ public class UpdateAccommodationRequest {
 
     public void logRequestDetails() {
         log.info("Host ID: {}", userId);
-        log.info("Accommodation Name: {}", name);
+        log.info("Accommodation Name: {}", title);
         log.info("Total Area: {}", totalArea);
         log.info("Road Address: {}", roadAddress);
         log.info("Lot Address: {}", lotAddress);
@@ -92,7 +91,7 @@ public class UpdateAccommodationRequest {
         log.info("Floor: {}", floor);
         log.info("Total Floors: {}", totalFloor);
         log.info("Price: {}", price);
-        log.info("Details: {}", detail);
+        log.info("Details: {}", content);
         log.info("Transportation Info: {}", transportationInfo);
         log.info("Selected Amenities IDs: {}", amenityIds);
         log.info("Number of uploaded images: {}", (images != null ? images.size() : 0));

@@ -22,7 +22,7 @@ public class CreateAccommodationRequest {
     private Long userId; //호스트 ID
 
     @NotBlank(message = "숙소 이름은 필수 입력입니다.")
-    private String name; // 숙소 이름
+    private String title; // 숙소 이름
 
     @NotNull(message = "총 면적은 필수 입력입니다.")
     private Integer totalArea;
@@ -48,7 +48,7 @@ public class CreateAccommodationRequest {
     private BigDecimal price;
 
     @NotBlank(message = "상세 설명은 필수 입력입니다.")
-    private String detail;
+    private String content;
 
     @NotBlank(message = "교통 정보는 필수 입력입니다.")
     private String transportationInfo;
@@ -80,8 +80,8 @@ public class CreateAccommodationRequest {
         return Post.builder()
                 .serviceId(SERVICE_ID)
                 .userId(userId)
-                .title(name)
-                .content(detail)
+                .title(title)
+                .content(content)
                 .build();
     }
 
@@ -110,7 +110,7 @@ public class CreateAccommodationRequest {
 
     public void logRequestDetails() {
         log.info("Host ID: {}", userId);
-        log.info("Accommodation Name: {}", name);
+        log.info("Accommodation Name: {}", title);
         log.info("Total Area: {}", totalArea);
         log.info("Road Address: {}", roadAddress);
         log.info("Lot Address: {}", lotAddress);
@@ -118,7 +118,7 @@ public class CreateAccommodationRequest {
         log.info("Floor: {}", floor);
         log.info("Total Floors: {}", totalFloor);
         log.info("Price: {}", price);
-        log.info("Details: {}", detail);
+        log.info("Details: {}", content);
         log.info("Transportation Info: {}", transportationInfo);
         log.info("Selected Amenities IDs: {}", amenityIds);
         log.info("Number of uploaded images: {}", (images != null ? images.size() : 0));
