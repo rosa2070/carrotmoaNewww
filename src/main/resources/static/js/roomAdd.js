@@ -80,10 +80,12 @@ function submitForm(event) {
         .then(data => {
             // 성공적으로 데이터가 전송된 후 처리 (예: 성공 메시지 표시)
             console.log('숙소 등록 성공:', data);
-            // 추가적으로 페이지를 리다이렉트하거나, 성공 메시지를 표시할 수 있습니다.
+            window.location.href = '/host/room/manage'; // 방 관리 페이지로 이동
+
         })
         .catch(error => {
             console.error('서버 오류:', error);
+            alert('서버와의 통신 중 오류가 발생했습니다. 다시 시도해주세요.'); // 사용자에게 알림
         });
 }
 
