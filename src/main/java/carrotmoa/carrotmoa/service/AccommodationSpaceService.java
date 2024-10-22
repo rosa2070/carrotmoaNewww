@@ -17,16 +17,13 @@ public class AccommodationSpaceService {
     }
 
     public void saveAccommodationSpaces(List<AccommodationSpace> accommodationSpaces, Long accommodationId) {
-        if (accommodationSpaces == null || accommodationSpaces.isEmpty()) {
-            log.warn("No accommodation spaces to save for accommodation ID: {}", accommodationId);
-            return; // 빈 리스트나 null인 경우 조기 반환
-        }
+        accommodationSpaces.forEach(accommodationSpace -> saveAccommodationSpace(accommodationSpace, accommodationId));
     }
 
-    private void saveAccommodationSpace(AccommodationSpace space, Long accommodationId) {
-        space.setAccommodationId(accommodationId);
-        accommodationSpaceRepository.save(space);
-        log.info("Saved accommodation space: {}", space);
+    private void saveAccommodationSpace(AccommodationSpace accommodationSpace, Long accommodationId) {
+        accommodationSpace.setAccommodationId(accommodationId);
+        accommodationSpaceRepository.save(accommodationSpace);
+        log.info("Saved accommodation space: {}", accommodationSpace);
 
     }
 }

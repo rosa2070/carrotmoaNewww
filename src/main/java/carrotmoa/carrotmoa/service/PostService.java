@@ -15,8 +15,8 @@ public class PostService {
         this.postRepository = postRepository;
     }
 
-    public Post savePost(CreateAccommodationRequest request) {
-        Post post = request.toPostEntity();
+    public Post savePost(CreateAccommodationRequest createAccommodationRequest) {
+        Post post = createAccommodationRequest.toPostEntity();
         return postRepository.save(post);
     }
 }
