@@ -67,9 +67,14 @@ document.querySelector('form').addEventListener('submit', function(event) {
     }
 });
 
-// 원래 데이터 뿌려주기
+
+
 document.addEventListener("DOMContentLoaded", function () {
     const accommodationId = window.location.pathname.split('/').pop(); // URL에서 ID 추출
+    const images = document.getElementById('images');
+    let originalData = {}; // 원본 데이터 저장
+
+    // 숙소 정보 가져오기
     fetch(`/api/host/room/${accommodationId}`)
         .then(response => {
             if (!response.ok) {
@@ -78,9 +83,15 @@ document.addEventListener("DOMContentLoaded", function () {
             return response.json();
         })
         .then(data => {
+            // console.log(data.spaceCounts[0]);
+            // console.log(data.spaceCounts[1]);
+            // console.log(data.spaceCounts[2]);
+            // console.log(data.spaceCounts[3]);
+            originalData = data; // 원본 데이터 저장
+
             // 폼 필드에 데이터 삽입
             //userId 추가해야하나??
-            document.getElementById('accommodationId').value = data.id;
+            // document.getElementById('accommodationId').value = data.id;
             document.getElementById('name').value = data.title;
             document.getElementById('roadAddress').value = data.roadAddress;
             document.getElementById('lotAddress').value = data.lotAddress;
@@ -106,11 +117,30 @@ document.addEventListener("DOMContentLoaded", function () {
                     checkbox.checked = true; // 체크 상태로 설정
                 }
             });
-
-
-
         })
         .catch(error => {
             console.error('숙소 정보를 가져오는 중 오류 발생: ', error);
-        })
+        });
+
+    // 폼 제출 이벤트 처리
+    // document.getElementById('updateForm').addEventListener('submit', function (event) {
+    //     event.preventDefault(); // 기본 동작 방지
+    //     const updatedData = new FormData();
+    //
+    //     // 변경된 필드만 추출
+    //     const fields = ['name', 'roadAddress', 'lotAddress', 'detailAddress', 'floor', 'totalArea', 'price', 'detail', 'transportationInfo'];
+    //     fields.forEach(field => {
+    //         const newValue = document.getElementById(field).value;
+    //         if (newValue !== originalData[field]) {
+    //             updatedData.append(field, newValue);
+    //         }
+    //     })
+    //
+    //     for (let [key, value] of updatedData.entries()) {
+    //         console.log(key, value);
+    //     }
+    // })
+
+
+
 })

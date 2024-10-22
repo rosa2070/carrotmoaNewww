@@ -2,6 +2,7 @@ package carrotmoa.carrotmoa.service;
 
 import carrotmoa.carrotmoa.entity.*;
 import carrotmoa.carrotmoa.model.request.CreateAccommodationRequest;
+import carrotmoa.carrotmoa.model.request.UpdateAccommodationRequest;
 import carrotmoa.carrotmoa.model.response.AccommodationDetailResponse;
 import carrotmoa.carrotmoa.model.response.HostManagedAccommodationResponse;
 import carrotmoa.carrotmoa.repository.*;
@@ -51,6 +52,11 @@ public class AccommodationHostService {
             log.error("Image upload failed: {}", e.getMessage());
             throw new RuntimeException("image upload failed", e);
         }
+
+    }
+
+    @Transactional
+    public void updateAccommodation(Long accommodationId, UpdateAccommodationRequest updateAccommodationRequest) {
 
     }
 

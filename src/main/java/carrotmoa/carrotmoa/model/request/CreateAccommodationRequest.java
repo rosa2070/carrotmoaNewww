@@ -3,9 +3,7 @@ package carrotmoa.carrotmoa.model.request;
 import carrotmoa.carrotmoa.entity.Accommodation;
 import carrotmoa.carrotmoa.entity.AccommodationSpace;
 import carrotmoa.carrotmoa.entity.Post;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 import lombok.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.multipart.MultipartFile;
@@ -39,9 +37,11 @@ public class CreateAccommodationRequest {
     private String detailAddress;
 
     @NotNull(message = "층 수는 필수 입력입니다.")
+    @Min(value = 0, message = "층 수는 0 이상이어야 합니다.")
     private Integer floor;
 
     @NotNull(message = "총 층 수는 필수 입력입니다.")
+    @Min(value = 1, message = "총 층 수는 1 이상이어야 합니다.")
     private Integer totalFloor;
 
     @NotNull(message = "가격은 필수 입력입니다.")

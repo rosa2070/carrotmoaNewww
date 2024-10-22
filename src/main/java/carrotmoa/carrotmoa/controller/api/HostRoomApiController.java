@@ -37,11 +37,14 @@ public class HostRoomApiController {
         }
 
         // 공간 초기화 메서드 호출
-        createAccommodationRequest.initializeSpaces(DEFAULT_SPACE_COUNT);
+        if (createAccommodationRequest.getAccommodationSpaces().isEmpty()) {
+            createAccommodationRequest.initializeSpaces(DEFAULT_SPACE_COUNT);
+        }
         createAccommodationRequest.setUserId(3L);
 
         // 입력한 거 로그 찍기
         createAccommodationRequest.logRequestDetails();
+
 
         Long accommodationId = accommodationHostService.createAccommodation(createAccommodationRequest);
         return new ResponseEntity<>(accommodationId, HttpStatus.CREATED);
