@@ -4,7 +4,7 @@ window.userId = userId; // window 객체에 userId 저장
 console.log(`사용자 ID: ${userId}`);
 
 function goToRegisterPage() {
-    window.location.href = '/host/room/register'; 
+    window.location.href = '/host/room/register';
 }
 
 document.addEventListener("DOMContentLoaded", function () {

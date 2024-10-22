@@ -47,30 +47,31 @@ document.getElementById('images').addEventListener('change', function(event) {
 })
 
 // 경고 문구
-document.querySelector('form').addEventListener('submit', function(event) {
-    const checkboxes = document.querySelectorAll('input[type="checkbox"]');
-    const isChecked = Array.from(checkboxes).some(checkbox => checkbox.checked);
+// document.querySelector('form').addEventListener('submit', function(event) {
+//     const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+//     const isChecked = Array.from(checkboxes).some(checkbox => checkbox.checked);
+//
+//     const imageInput = document.getElementById('images');
+//     const files = imageInput.files;
+//
+//     // 이미지 등록 체크
+//     if (files.length < 4) { // 최소 4장 체크
+//         event.preventDefault(); // 제출 막기
+//         alert('방 사진은 최소 4장 이상 등록해야 합니다.'); // 경고 메시지
+//         return; // 추가 검사 중단
+//     }
+//
+//     if (!isChecked) {
+//         event.preventDefault(); // 제출 막기
+//         alert('기본 옵션을 하나 이상 선택해야 합니다.'); // 경고 메시지
+//     }
+// });
 
-    const imageInput = document.getElementById('images');
-    const files = imageInput.files;
+let accommodationId;
 
-    // 이미지 등록 체크
-    if (files.length < 4) { // 최소 4장 체크
-        event.preventDefault(); // 제출 막기
-        alert('방 사진은 최소 4장 이상 등록해야 합니다.'); // 경고 메시지
-        return; // 추가 검사 중단
-    }
-
-    if (!isChecked) {
-        event.preventDefault(); // 제출 막기
-        alert('기본 옵션을 하나 이상 선택해야 합니다.'); // 경고 메시지
-    }
-});
-
-
-
+// s3는 데이터 받아올때 유의
 document.addEventListener("DOMContentLoaded", function () {
-    const accommodationId = window.location.pathname.split('/').pop(); // URL에서 ID 추출
+    accommodationId = window.location.pathname.split('/').pop(); // URL에서 ID 추출
     const images = document.getElementById('images');
     let originalData = {}; // 원본 데이터 저장
 
@@ -78,20 +79,15 @@ document.addEventListener("DOMContentLoaded", function () {
     fetch(`/api/host/room/${accommodationId}`)
         .then(response => {
             if (!response.ok) {
-                throw new Error("네트워크 응답이 올바르지 않습니다.");
+                console.error('응답 상태:', response.status);
+                throw new Error("업데이트 실패: " + response.statusText);
             }
             return response.json();
         })
         .then(data => {
-            // console.log(data.spaceCounts[0]);
-            // console.log(data.spaceCounts[1]);
-            // console.log(data.spaceCounts[2]);
-            // console.log(data.spaceCounts[3]);
             originalData = data; // 원본 데이터 저장
 
             // 폼 필드에 데이터 삽입
-            //userId 추가해야하나??
-            // document.getElementById('accommodationId').value = data.id;
             document.getElementById('name').value = data.title;
             document.getElementById('roadAddress').value = data.roadAddress;
             document.getElementById('lotAddress').value = data.lotAddress;
@@ -123,24 +119,35 @@ document.addEventListener("DOMContentLoaded", function () {
         });
 
     // 폼 제출 이벤트 처리
-    // document.getElementById('updateForm').addEventListener('submit', function (event) {
-    //     event.preventDefault(); // 기본 동작 방지
-    //     const updatedData = new FormData();
-    //
-    //     // 변경된 필드만 추출
-    //     const fields = ['name', 'roadAddress', 'lotAddress', 'detailAddress', 'floor', 'totalArea', 'price', 'detail', 'transportationInfo'];
-    //     fields.forEach(field => {
-    //         const newValue = document.getElementById(field).value;
-    //         if (newValue !== originalData[field]) {
-    //             updatedData.append(field, newValue);
-    //         }
-    //     })
-    //
-    //     for (let [key, value] of updatedData.entries()) {
-    //         console.log(key, value);
-    //     }
-    // })
+    document.getElementById('updateForm').addEventListener('submit', handleSubmit);
+});
+
+function handleSubmit(event) {
+    event.preventDefault();
+    const updatedData = new FormData();
+    const fields = ['roadAddress', 'lotAddress', 'detailAddress', 'floor', 'totalFloor', 'totalArea', 'price', 'transportationInfo'];
+
+    fields.forEach(field => {
+        const value = document.getElementById(field).value;
+        if (value) {
+            updatedData.append(field, value);
+            console.log(`변경된 필드: ${field} => ${value}`); // 변경된 필드 로깅
+        }
+    });
+
+    // PATCH 요청
+    fetch(`/api/host/room/edit/${accommodationId}`, {
+        method: 'PATCH',
+        body: updatedData
+    })
+        .then(response => {
+            alert('숙소 정보가 수정되었습니다.'); // 성공 메시지 표시
+            // 필요 시 리디렉션 처리
+            window.location.href = `/host/room/manage`; // 방 관리 페이지로 이동
+        })
+        .catch(error => {
+            console.error('수정 중 오류 발생:', error);
+        });
+}
 
 
-
-})

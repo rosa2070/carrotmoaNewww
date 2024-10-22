@@ -1,6 +1,8 @@
 package carrotmoa.carrotmoa.controller.api;
 
 import carrotmoa.carrotmoa.model.request.CreateAccommodationRequest;
+import carrotmoa.carrotmoa.model.request.UpdateAccommodationRequest;
+import carrotmoa.carrotmoa.model.request.UpdateAccommodationRequest;
 import carrotmoa.carrotmoa.model.response.AccommodationDetailResponse;
 import carrotmoa.carrotmoa.model.response.HostManagedAccommodationResponse;
 import carrotmoa.carrotmoa.service.AccommodationHostService;
@@ -11,7 +13,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Slf4j
@@ -50,6 +54,23 @@ public class HostRoomApiController {
         return new ResponseEntity<>(accommodationId, HttpStatus.CREATED);
     }
 
+    // 숙소 정보 업데이트 (PATCH 요청)
+    @PatchMapping("/edit/{id}")
+    public ResponseEntity<String> updateAccommodation(
+            @PathVariable("id") Long id,
+            @ModelAttribute UpdateAccommodationRequest updateAccommodationRequest) {
+
+        // 숙소 정보 업데이트
+        try {
+            accommodationHostService.updateAccommodation(id, updateAccommodationRequest);
+            return ResponseEntity.ok("숙소 정보가 수정되었습니다.");
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body("업데이트 중 오류가 발생했습니다.");
+        }
+    }
+
 
     // 방 상세
     @GetMapping("/{id}")
@@ -65,9 +86,6 @@ public class HostRoomApiController {
     // 방 수정
 //    @PostMapping("/edit/{id}")
 //    public ResponseEntity<Long> updateRoom(@PathVariable Long id, @ModelAttribute Host)
-
-
-
 
 
     // 호스트가 등록한 방 리스트 보이기(방 관리)
@@ -89,8 +107,6 @@ public class HostRoomApiController {
 //        }
 //        return ResponseEntity.ok("Validation passed");
 //    }
-
-
 
 
 }

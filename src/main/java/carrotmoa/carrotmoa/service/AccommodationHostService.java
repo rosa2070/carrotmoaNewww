@@ -3,6 +3,7 @@ package carrotmoa.carrotmoa.service;
 import carrotmoa.carrotmoa.entity.*;
 import carrotmoa.carrotmoa.model.request.CreateAccommodationRequest;
 import carrotmoa.carrotmoa.model.request.UpdateAccommodationRequest;
+import carrotmoa.carrotmoa.model.request.UpdateAccommodationRequest;
 import carrotmoa.carrotmoa.model.response.AccommodationDetailResponse;
 import carrotmoa.carrotmoa.model.response.HostManagedAccommodationResponse;
 import carrotmoa.carrotmoa.repository.*;
@@ -57,7 +58,7 @@ public class AccommodationHostService {
 
     @Transactional
     public void updateAccommodation(Long accommodationId, UpdateAccommodationRequest updateAccommodationRequest) {
-
+        accommodationService.updateAccommodation(accommodationId, updateAccommodationRequest);
     }
 
     public AccommodationDetailResponse getAccommodationDetail(Long id) {
