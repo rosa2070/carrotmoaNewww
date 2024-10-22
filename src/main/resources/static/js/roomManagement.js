@@ -1,3 +1,12 @@
+const userId = 3; // 실제 사용자 ID를 여기에 설정
+window.userId = userId; // window 객체에 userId 저장
+
+console.log(`사용자 ID: ${userId}`);
+
+function goToRegisterPage() {
+    window.location.href = '/host/room/register'; 
+}
+
 document.addEventListener("DOMContentLoaded", function () {
     const userId = window.userId; // HTML에서 정의한 userId를 가져옴
 

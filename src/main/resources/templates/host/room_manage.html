@@ -21,18 +21,12 @@
                 </div>
                 <div class="flex list_option">
                     <button type="button" class="btn medium purple"
-                            onclick="window.location.href='/webpc/host/room/update/1/0'">방 등록하기
+                            onclick="goToRegisterPage()">방 등록하기
                     </button>
                 </div>
 
                 <!-- 방 리스트를 표시할 ul 요소 추가 -->
                 <ul class="list_item" id="roomList"></ul>
-                <script>
-                    const userId = 3; // 실제 사용자 ID를 여기에 설정
-                    window.userId = userId; // window 객체에 userId 저장
-
-                    console.log(`사용자 ID: ${userId}`);
-                </script>
                 <script src="/js/roomManagement.js"></script> <!-- 외부 JavaScript 파일 포함 -->
             </div>
         </section>
