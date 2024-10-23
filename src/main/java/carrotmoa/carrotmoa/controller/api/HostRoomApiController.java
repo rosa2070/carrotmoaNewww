@@ -58,11 +58,15 @@ public class HostRoomApiController {
     @PatchMapping("/edit/{id}")
     public ResponseEntity<String> updateAccommodation(
             @PathVariable("id") Long id,
-            @ModelAttribute UpdateAccommodationRequest updateAccommodationRequest) {
+            @ModelAttribute UpdateAccommodationRequest updateAccommodationRequest,
+            @RequestParam(value = "existingImageUrls", required = false) List<String> existingImageUrls) {
+
+        log.info("기존 이미지 URL: {}", existingImageUrls);
+        log.info("업로드된 이미지 개수: {}", (updateAccommodationRequest.getImages() != null ? updateAccommodationRequest.getImages().size() : 0));
 
         // 숙소 정보 업데이트
         try {
-            accommodationHostService.updateAccommodation(id, updateAccommodationRequest);
+            accommodationHostService.updateAccommodation(id, updateAccommodationRequest, existingImageUrls);
             return ResponseEntity.ok("숙소 정보가 수정되었습니다.");
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body(e.getMessage());

@@ -10,42 +10,6 @@ function sample4_execDaumPostcode() {
     }).open();
 }
 
-// 이미지 미리보기
-function showImagePreviews(imageUrls) {
-    const imageContainer = document.getElementById('div_added_pictures');
-    imageContainer.innerHTML = ''; // 기존 미리보기 이미지 제거
-
-    imageUrls.forEach(imageUrl => {
-        const imageItem = document.createElement('div');
-        imageItem.className = 'image_item';
-        imageItem.innerHTML = `<img src="${imageUrl}" alt="미리보기 이미지">`;
-        imageContainer.appendChild(imageItem);
-    })
-}
-
-// 이미지 미리보기에 등록
-document.getElementById('images').addEventListener('change', function (event) {
-    const files = event.target.files;
-    const imageContainer = document.getElementById('div_added_pictures');
-    imageContainer.innerHTML = ''; // 기존 미리보기 이미지 제거
-
-    Array.from(files).forEach(file => {
-        const reader = new FileReader();
-
-        reader.onload = function (e) {
-            // 이미지 미리보기 생성
-            const imageItem = document.createElement('div');
-            imageItem.className = 'image_item';
-            imageItem.innerHTML = `<img src="${e.target.result}" alt="미리보기 이미지">`;
-            imageContainer.appendChild(imageItem);
-        };
-
-        reader.readAsDataURL(file);
-
-
-    })
-})
-
 // 경고 문구
 // document.querySelector('form').addEventListener('submit', function(event) {
 //     const checkboxes = document.querySelectorAll('input[type="checkbox"]');
@@ -113,9 +77,10 @@ document.getElementById('images').addEventListener('change', function (event) {
     });
 });
 
+let originalData = {}; // 원본 데이터 저장
 document.addEventListener("DOMContentLoaded", function () {
     let accommodationId = window.location.pathname.split('/').pop(); // URL에서 ID 추출
-    let originalData = {}; // 원본 데이터 저장
+    // let originalData = {}; // 원본 데이터 저장
 
     // 숙소 정보 가져오기
     fetch(`/api/host/room/${accommodationId}`)
@@ -137,7 +102,7 @@ document.addEventListener("DOMContentLoaded", function () {
         });
 
     // 폼 제출 이벤트 처리
-    document.getElementById('updateForm').addEventListener('submit', createHandleSubmit(originalData, accommodationId));
+    document.getElementById('updateForm').addEventListener('submit', createHandleSubmit(accommodationId));
 });
 
 // 폼 필드 채우기 함수
@@ -169,7 +134,7 @@ function checkAmenities(amenityIds) {
 }
 
 // 클로저를 이용한 handleSubmit 생성 함수
-function createHandleSubmit(originalData, accommodationId) {
+function createHandleSubmit(accommodationId) {
     return function (event) {
         event.preventDefault();
         const updatedData = new FormData();
@@ -184,11 +149,28 @@ function createHandleSubmit(originalData, accommodationId) {
             }
         });
 
-        // 기존 이미지 URLs 추가
+        // 새 이미지를 추가
+        const imageInput = document.getElementById('images');
+        const files = imageInput.files;
+        for (let i = 0; i < files.length; i++) {
+            updatedData.append('images', files[i]); // MultipartFile로 추가
+        }
+
+        // 기존 이미지 URL 추가 (optional)
         const existingImageUrls = originalData.imageUrls || [];
-        existingImageUrls.forEach((url, index) => {
-            updatedData.append(`imageUrls[${index}]`, url);
+        console.log('기존 이미지 URL:', existingImageUrls); // 이미지 URL 출력
+        existingImageUrls.forEach(url => {
+            updatedData.append('existingImageUrls', url); // 각 URL을 개별 항목으로 추가
         });
+
+
+        // 기존 이미지 URLs 추가
+        // console.log(originalData);
+        // const existingImageUrls = originalData.imageUrls || [];
+        // console.log('기존 이미지 URL:', existingImageUrls); // 이미지 URL 출력
+        // existingImageUrls.forEach((url, index) => {
+        //     updatedData.append(`imageUrls[${index}]`, url);
+        // });
 
         // 공간 수 매핑 및 추가
         const spaceIds = [1, 2, 3, 4];

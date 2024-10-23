@@ -57,16 +57,19 @@ public class AccommodationHostService {
     }
 
     @Transactional
-    public void updateAccommodation(Long accommodationId, UpdateAccommodationRequest updateAccommodationRequest) {
+    public void updateAccommodation(Long accommodationId, UpdateAccommodationRequest updateAccommodationRequest, List<String> existingImageUrls) throws IOException {
         accommodationService.updateAccommodation(accommodationId, updateAccommodationRequest);
         postService.updatePost(accommodationId, updateAccommodationRequest);
         accommodationSpaceService.updateAccommodationSpaces(accommodationId, updateAccommodationRequest);
         accommodationAmenityService.updateAccommodationAmenities(accommodationId, updateAccommodationRequest);
+        accommodationImageService.updateAccommodationImages(accommodationId, updateAccommodationRequest.getImages(), existingImageUrls);
     }
+
 
     public AccommodationDetailResponse getAccommodationDetail(Long id) {
         return accommodationDetailCustomRepository.getAccommodationDetailById(id);
     }
+
 
     public List<HostManagedAccommodationResponse> getAccommodationsByUserId(Long userId) {
         return accommodationDetailCustomRepository.findAccommodationsByUserId(userId);
