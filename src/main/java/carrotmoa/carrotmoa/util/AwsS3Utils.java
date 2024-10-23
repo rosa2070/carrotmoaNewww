@@ -126,7 +126,7 @@ public class AwsS3Utils {
         }
     }
 
-    private String extractFilePathFromUrl(String url) {
+    String extractFilePathFromUrl(String url) {
         // URL을 슬래시('/')로 분리
         String[] parts = url.split("/");
 

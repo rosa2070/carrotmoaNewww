@@ -18,11 +18,12 @@ import java.util.UUID;
 @Slf4j
 public class AccommodationImageService {
     private final AccommodationImageRepository accommodationImageRepository;
-    private final AwsS3Utils awsS3Utils;
+    private final AwsS3AccommodationService awsS3AccommodationService;
+//    private final AwsS3Utils awsS3Utils;
 
-    public AccommodationImageService(AccommodationImageRepository accommodationImageRepository, AwsS3Utils awsS3Utils) {
+    public AccommodationImageService(AccommodationImageRepository accommodationImageRepository, AwsS3AccommodationService awsS3AccommodationService) {
         this.accommodationImageRepository = accommodationImageRepository;
-        this.awsS3Utils = awsS3Utils;
+        this.awsS3AccommodationService = awsS3AccommodationService;
     }
 
     @Transactional
@@ -47,7 +48,7 @@ public class AccommodationImageService {
     private void deleteExistingImages(List<String> existingImageUrls) throws IOException {
         if (existingImageUrls != null && !existingImageUrls.isEmpty()) {
             for (String imageUrl : existingImageUrls) {
-                awsS3Utils.deleteImageFromUrl(imageUrl); // S3에서 이미지 삭제
+//                awsS3Utils.deleteImageFromUrl(imageUrl); // S3에서 이미지 삭제
                 log.info("Deleted image from S3: {}", imageUrl); // 삭제 로그 추가
                 // 데이터베이스에서 이미지 메타데이터 삭제 필요시 추가 로직
             }
@@ -56,7 +57,7 @@ public class AccommodationImageService {
 
     // s3 직접 업로드 + url 데베에 저장
     private String uploadAndSaveImage(Long accommodationId, MultipartFile image, int order) throws IOException {
-        String imageUrl = uploadRoomImage(accommodationId, image);
+        String imageUrl = awsS3AccommodationService.uploadRoomImage(accommodationId, image);
         saveImageMetadata(accommodationId, imageUrl, order);
         return imageUrl;
     }
@@ -72,20 +73,20 @@ public class AccommodationImageService {
     }
 
     // 특정 roomId 폴더에 이미지를 S3에 업로드하는 메서드
-    private String uploadRoomImage(Long roomId, MultipartFile file) {
-        String fileName = "room/" + roomId + "/" + UUID.randomUUID() + awsS3Utils.getFileExtension(Objects.requireNonNull(file.getOriginalFilename()));
-
-        // S3에 이미지 업로드
-        awsS3Utils.uploadImage(fileName, file);
-
-        // 업로드된 이미지 URL 반환
-        String imageUrl = awsS3Utils.getImageUrl(fileName);
-
-        // 성공적으로 저장된 경우 로그 출력
-        log.info("Uploaded image to S3: {}", imageUrl);
-
-        return imageUrl; // 업로드된 이미지 URL 반환
-    }
+//    private String uploadRoomImage(Long roomId, MultipartFile file) {
+//        String fileName = "room/" + roomId + "/" + UUID.randomUUID() + awsS3Utils.getFileExtension(Objects.requireNonNull(file.getOriginalFilename()));
+//
+//        // S3에 이미지 업로드
+//        awsS3Utils.uploadImage(fileName, file);
+//
+//        // 업로드된 이미지 URL 반환
+//        String imageUrl = awsS3Utils.getImageUrl(fileName);
+//
+//        // 성공적으로 저장된 경우 로그 출력
+//        log.info("Uploaded image to S3: {}", imageUrl);
+//
+//        return imageUrl; // 업로드된 이미지 URL 반환
+//    }
 
     private String extractFilePathFromUrl(String url) {
         // URL을 슬래시('/')로 분리
