@@ -3,10 +3,11 @@ package carrotmoa.carrotmoa.service;
 import carrotmoa.carrotmoa.entity.User;
 import carrotmoa.carrotmoa.enums.AuthorityCode;
 import carrotmoa.carrotmoa.model.request.UserJoinDto;
-import carrotmoa.carrotmoa.repository.HostAdditionalFormRepository;
+import carrotmoa.carrotmoa.repository.AccountRepository;
 import carrotmoa.carrotmoa.repository.UserProfileRepository;
 import carrotmoa.carrotmoa.repository.UserRepository;
 import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.mail.MailSendException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -20,7 +21,7 @@ import java.util.concurrent.CompletableFuture;
 
 @Slf4j
 @Service
-@Transactional
+@RequiredArgsConstructor
 public class UserService {
     private static final String AUTH_CODE_PREFIX = "AuthCode";
     private final UserRepository userRepository;
@@ -28,18 +29,7 @@ public class UserService {
     private final MailService mailService;
     private final RedisService redisService;
     private final BCryptPasswordEncoder passwordEncoder;
-    private final HostAdditionalFormRepository hostAdditionalFormRepository;
-
-    public UserService(BCryptPasswordEncoder passwordEncoder, UserRepository userRepository
-            , UserProfileRepository userProfileRepository, MailService mailService, RedisService redisService, HostAdditionalFormRepository hostAdditionalFormRepository) {
-        this.passwordEncoder = passwordEncoder;
-        this.userRepository = userRepository;
-        this.userProfileRepository = userProfileRepository;
-        this.mailService = mailService;
-        this.redisService = redisService;
-        this.hostAdditionalFormRepository = hostAdditionalFormRepository;
-    }
-
+    private final AccountRepository accountRepository;
 
     //해당 이메일이 이미 존재하는지 체크
     public boolean emailCheck(String email) {
@@ -102,7 +92,7 @@ public class UserService {
     }
 
     @Transactional
-    public void userJoin(UserJoinDto userJoinDto) {
+    public boolean userJoin(UserJoinDto userJoinDto) {
         try {
             userJoinDto.setPassword(passwordEncoder.encode(userJoinDto.getPassword()));
             if (userJoinDto.getAuthorityId() != null && userJoinDto.getAuthorityId() == AuthorityCode.HOST.getId()) {
@@ -115,14 +105,13 @@ public class UserService {
             userProfileRepository.save(userJoinDto.toUserProfileEntity(saveUser.getId()));
 
             if (saveUser.getAuthorityId() == AuthorityCode.HOST.getId()) {
-                System.out.println(userJoinDto.getAccount());
-                System.out.println(userJoinDto.getAccountHolder());
-                System.out.println(userJoinDto.getBankName());
-                hostAdditionalFormRepository.save(userJoinDto.toHostAdditionalFormEntity(saveUser.getId()));
+                accountRepository.save(userJoinDto.toHostAdditionalFormEntity(saveUser.getId()));
             }
+            return true;
         } catch (Exception e) {
             System.out.println("JoinException");
             System.out.println(e.getMessage());
+            return false;
         }
     }
 

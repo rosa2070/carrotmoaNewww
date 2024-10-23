@@ -52,17 +52,21 @@
           </a>
         </span>
 
-        <div style="padding-left:55px; justify-content: flex-end;">
-          <a th:href="@{/user/my-page}" style="border:none; background-color:white;">
-            <div id="profile-image" style="">
-            <img th:src="${user.getUserProfile().getPicUrl()}" style="width: 40px; height:40px; border-radius: 50%"/>
+        <div class="user-profile-box">
+          <a th:href="@{/user/my-page}" class="user-profile-a">
+            <div id="profile-image">
+            <img th:src="${user.getUserProfile().getPicUrl()}" class="user-profile-image"/>
             </div>
-            <div id="profile" style="margin-left:20px">
+            <div class="user-profile-div">
 <!--              <div th:text="${user.getUserProfile().getNickname()}" id="profile-nickname"></div>-->
-              <div id="profile-nickname" th:text="${user.getUserProfile().getNickname()}+'님 안녕하세요'" style="white-space:nowrap; font-size: 15px; color: #212124; font-weight: bold;"></div>
+              <div id="profile-nickname" th:text="${user.getUserProfile().getNickname()}+'님 안녕하세요'" class="user-profile-nickname">
+                  </div>
             </div>
           </a>
         </div>
+          <div class="user-profile-box">
+              <a href="#"  class="user-profile-a"><img src="/images/notification.svg" alt=""></a>
+          </div>
 
       </div>
 

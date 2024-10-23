@@ -6,11 +6,10 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
-<main layout:fragment="main" class="container">
+<main layout:fragment="main" class="user-join-form-container">
 
-<div class="container">
     <!--/*@thymesVar id="UserJoinDto" type="carrotmoa.carrotmoa.model.request.UserJoinDto"*/-->
-    <form th:action="@{/user/join}" th:method="post" th:object="${userJoinDto}" style="margin-bottom: 100px; margin-top:300px;">
+    <form th:action="@{/api/user/join}" th:method="post" th:object="${userJoinDto}" class="user-form" id="join-form">
         <label for="email">이메일</label>
         <input type="text" th:field="*{email}" id="email">
         <input type="button" value="중복 체크" id="duplication-check" disabled required><span id="check"></span> <br>
@@ -43,8 +42,6 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
         </div>
         <input type="submit" value="가입" id="join" disabled>
     </form>
-
-</div>
 </main>
 
 

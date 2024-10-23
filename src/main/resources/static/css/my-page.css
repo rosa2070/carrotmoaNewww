@@ -1,5 +1,5 @@
 
-.child {
+.my-page-child {
     display: block;          /* 하위 div의 자식 요소를 수직으로 배치 */
     flex-direction: column; /* 수직 방향으로 배치 */
     margin: 10px;          /* 여백 추가 (선택사항) */

@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserLoginProfileResponseDto {
+public class UserLoginResponseDto {
     private long userId;
     private String nickname;
     private String picUrl;
@@ -18,7 +18,7 @@ public class UserLoginProfileResponseDto {
     private String birthday;
     private String defaultProfileImageUrl;
 
-    public UserLoginProfileResponseDto(UserProfile userProfile) {
+    public UserLoginResponseDto(UserProfile userProfile) {
         this.userId = userProfile.getUserId();
         this.nickname = userProfile.getNickname();
 

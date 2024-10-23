@@ -16,8 +16,8 @@ import java.time.Instant;
 @Data
 @Entity
 @Builder
-@Table(name = "host_additional_form", schema = "carrot_moa")
-public class HostAdditionalForm {
+@Table(name = "account", schema = "carrot_moa")
+public class Account {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)

@@ -2,7 +2,7 @@ package carrotmoa.carrotmoa.config.sequrity;
 
 import carrotmoa.carrotmoa.entity.User;
 import carrotmoa.carrotmoa.enums.AuthorityCode;
-import carrotmoa.carrotmoa.model.response.UserLoginProfileResponseDto;
+import carrotmoa.carrotmoa.model.response.UserLoginResponseDto;
 import carrotmoa.carrotmoa.repository.UserProfileRepository;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -40,9 +40,9 @@ public class CustomUserDetails implements UserDetails {
         return user.getEmail();
     }
 
-    public UserLoginProfileResponseDto getUserProfile() {
-        UserLoginProfileResponseDto userLoginResponseDto
-                = new UserLoginProfileResponseDto(Objects.requireNonNull(userprofileRepository.findByUserId(user.getId())));
+    public UserLoginResponseDto getUserProfile() {
+        UserLoginResponseDto userLoginResponseDto
+                = new UserLoginResponseDto(Objects.requireNonNull(userprofileRepository.findByUserId(user.getId())));
 
         if (userLoginResponseDto.getPicUrl() == null) {
             userLoginResponseDto.setPicUrl(defaultProfileImageUrl);

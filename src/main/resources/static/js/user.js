@@ -94,7 +94,7 @@ $duplicationCheck.click(function () {
     email = $email.val();
     console.log(email);
     $.ajax({
-        url: '/user/email-check',
+        url: '/api/user/email-check',
         data: {email: email},
         type: 'get',
         success: function (result) {
@@ -127,7 +127,7 @@ $authentication.on('click','#authentication-mail',function(){
     $authCodeCertified.prop('disabled', false);
 
     $.ajax({
-        url:'/user/auth-code-send',
+        url:'/api/user/auth-code-send',
         data:{email:email},
         type:'get',
         success:function(data){
@@ -151,7 +151,7 @@ $authentication.on('click','#auth-code-certified',function (){
     console.log(inputAuthCode);
 
     $.ajax({
-        url:'/user/auth-code-certified',
+        url:'/api/user/auth-code-certified',
         data:{email:email,inputauthcode:inputAuthCode},
         type:'get',
         success:function(data){
@@ -208,14 +208,6 @@ $nickname.on('input',function(){
     }
 });
 
-// $authorityType.on('change',function(){
-//     if($authorityType.checked()){
-//         console.log('check')
-//     } else{
-//
-//         console.log('no')
-//     }
-// })
 document.getElementById('authority-type').addEventListener('change', function(event) {
     if (event.target.checked) {
         $('#host').css("display",'flex');
@@ -223,11 +215,38 @@ document.getElementById('authority-type').addEventListener('change', function(ev
         $('#host').css("display",'none');
     }
 });
-// $account.on('input',function(){
-//     regAccount.exec()
-//     $('#account-check').text("사용가능한 계좌에요");
-//
-// })
+
+document.getElementById('join-form').addEventListener('submit',function(event) {
+    event.preventDefault();
+     const formData = new FormData(this);
+    const data ={};
+    formData.forEach((value,key) => {
+        data[key] = value;
+    })
+    fetch("/api/user/join", {
+        method: "POST",
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+    })
+        .then(response => {
+            if(!response.ok){
+                console.log("값 안옴")
+            }
+            return response.json()
+        })
+
+        .then(result => {
+            if(result){
+                alert('가입되셨습니다.');
+                window.location.href="/";
+            } else {
+                console.log("가입 실패");
+            }
+        });
+
+})
 
 
 

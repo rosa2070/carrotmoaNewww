@@ -10,8 +10,9 @@ public class test {
         System.out.println("Id : "+AuthorityCode.USER);
         System.out.println("Id : "+AuthorityCode.USER.name());
         System.out.println("Id : "+AuthorityCode.USER.toString());
-        System.out.println("Id : "+AuthorityCode.USER.hashCode());
         System.out.println("Id : "+AuthorityCode.USER.ordinal());
         System.out.println("Id : "+ AuthorityCode.getAuthorityCodeName(3L));
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        System.out.println(encoder.encode("1234"));
     }
 }

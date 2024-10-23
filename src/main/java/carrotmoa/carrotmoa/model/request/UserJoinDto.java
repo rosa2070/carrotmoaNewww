@@ -1,12 +1,11 @@
 package carrotmoa.carrotmoa.model.request;
 
-import carrotmoa.carrotmoa.entity.HostAdditionalForm;
+import carrotmoa.carrotmoa.entity.Account;
 import carrotmoa.carrotmoa.entity.User;
 import carrotmoa.carrotmoa.entity.UserProfile;
 import lombok.Data;
 
 import java.time.Instant;
-
 @Data
 public class UserJoinDto {
     private String email;
@@ -42,8 +41,8 @@ public class UserJoinDto {
                 .build();
     }
 
-    public HostAdditionalForm toHostAdditionalFormEntity(long userId) {
-        return HostAdditionalForm.builder()
+    public Account toHostAdditionalFormEntity(long userId) {
+        return carrotmoa.carrotmoa.entity.Account.builder()
                 .userId(userId)
                 .bankName(this.getBankName())
                 .account(this.getAccount())
