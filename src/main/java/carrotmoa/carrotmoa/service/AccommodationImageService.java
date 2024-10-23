@@ -6,6 +6,7 @@ import carrotmoa.carrotmoa.repository.AccommodationRepository;
 import carrotmoa.carrotmoa.util.AwsS3Utils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -22,6 +23,7 @@ public class AccommodationImageService {
         this.awsS3Utils = awsS3Utils;
     }
 
+    @Transactional
     public void saveAccommodationImages(Long accommodationId, List<MultipartFile> images) throws IOException {
         if (images != null && !images.isEmpty()) {
             for (int i = 0; i < images.size(); i++) {

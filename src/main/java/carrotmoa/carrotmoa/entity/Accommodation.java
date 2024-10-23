@@ -43,4 +43,35 @@ public class Accommodation extends BaseEntity {
 
     @Column(name = "transportation_info")
     private String transportationInfo; // 교통 정보
+
+    // 업데이트 메서드
+    public void updateAccommodation(Integer totalArea, String roadAddress, String lotAddress,
+                                    String detailAddress, Integer floor, Integer totalFloor,
+                                    BigDecimal price, String transportationInfo) {
+        if (totalArea != null) {
+            this.totalArea = totalArea;
+        }
+        if (roadAddress != null) {
+            this.roadAddress = roadAddress;
+        }
+        if (lotAddress != null) {
+            this.lotAddress = lotAddress;
+        }
+        if (detailAddress != null) {
+            this.detailAddress = detailAddress;
+        }
+        if (floor != null) {
+            this.floor = floor;
+        }
+        if (totalFloor != null) {
+            this.totalFloor = totalFloor;
+        }
+        if (price != null) {
+            this.price = price;
+        }
+        if (transportationInfo != null) {
+            this.transportationInfo = transportationInfo;
+        }
+    }
+
 }

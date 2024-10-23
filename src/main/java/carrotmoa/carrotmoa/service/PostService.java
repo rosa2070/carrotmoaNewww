@@ -35,15 +35,12 @@ public class PostService {
         Post post = postRepository.findById(accommodation.getPostId())
                 .orElseThrow(() -> new IllegalArgumentException("포스트를 찾을 수 없습니다."));
 
-        if (updateAccommodationRequest.getTitle() != null) {
-            log.info("방 이름 변경: {} -> {}", post.getTitle(), updateAccommodationRequest.getTitle());
-            post.setTitle(updateAccommodationRequest.getTitle());
-        }
+        log.info("방 이름 및 설명 변경 전: 제목: {}, 내용: {}", post.getTitle(), post.getContent());
 
-        if (updateAccommodationRequest.getContent() != null) {
-            log.info("방 설명 및 이용 방법 변경: {} -> {}", post.getContent(), updateAccommodationRequest.getContent());
-            post.setContent(updateAccommodationRequest.getContent());
-        }
+        // update 메서드 호출
+        post.updatePost(updateAccommodationRequest.getTitle(), updateAccommodationRequest.getContent());
+
+        log.info("방 이름 및 설명 변경 후: 제목: {}, 내용: {}", post.getTitle(), post.getContent());
 
         postRepository.save(post);
     }

@@ -67,12 +67,54 @@ document.getElementById('images').addEventListener('change', function (event) {
 //     }
 // });
 
-let accommodationId;
+// 카카오 주소 찾기
+function sample4_execDaumPostcode() {
+    new daum.Postcode({
+        oncomplete: function (data) {
+            var roadAddr = data.roadAddress; // 도로명 주소 변수
+            // 우편번호와 주소 정보를 해당 필드에 넣는다.
+            document.getElementById('roadAddress').value = roadAddr;
+            document.getElementById('lotAddress').value = data.jibunAddress;
+        }
+    }).open();
+}
 
-// s3는 데이터 받아올때 유의
+// 이미지 미리보기
+function showImagePreviews(imageUrls) {
+    const imageContainer = document.getElementById('div_added_pictures');
+    imageContainer.innerHTML = ''; // 기존 미리보기 이미지 제거
+
+    imageUrls.forEach(imageUrl => {
+        const imageItem = document.createElement('div');
+        imageItem.className = 'image_item';
+        imageItem.innerHTML = `<img src="${imageUrl}" alt="미리보기 이미지">`;
+        imageContainer.appendChild(imageItem);
+    });
+}
+
+// 이미지 미리보기에 등록
+document.getElementById('images').addEventListener('change', function (event) {
+    const files = event.target.files;
+    const imageContainer = document.getElementById('div_added_pictures');
+    imageContainer.innerHTML = ''; // 기존 미리보기 이미지 제거
+
+    Array.from(files).forEach(file => {
+        const reader = new FileReader();
+
+        reader.onload = function (e) {
+            // 이미지 미리보기 생성
+            const imageItem = document.createElement('div');
+            imageItem.className = 'image_item';
+            imageItem.innerHTML = `<img src="${e.target.result}" alt="미리보기 이미지">`;
+            imageContainer.appendChild(imageItem);
+        };
+
+        reader.readAsDataURL(file);
+    });
+});
+
 document.addEventListener("DOMContentLoaded", function () {
-    accommodationId = window.location.pathname.split('/').pop(); // URL에서 ID 추출
-    const images = document.getElementById('images');
+    let accommodationId = window.location.pathname.split('/').pop(); // URL에서 ID 추출
     let originalData = {}; // 원본 데이터 저장
 
     // 숙소 정보 가져오기
@@ -86,91 +128,102 @@ document.addEventListener("DOMContentLoaded", function () {
         })
         .then(data => {
             originalData = data; // 원본 데이터 저장
-
-            // 폼 필드에 데이터 삽입
-            document.getElementById('title').value = data.title;
-            document.getElementById('roadAddress').value = data.roadAddress;
-            document.getElementById('lotAddress').value = data.lotAddress;
-            document.getElementById('detailAddress').value = data.detailAddress;
-            document.getElementById('floor').value = data.floor;
-            document.getElementById('totalFloor').value = data.totalFloor;
-            document.getElementById('totalArea').value = data.totalArea;
-            document.getElementById('room_cnt').value = data.spaceCounts[0];
-            document.getElementById('bathroom_cnt').value = data.spaceCounts[1];
-            document.getElementById('livingRoom_cnt').value = data.spaceCounts[2];
-            document.getElementById('kitchen_cnt').value = data.spaceCounts[3];
-            document.getElementById('price').value = data.price;
-            document.getElementById('content').value = data.content;
-            document.getElementById('transportationInfo').value = data.transportationInfo;
-
-            // 이미지 미리보기
+            populateFormFields(data);
             showImagePreviews(data.imageUrls);
-
-            // 선택된 amenityIds 체크
-            data.amenityIds.forEach(amenityId => {
-                const checkbox = document.getElementById(`opt_basic_${amenityId}`);
-                if (checkbox) {
-                    checkbox.checked = true; // 체크 상태로 설정
-                }
-            });
+            checkAmenities(data.amenityIds);
         })
         .catch(error => {
             console.error('숙소 정보를 가져오는 중 오류 발생: ', error);
         });
 
     // 폼 제출 이벤트 처리
-    document.getElementById('updateForm').addEventListener('submit', handleSubmit);
+    document.getElementById('updateForm').addEventListener('submit', createHandleSubmit(originalData, accommodationId));
 });
 
-function handleSubmit(event) {
-    event.preventDefault();
-    const updatedData = new FormData();
-    const fields = ['title', 'roadAddress', 'lotAddress', 'detailAddress',
-        'floor', 'totalFloor', 'totalArea', 'price', 'content', 'transportationInfo'];
-
-    fields.forEach(field => {
-        const value = document.getElementById(field).value;
-        if (value) {
-            updatedData.append(field, value);
-            console.log(`변경된 필드: ${field} => ${value}`); // 변경된 필드 로깅
-        }
-    });
-
-    // 공간 수 매핑 및 추가
-    const spaceIds = [1, 2, 3, 4];
-    const spaceCounts = [
-        parseInt(document.getElementById('room_cnt').value),
-        parseInt(document.getElementById('bathroom_cnt').value),
-        parseInt(document.getElementById('livingRoom_cnt').value),
-        parseInt(document.getElementById('kitchen_cnt').value)
-    ];
-
-    spaceIds.forEach((spaceId, index) => {
-        updatedData.append(`accommodationSpaces[${index}].spaceId`, spaceId);
-        updatedData.append(`accommodationSpaces[${index}].count`, spaceCounts[index]);
-    })
-
-    // 편의 시설 ID 추가
-    const currentAmenities =
-        Array.from(document.querySelectorAll('input[type="checkbox"]:checked')).map(checkbox => Number(checkbox.value));
-    currentAmenities.forEach(amenityId => {
-        updatedData.append('amenityIds', amenityId);
-    })
-
-
-    // PATCH 요청
-    fetch(`/api/host/room/edit/${accommodationId}`, {
-        method: 'PATCH',
-        body: updatedData
-    })
-        .then(response => {
-            alert('숙소 정보가 수정되었습니다.'); // 성공 메시지 표시
-            // 필요 시 리디렉션 처리
-            window.location.href = `/host/room/manage`; // 방 관리 페이지로 이동
-        })
-        .catch(error => {
-            console.error('수정 중 오류 발생:', error);
-        });
+// 폼 필드 채우기 함수
+function populateFormFields(data) {
+    document.getElementById('title').value = data.title;
+    document.getElementById('roadAddress').value = data.roadAddress;
+    document.getElementById('lotAddress').value = data.lotAddress;
+    document.getElementById('detailAddress').value = data.detailAddress;
+    document.getElementById('floor').value = data.floor;
+    document.getElementById('totalFloor').value = data.totalFloor;
+    document.getElementById('totalArea').value = data.totalArea;
+    document.getElementById('room_cnt').value = data.spaceCounts[0];
+    document.getElementById('bathroom_cnt').value = data.spaceCounts[1];
+    document.getElementById('livingRoom_cnt').value = data.spaceCounts[2];
+    document.getElementById('kitchen_cnt').value = data.spaceCounts[3];
+    document.getElementById('price').value = data.price;
+    document.getElementById('content').value = data.content;
+    document.getElementById('transportationInfo').value = data.transportationInfo;
 }
 
+// 편의 시설 체크 함수
+function checkAmenities(amenityIds) {
+    amenityIds.forEach(amenityId => {
+        const checkbox = document.getElementById(`opt_basic_${amenityId}`);
+        if (checkbox) {
+            checkbox.checked = true; // 체크 상태로 설정
+        }
+    });
+}
+
+// 클로저를 이용한 handleSubmit 생성 함수
+function createHandleSubmit(originalData, accommodationId) {
+    return function (event) {
+        event.preventDefault();
+        const updatedData = new FormData();
+        const fields = ['title', 'roadAddress', 'lotAddress', 'detailAddress',
+            'floor', 'totalFloor', 'totalArea', 'price', 'content', 'transportationInfo'];
+
+        fields.forEach(field => {
+            const value = document.getElementById(field).value;
+            if (value) {
+                updatedData.append(field, value);
+                console.log(`변경된 필드: ${field} => ${value}`); // 변경된 필드 로깅
+            }
+        });
+
+        // 기존 이미지 URLs 추가
+        const existingImageUrls = originalData.imageUrls || [];
+        existingImageUrls.forEach((url, index) => {
+            updatedData.append(`imageUrls[${index}]`, url);
+        });
+
+        // 공간 수 매핑 및 추가
+        const spaceIds = [1, 2, 3, 4];
+        const spaceCounts = [
+            parseInt(document.getElementById('room_cnt').value),
+            parseInt(document.getElementById('bathroom_cnt').value),
+            parseInt(document.getElementById('livingRoom_cnt').value),
+            parseInt(document.getElementById('kitchen_cnt').value)
+        ];
+
+        spaceIds.forEach((spaceId, index) => {
+            updatedData.append(`accommodationSpaces[${index}].spaceId`, spaceId);
+            updatedData.append(`accommodationSpaces[${index}].count`, spaceCounts[index]);
+        });
+
+        // 편의 시설 ID 추가
+        const currentAmenities =
+            Array.from(document.querySelectorAll('input[type="checkbox"]:checked')).map(checkbox => Number(checkbox.value));
+        currentAmenities.forEach(amenityId => {
+            updatedData.append('amenityIds', amenityId);
+        });
+
+        // PATCH 요청
+        fetch(`/api/host/room/edit/${accommodationId}`, {
+            method: 'PATCH',
+            body: updatedData
+        })
+            .then(response => {
+                alert('숙소 정보가 수정되었습니다.'); // 성공 메시지 표시
+                // 필요 시 리디렉션 처리
+                window.location.href = `/host/room/manage`; // 방 관리 페이지로 이동
+            })
+            .catch(error => {
+                console.error('수정 중 오류 발생:', error);
+            });
+    };
+}
 

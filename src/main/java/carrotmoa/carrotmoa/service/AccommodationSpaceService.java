@@ -19,11 +19,9 @@ import java.util.stream.Collectors;
 @Slf4j
 public class AccommodationSpaceService {
     private final AccommodationSpaceRepository accommodationSpaceRepository;
-    private final AccommodationService accommodationService;
 
-    public AccommodationSpaceService(AccommodationSpaceRepository accommodationSpaceRepository, AccommodationService accommodationService) {
+    public AccommodationSpaceService(AccommodationSpaceRepository accommodationSpaceRepository) {
         this.accommodationSpaceRepository = accommodationSpaceRepository;
-        this.accommodationService = accommodationService;
     }
 
     @Transactional
@@ -60,21 +58,16 @@ public class AccommodationSpaceService {
                 if (currentCount != null) {
                     // 기존 개수를 변경
                     log.info("공간 ID {}의 개수 변경: {} -> {}", spaceId, currentCount, count);
-                    // Map에 새로운 count 값을 업데이트
-                    currentSpaceMap.put(spaceId, count);
+                    // 엔티티의 update 메서드 호출
+                    currentAccommodationSpaces.stream()
+                            .filter(space -> space.getSpaceId().equals(spaceId))
+                            .findFirst()
+                            .ifPresent(space -> space.updateAccommodationSpace(count));
                 } else {
                     log.warn("공간 ID {}는 기존 공간 리스트에 존재하지 않습니다.", spaceId);
                 }
             }
         }
-
-        // 변경 사항을 원래의 AccommodationSpace 객체에 반영
-        currentAccommodationSpaces.forEach(accommodationSpace -> {
-            Integer newCount = currentSpaceMap.get(accommodationSpace.getSpaceId());
-            if (newCount != null) {
-                accommodationSpace.setCount(newCount);
-            }
-        });
 
         // 변경 사항 저장
         accommodationSpaceRepository.saveAll(currentAccommodationSpaces);

@@ -30,5 +30,8 @@ public class AccommodationSpace extends BaseEntity {
     private Integer count; // 공간 개수
 
     // 숙소와 공간 간의 관계
+    public void updateAccommodationSpace(Integer newCount) {
+        this.count = newCount;
+    }
 
 }

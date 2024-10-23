@@ -7,6 +7,7 @@ import carrotmoa.carrotmoa.repository.AccommodationAmenityRepository;
 import carrotmoa.carrotmoa.repository.AccommodationRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Set;
@@ -21,6 +22,7 @@ public class AccommodationAmenityService {
         this.accommodationAmenityRepository = accommodationAmenityRepository;
     }
 
+    @Transactional
     public void saveAmenities(Long accommodationId, List<Long> amenityIds) {
         if (amenityIds != null) {
             amenityIds.forEach(amenityId -> {
@@ -32,6 +34,7 @@ public class AccommodationAmenityService {
         }
     }
 
+    @Transactional
     public void updateAccommodationAmenities(Long accommodationId, UpdateAccommodationRequest updateAccommodationRequest) {
         // 새로운 amenityId 목록을 가져옴
         List<Long> newAmenityIds = updateAccommodationRequest.getAmenityIds();
@@ -55,10 +58,11 @@ public class AccommodationAmenityService {
                 .toList();
 
         // 새로운 편의 시설 추가
-        for (Long amenityId: amenitiesToAdd) {
-            AccommodationAmenity accommodationAmenity = new AccommodationAmenity();
-            accommodationAmenity.setAccommodationId(accommodationId);
-            accommodationAmenity.setAmenityId(amenityId);
+        for (Long amenityId : amenitiesToAdd) {
+            AccommodationAmenity accommodationAmenity = AccommodationAmenity.builder()
+                    .accommodationId(accommodationId)
+                    .amenityId(amenityId)
+                    .build();
             accommodationAmenityRepository.save(accommodationAmenity);
         }
 

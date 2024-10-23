@@ -34,4 +34,14 @@ public class Post extends BaseEntity {
 
     @Column(name = "is_deleted")
     private boolean isDeleted;
+
+    // 업데이트 메서드
+    public void updatePost(String title, String content) {
+        if (title != null) {
+            this.title = title;
+        }
+        if (content != null) {
+            this.content = content;
+        }
+    }
 }
