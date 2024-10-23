@@ -1,12 +1,56 @@
+// Kakao Maps API가 로드되면 실행되는 함수
+let geoCoder;
+
+// Kakao Maps API가 로드되면 geoCoder 초기화
+function initMap() {
+    geoCoder = new kakao.maps.services.Geocoder();
+}
+
+// 주소로 위도, 경도를 가져오는 함수
+function getAddressCoords(address) {
+    return new Promise((resolve, reject) => {
+        if (geoCoder) {
+            geoCoder.addressSearch(address, (result, status) => {
+                if (status === kakao.maps.services.Status.OK && result.length > 0) {
+                    const coords = new kakao.maps.LatLng(result[0].y, result[0].x); // 위도, 경도
+                    resolve(coords);
+                } else {
+                    reject('주소 검색 실패: ' + status);
+                }
+            });
+        } else {
+            reject('geoCoder가 정의되지 않았습니다.');
+        }
+    });
+}
+
+// 주소 검색 함수
 function sample4_execDaumPostcode() {
     new daum.Postcode({
         oncomplete: function (data) {
-            // 우편번호와 주소 정보를 해당 필드에 넣는다.
-            document.getElementById('roadAddress').value = data.roadAddress;
-            document.getElementById('lotAddress').value = data.jibunAddress;
+            document.getElementById('roadAddress').value = data.roadAddress; // 도로명 주소
+            document.getElementById('lotAddress').value = data.jibunAddress; // 지번 주소
+
+            const mainAddress = data.roadAddress || data.jibunAddress;
+            getAddressCoords(mainAddress)
+                .then(coords => {
+                    document.getElementById('latitude').value = coords.getLat(); // 위도
+                    document.getElementById('longitude').value = coords.getLng(); // 경도
+                })
+                .catch(error => {
+                    console.error('좌표를 가져오는 중 오류 발생:', error);
+                    alert('좌표를 가져오는 데 문제가 발생했습니다. 다시 시도해주세요.');
+                });
         }
     }).open();
 }
+
+// DOMContentLoaded 이벤트로 initMap 호출 및 버튼 클릭 이벤트 추가
+document.addEventListener('DOMContentLoaded', () => {
+    initMap();
+    document.getElementById('btn_search_addr').addEventListener('click', sample4_execDaumPostcode);
+});
+
 
 
 // 이미지 미리보기에 등록
