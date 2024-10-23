@@ -12,4 +12,9 @@ public class FleaMarketViewController {
     public String getFleaMarket() {
         return "flea-market";
     }
+
+    @GetMapping("/posts")
+    public String getPost() {
+        return "flea-market-post";
+    }
 }

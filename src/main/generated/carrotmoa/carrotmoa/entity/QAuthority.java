@@ -19,18 +19,13 @@ public class QAuthority extends EntityPathBase<Authority> {
 
     public static final QAuthority authority = new QAuthority("authority");
 
-    public final QBaseEntity _super = new QBaseEntity(this);
+    public final DateTimePath<java.time.Instant> createdAt = createDateTime("createdAt", java.time.Instant.class);
 
-    //inherited
-    public final DateTimePath<java.time.LocalDateTime> createdAt = _super.createdAt;
-
-    //inherited
-    public final NumberPath<Long> id = _super.id;
+    public final NumberPath<Long> id = createNumber("id", Long.class);
 
     public final StringPath name = createString("name");
 
-    //inherited
-    public final DateTimePath<java.time.LocalDateTime> updatedAt = _super.updatedAt;
+    public final DateTimePath<java.time.Instant> updatedAt = createDateTime("updatedAt", java.time.Instant.class);
 
     public QAuthority(String variable) {
         super(Authority.class, forVariable(variable));

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="ko"
+layout:decorate="~{layout/layout}"
+xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<main layout:fragment="main" class="user-join-form-container">
+
+    <!--/*@thymesVar id="UserJoinDto" type="carrotmoa.carrotmoa.model.request.UserJoinDto"*/-->
+    <form th:action="@{/api/user/join}" th:method="post" th:object="${userJoinDto}" class="user-form" id="join-form">
+        <label for="email">이메일</label>
+        <input type="text" th:field="*{email}" id="email">
+        <input type="button" value="중복 체크" id="duplication-check" disabled required><span id="check"></span> <br>
+        <div id="authentication">
+        </div>
+        <div id="timer">
+            <span id="minutes"></span>:<span id="seconds"></span>
+        </div>
+        <label for="password">비밀번호</label>
+        <input type="password" name="password" th:field="*{password}" id="password" maxlength="36"> <span id="password-check"></span> <br>
+        <label for="password-reconfirm">비밀번호 확인</label>
+        <input type="password" name="password-reconfirm" id="password-reconfirm" maxlength="36" required><span id="password-reconfirm-check"></span> <br>
+        <span style="color: #868B94">비밀번호는 소문자 , 대문자 , 특수문자 , 숫자를 하나 이상씩 사용해<br>
+                                     최소 8자 이상 36자 이하로 만들어야해요
+        </span><br>
+        <label for="nickname">별명</label>
+            <input type="text" name="nickname" id="nickname" required><span id="nickname-duplication"></span><br>
+
+        <label for="authority-type">host?
+            <input type="checkbox" th:field="*{authorityId}" id="authority-type" name="authority-type" value="6">
+        </label>
+        <div id="host">
+            <label for="bank-name">은행</label>
+            <input type="text" id="bank-name" name="bank-name" th:field="*{bankName}">
+            <label for="account">계좌번호</label>
+            <input type="number" id="account" name="account" th:field="*{account}"><br>
+            <span id="account-check"></span>
+            <label for="account-holder">예금주</label>
+            <input type="text" id="account-holder" name="account-holder" minlength="2" th:field="*{accountHolder}">
+        </div>
+        <input type="submit" value="가입" id="join" disabled>
+    </form>
+</main>
+
+
+</html>

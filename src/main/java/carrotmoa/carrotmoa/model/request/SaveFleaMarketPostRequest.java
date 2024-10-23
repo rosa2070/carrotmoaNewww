@@ -23,21 +23,21 @@ public class SaveFleaMarketPostRequest {
 
     public Post toPostEntity() {
         return Post.builder()
-            .serviceId(serviceId)
-            .userId(userId)
-            .title(title)
-            .content(content)
-            .isDeleted(false)
-            .build();
+                .serviceId(serviceId)
+                .userId(userId)
+                .title(title)
+                .content(content)
+                .isDeleted(false)
+                .build();
     }
 
     public Product toProductEntity(Long id) {
         return Product.builder()
-            .postId(id)
-            .price(price)
-            .isPriceOffer(isPriceOffer)
-            .isFree(isFree)
-            .status(ProductStatus.ON_SALE)
-            .build();
+                .postId(id)
+                .price(price)
+                .isPriceOffer(isPriceOffer)
+                .isFree(isFree)
+                .status(ProductStatus.ON_SALE)
+                .build();
     }
 }
