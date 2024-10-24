@@ -6,19 +6,25 @@ import carrotmoa.carrotmoa.model.response.CommunityPostDetailResponse;
 import carrotmoa.carrotmoa.model.response.CommunityPostListResponse;
 import carrotmoa.carrotmoa.service.CommunityCategoryService;
 import carrotmoa.carrotmoa.service.CommunityPostService;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/community")
 @RequiredArgsConstructor
 @Slf4j
 public class CommunityController {
+
     final private CommunityPostService communityPostService;
     final private CommunityCategoryService categoriesService;
 
@@ -34,7 +40,6 @@ public class CommunityController {
         Long postId = communityPostService.createCommunityPost(saveCommunityPostRequest);
         return new ResponseEntity<>(postId, HttpStatus.CREATED);
     }
-
 
     @GetMapping("/sub-categories")
     public ResponseEntity<List<CommunityCategoryResponse>> getSubCategories() {
@@ -55,9 +60,8 @@ public class CommunityController {
     }
 
     @DeleteMapping("/posts/{communityPostId}")
-    public ResponseEntity<Integer> deleteByCommunityPostId(@PathVariable("communityPostId")Long communityPostId) {
+    public ResponseEntity<Integer> deleteByCommunityPostId(@PathVariable("communityPostId") Long communityPostId) {
         int deletedCount = communityPostService.deleteByCommunityPostId(communityPostId);
         return new ResponseEntity<>(deletedCount, HttpStatus.OK);
     }
-
 }

@@ -9,6 +9,7 @@ import org.springframework.mail.javamail.JavaMailSenderImpl;
 
 @Configuration
 public class EmailConfig {
+
     @Value("${spring.mail.host}")
     private String host;
 
@@ -38,7 +39,6 @@ public class EmailConfig {
 
     @Value("${spring.mail.properties.mail.smtp.write-timeout}")
     private int writeTimeout;
-
 
     @Bean
     public JavaMailSender javaMailSender() {

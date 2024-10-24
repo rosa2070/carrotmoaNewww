@@ -13,9 +13,9 @@ public class AccommodationSpaceRequest {
 
     public AccommodationSpace toAccommodationSpaceEntity() {
         return AccommodationSpace.builder()
-                .accommodationId(accommodationId)
-                .spaceId(spaceId)
-                .count(count)
-                .build();
+            .accommodationId(accommodationId)
+            .spaceId(spaceId)
+            .count(count)
+            .build();
     }
 }

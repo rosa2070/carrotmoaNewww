@@ -1,28 +1,17 @@
 package carrotmoa.carrotmoa.model.response;
 
-import lombok.*;
-
-import java.math.BigDecimal;
-import java.util.List;
-
-import lombok.Getter;
-import lombok.Setter;
-
-import java.math.BigDecimal;
-import java.util.List;
-
 import com.querydsl.core.annotations.QueryProjection;
+import java.math.BigDecimal;
+import java.util.List;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-import java.math.BigDecimal;
-import java.util.List;
 
 @Getter
 @Setter
 @NoArgsConstructor
 public class AccommodationDetailResponse {
+
     private Long id;
     private String title;
     private int totalArea;
@@ -34,12 +23,13 @@ public class AccommodationDetailResponse {
     private BigDecimal price;
     private String content;
     private String transportationInfo;
-    private List<String> imageUrls; // 이미지 URL 리스트
+    private List<String> imageUrls;
     private List<Long> amenityIds;
     private List<Integer> spaceCounts;
 
     @QueryProjection
-    public AccommodationDetailResponse(Long id, String title, int totalArea, String roadAddress, String lotAddress, String detailAddress, Integer floor, Integer totalFloor, BigDecimal price, String content, String transportationInfo) {
+    public AccommodationDetailResponse(Long id, String title, int totalArea, String roadAddress, String lotAddress, String detailAddress,
+        Integer floor, Integer totalFloor, BigDecimal price, String content, String transportationInfo) {
         this.id = id;
         this.title = title;
         this.totalArea = totalArea;

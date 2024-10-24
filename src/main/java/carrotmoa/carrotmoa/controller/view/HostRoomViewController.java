@@ -1,22 +1,16 @@
 package carrotmoa.carrotmoa.controller.view;
 
-import carrotmoa.carrotmoa.service.AccommodationHostService;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
-
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 //@RestController// 쓰면 오류
 @RequestMapping("/host/room")
 @Slf4j
 public class HostRoomViewController {
-
-    private final AccommodationHostService accommodationHostService;
-
-    public HostRoomViewController(AccommodationHostService accommodationHostService) {
-        this.accommodationHostService = accommodationHostService;
-    }
 
     // 방 등록
     @GetMapping("/register")

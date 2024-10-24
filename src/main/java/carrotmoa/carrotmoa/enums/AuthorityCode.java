@@ -32,6 +32,5 @@ public enum AuthorityCode {
         AuthorityCode code = map.get(id);
         return code != null ? code.name() : null;
     }
-
 }
 

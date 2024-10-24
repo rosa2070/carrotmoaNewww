@@ -4,16 +4,12 @@ import carrotmoa.carrotmoa.entity.AccommodationSpace;
 import carrotmoa.carrotmoa.model.request.AccommodationSpaceRequest;
 import carrotmoa.carrotmoa.model.request.UpdateAccommodationRequest;
 import carrotmoa.carrotmoa.repository.AccommodationSpaceRepository;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.function.Function;
-import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -42,7 +38,7 @@ public class AccommodationSpaceService {
 
         // 기존 공간들을 Map으로 변환 (spaceId와 count만 저장)
         Map<Long, Integer> currentSpaceMap = currentAccommodationSpaces.stream()
-                .collect(Collectors.toMap(AccommodationSpace::getSpaceId, AccommodationSpace::getCount));
+            .collect(Collectors.toMap(AccommodationSpace::getSpaceId, AccommodationSpace::getCount));
 
         // 요청으로부터 새로운 값 가져오기
         List<AccommodationSpaceRequest> newAccommodationSpaces = updateAccommodationRequest.getAccommodationSpaces();
@@ -60,9 +56,9 @@ public class AccommodationSpaceService {
                     log.info("공간 ID {}의 개수 변경: {} -> {}", spaceId, currentCount, count);
                     // 엔티티의 update 메서드 호출
                     currentAccommodationSpaces.stream()
-                            .filter(space -> space.getSpaceId().equals(spaceId))
-                            .findFirst()
-                            .ifPresent(space -> space.updateAccommodationSpace(count));
+                        .filter(space -> space.getSpaceId().equals(spaceId))
+                        .findFirst()
+                        .ifPresent(space -> space.updateAccommodationSpace(count));
                 } else {
                     log.warn("공간 ID {}는 기존 공간 리스트에 존재하지 않습니다.", spaceId);
                 }

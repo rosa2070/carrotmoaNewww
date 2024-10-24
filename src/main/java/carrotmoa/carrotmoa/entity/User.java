@@ -2,53 +2,36 @@ package carrotmoa.carrotmoa.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
-import java.time.Instant;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.ColumnDefault;
+import lombok.Setter;
+import lombok.ToString;
 
+@Entity
+@Table(name = "user")
+@Getter
+@Setter
+@ToString
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Data
-@Entity
-@Builder
-@Table(name = "user", schema = "carrot_moa")
-public class User {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false)
-    private Long id;
+public class User extends BaseEntity {
 
-    @Size(max = 30)
-    @NotNull
-
-    @Column(name = "email", nullable = false, length = 50)
+    @Column(name = "email")
     private String email;
 
-    @Column(name = "password", nullable = false)
+    @Column(name = "password")
     private String password;
 
-    @Column(name = "name", nullable = true, length = 20)
+    @Column(name = "name")
     private String name;
-    @Column(name = "is_withdrawal", nullable = false)
+
+    @Column(name = "is_withdrawal")
     private Boolean isWithdrawal;
 
-    @Column(name = "authority_id", nullable = false)
+    @Column(name = "authority_id")
     private Long authorityId;
-
-    @ColumnDefault("(curtime())")
-    @Column(name = "created_at", nullable = false)
-    private Instant createdAt;
-
-    @ColumnDefault("(curtime())")
-    @Column(name = "updated_at", nullable = false)
-    private Instant updatedAt;
 }

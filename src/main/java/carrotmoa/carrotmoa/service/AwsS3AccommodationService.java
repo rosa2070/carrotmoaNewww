@@ -1,7 +1,8 @@
 package carrotmoa.carrotmoa.service;
 
 import carrotmoa.carrotmoa.util.AwsS3Utils;
-import lombok.RequiredArgsConstructor;
+import java.io.IOException;
+import java.util.UUID;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -9,9 +10,6 @@ import org.springframework.web.multipart.MultipartFile;
 import software.amazon.awssdk.core.exception.SdkException;
 import software.amazon.awssdk.services.s3.S3Client;
 import software.amazon.awssdk.services.s3.model.DeleteObjectRequest;
-
-import java.io.IOException;
-import java.util.UUID;
 
 @Service
 @Slf4j
@@ -55,9 +53,9 @@ public class AwsS3AccommodationService {
 
         // S3에서 객체 삭제 요청 생성
         DeleteObjectRequest deleteObjectRequest = DeleteObjectRequest.builder()
-                .bucket(bucketName) // 버킷 이름
-                .key(filePath) // 파일 경로
-                .build();
+            .bucket(bucketName) // 버킷 이름
+            .key(filePath) // 파일 경로
+            .build();
 
         try {
             s3Client.deleteObject(deleteObjectRequest); // S3에서 객체 삭제

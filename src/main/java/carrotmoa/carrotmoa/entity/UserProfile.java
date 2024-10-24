@@ -13,28 +13,28 @@ import java.time.LocalDate;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 import org.hibernate.annotations.ColumnDefault;
 
-@Builder
 @Entity
+@Table(name = "user_profile")
+@Getter
+@Setter
+@ToString
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Data
-@Table(name = "user_profile", schema = "carrot_moa")
-public class UserProfile {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false)
-    private Long id;
+public class UserProfile extends BaseEntity {
 
-    @NotNull
-    @Column(name = "user_id", nullable = false)
+    @Column(name = "user_id")
     private Long userId;
 
     @Size(max = 10)
     @NotNull
-    @Column(name = "nickname", nullable = false, length = 10)
+    @Column(name = "nickname")
     private String nickname;
 
     @Size(max = 255)
@@ -45,16 +45,6 @@ public class UserProfile {
     @Column(name = "bio", length = 100)
     private String bio;
 
-    @NotNull
-    @ColumnDefault("(curtime())")
-    @Column(name = "created_at", nullable = false)
-    private Instant createdAt;
-
-    @NotNull
-    @ColumnDefault("(curtime())")
-    @Column(name = "updated_at", nullable = false)
-    private Instant updatedAt;
-
     @Column(name = "address_id")
     private Long addressId;
 
@@ -64,5 +54,4 @@ public class UserProfile {
 
     @Column(name = "birthday")
     private LocalDate birthday;
-
 }

@@ -1,20 +1,20 @@
 package carrotmoa.carrotmoa.model.response;
 
-import carrotmoa.carrotmoa.entity.Accommodation;
 import com.querydsl.core.annotations.QueryProjection;
-import lombok.*;
-
 import java.math.BigDecimal;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Getter
 @Setter
 @NoArgsConstructor
 public class HostManagedAccommodationResponse {
-    private Long id; // 숙소 ID (있어야..?)
+    private Long id;
     private String title;
-    private String lotAddress; // 지번 주소
-    private String detailAddress; // 상세 주소
-    private BigDecimal price; // 가격
+    private String lotAddress;
+    private String detailAddress;
+    private BigDecimal price;
     private String imageUrl;
 
     @QueryProjection
@@ -25,6 +25,4 @@ public class HostManagedAccommodationResponse {
         this.price = price;
 
     }
-
-
 }

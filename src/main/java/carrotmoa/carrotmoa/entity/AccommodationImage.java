@@ -21,10 +21,10 @@ import lombok.ToString;
 public class AccommodationImage extends BaseEntity {
 
     @Column(name = "accommodation_id")
-    private Long accommodationId; // 숙소 ID
+    private Long accommodationId;
 
     @Column(name = "image_url")
-    private String imageUrl; // 이미지 URL
+    private String imageUrl;
 
     @Column(name = "image_order")
     private Integer imageOrder;
@@ -38,5 +38,4 @@ public class AccommodationImage extends BaseEntity {
 //
 //    @Column(name = "size")
 //    private Long size; // 파일의 크기
-
 }

@@ -1,12 +1,11 @@
 package carrotmoa.carrotmoa.model.response;
 
 import carrotmoa.carrotmoa.entity.CommunityComment;
+import java.time.LocalDateTime;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
-
-import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -37,13 +36,11 @@ public class SaveCommunityCommentResponse {
 
     public CommunityComment toCommunityCommentEntity() {
         return CommunityComment.builder()
-                .communityPostId(communityPostId)
-                .parentId(parentId)
-                .userId(userId)
-                .content(content)
-                .isDeleted(false)
-                .build();
+            .communityPostId(communityPostId)
+            .parentId(parentId)
+            .userId(userId)
+            .content(content)
+            .isDeleted(false)
+            .build();
     }
-
-
 }

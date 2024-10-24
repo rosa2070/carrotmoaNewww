@@ -2,7 +2,6 @@ package carrotmoa.carrotmoa.model.request;
 
 import carrotmoa.carrotmoa.entity.CommunityPost;
 import carrotmoa.carrotmoa.entity.Post;
-import carrotmoa.carrotmoa.entity.PostImage;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -17,7 +16,6 @@ public class UpdateCommunityPostRequest {
     private String content;
     private Long communityCategoryId;
 
-
     public UpdateCommunityPostRequest(Post post, CommunityPost communityPost) {
         this.title = post.getTitle();
         this.content = post.getContent();
@@ -26,15 +24,14 @@ public class UpdateCommunityPostRequest {
 
     public Post toPostEntity() {
         return Post.builder()
-                .title(title)
-                .content(content)
-                .build();
+            .title(title)
+            .content(content)
+            .build();
     }
 
     public CommunityPost toCommunityPostEntity() {
         return CommunityPost.builder()
-                .communityCategoryId(communityCategoryId)
-                .build();
+            .communityCategoryId(communityCategoryId)
+            .build();
     }
-
 }

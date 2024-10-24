@@ -35,7 +35,6 @@
     </div>
 
     <div class="gnb-tool">
-
       <div th:if="${user == null}">
             <span>
           <a th:href="@{/user/login-page}">
@@ -45,7 +44,6 @@
       </div>
 
       <div style="display:flex; align-items:center; margin-left:8px;" th:unless="${user == null}">
-
         <span>
           <a th:href="@{/user/logout}">
             <span>로그아웃</span>

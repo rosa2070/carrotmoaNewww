@@ -21,7 +21,7 @@ public class CommunityViewController {
 
     @GetMapping("/write/{communityPostId}")
     public String getCommunityWriteWithId(@PathVariable("communityPostId") Long communityPostId) {
-        return "community-write"; // 수정 페이지도 같은 뷰를 사용
+        return "community-write";
     }
 
     @GetMapping("/posts/{postId}")

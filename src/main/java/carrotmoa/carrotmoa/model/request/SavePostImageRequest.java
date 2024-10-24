@@ -1,7 +1,11 @@
 package carrotmoa.carrotmoa.model.request;
 
 import carrotmoa.carrotmoa.entity.PostImage;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
 @Getter
 @Setter
@@ -14,9 +18,8 @@ public class SavePostImageRequest {
 
     public PostImage toPostImageEntity() {
         return PostImage.builder()
-                .postId(postId)
-                .imageUrl(imageUrl)
-                .build();
+            .postId(postId)
+            .imageUrl(imageUrl)
+            .build();
     }
-
 }

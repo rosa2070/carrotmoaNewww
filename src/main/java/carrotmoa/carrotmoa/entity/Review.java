@@ -5,7 +5,12 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
 @Entity
 @Table(name = "review")
@@ -17,8 +22,8 @@ import lombok.*;
 @AllArgsConstructor
 public class Review extends BaseEntity {
 
-    @Column(name = "accommodation_id")
-    private Long accommodationId;
+    @Column(name = "post_id")
+    private Long postId;
 
     @Column(name = "user_id")
     private Long userId;

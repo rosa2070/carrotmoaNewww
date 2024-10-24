@@ -9,14 +9,13 @@ import carrotmoa.carrotmoa.repository.AccommodationAmenityRepository;
 import carrotmoa.carrotmoa.repository.AccommodationDetailCustomRepository;
 import carrotmoa.carrotmoa.repository.SpaceRepository;
 import carrotmoa.carrotmoa.repository.UserRepository;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j
 @Service
@@ -26,7 +25,8 @@ public class GuestRoomDetailService {
     private final AccommodationDetailCustomRepository accommodationDetailCustomRepository;
     private final SpaceRepository spaceRepository;
 
-    public GuestRoomDetailService(UserRepository userRepository, AccommodationAmenityRepository accommodationAmenityRepository, AccommodationDetailCustomRepository accommodationDetailCustomRepository, SpaceRepository spaceRepository) {
+    public GuestRoomDetailService(UserRepository userRepository, AccommodationAmenityRepository accommodationAmenityRepository,
+        AccommodationDetailCustomRepository accommodationDetailCustomRepository, SpaceRepository spaceRepository) {
         this.userRepository = userRepository;
         this.accommodationAmenityRepository = accommodationAmenityRepository;
         this.accommodationDetailCustomRepository = accommodationDetailCustomRepository;
@@ -34,19 +34,19 @@ public class GuestRoomDetailService {
     }
 
     @Transactional
-    public List<UserProfileResponse> getHostProfile(Long id){
+    public List<UserProfileResponse> getHostProfile(Long id) {
         List<Object[]> profile = userRepository.getUserProfile(id);
         return profile.stream()
-                .map(UserProfileResponse::fromData)
-                .collect(Collectors.toList());
+            .map(UserProfileResponse::fromData)
+            .collect(Collectors.toList());
     }
 
     @Transactional
     public List<AmenityImageResponse> getAmenityImage(Long id) {
         List<Object[]> result = accommodationAmenityRepository.findAccommodationAmenitiesByAccommodationId(id);
         return result.stream()
-                .map(AmenityImageResponse::fromData)
-                .collect(Collectors.toList());
+            .map(AmenityImageResponse::fromData)
+            .collect(Collectors.toList());
     }
 
     @Transactional
@@ -57,9 +57,9 @@ public class GuestRoomDetailService {
     @Transactional
     public List<SpaceImageResponse> getSpaceImage() {
         List<SpaceImageResponse> icons = new ArrayList<>();
-        for(int i = 1; i <= 4; i++) {
-            Optional<Space> space = spaceRepository.findById((long)i);
-            if(space.isPresent()) {
+        for (int i = 1; i <= 4; i++) {
+            Optional<Space> space = spaceRepository.findById((long) i);
+            if (space.isPresent()) {
                 icons.add(new SpaceImageResponse(space.get().getIcon()));
             }
         }

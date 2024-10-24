@@ -1,18 +1,17 @@
 package carrotmoa.carrotmoa.service;
 
 import carrotmoa.carrotmoa.entity.CommunityComment;
-import carrotmoa.carrotmoa.model.response.SaveCommunityCommentResponse;
 import carrotmoa.carrotmoa.model.response.CommunityCommentResponse;
+import carrotmoa.carrotmoa.model.response.SaveCommunityCommentResponse;
 import carrotmoa.carrotmoa.repository.CommunityCommentRepository;
 import carrotmoa.carrotmoa.repository.CommunityPostRepository;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 @Service
 @RequiredArgsConstructor

@@ -19,58 +19,60 @@
 /*    gap: 8px;*/
 /*}*/
 .room_images {
-    display: flex;
-    overflow: hidden;
-    position: relative;
-    width: 100%;
-    max-width: 600px;
+  display: flex;
+  overflow: hidden;
+  position: relative;
+  width: 100%;
+  max-width: 600px;
 }
 
 .room_images img {
-    width: 100%;
-    transition: transform 0.5s ease-in-out;
+  width: 100%;
+  transition: transform 0.5s ease-in-out;
 }
 
 .image-controls {
-    position: absolute;
-    top: 50%;
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    transform: translateY(-50%);
+  position: absolute;
+  top: 50%;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  transform: translateY(-50%);
 }
 
 .image-controls button {
-    background-color: rgba(0, 0, 0, 0.5);
-    border: none;
-    color: white;
-    padding: 10px;
-    cursor: pointer;
+  background-color: rgba(0, 0, 0, 0.5);
+  border: none;
+  color: white;
+  padding: 10px;
+  cursor: pointer;
 }
 
 .contract-card {
-    position: sticky;
-    top: 20px;
-    padding: 20px;
-    background-color: white;
-    border: 1px solid #ddd;
+  position: sticky;
+  top: 20px;
+  padding: 20px;
+  background-color: white;
+  border: 1px solid #ddd;
 }
 
 .contract-card button {
-    background-color: black;
-    color: white;
-    padding: 10px;
-    border: none;
-    cursor: pointer;
+  background-color: black;
+  color: white;
+  padding: 10px;
+  border: none;
+  cursor: pointer;
 }
 
 .room_amenity {
-    margin: 20px;
+  margin: 20px;
 }
+
 .amenity_info {
-    display: flex;
-    flex-wrap: wrap;
+  display: flex;
+  flex-wrap: wrap;
 }
+
 .flex {
-    display: flex;
+  display: flex;
 }

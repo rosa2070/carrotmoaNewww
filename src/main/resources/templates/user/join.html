@@ -3,14 +3,13 @@
       layout:decorate="~{layout/layout}"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <head>
-    <link rel="stylesheet" th:href="@{/css/my-page.css}"/>
-    <link rel="stylesheet" th:href="@{/css/user.css}"/>
+  <link rel="stylesheet" th:href="@{/css/my-page.css}"/>
+  <link rel="stylesheet" th:href="@{/css/user.css}"/>
   <meta charset="UTF-8">
   <title>Title</title>
 </head>
 <main class="user-join-form-container" layout:fragment="main">
 
-  <!--/*@thymesVar id="UserJoinDto" type="carrotmoa.carrotmoa.model.request.UserJoinDto"*/-->
   <form class="user-form" id="join-form" th:action="@{/api/user/join}" th:method="post" th:object="${userJoinDto}">
     <label for="email">이메일</label>
     <input id="email" th:field="*{email}" type="text">
@@ -37,7 +36,7 @@
       <label for="bank-name">은행</label>
       <input id="bank-name" name="bank-name" th:field="*{bankName}" type="text">
       <label for="account">계좌번호</label>
-      <input id="account" name="account" th:field="*{account}" type="number"><br>
+      <input id="account" name="account" th:field="*{accountNumber}" type="number"><br>
       <span id="account-check"></span>
       <label for="account-holder">예금주</label>
       <input id="account-holder" minlength="2" name="account-holder" th:field="*{accountHolder}" type="text">
@@ -45,6 +44,4 @@
     <input disabled id="join" type="submit" value="가입">
   </form>
 </main>
-
-
 </html>

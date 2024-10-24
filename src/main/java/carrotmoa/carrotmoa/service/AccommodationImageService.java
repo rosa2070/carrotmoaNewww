@@ -2,17 +2,12 @@ package carrotmoa.carrotmoa.service;
 
 import carrotmoa.carrotmoa.entity.AccommodationImage;
 import carrotmoa.carrotmoa.repository.AccommodationImageRepository;
-import carrotmoa.carrotmoa.repository.AccommodationRepository;
-import carrotmoa.carrotmoa.util.AwsS3Utils;
+import java.io.IOException;
+import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.io.IOException;
-import java.util.List;
-import java.util.Objects;
-import java.util.UUID;
 
 @Service
 @Slf4j
@@ -65,10 +60,10 @@ public class AccommodationImageService {
     // url만 데베에 저장
     private void saveImageMetadata(Long accommodationId, String imageUrl, int order) {
         AccommodationImage accommodationImage = AccommodationImage.builder()
-                .accommodationId(accommodationId)
-                .imageUrl(imageUrl)
-                .imageOrder(order)
-                .build();
+            .accommodationId(accommodationId)
+            .imageUrl(imageUrl)
+            .imageOrder(order)
+            .build();
         accommodationImageRepository.save(accommodationImage);
     }
 

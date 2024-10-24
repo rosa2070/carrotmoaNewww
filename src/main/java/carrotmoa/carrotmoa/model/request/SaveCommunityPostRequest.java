@@ -2,22 +2,24 @@ package carrotmoa.carrotmoa.model.request;
 
 import carrotmoa.carrotmoa.entity.CommunityPost;
 import carrotmoa.carrotmoa.entity.Post;
-import lombok.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @ToString
 public class SaveCommunityPostRequest {
-    // post 테이블
+
     private Long id;
     private Long serviceId;
     private Long userId;
     private String title;
     private String content;
     private boolean isDeleted;
-    // community_post 테이블
-    private Long communityPostId; // 기본키 id인데 중복...
+    private Long communityPostId;
     private Long postId;
     private Long communityCategoryId;
 
@@ -26,18 +28,8 @@ public class SaveCommunityPostRequest {
         this.serviceId = post.getServiceId();
         this.userId = post.getUserId();
         this.title = post.getTitle();
-        this.content =  post.getContent();
+        this.content = post.getContent();
         this.isDeleted = post.isDeleted();
-    }
-
-    public Post toPostEntity() {
-        return Post.builder()
-                .serviceId(serviceId)
-                .userId(userId)
-                .title(title)
-                .content(content)
-                .isDeleted(false)
-                .build();
     }
 
     public SaveCommunityPostRequest(CommunityPost communityPost) {
@@ -46,13 +38,22 @@ public class SaveCommunityPostRequest {
         this.communityCategoryId = communityPost.getCommunityCategoryId();
     }
 
-    public CommunityPost toCommunityPostEntity(Long id) {
-        return CommunityPost.builder()
-                .postId(id)
-                .communityCategoryId(communityCategoryId)
-                .build();
+    public Post toPostEntity() {
+        return Post.builder()
+            .serviceId(serviceId)
+            .userId(userId)
+            .title(title)
+            .content(content)
+            .isDeleted(false)
+            .build();
     }
 
+    public CommunityPost toCommunityPostEntity(Long id) {
+        return CommunityPost.builder()
+            .postId(id)
+            .communityCategoryId(communityCategoryId)
+            .build();
+    }
 
 
 }

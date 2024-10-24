@@ -2,56 +2,33 @@ package carrotmoa.carrotmoa.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
-import java.time.Instant;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.ColumnDefault;
+import lombok.Setter;
+import lombok.ToString;
 
+@Entity
+@Table(name = "account")
+@Getter
+@Setter
+@ToString
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Data
-@Entity
-@Builder
-@Table(name = "account", schema = "carrot_moa")
-public class Account {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false)
-    private Long id;
+public class Account extends BaseEntity {
 
-    @NotNull
-    @Column(name = "user_id", nullable = false)
+    @Column(name = "user_id")
     private Long userId;
 
-    @Size(max = 10)
-    @NotNull
-    @Column(name = "bank_name", nullable = false, length = 10)
+    @Column(name = "bank_name")
     private String bankName;
 
-    @NotNull
-    @Column(name = "account", nullable = false)
-    private Integer account;
+    @Column(name = "account_number")
+    private Integer accountNumber;
 
-    @Size(max = 20)
-    @NotNull
-    @Column(name = "account_holder", nullable = false, length = 20)
+    @Column(name = "account_holder")
     private String accountHolder;
-
-    @NotNull
-    @ColumnDefault("(curtime())")
-    @Column(name = "created_at", nullable = false)
-    private Instant createdAt;
-
-    @NotNull
-    @ColumnDefault("(curtime())")
-    @Column(name = "updated_at", nullable = false)
-    private Instant updatedAt;
 }

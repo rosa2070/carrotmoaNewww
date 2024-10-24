@@ -18,5 +18,4 @@ public class CommunityCategoryResponse {
         this.name = categories.getName();
         this.parentId = categories.getParentId();
     }
-
 }

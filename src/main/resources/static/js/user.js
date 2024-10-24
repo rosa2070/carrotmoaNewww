@@ -39,7 +39,6 @@ function joinSubmit() {
   }
 }
 
-//1. 이메일 입력값 검사
 $email.on('input', function () {
   email = $(this).val();
   if (regEmail.test(email)) {
@@ -50,7 +49,7 @@ $email.on('input', function () {
     $duplicationCheck.prop('disabled', true);
   }
 })
-//1-2. 비밀번호 입력값 검사 정규식으로 검사(영대소문자 , 특수문자 , 숫자 각각 1개 이상 8~36자
+
 $password.on('input', function () {
   let password = $(this).val();
   let length = password.length;
@@ -73,7 +72,7 @@ $password.on('input', function () {
     $password.css("border", "2px solid red");
   }
 });
-//비밀번호 확인
+
 $passwordReconfirm.on('input', function () {
   if (passwordCheck()) {
     $passwordReconfirmCheck.text('비밀번호가 일치해요');
@@ -90,7 +89,6 @@ function passwordCheck() {
       === $password.val() && regPassword.test($password.val()));
 }
 
-//2. db에서 이미 사용중인 이메일인지 검사
 $duplicationCheck.click(function () {
   email = $email.val();
   console.log(email);
@@ -110,7 +108,6 @@ $duplicationCheck.click(function () {
   })
 });
 
-//3. 이메일 체크 버튼 비활성화 , 인증코드 태그 삽입
 $authentication.on('click', '#use-email', function () {
   $authentication.html("<input type='text' id='auth-code'/> " +
       "<input type='button' id='authentication-mail' value='인증코드 발송' style='height:40px;margin-left:20px;'/>");
@@ -124,7 +121,6 @@ $authentication.on('click', '#use-email', function () {
   $authCodeCertified.hide();
 });
 
-//4. 인증메일 발송 , 타이머
 $authentication.on('click', '#authentication-mail', function () {
   $authCodeCertified.val('인증');
   $authCodeCertified.prop('disabled', false);
@@ -178,7 +174,6 @@ $authentication.on('click', '#auth-code-certified', function () {
   })
 });
 
-//타이머
 function timerInterval(timeLimit) {
   if (timerId) {
     clearInterval(timerId);
@@ -252,7 +247,6 @@ document.getElementById('join-form').addEventListener('submit',
       });
 
     })
-
 
 
 

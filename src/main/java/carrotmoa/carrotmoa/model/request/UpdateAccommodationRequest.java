@@ -3,15 +3,14 @@ package carrotmoa.carrotmoa.model.request;
 import carrotmoa.carrotmoa.entity.Accommodation;
 import carrotmoa.carrotmoa.entity.AccommodationSpace;
 import carrotmoa.carrotmoa.entity.Post;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.multipart.MultipartFile;
-
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.multipart.MultipartFile;
 
 @Getter
 @Setter
@@ -19,8 +18,8 @@ import java.util.stream.Collectors;
 public class UpdateAccommodationRequest {
     private static final Long SERVICE_ID = 8L;
 
-    private Long userId; //호스트 ID
-    private String title; // 숙소 이름
+    private Long userId;
+    private String title;
     private Integer totalArea;
     private String roadAddress;
     private String lotAddress;
@@ -38,36 +37,36 @@ public class UpdateAccommodationRequest {
 
     public Accommodation toAccommodationEntity() {
         return Accommodation.builder()
-                .totalArea(totalArea)
-                .roadAddress(roadAddress)
-                .lotAddress(lotAddress)
-                .detailAddress(detailAddress)
-                .floor(floor)
-                .totalFloor(totalFloor)
-                .price(price)
-                .transportationInfo(transportationInfo)
-                .build();
+            .totalArea(totalArea)
+            .roadAddress(roadAddress)
+            .lotAddress(lotAddress)
+            .detailAddress(detailAddress)
+            .floor(floor)
+            .totalFloor(totalFloor)
+            .price(price)
+            .transportationInfo(transportationInfo)
+            .build();
     }
 
     public Post toPostEntity() {
         return Post.builder()
-                .serviceId(SERVICE_ID)
-                .userId(userId)
-                .title(title)
-                .content(content)
-                .build();
+            .serviceId(SERVICE_ID)
+            .userId(userId)
+            .title(title)
+            .content(content)
+            .build();
     }
 
     public List<AccommodationSpace> toAccommodationSpaceEntities() {
         return accommodationSpaces.stream()
-                .map(accommodationSpaceRequest -> {
-                    AccommodationSpace accommodationSpace = new AccommodationSpace();
-                    accommodationSpace.setAccommodationId(accommodationSpaceRequest.getAccommodationId());
-                    accommodationSpace.setSpaceId(accommodationSpaceRequest.getSpaceId());
-                    accommodationSpace.setCount(accommodationSpaceRequest.getCount());
-                    return accommodationSpace;
-                })
-                .collect(Collectors.toList());
+            .map(accommodationSpaceRequest -> {
+                AccommodationSpace accommodationSpace = new AccommodationSpace();
+                accommodationSpace.setAccommodationId(accommodationSpaceRequest.getAccommodationId());
+                accommodationSpace.setSpaceId(accommodationSpaceRequest.getSpaceId());
+                accommodationSpace.setCount(accommodationSpaceRequest.getCount());
+                return accommodationSpace;
+            })
+            .collect(Collectors.toList());
     }
 
     // 공간 초기화 메서드
@@ -75,7 +74,7 @@ public class UpdateAccommodationRequest {
         accommodationSpaces.clear(); // 기존 공간 초기화
         for (int i = 0; i < spaceCount; i++) {
             AccommodationSpaceRequest accommodationSpaceRequest = new AccommodationSpaceRequest();
-            accommodationSpaceRequest.setSpaceId((long) (i + 1));
+            accommodationSpaceRequest.setSpaceId(i + 1);
             accommodationSpaceRequest.setCount(0);
             accommodationSpaces.add(accommodationSpaceRequest);
         }
@@ -105,9 +104,4 @@ public class UpdateAccommodationRequest {
             log.info("No accommodation spaces provided.");
         }
     }
-
-
-
-
-
 }
