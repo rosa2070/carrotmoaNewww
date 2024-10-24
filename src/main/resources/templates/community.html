@@ -3,24 +3,41 @@
       layout:decorate="~{layout/layout}"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <head>
-  <title>테스트</title>
+    <title>테스트</title>
+    <script src="/js/community.js" defer></script>
+    <link rel="stylesheet" href="/css/community.css">
 </head>
 
-<main layout:fragment="main">
-  <div class="cover cover-color3">
-    <div class="cover-content">
-      <h1 class="cover-title">
-        동동네네 <br>
-        생생할활
-      </h1>
-      <span>
-        동네네네 <br>
-        경경험
-      </span>
-      <div class="cover-image-90">
-        <img alt="" src="/images/cover/cover2.png">
-      </div>
+<main layout:fragment="main" class="main-container">
+    <div class="cover cover-community">
+        <div class="cover-content">
+            <h1 class="cover-title">
+                동동네네 <br>
+                생생할활
+            </h1>
+            <span>
+                동네네네 <br>
+                경험
+            </span>
+            <div class="cover-image-90">
+                <img src="/images/cover/cover2.png" alt="">
+            </div>
+        </div>
     </div>
-  </div>
+    <!-- 카테고리 섹션 추가 -->
+    <div class="community-category-container">
+        <ul class="community-category-list" id="community-category-list">
+            <li><a href="/community">전체보기</a></li>
+            <li><a href="/community/subCategories/2">인기글</a></li>
+        </ul>
+    </div>
+    <!-- 카테고리 섹션 끝 -->
+    <div class="community-post-list" id="community-post-list">
+    </div>
+
+    <!-- 글쓰기 버튼 -->
+    <div class="community-write-button">
+        <a href="/community/write" class="community-write-btn">+ 글쓰기</a>
+    </div>
 </main>
 </html>

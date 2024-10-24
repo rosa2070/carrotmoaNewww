@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="ko"
+      layout:decorate="~{layout/layout}"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <title>테스트</title>
+    <link rel="stylesheet" href="/css/ckeditor.css">
+    <link rel="stylesheet" href="https://cdn.ckeditor.com/ckeditor5/43.2.0/ckeditor5.css">
+</head>
+<main layout:fragment="main" class="community-write-container">
+    <div class="community-write-container">
+        <div class="community-write-container-title">
+            <h2 id="page-type"></h2>
+        </div>
+        <form id="community-post-form">
+            <input type="hidden" id="userId" th:value="${user.getUserProfile().getUserId()}" />
+            <div class="category-selection">
+                <label for="community-post-category">게시글의 주제를 선택해주세요.</label>
+                <select id="community-post-category" name="communityCategoryId">
+                </select>
+            </div>
+            <div class="title-input-container">
+                <label for="community-post-title">
+                    <input id="community-post-title" type="text" name="title" placeholder="제목을 작성해주세요" required/>
+                </label>
+            </div>
+            <div class="ckeditor-content-view">
+                <div class="editor-container editor-container_classic-editor" id="editor-container">
+                    <div class="editor-container__editor">
+                        <div id="editor"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="community-form-btn">
+                <button type="button" id="cancel-btn" onclick="window.location.href='/community'">취소하기</button>
+                <button type="submit" id="submit-btn"></button>
+            </div>
+        </form>
+    </div>
+    <script type="importmap">
+        {
+            "imports": {
+                "ckeditor5": "https://cdn.ckeditor.com/ckeditor5/43.2.0/ckeditor5.js",
+                "ckeditor5/": "https://cdn.ckeditor.com/ckeditor5/43.2.0/"
+            }
+        }
+    </script>
+    <script type="module" src="/js/ckeditor.js"></script>
+    <script src="/js/community-write.js" defer></script>
+    <script src="/js/uploadadapter.js"></script>
+</main>
+</html>
