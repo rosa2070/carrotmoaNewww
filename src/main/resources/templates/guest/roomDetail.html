@@ -90,18 +90,52 @@
                             <script th:src="@{/js/room_booking.js}"></script>
                         </div>
                     </div>
-                    <button onclick="openCalendar()">계약하기</button>
-                    <div id="calendarModal" style="display:none;">
-                        <div id="calendarApi"></div>
+                    <div class="btn_date_full">
+                        <a id="btn_check_checkin" class="btn medium white" style="display: none;">
+                            날짜를 선택해주세요
+                        </a>
+                        <div class="line_box" id="div_checkin_schedule" style>
+                            <p>
+                                체크인 날짜
+                                <span id="checkin-dates"></span>
+                            </p>
+                        </div>
+                        <div class="line_box" id="div_checkout_schedule" style>
+                            <p>
+                                체크아웃 날짜
+                                <span id="checkout-dates"></span>
+                            </p>
+                        </div>
                     </div>
                     <div class="room_pay">
                         <p>
                             <strong th:text="${room.price} + '원 / 1주'"></strong>
                         </p>
                     </div>
-                </div>
-                <div class="btn_full">
-                    <a id="btn_booking_now" class="btn medium purple"></a>
+                    <div class="total_price_box" id="estimated_booking">
+                        <div class="popup_content" style="padding-top:12px;">
+                            <div class="popup_contract">
+                                <div class="flex total" style="margin-bottom: 12px; padding-bottom: 12px; border-bottom: 1px solid #DFDFDF;">
+                                    <span> 최종 결제 금액 </span>
+                                </div>
+                                <ul class="contract-list">
+                                    <li>
+                                        <span>숙박료</span>
+                                        <p id="price" data-price="${room.price}"><span th:text="${room.price} + '원 / 1주'"></span></p>
+                                    </li>
+                                    <li>
+                                        <span>총 숙박일</span>
+                                        <p id="nights-count"></p>
+                                    </li>
+                                    <li>
+                                        <span>총 숙박료</span>
+                                        <p id="total-price">0원</p>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <button onclick="openCalendar()">계약하기</button>
                 </div>
             </div>
         </div>
