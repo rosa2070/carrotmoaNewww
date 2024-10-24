@@ -5,6 +5,7 @@
 <head>
     <title th:text="${room.title} + ' 단기임대 숙소 | 당근모아'"> 단기임대 숙소 | 당근모아 </title>
     <link rel="stylesheet" th:href="@{/css/guest_room_detail.css}"/>
+    <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.js'></script>
 </head>
 
 <main layout:fragment="main">
@@ -84,6 +85,11 @@
             </div>
             <div class="col-md-4">
                 <div class="contract-card">
+                    <div class="reservation-container">
+                        <div class="reservation" id="calendarApi">
+                            <script th:src="@{/js/room_booking.js}"></script>
+                        </div>
+                    </div>
                     <button onclick="openCalendar()">계약하기</button>
                     <div id="calendarModal" style="display:none;">
                         <div id="calendar"></div>
