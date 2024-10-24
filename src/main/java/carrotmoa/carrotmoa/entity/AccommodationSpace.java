@@ -3,7 +3,12 @@ package carrotmoa.carrotmoa.entity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
 @Entity
 @Table(name = "accommodation_space")
@@ -22,5 +27,11 @@ public class AccommodationSpace extends BaseEntity {
     private Long spaceId; // 공간 ID
 
     @Column(name = "count")
-    private Integer count; // 공간 개수(방, 화장실, 거실, 주방)
+    private Integer count; // 공간 개수
+
+    // 숙소와 공간 간의 관계
+    public void updateAccommodationSpace(Integer newCount) {
+        this.count = newCount;
+    }
+
 }

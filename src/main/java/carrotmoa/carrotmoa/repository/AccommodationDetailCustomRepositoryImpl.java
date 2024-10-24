@@ -2,9 +2,12 @@ package carrotmoa.carrotmoa.repository;
 
 import carrotmoa.carrotmoa.entity.*;
 import carrotmoa.carrotmoa.model.response.AccommodationDetailResponse;
+import carrotmoa.carrotmoa.model.response.HostManagedAccommodationResponse;
 import com.querydsl.core.group.GroupBy;
 import com.querydsl.core.types.Projections;
+import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import org.apache.catalina.Host;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -14,17 +17,17 @@ public class AccommodationDetailCustomRepositoryImpl implements AccommodationDet
 
     private final JPAQueryFactory jpaQueryFactory;
 
+    private final QAccommodation accommodation = QAccommodation.accommodation;
+    private final QAccommodationImage accommodationImage = QAccommodationImage.accommodationImage;
+    private final QAccommodationAmenity accommodationAmenity = QAccommodationAmenity.accommodationAmenity;
+    private final QAccommodationSpace accommodationSpace = QAccommodationSpace.accommodationSpace;
+    private final QPost post = QPost.post;
+
     public AccommodationDetailCustomRepositoryImpl(JPAQueryFactory jpaQueryFactory) {
         this.jpaQueryFactory = jpaQueryFactory;
     }
 
     public AccommodationDetailResponse getAccommodationDetailById(Long id) {
-        QAccommodation accommodation = QAccommodation.accommodation;
-        QAccommodationImage accommodationImage = QAccommodationImage.accommodationImage;
-        QAccommodationAmenity accommodationAmenity = QAccommodationAmenity.accommodationAmenity;
-        QAccommodationSpace accommodationSpace = QAccommodationSpace.accommodationSpace;
-        QPost post = QPost.post;
-
         AccommodationDetailResponse detailResponse = jpaQueryFactory
                 .select(Projections.fields(AccommodationDetailResponse.class,
                         accommodation.id,
@@ -72,4 +75,46 @@ public class AccommodationDetailCustomRepositoryImpl implements AccommodationDet
 
         return detailResponse;
     }
+
+    public List<HostManagedAccommodationResponse> findAccommodationsByUserId(Long userId) {
+        // 숙소 목록을 가져오기 위한 쿼리
+        List<HostManagedAccommodationResponse> hostManagedAccommodations = jpaQueryFactory
+                .selectDistinct(Projections.fields(HostManagedAccommodationResponse.class,
+                        accommodation.id,
+                        post.title,
+                        accommodation.lotAddress,
+                        accommodation.detailAddress,
+                        accommodation.price
+                ))
+                .from(accommodation)
+                .leftJoin(post).on(accommodation.postId.eq(post.id))
+                .leftJoin(accommodationImage).on(accommodationImage.accommodationId.eq(accommodation.id))
+                .orderBy(accommodation.createdAt.desc())
+                .where(post.userId.eq(userId)) // userId 필터링
+                .fetch();
+
+        // 각 숙소에 대해 첫 번째 이미지 URL 가져오기
+        for (HostManagedAccommodationResponse accommodationResponse: hostManagedAccommodations) {
+            String imageUrl = jpaQueryFactory
+                    .select(accommodationImage.imageUrl)
+                    .from(accommodationImage)
+                    .where(accommodationImage.accommodationId.eq(accommodationResponse.getId()))
+                    .limit(1) // 첫 번째 이미지만 가져옴
+                    .fetchOne(); // 하나의 결과만 가져오기
+
+            accommodationResponse.setImageUrl(imageUrl);
+        }
+
+
+
+        return hostManagedAccommodations;
+    }
+
+
+
+
+
+
+
+
 }

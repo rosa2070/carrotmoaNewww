@@ -1,13 +1,23 @@
 package carrotmoa.carrotmoa.model.response;
 
+import lombok.*;
+
 import java.math.BigDecimal;
 import java.util.List;
 
 import lombok.Getter;
 import lombok.Setter;
 
+import java.math.BigDecimal;
+import java.util.List;
+
 import com.querydsl.core.annotations.QueryProjection;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+import java.math.BigDecimal;
+import java.util.List;
 
 @Getter
 @Setter
@@ -43,3 +53,6 @@ public class AccommodationDetailResponse {
         this.transportationInfo = transportationInfo;
     }
 }
+
+
+

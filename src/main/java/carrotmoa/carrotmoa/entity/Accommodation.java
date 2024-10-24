@@ -5,6 +5,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import lombok.*;
 
+
 import java.math.BigDecimal;
 
 @Entity
@@ -16,9 +17,6 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Accommodation extends BaseEntity {
-
-    @Column(name = "user_id")
-    private Long userId; // 호스트 ID
 
     @Column(name = "post_id")
     private Long postId; // 포스트 ID
@@ -46,4 +44,35 @@ public class Accommodation extends BaseEntity {
 
     @Column(name = "transportation_info")
     private String transportationInfo; // 교통 정보
+
+    // 업데이트 메서드
+    public void updateAccommodation(Integer totalArea, String roadAddress, String lotAddress,
+                                    String detailAddress, Integer floor, Integer totalFloor,
+                                    BigDecimal price, String transportationInfo) {
+        if (totalArea != null) {
+            this.totalArea = totalArea;
+        }
+        if (roadAddress != null) {
+            this.roadAddress = roadAddress;
+        }
+        if (lotAddress != null) {
+            this.lotAddress = lotAddress;
+        }
+        if (detailAddress != null) {
+            this.detailAddress = detailAddress;
+        }
+        if (floor != null) {
+            this.floor = floor;
+        }
+        if (totalFloor != null) {
+            this.totalFloor = totalFloor;
+        }
+        if (price != null) {
+            this.price = price;
+        }
+        if (transportationInfo != null) {
+            this.transportationInfo = transportationInfo;
+        }
+    }
+
 }
