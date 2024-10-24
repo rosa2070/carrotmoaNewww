@@ -21,9 +21,9 @@ public class UserViewController {
         return "user/join";
     }
 
-    @GetMapping("/mypage")
+    @GetMapping("/my-page")
     public String userMyPage() {
-        return "mypage";
+        return "/user/mypage";
     }
 
     @GetMapping("/test")
