@@ -16,14 +16,14 @@ document.addEventListener('DOMContentLoaded', function() {
             var startDate = info.startStr;
             var endDate = new Date(info.endStr);
             endDate.setDate(endDate.getDate() - 1);
-            var selectedEndDate = endDate.toISOString().split('T')[0];
+            // var selectedEndDate = endDate.toISOString().split('T')[0];
 
             document.getElementById('checkin-dates').textContent =
                 `${startDate}`;
             document.getElementById('checkout-dates').textContent =
-                `${selectedEndDate}`;
+                `${endDate}`;
 
-            var timeDiffernece = selectedEndDate - startDate;
+            var timeDiffernece = endDate - startDate;
             var countNights = timeDiffernece / (1000 * 60 * 60 * 24) // 밀리초 단위에서 일로 변환해야함
 
             document.getElementById('nights-count').textContent = `총 ${countNights}박`;
@@ -31,17 +31,23 @@ document.addEventListener('DOMContentLoaded', function() {
             var pricePerWeek = document.getElementById('price').getAttribute('data-price');
             pricePerWeek = parseInt(pricePerWeek, 10);
 
-            var totalPrice = (pricePerWeek / 7) * nights;
+            var totalPrice = (pricePerWeek / 7) * countNights;
             document.getElementById('total-price').textContent = `${totalPrice.toLocaleString()}원`;
 
 
+        },
+        unselected:function () {
+            document.getElementById('checkin-dates').textContent = '';
+            document.getElementById('checkout-dates').textContent = '';
+            document.getElementById('nights-count').textContent = '총 0박';
+            document.getElementById('total-price').textContent = '0원';
         }
     });
     calendar.render();
 });
 
 // // controller로 선택한 날짜 넘기기
-// function sendSelectedDates(startDate, selectedEndDate) {
+// function sendSelectedDates(startDate, endDate) {
 //     fetch('/your-controller-endpoint', {
 //         method: 'Post',
 //         headers: {
@@ -49,7 +55,7 @@ document.addEventListener('DOMContentLoaded', function() {
 //         },
 //         body: JSON.stringify({
 //             startDate: startDate,
-//             endDate: selectedEndDate
+//             endDate: endDate
 //         })
 //     })
 //         .then(response => response.json())

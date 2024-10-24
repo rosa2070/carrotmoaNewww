@@ -117,6 +117,7 @@
                             <div class="popup_contract">
                                 <div class="flex total" style="margin-bottom: 12px; padding-bottom: 12px; border-bottom: 1px solid #DFDFDF;">
                                     <span> 최종 결제 금액 </span>
+                                    <p id="total-price"></p>
                                 </div>
                                 <ul class="contract-list">
                                     <li>
@@ -127,15 +128,11 @@
                                         <span>총 숙박일</span>
                                         <p id="nights-count"></p>
                                     </li>
-                                    <li>
-                                        <span>총 숙박료</span>
-                                        <p id="total-price">0원</p>
-                                    </li>
                                 </ul>
                             </div>
                         </div>
                     </div>
-                    <button onclick="openCalendar()">계약하기</button>
+                    <button th:onclick="@{/}">계약 시작하기</button>
                 </div>
             </div>
         </div>

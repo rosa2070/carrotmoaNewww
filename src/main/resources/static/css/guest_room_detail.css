@@ -79,3 +79,6 @@ body {
     display: inline-block; /* 또는 flex 사용 가능 */
     margin-left: 10px; /* 이미지와의 간격을 조절 */
 }
+.line_box {
+    display: flex;
+}
