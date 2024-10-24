@@ -1,8 +1,7 @@
-package carrotmoa.carrotmoa.controller.api;
+package carrotmoa.carrotmoa.controller;
 
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.ObjectMetadata;
-import java.io.IOException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -13,8 +12,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-@RequestMapping("/upload")
+import java.io.IOException;
+
 @RestController
+@RequestMapping("/upload")
 @RequiredArgsConstructor
 public class UploadController {
 

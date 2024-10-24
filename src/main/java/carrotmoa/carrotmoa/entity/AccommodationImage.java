@@ -3,12 +3,7 @@ package carrotmoa.carrotmoa.entity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 @Entity
 @Table(name = "accommodation_image")
@@ -21,17 +16,8 @@ import lombok.ToString;
 public class AccommodationImage extends BaseEntity {
 
     @Column(name = "accommodation_id")
-    private Long accommodationId;
+    private Long accommodationId; // 숙소 ID
 
     @Column(name = "image_url")
-    private String imageUrl;
-
-    @Column(name = "original_name")
-    private String originalName;
-
-    @Column(name = "save_file_name")
-    private String saveFileName;
-
-    @Column(name = "size")
-    private Long size;
+    private String imageUrl; // 이미지 URL
 }

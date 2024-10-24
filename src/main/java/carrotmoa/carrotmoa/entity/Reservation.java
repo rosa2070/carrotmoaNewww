@@ -3,14 +3,10 @@ package carrotmoa.carrotmoa.entity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
+import lombok.*;
+
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
 
 @Entity
 @Table(name = "reservation")
@@ -23,21 +19,21 @@ import lombok.ToString;
 public class Reservation extends BaseEntity {
 
     @Column(name = "user_id")
-    private Long userId;
+    private Long userId; // 게스트 ID
 
     @Column(name = "accommodation_id")
-    private Long accommodationId;
+    private Long accommodationId; // 숙소 ID
 
     @Column(name = "check_in_date")
-    private LocalDate checkInDate;
+    private LocalDate checkInDate; // 체크인 날짜
 
     @Column(name = "check_out_date")
-    private LocalDate checkOutDate;
+    private LocalDate checkOutDate; // 체크아웃 날짜
 
     @Column(name = "total_price")
-    private BigDecimal totalPrice;
+    private BigDecimal totalPrice; // 총 가격
 
     @Column(name = "status")
-    private Integer status;
+    private Integer status; // 예약 상태
 
 }
