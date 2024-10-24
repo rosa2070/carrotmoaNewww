@@ -1,4 +1,4 @@
-package carrotmoa.carrotmoa.config.sequrity;
+package carrotmoa.carrotmoa.config.security;
 
 import carrotmoa.carrotmoa.enums.AuthorityCode;
 import lombok.RequiredArgsConstructor;
