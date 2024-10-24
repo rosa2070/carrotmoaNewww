@@ -309,3 +309,7 @@ body {
 .font-dark-gray span {
   color: #4D5159;
 }
+
+.margin-bottom-100 {
+  margin-bottom: 100px;
+}

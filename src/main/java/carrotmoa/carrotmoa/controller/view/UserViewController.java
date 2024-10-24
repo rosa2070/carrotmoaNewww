@@ -28,9 +28,9 @@ public class UserViewController {
     }
 
     @GetMapping("/my-page")
-    public String userMyPage() {return "user/my-page";}
-
-
+    public String userMyPage() {
+        return "user/my-page";
+    }
 
 
     //css디자인 작성용
