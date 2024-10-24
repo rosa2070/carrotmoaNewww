@@ -3,36 +3,36 @@
       layout:decorate="~{layout/layout}"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <head>
-    <title>테스트</title>
+  <link rel="stylesheet" th:href="@{/css/my-page.css}"/>
+  <link rel="stylesheet" th:href="@{/css/user.css}"/>
+  <title>테스트</title>
 </head>
 
 <main layout:fragment="main">
-    <!--            한줄소개 , 프로필사진 . 닉네임-->
-    <!--            이동링크 -> 내 프로필 , 서비스-->
-    <div class="child" style="width: 200px;">
-        <div class="profile_area" style="display: flex; justify-content: space-between;gap: 50px;">
-            <div class="profile_inner">
-                <a href="#" class="photo">
-                    <img src="https://static.nid.naver.com/images/web/user/default.png" width="84" height="84" alt="프로필 이미지">
-                    <span class="photo_edit"></span>
-                </a>
-            </div>
-                <div class="profile">
-                    <p class="profile-properties">닉네임</p>
-                    <p class="profile-properties">이메일</p>
-                    <p class="profile-properties">사는곳</p>
-                </div>
-        </div>
+  <div class="child" style="width: 200px;">
+    <div class="profile_area" style="display: flex; justify-content: space-between;gap: 50px;">
+      <div class="profile_inner">
+        <a class="photo" href="#">
+          <img alt="프로필 이미지" height="84" src="https://static.nid.naver.com/images/web/user/default.png" width="84">
+          <span class="photo_edit"></span>
+        </a>
+      </div>
+      <div class="profile">
+        <p class="profile-properties">닉네임</p>
+        <p class="profile-properties">이메일</p>
+        <p class="profile-properties">사는곳</p>
+      </div>
     </div>
-    <div class="child">서비스 항목
+  </div>
+  <div class="child">서비스 항목
     <div>
-        <h2>내정보 수정</h2>
-        <ul>
-            <li><a href="#"></a></li>
-            <li></li>
-            <li></li>
-        </ul>
+      <h2>내정보 수정</h2>
+      <ul>
+        <li><a href="#"></a></li>
+        <li></li>
+        <li></li>
+      </ul>
     </div>
-    </div>
+  </div>
 </main>
 </html>

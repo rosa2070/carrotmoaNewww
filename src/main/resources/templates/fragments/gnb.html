@@ -36,15 +36,15 @@
 
     <div class="gnb-tool">
 
-       <div th:if="${user == null}">
+      <div th:if="${user == null}">
             <span>
           <a th:href="@{/user/login-page}">
             <span>로그인</span>
           </a>
             </span>
-       </div>
+      </div>
 
-      <div th:unless="${user == null}" style="display:flex; align-items:center; margin-left:8px;">
+      <div style="display:flex; align-items:center; margin-left:8px;" th:unless="${user == null}">
 
         <span>
           <a th:href="@{/user/logout}">
@@ -53,20 +53,20 @@
         </span>
 
         <div class="user-profile-box">
-          <a th:href="@{/user/my-page}" class="user-profile-a">
+          <a class="user-profile-a" th:href="@{/user/my-page}">
             <div id="profile-image">
-            <img th:src="${user.getUserProfile().getPicUrl()}" class="user-profile-image"/>
+              <img class="user-profile-image" th:src="${user.getUserProfile().getPicUrl()}"/>
             </div>
             <div class="user-profile-div">
-<!--              <div th:text="${user.getUserProfile().getNickname()}" id="profile-nickname"></div>-->
-              <div id="profile-nickname" th:text="${user.getUserProfile().getNickname()}+'님 안녕하세요'" class="user-profile-nickname">
-                  </div>
+              <!--              <div th:text="${user.getUserProfile().getNickname()}" id="profile-nickname"></div>-->
+              <div class="user-profile-nickname" id="profile-nickname" th:text="${user.getUserProfile().getNickname()}+'님 안녕하세요'">
+              </div>
             </div>
           </a>
         </div>
-          <div class="user-profile-box">
-              <a href="#"  class="user-profile-a"><img src="/images/notification.svg" alt=""></a>
-          </div>
+        <div class="user-profile-box">
+          <a class="user-profile-a" href="#"><img alt="" src="/images/notification.svg"></a>
+        </div>
 
       </div>
 

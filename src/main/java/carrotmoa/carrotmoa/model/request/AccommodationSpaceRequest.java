@@ -1,13 +1,21 @@
 package carrotmoa.carrotmoa.model.request;
 
 import carrotmoa.carrotmoa.entity.AccommodationSpace;
-import lombok.*;
+import lombok.Getter;
+import lombok.Setter;
 
 @Getter
 @Setter
 public class AccommodationSpaceRequest {
-    private Long accommodationId;
-    private Long spaceId;
-    private Integer count;
+    private long accommodationId;
+    private long spaceId;
+    private int count;
 
+    public AccommodationSpace toAccommodationSpaceEntity() {
+        return AccommodationSpace.builder()
+                .accommodationId(accommodationId)
+                .spaceId(spaceId)
+                .count(count)
+                .build();
+    }
 }

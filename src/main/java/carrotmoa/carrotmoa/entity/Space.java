@@ -16,8 +16,8 @@ import lombok.*;
 public class Space extends BaseEntity {
 
     @Column(name = "type")
-    private String type;
+    private String type; // 공간 유형 (방, 화장실, 거실, 주방)
 
     @Column(name = "icon")
-    private String icon;
+    private String icon; // 공간 아이콘
 }

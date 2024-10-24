@@ -14,10 +14,9 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Amenity extends BaseEntity {
-
     @Column(name = "name")
-    private String name;
+    private String name; // 옵션 이름
 
     @Column(name = "icon_url")
-    private String iconUrl;
+    private String iconUrl; // 아이콘 URL
 }

@@ -1,9 +1,8 @@
 package carrotmoa.carrotmoa.enums;
 
-import lombok.Getter;
-
 import java.util.HashMap;
 import java.util.Map;
+import lombok.Getter;
 
 @Getter
 public enum AuthorityCode {

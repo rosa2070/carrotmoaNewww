@@ -7,14 +7,13 @@ import carrotmoa.carrotmoa.model.response.FleaMarketPostResponse;
 import carrotmoa.carrotmoa.repository.FleaMarketPostRepository;
 import carrotmoa.carrotmoa.repository.PostRepository;
 import carrotmoa.carrotmoa.repository.ProductRepository;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -44,7 +43,7 @@ public class FleaMarketService {
         Page<FleaMarketPostResponse> fleaMarketPosts = fleaMarketPostRepository.findPostListToPage(pageable);
 
         return FleaMarketPostListPageResponse.toFleaMarketPostListResponse(fleaMarketPosts.getContent(), page,
-                (long) fleaMarketPosts.getTotalPages(), fleaMarketPosts.getTotalElements());
+            (long) fleaMarketPosts.getTotalPages(), fleaMarketPosts.getTotalElements());
     }
 
     @Transactional(readOnly = true)
