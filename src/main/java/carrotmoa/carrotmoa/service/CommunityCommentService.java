@@ -1,17 +1,18 @@
 package carrotmoa.carrotmoa.service;
 
 import carrotmoa.carrotmoa.entity.CommunityComment;
-import carrotmoa.carrotmoa.model.response.CommunityCommentResponse;
 import carrotmoa.carrotmoa.model.response.SaveCommunityCommentResponse;
+import carrotmoa.carrotmoa.model.response.CommunityCommentResponse;
 import carrotmoa.carrotmoa.repository.CommunityCommentRepository;
 import carrotmoa.carrotmoa.repository.CommunityPostRepository;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -26,7 +27,6 @@ public class CommunityCommentService {
         if (!communityPostRepository.existsById(communityPostId)) {
             throw new IllegalArgumentException("해당 게시글이 존재하지 않습니다.");
         }
-        dto.setUserId(1L);
         dto.setCommunityPostId(communityPostId);
         CommunityComment CommunityCommentEntity = communityCommentRepository.save(dto.toCommunityCommentEntity());
         int commentCount = communityCommentRepository.countByCommunityPostId(communityPostId);
