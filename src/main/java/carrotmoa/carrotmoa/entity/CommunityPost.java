@@ -27,6 +27,7 @@ public class CommunityPost extends BaseEntity {
     private Long communityCategoryId;
 
     public void updateCategory(Long communityCategoryId) {
+        this.communityCategoryId = communityCategoryId;
 
     }
 }

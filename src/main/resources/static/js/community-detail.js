@@ -1,6 +1,8 @@
 const communityPostId = window.location.pathname.split('/').pop();
 
 const currentUserId = (user && user.userProfile) ? user.userProfile.userId : null;
+
+
 let postUserId;
 
 document.addEventListener("DOMContentLoaded", function () {
