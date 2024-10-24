@@ -25,4 +25,6 @@ public class AccommodationSearchResultService {
             .map(AccommodationResultResponse::fromData)
             .collect(Collectors.toList());
     }
+
+
 }
