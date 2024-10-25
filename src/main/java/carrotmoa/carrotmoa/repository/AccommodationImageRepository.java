@@ -6,5 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface AccommodationImageRepository extends JpaRepository<AccommodationImage, Long> {
-
+    void deleteByImageUrl(String imageUrl);
 }

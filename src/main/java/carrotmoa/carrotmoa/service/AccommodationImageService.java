@@ -4,6 +4,8 @@ import carrotmoa.carrotmoa.entity.AccommodationImage;
 import carrotmoa.carrotmoa.repository.AccommodationImageRepository;
 import java.io.IOException;
 import java.util.List;
+
+import carrotmoa.carrotmoa.util.AwsS3Utils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,12 +15,11 @@ import org.springframework.web.multipart.MultipartFile;
 @Slf4j
 public class AccommodationImageService {
     private final AccommodationImageRepository accommodationImageRepository;
-    private final AwsS3AccommodationService awsS3AccommodationService;
-//    private final AwsS3Utils awsS3Utils;
+    private final AwsS3Utils awsS3Utils;
 
-    public AccommodationImageService(AccommodationImageRepository accommodationImageRepository, AwsS3AccommodationService awsS3AccommodationService) {
+    public AccommodationImageService(AccommodationImageRepository accommodationImageRepository, AwsS3Utils awsS3Utils) {
         this.accommodationImageRepository = accommodationImageRepository;
-        this.awsS3AccommodationService = awsS3AccommodationService;
+        this.awsS3Utils = awsS3Utils;
     }
 
     @Transactional
@@ -39,20 +40,31 @@ public class AccommodationImageService {
         }
     }
 
-    // 기존 이미지 삭제
+    // 기존 이미지 삭제 ( 메타 데이터 삭제 + s3 이미지 삭제)
     private void deleteExistingImages(List<String> existingImageUrls) throws IOException {
         if (existingImageUrls != null && !existingImageUrls.isEmpty()) {
             for (String imageUrl : existingImageUrls) {
-                awsS3AccommodationService.deleteImageFromUrl(imageUrl); // S3에서 이미지 삭제
+                // 데이터베이스에서 이미지 메타데이터 삭제
+                deleteImageMetadata(imageUrl);
+
+                // S3에서 이미지 삭제
+                awsS3Utils.deleteImageFromUrl(imageUrl);
                 log.info("Deleted image from S3: {}", imageUrl); // 삭제 로그 추가
-                // 데이터베이스에서 이미지 메타데이터 삭제 필요시 추가 로직
             }
         }
     }
 
+    // 데이터베이스에서 이미지 메타데이터 삭제 메서드
+    private void deleteImageMetadata(String imageUrl) {
+        // URL에서 accommodationId 추출 (URL 형식에 따라 조정 필요)
+        accommodationImageRepository.deleteByImageUrl(imageUrl);
+        log.info("Deleted image from metadata: {}", imageUrl);
+    }
+
+
     // s3 직접 업로드 + url 데베에 저장
     private String uploadAndSaveImage(Long accommodationId, MultipartFile image, int order) throws IOException {
-        String imageUrl = awsS3AccommodationService.uploadRoomImage(accommodationId, image);
+        String imageUrl = awsS3Utils.uploadImageToFolder("room", accommodationId, image);
         saveImageMetadata(accommodationId, imageUrl, order);
         return imageUrl;
     }
@@ -65,14 +77,6 @@ public class AccommodationImageService {
             .imageOrder(order)
             .build();
         accommodationImageRepository.save(accommodationImage);
-    }
-
-    private String extractFilePathFromUrl(String url) {
-        // URL을 슬래시('/')로 분리
-        String[] parts = url.split("/");
-
-        // room/42/와 파일 이름을 결합
-        return parts[parts.length - 2] + "/" + parts[parts.length - 1];
     }
 
 }
