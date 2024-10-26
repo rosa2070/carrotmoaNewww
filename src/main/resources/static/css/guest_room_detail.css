@@ -61,6 +61,7 @@ body {
     border-radius: 6px;
 }
 .place_box .place_list {
+    list-style-type: none;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -319,6 +320,15 @@ body {
     color: #777;
     font-size: 20px;
     line-height: 21px;
+}
+.room_pay .place_list {
+    list-style-type: none;
+    display: flex;
+    margin-top: 8px;
+}
+.room_pay .place_list li {
+    color: #777;
+    line-height: 19px;
 }
 .btn_full a, .btn_full button {
     width: 100%;

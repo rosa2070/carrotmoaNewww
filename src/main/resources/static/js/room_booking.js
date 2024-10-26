@@ -1,6 +1,8 @@
 document.addEventListener('DOMContentLoaded', function() {
     var calendarEl = document.getElementById('calendar');
     var today = new Date(); // 오늘
+    var tomorrow = new Date(today);
+    tomorrow.setDate(today.getDate() + 1);
     var sixMonthsLater = new Date(today.getFullYear(), today.getMonth() + 6, 1); // 6개월 후
     var calendar = new FullCalendar.Calendar(calendarEl, {
         initialView: 'dayGridMonth',
@@ -8,10 +10,11 @@ document.addEventListener('DOMContentLoaded', function() {
         titleFormat: function (date) {
             return `${date.date.year}년 ${date.date.month + 1}월`;
         },
+
         selectable: true,
         dragScroll: true,
         validRange: {
-            start: today.toISOString().split('T')[0], // 오늘부터 예약 가능
+            start: tomorrow.toISOString().split('T')[0], // 오늘부터 예약 가능
             end: sixMonthsLater.toISOString().split('T')[0] // 6개월까지만 예약 가능
         },
 
@@ -32,7 +35,7 @@ document.addEventListener('DOMContentLoaded', function() {
             document.getElementById('checkout-dates').textContent = selectedEndDate;
 
             var timeDiffernece = endDate - new Date(info.startStr);
-            var countNights = timeDiffernece / (1000 * 60 * 60 * 24) // 밀리초 단위에서 일로 변환해야함
+            var countNights = ((timeDiffernece) / (1000 * 60 * 60 * 24)) + 1; // 밀리초 단위에서 일로 변환해야함
 
             document.getElementById('nights-count').textContent = countNights;
 
