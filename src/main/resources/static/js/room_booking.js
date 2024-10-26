@@ -14,6 +14,7 @@ document.addEventListener('DOMContentLoaded', function() {
             start: today.toISOString().split('T')[0], // 오늘부터 예약 가능
             end: sixMonthsLater.toISOString().split('T')[0] // 6개월까지만 예약 가능
         },
+
         select: function(info) {
             // 사용자가 선택을 다시 하는 경우 이전 선택된 날짜 초기화
             // document.getElementById('checkin-dates').textContent = '';
@@ -41,12 +42,12 @@ document.addEventListener('DOMContentLoaded', function() {
             var totalPrice = (pricePerWeek / 7) * countNights;
             document.getElementById('total-price').textContent = totalPrice.toLocaleString();
         },
-        unselected:function () {
-            document.getElementById('checkin-dates').textContent = '';
-            document.getElementById('checkout-dates').textContent = '';
-            document.getElementById('nights-count').textContent = '';
-            document.getElementById('total-price').textContent = '';
-        }
+        // unselected:function () {
+        //     document.getElementById('checkin-dates').textContent = '';
+        //     document.getElementById('checkout-dates').textContent = '';
+        //     document.getElementById('nights-count').textContent = '';
+        //     document.getElementById('total-price').textContent = '';
+        // }
     });
     calendar.render();
 });

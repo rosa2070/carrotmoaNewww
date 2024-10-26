@@ -39,7 +39,46 @@
                 <div class="room_info">
                     <p class="title">공간 기본 정보</p>
                     <div class="place_box">
-
+                        <ul class="place_list">
+                            <li>
+                                <span>
+                                    <img src="https://carrots-bucket.s3.ap-northeast-2.amazonaws.com/room_space_icon/icon_room.svg">
+                                </span>
+                                <p th:text="'방 ' + ${room.spaceCounts[0]} + '개'"></p>
+                            </li>
+                            <li>
+                                <span>
+                                    <img src="https://carrots-bucket.s3.ap-northeast-2.amazonaws.com/room_space_icon/icon_restroom.svg">
+                                </span>
+                                <p th:text="'화장실 ' + ${room.spaceCounts[1]} + '개'"></p>
+                            </li>
+                            <li>
+                                <span>
+                                    <img src="https://carrots-bucket.s3.ap-northeast-2.amazonaws.com/room_space_icon/icon_livingroom.svg">
+                                </span>
+                                <p th:text="'거실 ' + ${room.spaceCounts[2]} + '개'"></p>
+                            </li>
+                            <li>
+                                <span>
+                                    <img src="https://carrots-bucket.s3.ap-northeast-2.amazonaws.com/room_space_icon/icon_kitchen.svg">
+                                </span>
+                                <p th:text="'주방 ' + ${room.spaceCounts[3]} + '개'"></p>
+                            </li>
+                        </ul>
+                        <ul class="place_detail">
+                            <li>
+                                <span>전용면적</span>
+                                <strong th:text="${room.totalArea} + '(m²)'"></strong>
+                            </li>
+                            <li>
+                                <span>층 정보</span>
+                                <strong th:text="${room.floor}"></strong>
+                            </li>
+                            <li>
+                                <span>전체 층 정보</span>
+                                <strong th:text="${room.totalFloor}"></strong>
+                            </li>
+                        </ul>
                     </div>
                 </div>
                 <div class="room_info">
@@ -77,6 +116,25 @@
                         <span class="icon_send">호스트와 채팅하기</span>
                     </a>
                 </div>
+                <div class="room_info">
+                    <p class="title">이용 후기
+                        <span class="font_orange">10</span>
+                    </p>
+                    <ul class="reivew_list"></ul>
+                        <li>
+                            <div class="review_info">
+                                <div class="bg_score">
+                                    <span class="score" style="width: 80%"></span>
+                                </div>
+                                <span class="review_item">현재은</span>
+                                <span class="review_item">
+                                    ::before
+                                    2024-10
+                                </span>
+                            </div>
+                            <div class="review_text">집이 너무 좋아요;)</div>
+                        </li>
+                </div>
 <!--                <div class="room_info">-->
 <!--&lt;!&ndash;                    이용후기 response 필요&ndash;&gt;-->
 <!--                    <p class="title">-->
@@ -97,10 +155,6 @@
             </div>
             <div class="room_sticky">
                 <div class="top_icon">
-<!--                    <input type="text" id="url_copylink_room" th:value="${copyLinkUrl}" readonly style="width:1px; height:1px;">-->
-<!--                    <a id="btn_share" th:attr="data-clipboard-target='#url_copylink_room'">-->
-<!--                        <img src="https://carrots-bucket.s3.ap-northeast-2.amazonaws.com/room_detail_icon/icon_sharing.svg" alt="">-->
-<!--                    </a>-->
                     <button type="button" class="btn_like">
                         <span class="blind">찜하기</span>
                     </button>
@@ -127,11 +181,11 @@
                     <div class="line_box" id="div_selected_schedule" style>
                         <p>
                             체크인 날짜
-                            <span id="checkin-dates">2024-09-23</span>
+                            <span id="checkin-dates">날짜를 선택해주세요</span>
                         </p>
                         <p>
                             체크아웃 날짜
-                            <span id="checkout-dates">2024-11-08</span>
+                            <span id="checkout-dates"></span>
                         </p>
                     </div>
                     <div class="line_box" id="count_nights" style>
