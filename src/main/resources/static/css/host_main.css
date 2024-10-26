@@ -47,7 +47,7 @@
 
 .purple {
   border-radius: 4px;
-  background: #5C44E3;
+  background: #FF6F0F;
   color: #fff;
 }
 
@@ -63,10 +63,6 @@
 .btn {
   display: inline-block;
   box-sizing: border-box;
-}
-
-button {
-  cursor: pointer;
 }
 
 ul, li, dt, dd {
@@ -122,6 +118,7 @@ img {
 }
 
 .disable_preview {
+  cursor: default;
   color: #5C5C5C;
   pointer-events: none;
   background: none;
@@ -232,10 +229,6 @@ img {
 
 a {
   text-decoration: none;
-}
-
-button, a {
-  cursor: pointer;
 }
 
 .btn_more li {

@@ -85,12 +85,13 @@ public class AccommodationDetailCustomRepositoryImpl implements AccommodationDet
                 accommodation.detailAddress,
                 accommodation.price
             ))
-            .from(accommodation)
-            .leftJoin(post).on(accommodation.postId.eq(post.id))
-            .leftJoin(accommodationImage).on(accommodationImage.accommodationId.eq(accommodation.id))
-            .orderBy(accommodation.createdAt.desc())
-            .where(post.userId.eq(userId)) // userId 필터링
-            .fetch();
+                .from(accommodation)
+                .leftJoin(post).on(accommodation.postId.eq(post.id))
+                .leftJoin(accommodationImage).on(accommodationImage.accommodationId.eq(accommodation.id))
+                .where(post.userId.eq(userId) // userId 필터링
+                        .and(post.isDeleted.eq(false))) // 삭제되지 않은 포스트 필터링
+                .orderBy(accommodation.createdAt.desc())
+                .fetch();
 
         // 각 숙소에 대해 첫 번째 이미지 URL 가져오기
         for (HostManagedAccommodationResponse accommodationResponse : hostManagedAccommodations) {

@@ -21,13 +21,11 @@ public class PostService {
         this.accommodationRepository = accommodationRepository;
     }
 
-    @Transactional
     public Post savePost(CreateAccommodationRequest createAccommodationRequest) {
         Post post = createAccommodationRequest.toPostEntity();
         return postRepository.save(post);
     }
 
-    @Transactional
     public void updatePost(Long accommodationId, UpdateAccommodationRequest updateAccommodationRequest) {
         Accommodation accommodation = accommodationRepository.findById(accommodationId)
             .orElseThrow(() -> new IllegalArgumentException("숙소를 찾을 수 없습니다."));
@@ -43,6 +41,10 @@ public class PostService {
         log.info("방 이름 및 설명 변경 후: 제목: {}, 내용: {}", post.getTitle(), post.getContent());
 
         postRepository.save(post);
+    }
+
+    public void markAsDeleted(Long postId) {
+        postRepository.markAsDeleted(postId);
     }
 
 

@@ -12,14 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @Slf4j
 @RestController
@@ -88,11 +81,6 @@ public class HostRoomApiController {
         return ResponseEntity.ok(accommodationDetailResponse);
     }
 
-    // 방 수정
-//    @PostMapping("/edit/{id}")
-//    public ResponseEntity<Long> updateRoom(@PathVariable Long id, @ModelAttribute Host)
-
-
     // 호스트가 등록한 방 리스트 보이기(방 관리)
     @GetMapping("/manage/{userId}")
     public ResponseEntity<List<HostManagedAccommodationResponse>> getAccommodationsByUserId(@PathVariable("userId") Long userId) {
@@ -104,6 +92,21 @@ public class HostRoomApiController {
 
         return ResponseEntity.ok(accommodations);
     }
+
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<String> deleteAccommodation(@PathVariable("id") Long id) {
+
+        try {
+            accommodationHostService.deleteAccommodation(id);
+            return ResponseEntity.ok("숙소가 삭제되었습니다.");
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        } catch (Exception e) {
+            log.error("숙소 삭제 중 오류 발생: {}", e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("삭제 중 오류가 발생했습니다.");
+        }
+    }
+
 
 //    @PostMapping("/test-validation")
 //    public ResponseEntity<?> testValidation(@Valid @RequestBody CreateAccommodationRequest createAccommodationRequest, BindingResult bindingResult) {
