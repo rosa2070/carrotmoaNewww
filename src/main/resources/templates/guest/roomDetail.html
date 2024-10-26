@@ -15,8 +15,9 @@
                 <div class="room_info">
                     <div class="title">
                         <strong th:text="*{title}">애버랜드</strong>
-                    <p class="add_text" th:text="*{roadAddress}">용인시 처인구 애버랜드로</p>
                     </div>
+                    <p class="add_text" th:text="*{roadAddress}">용인시 처인구 애버랜드로</p>
+
                     <div class="room_images" id="roomImages">
                         <div th:each="image, iterStat : ${room.imageUrls}" class="room-image-wrapper">
                             <img th:src="${image}" class="room-image"  th:if="${iterStat.index == 0}" />
@@ -126,16 +127,20 @@
                     <a id="btn_check_checkin" class="btn medium white" style="display: none;">
                         날짜를 선택해주세요
                     </a>
-                    <div class="line_box" id="div_checkin_schedule" style>
+                    <div class="line_box" id="div_selected_schedule" style>
                         <p>
                             체크인 날짜
                             <span id="checkin-dates"></span>
                         </p>
-                    </div>
-                    <div class="line_box" id="div_checkout_schedule" style>
                         <p>
                             체크아웃 날짜
                             <span id="checkout-dates"></span>
+                        </p>
+                    </div>
+                    <div class="line_box" id="count_nights" style>
+                        <p>
+                            총 숙박일
+                            <span id="nights-count"></span>
                         </p>
                     </div>
                 </div>

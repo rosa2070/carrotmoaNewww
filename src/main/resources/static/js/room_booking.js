@@ -1,5 +1,7 @@
 document.addEventListener('DOMContentLoaded', function() {
     var calendarEl = document.getElementById('calendar');
+    var today = new Date(); // 오늘
+    var sixMonthsLater = new Date(today.getFullYear(), today.getMonth() + 6, 1); // 6개월 후
     var calendar = new FullCalendar.Calendar(calendarEl, {
         initialView: 'dayGridMonth',
         // YYYY년 MM월
@@ -9,60 +11,44 @@ document.addEventListener('DOMContentLoaded', function() {
         selectable: true,
         dragScroll: true,
         validRange: {
-            start: new Date().toISOString().split('T')[0]
+            start: today.toISOString().split('T')[0], // 오늘부터 예약 가능
+            end: sixMonthsLater.toISOString().split('T')[0] // 6개월까지만 예약 가능
         },
         select: function(info) {
+            // 사용자가 선택을 다시 하는 경우 이전 선택된 날짜 초기화
+            document.getElementById('checkin-dates').textContent = '';
+            document.getElementById('checkout-dates').textContent = '';
+            document.getElementById('count_nights').textContent = '';
+            document.getElementById('total-price').textContent = '';
+
             // 선택한 날짜 범위 정보
             var startDate = info.startStr;
             var endDate = new Date(info.endStr);
             endDate.setDate(endDate.getDate() - 1);
-            // var selectedEndDate = endDate.toISOString().split('T')[0];
+            var selectedEndDate = endDate.toISOString().split('T')[0];
 
-            document.getElementById('checkin-dates').textContent =
-                `${startDate}`;
-            document.getElementById('checkout-dates').textContent =
-                `${endDate}`;
+            document.getElementById('checkin-dates').textContent = startDate;
+                // `${startDate}`;
+            document.getElementById('checkout-dates').textContent = selectedEndDate;
+                // `${selectedEndDate}`;
 
-            var timeDiffernece = endDate - startDate;
+            var timeDiffernece = selectedEndDate - startDate;
             var countNights = timeDiffernece / (1000 * 60 * 60 * 24) // 밀리초 단위에서 일로 변환해야함
 
-            document.getElementById('nights-count').textContent = `총 ${countNights}박`;
+            document.getElementById('nights-count').textContent = countNights;
 
             var pricePerWeek = document.getElementById('price').getAttribute('data-price');
             pricePerWeek = parseInt(pricePerWeek, 10);
 
             var totalPrice = (pricePerWeek / 7) * countNights;
-            document.getElementById('total-price').textContent = `${totalPrice.toLocaleString()}원`;
-
-
+            document.getElementById('total-price').textContent = totalPrice.toLocaleString();
         },
         unselected:function () {
             document.getElementById('checkin-dates').textContent = '';
             document.getElementById('checkout-dates').textContent = '';
-            document.getElementById('nights-count').textContent = '총 0박';
-            document.getElementById('total-price').textContent = '0원';
+            document.getElementById('nights-count').textContent = '';
+            document.getElementById('total-price').textContent = '';
         }
     });
     calendar.render();
 });
-
-// // controller로 선택한 날짜 넘기기
-// function sendSelectedDates(startDate, endDate) {
-//     fetch('/your-controller-endpoint', {
-//         method: 'Post',
-//         headers: {
-//             'Content-Type': 'application/json'
-//         },
-//         body: JSON.stringify({
-//             startDate: startDate,
-//             endDate: endDate
-//         })
-//     })
-//         .then(response => response.json())
-//         .then(data => {
-//             console.log('Success:', data);
-//         })
-//         .catch((error) => {
-//             console.error('Error:', error);
-//         });
-// }
