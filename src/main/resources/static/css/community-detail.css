@@ -374,13 +374,26 @@
   background-color: #f9f9f9;
 }
 
-.community-detail-container .comment-input-section .comment-input {
+.reply-input-section {
+  display: none;
+  border-top: 1px solid #e9ecef;
+  padding: 20px;
+  background-color: #f9f9f9;
+}
+
+.reply-button-wrapper {
+  padding-bottom: 10px;
+}
+
+
+
+.community-detail-container .comment-input-section .comment-input, .reply-input {
   display: flex;
   flex-direction: column;
 }
 
 
-.comment-input-field {
+.comment-input-field, .reply-input-field {
   width: 96%;
   height: 60px;
   font-family: -apple-system,
@@ -399,12 +412,12 @@
   margin-bottom: 10px;
 }
 
-.comment-input-field:focus {
+.comment-input-field:focus, .reply-input-field:focus {
   border-color: #ff7e36;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
-.community-detail-container .comment-input-section .comment-submit-button {
+.community-detail-container .comment-input-section .comment-submit-button,  .reply-submit-button {
   padding: 10px 20px;
   font-size: 14px;
   font-weight: bold;

@@ -44,7 +44,7 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 function createCommentHtml(data) {
-  const isPostWriter = postUserId === data.userId;
+    const isPostWriter = postUserId === data.userId;
     return `
     <div class="detail-comment-wrap">
       <div class="detail-comment-header">
@@ -79,7 +79,7 @@ function createCommentHtml(data) {
       <div class="detail-comment-content">
         <p id="commentContent">${data.content}</p>
       </div>
-      <div>
+      <div class="reply-button-wrapper" id ="replyBtnWrapper">
         <button class="comment-like-button" id="commentLikeButton">
           <img src="/images/community/unlike.svg" alt="댓글 좋아요" id="commentLikeIcon"/>
           <span id="commentLikeCount">좋아요</span>
@@ -89,21 +89,71 @@ function createCommentHtml(data) {
           <span>답글쓰기</span>
         </button>
       </div>
+      <section class="reply-input-section">
+        <div class="reply-input">
+          <form id="replyCommentForm">
+                      <textarea placeholder class="reply-input-field" id="replyInput"
+                                name="replyContent"></textarea>
+            <button class="reply-submit-button" id="submitReplyBtn">답글 등록</button>
+          </form>
+        </div>
+      </section>
     </div>
   `;
 }
 
 document.addEventListener("DOMContentLoaded", function () {
-    const commentsList = document.getElementById("commentsList");
+  const commentsList = document.getElementById("commentsList");
 
-    commentsList.addEventListener("click", function (event) {
-        if (event.target && event.target.closest(".reply-button")) {
-            const commentId = event.target.closest(".reply-button").getAttribute("data-comment-id");
-            alert(`클릭한 댓글의 ID: ${commentId}`);
-            console.log(commentId);
-        }
-    });
+  commentsList.addEventListener("click", function (event) {
+    if (event.target && event.target.closest(".reply-button")) {
+      const commentId = event.target.closest(".reply-button").getAttribute("data-comment-id");
+      const replySection = event.target.closest(".detail-comment-wrap").querySelector(".reply-input-section");
+
+      // display가 none이면 block으로, block이면 none으로 전환
+      replySection.style.display = replySection.style.display === "none" || replySection.style.display === "" ? "block" : "none";
+      alert(`클릭한 댓글의 ID: ${commentId}`);
+      console.log(commentId);
+    }
+  });
+
+  commentsList.addEventListener("submit", function (e) {
+    e.preventDefault();
+    if (e.target && e.target.id === "replyCommentForm") {
+      const replyForm = e.target;
+      const replyContent = replyForm.querySelector("#replyInput").value;
+      const commentId = replyForm.closest(".detail-comment-wrap").querySelector(".reply-button").getAttribute("data-comment-id");
+
+      // 답글 등록 API 호출
+      fetch(`/api/community/posts/${communityPostId}/comments`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          content: replyContent,
+          userId : currentUserId,
+          parentId: commentId // 상위 댓글 ID
+        })
+      })
+          .then(response => {
+           if (response.ok) {
+             return response.json();
+           } else {
+             throw new Error("댓글 등록에 실패했습니다.");
+           }
+          })
+          .then(data => {
+              replyForm.querySelector("#replyInput").value = ""; // 입력 필드 초기화
+          })
+          .catch(error => console.error("답글 등록 오류:", error));
+    } else {
+      alert("답글 내용을 입력해주세요.");
+    }
+  });
 });
+
+
 
 function updateCommentCount(count) {
     document.getElementById("commentCount").innerText = `댓글 ${count}`;
@@ -237,3 +287,9 @@ document.getElementById("confirmDeleteButton").addEventListener("click", functio
         })
         .catch(error => console.log("에러 발생: ", error));
 });
+
+
+document.getElementById("editPost").addEventListener("click", function () {
+    window.location.href = `/community/write/${communityPostId}`;
+
+})
