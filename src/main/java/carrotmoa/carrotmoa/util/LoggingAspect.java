@@ -21,36 +21,32 @@ public class LoggingAspect {
 
     @Before("execution(* carrotmoa.carrotmoa.controller.api.*.*(..)) && args(requestDTO,..)")
     public void logBefore(JoinPoint joinPoint, RequestDTO requestDTO) {
-        logMethodExecution(joinPoint);
-        logRequestDTO(requestDTO);
-    }
-
-    private void logMethodExecution(JoinPoint joinPoint) {
         log.info("메서드 실행 전 - {}", joinPoint.getSignature().getName());
-    }
-
-    private void logRequestDTO(RequestDTO requestDTO) {
         log.info("Request DTO 클래스: {}", requestDTO.getClass().getSimpleName());
         log.info("파라미터 값: {}", Arrays.toString(requestDTO.getClass().getDeclaredFields()));
 
-        Arrays.stream(requestDTO.getClass().getDeclaredFields())
-                .forEach(field -> logField(requestDTO, field));
+        // 필드 정보를 로그에 기록
+        logFields(requestDTO);
     }
 
-    private void logField(RequestDTO requestDTO, Field field) {
-        field.setAccessible(true);
-        try {
-            Object value = field.get(requestDTO);
-            if (value instanceof MultipartFile) {
-                logMultipartFileField((MultipartFile) value);
-            } else if (value instanceof List) {
-                logListField(field, requestDTO);
-            } else {
-                log.info("{} ({}): {}", field.getName(), field.getType().getSimpleName(), value);
-            }
-        } catch (IllegalAccessException e) {
-            log.warn("필드 값을 읽는 중 오류 발생: {}", field.getName());
-        }
+    private void logFields(RequestDTO requestDTO) {
+        // RequestDTO의 모든 필드를 순회하며 로그 기록
+        Arrays.stream(requestDTO.getClass().getDeclaredFields())
+                .forEach(field -> {
+                    field.setAccessible(true); // private 필드 접근 허용
+                    try {
+                        Object value = field.get(requestDTO);  // 필드의 값을 가져옴
+                        if (value instanceof MultipartFile) {
+                            logMultipartFileField((MultipartFile) value);
+                        } else if (value instanceof List) {
+                            logListField((List<?>) value, field.getName());
+                        } else {
+                            log.info("{} ({}): {}", field.getName(), field.getType().getSimpleName(), value);
+                        }
+                    } catch (IllegalAccessException e) {
+                        log.warn("필드 값을 읽는 중 오류 발생: {}", field.getName());
+                    }
+                });
     }
 
     private void logMultipartFileField(MultipartFile file) {
@@ -61,17 +57,12 @@ public class LoggingAspect {
         }
     }
 
-    private void logListField(Field field, RequestDTO requestDTO) {
-        try {
-            List<?> list = (List<?>) field.get(requestDTO);
-            if (list != null && !list.isEmpty()) {
-                log.info("{} (List):", field.getName());
-                for (Object item : list) {
-                    logListItem(item);
-                }
+    private void logListField(List<?> list, String fieldName) {
+        if (list != null && !list.isEmpty()) {
+            log.info("{} (List):", fieldName); // 리스트 필드 이름 로그 기록
+            for (Object item : list) {
+                logListItem(item); // 리스트 항목 로그 기록
             }
-        } catch (IllegalAccessException e) {
-            log.warn("리스트 필드 값을 읽는 중 오류 발생: {}", field.getName());
         }
     }
 
@@ -79,23 +70,9 @@ public class LoggingAspect {
         if (item instanceof MultipartFile) {
             logMultipartFileField((MultipartFile) item);
         } else if (item instanceof RequestDTO) {
-            logFieldDetails(item);
+            logFields((RequestDTO) item); // RequestDTO로 재귀적으로 필드 로그 기록
         } else {
             log.info("List Item: {}", item);
-        }
-    }
-
-    private void logFieldDetails(Object obj) {
-        Arrays.stream(obj.getClass().getDeclaredFields())
-                .forEach(field -> logFieldDetail(obj, field));
-    }
-
-    private void logFieldDetail(Object obj, Field field) {
-        field.setAccessible(true);
-        try {
-            log.info("{}: {}", field.getName(), field.get(obj));
-        } catch (IllegalAccessException e) {
-            log.warn("필드 값을 읽는 중 오류 발생: {}", field.getName());
         }
     }
 }
