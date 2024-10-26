@@ -2,83 +2,225 @@ body {
     font-family: Arial, sans-serif;
     background-color: #f8f9fa;
 }
-.roomImages {
-    display: flex;
-    overflow: hidden;
+.room_content {
     position: relative;
-    width: 692px;
-    height: 400px;
-}
-
-.room_image_wrpper {
-    width: 692px;
-    height: 400px;
-    display: none;
-    position: absolute;;
-}
-
-.room_image {
-    width: 100%;
-    height: 100%;
-    object-fit:cover ;
-}
-
-/*.image-controls {*/
-/*    position: absolute;*/
-/*    top: 50%;*/
-/*    width: 100%;*/
-/*    display: flex;*/
-/*    justify-content: space-between;*/
-/*    transform: translateY(-50%);*/
-/*}*/
-
-/*.image-controls button {*/
-/*    background-color: rgba(0, 0, 0, 0.5);*/
-/*    border: none;*/
-/*    color: white;*/
-/*    padding: 10px;*/
-/*    cursor: pointer;*/
-/*}*/
-
-.slider-button {
-    position: absolute;
-}
-
-.contract-card {
-    position: sticky;
-    top: 20px;
-    padding: 20px;
-    background-color: white;
-    border: 1px solid #ddd;
-}
-
-.contract-card button {
-    background-color: black;
-    color: white;
-    padding: 10px;
-    border: none;
-    cursor: pointer;
-}
-
-.room_amenity {
-    margin: 20px;
-}
-.amenity_info {
-    display: flex;
-    flex-wrap: wrap;
+    width: 1084px;
+    margin: 0 auto;
+    padding-top: 60px;
 }
 .flex {
     display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
 }
-.profile_img {
-    display: inline-block; /* 또는 flex 사용 가능 */
-    vertical-align: top; /* 이미지가 위쪽에 정렬되도록 */
+.room_detail {
+    width: 692px;
+}
+.room_info {
+    position: relative;
+}
+.room_info .title {
+    display: flex;
+    align-items: center;
+    margin-bottom: 16px;
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 28px;
+}
+.room_info .add_text {
+    margin-top: -8px;
+    color: #777;
+    font-size: 18px;
+    line-height: 22px;
+}
+.room_info:nth-child(n+2) {
+    margin-top: 70px;
+}
+.room_info .title {
+    display: flex;
+    align-items: center;
+    margin-bottom: 16px;
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 28px;
+}
+.room_info .title_text {
+    font-size: 15px;
+    line-height: 22px;
+    word-wrap: break-word;
+}
+.title_text {
+    margin-top: 8px;
+    color: #777;
+}
+.room_info .option {
+    display: flex;
+    flex-wrap: wrap;
+}
+.room_info .option li {
+    display: flex;
+    align-items: center;
+    width: 20%;
 }
 
-.profile_info {
-    display: inline-block; /* 또는 flex 사용 가능 */
-    margin-left: 10px; /* 이미지와의 간격을 조절 */
+.room_info .option li span {
+    width: 32px;
+    height: 32px;
+    margin-right: 12px;
 }
-.line_box {
+/*img {*/
+/*    width: 100%;*/
+/*    height: 100%;*/
+/*}*/
+.room_info .option li p {
+    min-width: 52px;
+    font-size: 15px;
+    color: #333;
+}
+.profile {
     display: flex;
+    justify-content: space-between;
+    margin: 90px 0 80px;
+}
+.profile dl {
+    display: flex;
+}
+.profile .profile_img {
+    width: 60px;
+    height: 60px;
+    margin-right: 20px;
+    border-radius: 100px;
+}
+.profile_img {
+    overflow: hidden;
+    /* position: relative; */
+    width: 80px;
+    height: 80px;
+    /*background: url(/images/webpc/img_profile-e562db3….svg) 0 0 no-repeat;*/
+    /*background-size: 80px 80px;*/
+    border-radius: 50%;
+}
+.profile .profile_name {
+    display: flex;
+}
+.profile .profile_name strong {
+    font-size: 16px;
+    line-height: 22px;
+}
+.profile .introduce {
+    margin-top: 10px;
+    color: #5C5C5C;
+}
+.profile .btn {
+    display: block;
+    height: 44px;
+    box-sizing: border-box;
+    margin-top: 8px;
+}
+/*.white {*/
+/*    border-radius: 4px;*/
+/*    border: 1px solid #DFDFDF;*/
+/*    background: #fff;*/
+/*}*/
+/*.medium {*/
+/*    height: 48px;*/
+/*    padding: 11px 20px;*/
+/*    border-radius: 4px;*/
+/*    border: 1px solid #DFDFDF;*/
+/*    font-size: 15px;*/
+/*    font-weight: 500;*/
+/*    line-height: 22px;*/
+/*}*/
+/*.btn {*/
+/*    display: inline-block;*/
+/*    box-sizing: border-box;*/
+/*}*/
+.profile .icon_send {
+    padding: 0 24px 0 48px;
+    /*background: url(/images/webpc/icon_send-26f2b10….svg) 24px 0 no-repeat;*/
+    /*background-size: 18px auto;*/
+}
+.room_info .title .font_purple {
+    margin-left: 12px;
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 26px;
+}
+.font_purple {
+    color: #FF6F0F !important;
+}
+.review_list {
+    margin-top: 24px;
+}
+.review_list li {
+    font-size: 15px;
+    color: #333;
+    line-height: 22px;
+}
+.review_info {
+    display: flex;
+    align-items: center;
+}
+.review_info .bg_score {
+    position: relative;
+    width: 80px;
+    height: 16px;
+    /*background: url(/images/webpc/icon_star_off-034f2d0….svg) 0 0 repeat-x;*/
+}
+.review_info .score {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 80px;
+    height: 16px;
+    /*background: url(/images/webpc/icon_star_on-69a2922….svg) 0 0 repeat-x;*/
+}
+.room_sticky {
+    position: sticky;
+    top: 0;
+    width: 348px;
+    /* height: 403px; */
+    margin-top: 82px;
+    padding: 28px 20px;
+    border-radius: 6px;
+    background: #FFF;
+    box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.15);
+}
+.top_icon {
+    display: flex;
+    justify-content: right;
+    align-items: center;
+}
+.top_icon a {
+    width: 18px;
+    height: 18px;
+    padding: 6px;
+    margin-right: 6px;
+}
+.top_icon .btn_like {
+    position: relative;
+    top: -3px;
+    display: inline-block;
+    width: 24px;
+    height: 24px;
+    background: url(https://carrots-bucket.s3.ap-northeast-2.amazonaws.com/room_detail_icon/icon_heart-bfc3fcf41d729bdd59ec19dd74ea3b75.svg) 0 0 no-repeat;
+}
+.blind {
+    display: none;
+}
+.room_pay {
+    margin-top: 6px;
+}
+.room_pay p strong {
+    font-size: 26px;
+    line-height: 24px;
+}
+.room_pay p em {
+    font-size: 20px;
+    line-height: 25px;
+}
+.room_pay p span {
+    color: #777;
+    font-size: 20px;
+    line-height: 21px;
 }

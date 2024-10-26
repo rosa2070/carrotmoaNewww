@@ -1,6 +1,6 @@
 package carrotmoa.carrotmoa.controller.api;
 
-import carrotmoa.carrotmoa.service.ReservationListService;
+//import carrotmoa.carrotmoa.service.ReservationListService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @RequestMapping("/guest/booking/")
 public class GuestBookingController {
-    @Autowired
-    ReservationListService reservationListService;
+//    @Autowired
+//    ReservationListService reservationListService;
 
 //    @GetMapping("/{id}")
 //    public List<ReservationResponse> getContract(@RequestParam("id") long id, Model model) {

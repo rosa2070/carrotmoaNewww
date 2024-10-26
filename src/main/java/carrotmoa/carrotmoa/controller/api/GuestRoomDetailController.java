@@ -30,6 +30,9 @@ public class GuestRoomDetailController {
         model.addAttribute("amenities", amenities);
         model.addAttribute("icons", icons);
         model.addAttribute("profile", profile);
+        // 링크 복사를 위해서 model에 담아주기
+        String copyLinkUrl = "http://localhost:8080/room/detail/" + id;
+        model.addAttribute("copyLinkUrl", copyLinkUrl);
         return "guest/roomDetail";
     }
 
