@@ -268,10 +268,10 @@ body {
     margin: 20px 0;
 }
 
-.review_list li:nth-child(n+2) {
-    padding-top: 20px;
-    border-top: 1px solid #F4F4F4;
-}
+/*.review_list li:nth-child(n+2) {*/
+/*    padding-top: 20px;*/
+/*    border-top: 1px solid #F4F4F4;*/
+/*}*/
 .room_sticky {
     position: sticky;
     top: 0;
