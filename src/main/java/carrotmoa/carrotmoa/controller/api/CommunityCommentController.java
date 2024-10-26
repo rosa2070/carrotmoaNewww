@@ -1,5 +1,6 @@
 package carrotmoa.carrotmoa.controller.api;
 
+import carrotmoa.carrotmoa.model.request.SaveCommunityCommentRequest;
 import carrotmoa.carrotmoa.model.response.SaveCommunityCommentResponse;
 import carrotmoa.carrotmoa.service.CommunityCommentService;
 import java.util.Map;
@@ -14,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import static carrotmoa.carrotmoa.entity.QCommunityComment.communityComment;
+
 @RestController
 @RequestMapping("/api/community")
 @RequiredArgsConstructor
@@ -23,10 +26,9 @@ public class CommunityCommentController {
     final private CommunityCommentService communityCommentService;
 
     @PostMapping("/posts/{communityPostId}/comments")
-    public ResponseEntity<SaveCommunityCommentResponse> createCommunityComment(@PathVariable("communityPostId") Long communityPostId,
-        @RequestBody SaveCommunityCommentResponse saveCommunityCommentRequest) {
-        SaveCommunityCommentResponse communityComment = communityCommentService.createCommunityComment(communityPostId, saveCommunityCommentRequest);
-        return new ResponseEntity<>(communityComment, HttpStatus.CREATED);
+    public ResponseEntity<Long> createCommunityComment(@PathVariable("communityPostId")Long communityPostId, @RequestBody SaveCommunityCommentRequest saveCommunityCommentRequest) {
+        Long communityCommentId = communityCommentService.createCommunityComment(communityPostId, saveCommunityCommentRequest);
+        return new ResponseEntity<>(communityCommentId, HttpStatus.CREATED);
     }
 
     @GetMapping("/posts/{communityPostId}/comments")
@@ -34,4 +36,5 @@ public class CommunityCommentController {
         Map<String, Object> activeComments = communityCommentService.findActiveCommentsByCommunityPostId(communityPostId);
         return new ResponseEntity<>(activeComments, HttpStatus.OK);
     }
+
 }

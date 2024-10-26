@@ -81,6 +81,7 @@ public class CommunityPostService {
         CommunityPost communityPost = communityPostRepository.findById(communityPostId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "게시글을 찾을 수 없습니다."));
         Post post = postRepository.findById(communityPost.getPostId()).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "게시글의 내용이 없습니다."));
         post.updatePost(request.getTitle(), request.getContent());
+
         communityPost.updateCategory(request.getCommunityCategoryId());
         return communityPostId;
     }

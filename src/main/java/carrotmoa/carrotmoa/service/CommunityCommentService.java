@@ -1,6 +1,8 @@
 package carrotmoa.carrotmoa.service;
 
 import carrotmoa.carrotmoa.entity.CommunityComment;
+import carrotmoa.carrotmoa.exception.ResourceNotFoundException;
+import carrotmoa.carrotmoa.model.request.SaveCommunityCommentRequest;
 import carrotmoa.carrotmoa.model.response.SaveCommunityCommentResponse;
 import carrotmoa.carrotmoa.model.response.CommunityCommentResponse;
 import carrotmoa.carrotmoa.repository.CommunityCommentRepository;
@@ -21,23 +23,21 @@ public class CommunityCommentService {
     private final CommunityCommentRepository communityCommentRepository;
     private final CommunityPostRepository communityPostRepository;
 
-    //    TODO: dto에 userId 변수 정의하고, existsById로 유저 아이디 있는지 검사하는 로직 추가해야함.
     @Transactional
-    public SaveCommunityCommentResponse createCommunityComment(Long communityPostId, SaveCommunityCommentResponse dto) {
-        if (!communityPostRepository.existsById(communityPostId)) {
-            throw new IllegalArgumentException("해당 게시글이 존재하지 않습니다.");
+    public Long createCommunityComment(Long communityPostId, SaveCommunityCommentRequest request) {
+        if(!communityPostRepository.existsById(communityPostId)) {
+            throw new ResourceNotFoundException("해당 게시글이 존재하지 않습니다.");
         }
-        dto.setCommunityPostId(communityPostId);
-        CommunityComment CommunityCommentEntity = communityCommentRepository.save(dto.toCommunityCommentEntity());
-        int commentCount = communityCommentRepository.countByCommunityPostId(communityPostId);
-        return new SaveCommunityCommentResponse(CommunityCommentEntity, commentCount);
+        request.setCommunityPostId(communityPostId);
+        CommunityComment commentEntity = communityCommentRepository.save(request.toCommunityCommentEntity());
+            return commentEntity.getId();
     }
+
 
     @Transactional(readOnly = true)
     public Map<String, Object> findActiveCommentsByCommunityPostId(Long communityPostId) {
-        List<CommunityComment> commentListEntity = communityCommentRepository.findActiveCommentsByCommunityPostId(communityPostId);
+        List<CommunityCommentResponse> commentList = communityCommentRepository.findActiveCommentsByCommunityPostId(communityPostId);
         int commentCount = communityCommentRepository.countByCommunityPostId(communityPostId);
-        List<CommunityCommentResponse> commentList = commentListEntity.stream().map(CommunityCommentResponse::new).toList();
         Map<String, Object> responseMap = new HashMap<>();
         responseMap.put("commentCount", commentCount);
         responseMap.put("commentList", commentList);
