@@ -255,6 +255,8 @@ body {
     display: block;
     margin-top: 2px;
     line-height: 19px;
+    font-size: 15px;
+    color: #212124;
 }
 .orange {
     border-radius: 4px;
@@ -269,4 +271,13 @@ body {
     font-size: 15px;
     font-weight: 500;
     line-height: 22px;
+}
+.btn_full a, .btn_full button {
+    width: 100%;
+    box-sizing: border-box;
+    text-align: center;
+}
+.btn {
+    display: inline-block;
+    box-sizing: border-box;
 }

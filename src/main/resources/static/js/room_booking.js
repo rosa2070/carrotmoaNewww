@@ -16,10 +16,10 @@ document.addEventListener('DOMContentLoaded', function() {
         },
         select: function(info) {
             // 사용자가 선택을 다시 하는 경우 이전 선택된 날짜 초기화
-            document.getElementById('checkin-dates').textContent = '';
-            document.getElementById('checkout-dates').textContent = '';
-            document.getElementById('count_nights').textContent = '';
-            document.getElementById('total-price').textContent = '';
+            // document.getElementById('checkin-dates').textContent = '';
+            // document.getElementById('checkout-dates').textContent = '';
+            // document.getElementById('count_nights').textContent = '';
+            // document.getElementById('total-price').textContent = '';
 
             // 선택한 날짜 범위 정보
             var startDate = info.startStr;
@@ -28,11 +28,9 @@ document.addEventListener('DOMContentLoaded', function() {
             var selectedEndDate = endDate.toISOString().split('T')[0];
 
             document.getElementById('checkin-dates').textContent = startDate;
-                // `${startDate}`;
             document.getElementById('checkout-dates').textContent = selectedEndDate;
-                // `${selectedEndDate}`;
 
-            var timeDiffernece = selectedEndDate - startDate;
+            var timeDiffernece = endDate - new Date(info.startStr);
             var countNights = timeDiffernece / (1000 * 60 * 60 * 24) // 밀리초 단위에서 일로 변환해야함
 
             document.getElementById('nights-count').textContent = countNights;
