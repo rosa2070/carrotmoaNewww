@@ -146,7 +146,7 @@ body {
     font-weight: 700;
     line-height: 26px;
 }
-.font_purple {
+.font_orange {
     color: #FF6F0F !important;
 }
 .review_list {
@@ -223,4 +223,23 @@ body {
     color: #777;
     font-size: 20px;
     line-height: 21px;
+}
+.btn_full a, .btn_full button {
+    width: 100%;
+    box-sizing: border-box;
+    text-align: center;
+}
+.orange {
+    border-radius: 4px;
+    background: #FF6F0F;
+    color: #fff;
+}
+.medium {
+    height: 48px;
+    padding: 11px 20px;
+    border-radius: 4px;
+    border: 1px solid #DFDFDF;
+    font-size: 15px;
+    font-weight: 500;
+    line-height: 22px;
 }

@@ -96,10 +96,10 @@
             </div>
             <div class="room_sticky">
                 <div class="top_icon">
-                    <input type="text" id="url_copyLink_room" th:value="${copyLinkUrl}" readonly style="width:1px; height:1px;">
-                    <a id="btn_share" th:attr="data-clipboard-target='#url_copylink_room'">
-                        <img src="https://carrots-bucket.s3.ap-northeast-2.amazonaws.com/room_detail_icon/icon_sharing.svg" alt="">
-                    </a>
+<!--                    <input type="text" id="url_copylink_room" th:value="${copyLinkUrl}" readonly style="width:1px; height:1px;">-->
+<!--                    <a id="btn_share" th:attr="data-clipboard-target='#url_copylink_room'">-->
+<!--                        <img src="https://carrots-bucket.s3.ap-northeast-2.amazonaws.com/room_detail_icon/icon_sharing.svg" alt="">-->
+<!--                    </a>-->
                     <button type="button" class="btn_like">
                         <span class="blind">찜하기</span>
                     </button>
@@ -116,6 +116,31 @@
 <!--                        <li>주방 1</li>-->
 <!--                        <li>거실 0</li>-->
 <!--                    </ul>-->
+                </div>
+                <div class="reservation-container">
+                    <div class="reservation" id="calendar">
+                        <script th:src="@{/js/room_booking.js}"></script>
+                    </div>
+                </div>
+                <div class="btn_date_full">
+                    <a id="btn_check_checkin" class="btn medium white" style="display: none;">
+                        날짜를 선택해주세요
+                    </a>
+                    <div class="line_box" id="div_checkin_schedule" style>
+                        <p>
+                            체크인 날짜
+                            <span id="checkin-dates"></span>
+                        </p>
+                    </div>
+                    <div class="line_box" id="div_checkout_schedule" style>
+                        <p>
+                            체크아웃 날짜
+                            <span id="checkout-dates"></span>
+                        </p>
+                    </div>
+                </div>
+                <div class="btn_full">
+                    <a id="btn_start_booking_now" class="btn medium orange">계약 시작하기</a>
                 </div>
             </div>
         </div>
