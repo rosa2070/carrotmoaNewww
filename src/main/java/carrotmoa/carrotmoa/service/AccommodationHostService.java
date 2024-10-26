@@ -69,16 +69,6 @@ public class AccommodationHostService {
         accommodationImageService.updateAccommodationImages(accommodationId, updateAccommodationRequest.getImages(), existingImageUrls);
     }
 
-
-    public AccommodationDetailResponse getAccommodationDetail(Long id) {
-        return accommodationDetailCustomRepository.getAccommodationDetailById(id);
-    }
-
-
-    public List<HostManagedAccommodationResponse> getAccommodationsByUserId(Long userId) {
-        return accommodationDetailCustomRepository.findAccommodationsByUserId(userId);
-    }
-
     @Transactional
     public void deleteAccommodation(Long id) {
         // 방 ID에 해당하는 숙소를 가져오기
@@ -92,4 +82,17 @@ public class AccommodationHostService {
             throw new IllegalArgumentException("숙소가 존재하지 않습니다.");
         }
     }
+
+    @Transactional(readOnly = true)
+    public AccommodationDetailResponse getAccommodationDetail(Long id) {
+        return accommodationDetailCustomRepository.getAccommodationDetailById(id);
+    }
+
+
+    @Transactional(readOnly = true)
+    public List<HostManagedAccommodationResponse> getAccommodationsByUserId(Long userId) {
+        return accommodationDetailCustomRepository.findAccommodationsByUserId(userId);
+    }
+
+
 }

@@ -42,8 +42,11 @@ public class HostRoomApiController {
         }
         createAccommodationRequest.setUserId(3L);
 
+        // 여기서 AOP가 자동으로 logBefore 메서드를 호출하여 로깅을 수행합니다.
+
+
         // 입력한 거 로그 찍기
-        createAccommodationRequest.logRequestDetails();
+//        createAccommodationRequest.logRequestDetails();
 
         Long accommodationId = accommodationHostService.createAccommodation(createAccommodationRequest);
         return new ResponseEntity<>(accommodationId, HttpStatus.CREATED);
@@ -66,7 +69,7 @@ public class HostRoomApiController {
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         } catch (Exception e) {
-            return ResponseEntity.status(500).body("업데이트 중 오류가 발생했습니다.");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("업데이트 중 오류가 발생했습니다.");
         }
     }
 

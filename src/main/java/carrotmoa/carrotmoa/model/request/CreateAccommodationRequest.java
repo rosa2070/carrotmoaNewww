@@ -19,7 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 @Getter
 @Setter
 @Slf4j
-public class CreateAccommodationRequest {
+public class CreateAccommodationRequest implements RequestDTO {
     private static final Long SERVICE_ID = 8L;
 
     private Long userId; //호스트 ID
@@ -108,31 +108,6 @@ public class CreateAccommodationRequest {
             accommodationSpaceRequest.setSpaceId(i + 1);
             accommodationSpaceRequest.setCount(0);
             accommodationSpaces.add(accommodationSpaceRequest);
-        }
-    }
-
-    public void logRequestDetails() {
-        log.info("Host ID: {}", userId);
-        log.info("Accommodation Name: {}", title);
-        log.info("Total Area: {}", totalArea);
-        log.info("Road Address: {}", roadAddress);
-        log.info("Lot Address: {}", lotAddress);
-        log.info("Detail Address: {}", detailAddress);
-        log.info("Floor: {}", floor);
-        log.info("Total Floors: {}", totalFloor);
-        log.info("Price: {}", price);
-        log.info("Details: {}", content);
-        log.info("Transportation Info: {}", transportationInfo);
-        log.info("Selected Amenities IDs: {}", amenityIds);
-        log.info("Number of uploaded images: {}", (images != null ? images.size() : 0));
-
-        // AccommodationSpaces 로그 추가
-        if (accommodationSpaces != null && !accommodationSpaces.isEmpty()) {
-            for (AccommodationSpaceRequest space : accommodationSpaces) {
-                log.info("Accommodation Space - Space ID: {}, Count: {}", space.getSpaceId(), space.getCount());
-            }
-        } else {
-            log.info("No accommodation spaces provided.");
         }
     }
 

@@ -6,16 +6,9 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class AccommodationSpaceRequest {
+public class AccommodationSpaceRequest implements RequestDTO {
     private long accommodationId;
     private long spaceId;
     private int count;
 
-    public AccommodationSpace toAccommodationSpaceEntity() {
-        return AccommodationSpace.builder()
-            .accommodationId(accommodationId)
-            .spaceId(spaceId)
-            .count(count)
-            .build();
-    }
 }
