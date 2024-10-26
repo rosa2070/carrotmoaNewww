@@ -24,8 +24,10 @@ public class AccommodationImageService {
 
     @Transactional
     public void updateAccommodationImages(Long accommodationId, List<MultipartFile> newImages, List<String> existingImageUrls) throws IOException {
-        // 기존 이미지 삭제
-        deleteExistingImages(existingImageUrls);
+        // 새 이미지가 있을 경우에만 기존 이미지 삭제
+        if (newImages != null && !newImages.isEmpty()) {
+            deleteExistingImages(existingImageUrls);
+        }
 
         // 새 이미지 저장
         saveAccommodationImages(accommodationId, newImages);
