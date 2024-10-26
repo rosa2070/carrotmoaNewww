@@ -385,6 +385,15 @@
   padding-bottom: 10px;
 }
 
+.child-comment {
+  width: 9px;
+  height: 9px;
+  border-bottom: 1px solid #adb5bd;
+  border-left: 1px solid #adb5bd;
+  display: inline-block;
+  margin-right: 16px;
+  vertical-align: top;
+}
 
 
 .community-detail-container .comment-input-section .comment-input, .reply-input {

@@ -34,4 +34,8 @@ public class CommunityComment extends BaseEntity {
 
     @Column(name = "is_deleted")
     private boolean isDeleted;
+
+    public void softDeleteComment(boolean isDeleted) {
+        this.isDeleted = isDeleted;
+    }
 }

@@ -2,6 +2,8 @@ package carrotmoa.carrotmoa.model.response;
 
 import carrotmoa.carrotmoa.entity.CommunityComment;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 import carrotmoa.carrotmoa.entity.UserAddress;
 import carrotmoa.carrotmoa.entity.UserProfile;
@@ -27,7 +29,6 @@ public class CommunityCommentResponse {
     private boolean isDeleted;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
-
     public CommunityCommentResponse(CommunityComment comment, UserProfile userProfile, UserAddress userAddress) {
         this.id = comment.getId();
         this.communityPostId = comment.getCommunityPostId();
@@ -52,4 +53,5 @@ public class CommunityCommentResponse {
             .isDeleted(false)
             .build();
     }
+
 }

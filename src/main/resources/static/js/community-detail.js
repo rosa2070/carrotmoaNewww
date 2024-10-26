@@ -45,8 +45,12 @@ document.addEventListener("DOMContentLoaded", function () {
 
 function createCommentHtml(data) {
     const isPostWriter = postUserId === data.userId;
+    const isCommentWriter = currentUserId === data.userId;
+    const childTag = data.parentId ? '<div class="child-comment"></div>' : '';
     return `
-    <div class="detail-comment-wrap">
+<div class="detail-comment-wrap-replytag" >
+ ${childTag}
+    <div class="detail-comment-wrap" data-comment-id="${data.id}">
       <div class="detail-comment-header">
         <div class="detail-comment-profile">
           <img src="${data.picUrl}" alt="유저 프로필 사진" id="commentUserProfile">
@@ -71,9 +75,9 @@ function createCommentHtml(data) {
         </button>
         <div class="overlay comment-overlay"></div>
         <div class="dropdown-content">
-          <button class="reportComment">댓글 신고</button>
-          <button class="editComment">댓글 수정</button>
-          <button class="deleteComment">댓글 삭제</button>
+         ${!isCommentWriter ? `<button class="reportComment">댓글 신고</button>` : '' } 
+         ${isCommentWriter ? `<button class="editComment">댓글 수정</button>` : '' } 
+          ${isCommentWriter ? `<button class="deleteComment">댓글 삭제</button>` : '' } 
         </div>
       </div>
       <div class="detail-comment-content">
@@ -93,12 +97,13 @@ function createCommentHtml(data) {
         <div class="reply-input">
           <form id="replyCommentForm">
                       <textarea placeholder class="reply-input-field" id="replyInput"
-                                name="replyContent"></textarea>
+                                name="replyContent" placeholder = "답글을 입력하세요.."></textarea>
             <button class="reply-submit-button" id="submitReplyBtn">답글 등록</button>
           </form>
         </div>
       </section>
     </div>
+</div>
   `;
 }
 
@@ -145,10 +150,29 @@ document.addEventListener("DOMContentLoaded", function () {
           })
           .then(data => {
               replyForm.querySelector("#replyInput").value = ""; // 입력 필드 초기화
+              // 댓글 리스트를 다시 불러옵니다.
+              return fetch(`/api/community/posts/${communityPostId}/comments`, { method: "GET" });
+          })
+          .then(response => {
+              if (!response.ok) throw new Error("댓글 리스트를 불러올 수 없습니다.");
+              return response.json();
+          })
+          .then(data => {
+              console.log(data);
+              const commentCount = data.commentCount;
+              const comments = data.commentList;
+
+              // 댓글 리스트를 새로 고침합니다.
+              document.getElementById("commentsList").innerHTML = "";
+              comments.forEach(comment => {
+                  const commentHtml = createCommentHtml(comment);
+                  document.getElementById("commentsList").insertAdjacentHTML('beforeend', commentHtml);
+              });
+              updateCommentCount(commentCount);
           })
           .catch(error => console.error("답글 등록 오류:", error));
     } else {
-      alert("답글 내용을 입력해주세요.");
+        alert("답글 내용을 입력해주세요.");
     }
   });
 });
@@ -235,6 +259,7 @@ document.getElementById("submitCommentBtn").addEventListener("click", function (
             return response.json();
         })
         .then(data => {
+            console.log(data);
             const commentCount = data.commentCount;
             const comments = data.commentList;
             document.getElementById("commentsList").innerHTML = "";
@@ -287,6 +312,46 @@ document.getElementById("confirmDeleteButton").addEventListener("click", functio
         })
         .catch(error => console.log("에러 발생: ", error));
 });
+
+document.addEventListener("DOMContentLoaded", function () {
+    const commentsList = document.getElementById("commentsList");
+    commentsList.addEventListener("click", function (event) {
+        const target = event.target;
+        // 삭제 버튼 클릭 이벤트 확인
+        if (target && target.classList.contains("deleteComment")) {
+            const commentWrap = target.closest(".detail-comment-wrap");
+            const commentId = target.closest(".detail-comment-wrap").getAttribute("data-comment-id");
+                fetch(`/api/community/posts/${communityPostId}/comments/${commentId}`, { method: "DELETE" })
+                    .then(response => {
+                        if (!response.ok) throw new Error("삭제할 댓글이 존재하지 않습니다.");
+                        return response.json();
+                    })
+                    .then(data => {
+                        console.log(data);
+                        return fetch(`/api/community/posts/${communityPostId}/comments`, { method: "GET" });
+                    })
+                    .then(response => {
+                        if (!response.ok) throw new Error("댓글 리스트를 불러올 수 없습니다.");
+                        return response.json();
+                    })
+                    .then(data => {
+                        const commentCount = data.commentCount;
+                        const comments = data.commentList;
+                        // 댓글 리스트를 새로 고침합니다.
+                        commentsList.innerHTML = "";
+                        comments.forEach(comment => {
+                            const commentHtml = createCommentHtml(comment);
+                            commentsList.insertAdjacentHTML('beforeend', commentHtml);
+                        });
+                        updateCommentCount(commentCount);
+                    })
+                    .catch(error => console.error("에러 발생:", error));
+        }
+    });
+});
+
+
+
 
 
 document.getElementById("editPost").addEventListener("click", function () {
