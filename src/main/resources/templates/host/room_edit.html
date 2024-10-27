@@ -45,7 +45,7 @@
                                     <input class="style-border" id="roadAddress" placeholder="도로명 주소를 입력해 주세요."
                                            readonly
                                            style="width: 500px;" type="text" value>
-                                    <button id="btn_search_addr" onclick="sample4_execDaumPostcode()"
+                                    <button id="btn_search_addr"
                                             style=" margin-left: 6px; width: 150px; height: 50px; padding: 13px 16px; border-radius: 4px; border: 1px solid #5C5C5C; background: #FFF"
                                             type="button">
                                         주소 찾기
@@ -58,6 +58,8 @@
                                 <input class="style-border" id="detailAddress" placeholder="상세주소를 입력해주세요."
                                        required
                                        type="text" value>
+                                <input type="input" id="latitude" placeholder="위도">
+                                <input type="input" id="longitude" placeholder="경도">
                             </div>
                         </div>
 
@@ -241,7 +243,7 @@
         </section>
     </div>
     <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-    <script src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=a87373924e4db687d5a79036f66214dc&libraries=services"></script>
+    <script src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=f1079392033d931767eee2ba4737b1ad&libraries=services"></script>
     <script src="/js/room-edit.js"></script>
 
 </main>
