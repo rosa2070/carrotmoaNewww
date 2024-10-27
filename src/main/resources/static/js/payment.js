@@ -1,6 +1,6 @@
 // 구매자 정보
-const useremail = "incudev2@gmail.com"
-const username = "incu"
+const useremail = "jj@gmail.com"
+const username = "jj"
 
 // 결제창 함수 넣어주기
 document.getElementById('payment-button').addEventListener("click",
@@ -26,13 +26,13 @@ function generateMerchantUid() {
 function paymentProcess() {
     if (confirm("구매 하시겠습니까?")) {
         if(isLogin){ // 회원만 결제 가능
-            IMP.init("imp34428218"); // 가맹점 식별코드
+            IMP.init("imp15548812"); // 고객사 식별코드 (포트원 사이트)
             IMP.request_pay({
-                pg: 'kakaopay.TC0ONETIME', // PG사 코드표에서 선택
+                pg: 'kakaopay.TC0ONETIME', // PG사 코드표에서 선택 (포트원 사이트)
                 pay_method: 'card', // 결제 방식
                 merchant_uid: "IMP" + generateMerchantUid(), // 결제 고유 번호
                 name: '상품명', // 제품명
-                amount: 1000, // 가격
+                amount: 300, // 가격
 
                 /* 구매자 정보 */
                 buyer_email: `${useremail}`,
