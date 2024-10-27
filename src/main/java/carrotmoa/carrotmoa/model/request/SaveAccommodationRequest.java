@@ -3,6 +3,7 @@ package carrotmoa.carrotmoa.model.request;
 import carrotmoa.carrotmoa.entity.Accommodation;
 import carrotmoa.carrotmoa.entity.AccommodationSpace;
 import carrotmoa.carrotmoa.entity.Post;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -19,7 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 @Getter
 @Setter
 @Slf4j
-public class CreateAccommodationRequest implements RequestDTO {
+public class SaveAccommodationRequest implements RequestDTO {
     private static final Long SERVICE_ID = 8L;
 
     private Long userId; //호스트 ID
@@ -63,6 +64,7 @@ public class CreateAccommodationRequest implements RequestDTO {
     @Size(min = 1, message = "최소 하나 이상의 편의 시설을 선택해야 합니다.")
     private List<Long> amenityIds = new ArrayList<>();
 
+    @JsonIgnore
     @Size(min = 4, max = 20, message = "이미지는 최소 4개, 최대 20개까지 업로드할 수 있습니다.")
     private List<MultipartFile> images; // 업로드된 이미지 파일들
 

@@ -1,22 +1,27 @@
 package carrotmoa.carrotmoa.controller.api;
 
-import carrotmoa.carrotmoa.model.request.CreateAccommodationRequest;
+import carrotmoa.carrotmoa.model.request.SaveAccommodationRequest;
 import carrotmoa.carrotmoa.model.request.UpdateAccommodationRequest;
 import carrotmoa.carrotmoa.model.response.AccommodationDetailResponse;
 import carrotmoa.carrotmoa.model.response.HostManagedAccommodationResponse;
 import carrotmoa.carrotmoa.service.AccommodationHostService;
 import jakarta.validation.Valid;
 import java.util.List;
+import java.util.stream.Collectors;
+
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 @Slf4j
 @RestController
 @RequestMapping("/api/host/room")
+//@Validated
 public class HostRoomApiController {
     // 기본 생성 공간 수 (방, 화장실, 거실, 주방)
     private static final int DEFAULT_SPACE_COUNT = 4;
@@ -27,20 +32,40 @@ public class HostRoomApiController {
     // 방 등록 폼 제출 후 테이블에 값 들어옴
     @PostMapping("/register")
     public ResponseEntity<?> registerAccommodation(
-        @Valid @ModelAttribute CreateAccommodationRequest createAccommodationRequest,
+        @Valid @ModelAttribute SaveAccommodationRequest saveAccommodationRequest,
         BindingResult bindingResult) {
 
         // 유효성 검사 실패 시 처리
         if (bindingResult.hasErrors()) {
-            //오류 메시지를 포함한 응답 반환
-            return ResponseEntity.badRequest().body(bindingResult.getFieldErrors());
+            List<String> errorMessages = bindingResult.getFieldErrors()
+                    .stream()
+                    .map(fieldError -> {
+                        String errorMessage = fieldError.getDefaultMessage();
+                        // 오류 메시지를 로그로 기록
+                        log.error("유효성 검사 오류 - 필드: {}, 메시지: {}", fieldError.getField(), errorMessage);
+                        return errorMessage;
+                    })
+                    .collect(Collectors.toList());
+
+            // 이미지 업로드 관련 오류 메시지 추가
+            List<MultipartFile> images = saveAccommodationRequest.getImages();
+            if (images != null) {
+                int imageCount = images.size();
+                if (imageCount < 4 || imageCount > 20) {
+                    errorMessages.add("이미지는 최소 4개, 최대 20개까지 업로드할 수 있습니다.");
+                }
+            }
+
+            // 오류 메시지를 포함한 응답 반환
+            return ResponseEntity.badRequest().body(errorMessages);
         }
 
+
         // 공간 초기화 메서드 호출
-        if (createAccommodationRequest.getAccommodationSpaces().isEmpty()) {
-            createAccommodationRequest.initializeSpaces(DEFAULT_SPACE_COUNT);
+        if (saveAccommodationRequest.getAccommodationSpaces().isEmpty()) {
+            saveAccommodationRequest.initializeSpaces(DEFAULT_SPACE_COUNT);
         }
-        createAccommodationRequest.setUserId(3L);
+        saveAccommodationRequest.setUserId(3L);
 
         // 여기서 AOP가 자동으로 logBefore 메서드를 호출하여 로깅을 수행합니다.
 
@@ -48,7 +73,7 @@ public class HostRoomApiController {
         // 입력한 거 로그 찍기
 //        createAccommodationRequest.logRequestDetails();
 
-        Long accommodationId = accommodationHostService.createAccommodation(createAccommodationRequest);
+        Long accommodationId = accommodationHostService.createAccommodation(saveAccommodationRequest);
         return new ResponseEntity<>(accommodationId, HttpStatus.CREATED);
     }
 

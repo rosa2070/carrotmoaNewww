@@ -1,7 +1,7 @@
 package carrotmoa.carrotmoa.service;
 
 import carrotmoa.carrotmoa.entity.Accommodation;
-import carrotmoa.carrotmoa.model.request.CreateAccommodationRequest;
+import carrotmoa.carrotmoa.model.request.SaveAccommodationRequest;
 import carrotmoa.carrotmoa.model.request.UpdateAccommodationRequest;
 import carrotmoa.carrotmoa.repository.AccommodationRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -18,7 +18,7 @@ public class AccommodationService {
     }
 
     @Transactional
-    public Accommodation saveAccommodation(CreateAccommodationRequest request, Long postId) {
+    public Accommodation saveAccommodation(SaveAccommodationRequest request, Long postId) {
         Accommodation accommodation = request.toAccommodationEntity();
         accommodation.setPostId(postId);
         return accommodationRepository.save(accommodation);

@@ -2,13 +2,12 @@ package carrotmoa.carrotmoa.service;
 
 import carrotmoa.carrotmoa.entity.Accommodation;
 import carrotmoa.carrotmoa.entity.Post;
-import carrotmoa.carrotmoa.model.request.CreateAccommodationRequest;
+import carrotmoa.carrotmoa.model.request.SaveAccommodationRequest;
 import carrotmoa.carrotmoa.model.request.UpdateAccommodationRequest;
 import carrotmoa.carrotmoa.repository.AccommodationRepository;
 import carrotmoa.carrotmoa.repository.PostRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Slf4j
@@ -21,8 +20,8 @@ public class PostService {
         this.accommodationRepository = accommodationRepository;
     }
 
-    public Post savePost(CreateAccommodationRequest createAccommodationRequest) {
-        Post post = createAccommodationRequest.toPostEntity();
+    public Post savePost(SaveAccommodationRequest saveAccommodationRequest) {
+        Post post = saveAccommodationRequest.toPostEntity();
         return postRepository.save(post);
     }
 

@@ -2,7 +2,7 @@ package carrotmoa.carrotmoa.service;
 
 import carrotmoa.carrotmoa.entity.Accommodation;
 import carrotmoa.carrotmoa.entity.Post;
-import carrotmoa.carrotmoa.model.request.CreateAccommodationRequest;
+import carrotmoa.carrotmoa.model.request.SaveAccommodationRequest;
 import carrotmoa.carrotmoa.model.request.UpdateAccommodationRequest;
 import carrotmoa.carrotmoa.model.response.AccommodationDetailResponse;
 import carrotmoa.carrotmoa.model.response.HostManagedAccommodationResponse;
@@ -44,13 +44,13 @@ public class AccommodationHostService {
     }
 
     @Transactional
-    public Long createAccommodation(CreateAccommodationRequest createAccommodationRequest) {
+    public Long createAccommodation(SaveAccommodationRequest saveAccommodationRequest) {
         try {
-            Post savedPost = postService.savePost(createAccommodationRequest);
-            Accommodation savedAccommodation = accommodationService.saveAccommodation(createAccommodationRequest, savedPost.getId());
-            accommodationSpaceService.saveAccommodationSpaces(createAccommodationRequest.toAccommodationSpaceEntities(), savedAccommodation.getId());
-            accommodationAmenityService.saveAmenities(savedAccommodation.getId(), createAccommodationRequest.getAmenityIds());
-            accommodationImageService.saveAccommodationImages(savedAccommodation.getId(), createAccommodationRequest.getImages());
+            Post savedPost = postService.savePost(saveAccommodationRequest);
+            Accommodation savedAccommodation = accommodationService.saveAccommodation(saveAccommodationRequest, savedPost.getId());
+            accommodationSpaceService.saveAccommodationSpaces(saveAccommodationRequest.toAccommodationSpaceEntities(), savedAccommodation.getId());
+            accommodationAmenityService.saveAmenities(savedAccommodation.getId(), saveAccommodationRequest.getAmenityIds());
+            accommodationImageService.saveAccommodationImages(savedAccommodation.getId(), saveAccommodationRequest.getImages());
             return savedAccommodation.getId();
         } catch (IOException e) {
             log.error("Image upload failed: {}", e.getMessage());
