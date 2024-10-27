@@ -10,6 +10,6 @@ public class PaymentViewController {
 
     @GetMapping
     public String Payment() {
-        return "payment";
+        return "/guest/payment";
     }
 }
