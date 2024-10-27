@@ -18,6 +18,7 @@ let $joinButton = $('#join');
 let $account = $('#account');
 let $bankName = $('#bank-name');
 let $account_holder = $('#account-holder');
+let $nicknameDuplication = $('#nickname-duplication')
 $('#timer').hide();
 let email;
 let timerId;
@@ -194,13 +195,22 @@ function timerInterval(timeLimit) {
 }
 
 $nickname.on('input', function () {
-  console.log(nicknameFlag);
   if (regNickname.test(($nickname).val()) && $nickname.val() !== '') {
-    $('#nickname-duplication').val('사용 가능한 닉네임이에요');
-    nicknameFlag = true;
-    joinSubmit();
+
+    nicknameDuplicationCheck($nickname.val()).then(check =>{
+      if(check){
+        console.log('사용 가능')
+        $('#nickname-duplication').text('사용 가능한 닉네임이에요');
+        nicknameFlag = true;
+      } else {
+        console.log('이미 사용중')
+        $('#nickname-duplication').text('이미 사용중인 닉네임이에요');
+        joinSubmit();
+      }
+    });
+
   } else {
-    $('#nickname-duplication').val('이미 사용중인 닉네임이에요');
+    $('#nickname-duplication').text('닉네임은 최소 두 자 이상을 사용해야해요');
     nicknameFlag = false;
     joinSubmit();
   }
@@ -247,6 +257,31 @@ document.getElementById('join-form').addEventListener('submit',
       });
 
     })
+function nicknameDuplicationCheck(nickname){
+        console.log(nickname)
+         return fetch(`/api/user/nickname-duplication?nickname=${nickname}`, {
+            method: "get",
+          })
+              .then(response => {
+                if (!response.ok) {
+                  console.log("값 안옴")
+                }
+                return response.json();
+              })
+
+              .then(result => {
+                console.log(result);
+                return !result;
+              })
+        .catch(error =>{
+          console.log('error',error);
+          return false;
+  })
+}
 
 
-
+document.getElementById('user-update').addEventListener('submit',
+    function (updateEvent) {
+      console.log("fnuction호출")
+      updateEvent.preventDefault();
+    })

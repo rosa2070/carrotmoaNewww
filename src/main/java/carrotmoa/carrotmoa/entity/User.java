@@ -34,4 +34,6 @@ public class User extends BaseEntity {
 
     @Column(name = "authority_id")
     private Long authorityId;
+    @Column(name = "state")
+    private int state;
 }

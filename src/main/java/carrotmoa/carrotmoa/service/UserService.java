@@ -30,9 +30,12 @@ public class UserService {
     private final BCryptPasswordEncoder passwordEncoder;
     private final AccountRepository accountRepository;
 
-    //해당 이메일이 이미 존재하는지 체크
+    //이미 존재하는지 체크
     public boolean emailCheck(String email) {
         return Optional.ofNullable(userRepository.findByEmail(email)).isPresent();
+    }
+    public boolean nicknameCheck(String nickname) {
+        return Optional.ofNullable(userProfileRepository.findByNickname(nickname)).isPresent();
     }
 
     public void sendCodeToEmail(String toEmail) {

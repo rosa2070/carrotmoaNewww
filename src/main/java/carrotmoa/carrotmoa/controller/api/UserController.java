@@ -1,7 +1,9 @@
 package carrotmoa.carrotmoa.controller.api;
 
 import carrotmoa.carrotmoa.model.request.UserJoinDto;
+import carrotmoa.carrotmoa.model.request.UserUpdateRequest;
 import carrotmoa.carrotmoa.service.UserService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mail.MailSendException;
@@ -14,12 +16,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RequestMapping("/api/user")
 @RestController
+@RequiredArgsConstructor
 public class UserController {
     private final UserService userService;
-
-    public UserController(UserService userService) {
-        this.userService = userService;
-    }
 
     @GetMapping("/email-check")
     public ResponseEntity<Boolean> emailCheck(@RequestParam("email") String email) {
@@ -50,6 +49,18 @@ public class UserController {
         boolean result = userService.userJoin(userJoinDto);
         return new ResponseEntity<Boolean>(result, HttpStatus.OK);
     }
+    @GetMapping("/nickname-duplication")
+    public ResponseEntity<Boolean> nicknameDuplication(@RequestParam("nickname") String nickname) {
+        return new ResponseEntity<Boolean>(userService.nicknameCheck(nickname),HttpStatus.OK);
+    }
+
+    @PostMapping("/update")
+    public ResponseEntity<Boolean> userProfileUpdate(@RequestBody UserUpdateRequest userUpdateRequestDto){
+        System.out.println("update 호출");
+        System.out.println(userUpdateRequestDto.getNickname());
+        return new ResponseEntity<Boolean>(true,HttpStatus.OK);
+    }
+
 
 
 }

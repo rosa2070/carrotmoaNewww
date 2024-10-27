@@ -1,6 +1,9 @@
 package carrotmoa.carrotmoa.controller.view;
 
+import carrotmoa.carrotmoa.config.security.CustomUserDetails;
 import carrotmoa.carrotmoa.model.request.UserJoinDto;
+import carrotmoa.carrotmoa.model.request.UserUpdateRequest;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,13 +26,16 @@ public class UserViewController {
 
     @GetMapping("/my-page")
     public String userMyPage() {
-        return "/user/mypage";
+        return "/user/my-page";
     }
 
-    @GetMapping("/test")
-    public String test() {
-        return "user/test";
-    }
+    @GetMapping("/password-update")
+    public String userUpdateForm() {return "user/password-update";}
+
+    @GetMapping("/profile-update")
+    public String userUpdateProfileForm(@AuthenticationPrincipal CustomUserDetails user,Model model) {
+        model.addAttribute("userUpdateRequestDto", new UserUpdateRequest(user));
+        return "user/profile-update";}
 }
 
 

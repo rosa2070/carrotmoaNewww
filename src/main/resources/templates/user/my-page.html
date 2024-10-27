@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="ko"
+      layout:decorate="~{layout/layout}"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+  <link rel="stylesheet" th:href="@{/css/my-page.css}"/>
+  <title>테스트</title>
+</head>
+
+<main layout:fragment="main">
+
+  <div class="my-page-div">
+
+    <div class="my-page-profile">
+      <div class="my-page-profile-box">
+
+        <a class="photo" href="#">
+          <img class="my-page-profile-image" alt="프로필 이미지" th:src="${user.getUserProfile().getPicUrl()}">
+        </a>
+        <div class="my-page-profile-field">
+          <div class="con">
+            <p class="my-page-field-nickname" th:text="${user.getUserProfile().getNickname()}"></p><span class="my-page-field-manner">36.5&nbsp;°C</span>
+        </div>
+            <p class="my-page-field-email" th:text="${user.getUsername()}"></p>
+        </div>
+      </div>
+      <div class="my-page-profile-detail">
+        <p>사는곳</p>
+        <p></p>
+      </div>
+    </div>
+
+      <div class="my-page-main">
+          <div class="my-page-main-content-header"><h4>정보 수정</h4></div>
+        <div class="my-page-main-content">
+          <div class="my-page-main-content-item">
+            <span class="my-page-item-text">내 프로필</span>
+            <a th:href="@{/user/profile-update}" class="my-page-btn-edit">수정</a>
+
+          </div>
+
+          <div class="my-page-main-content-item my-page-content-row">
+            <span class="my-page-item-text">비밀번호</span>
+            <a th:href="@{/user/password-update}" class="my-page-btn-edit">수정</a>
+          </div>
+
+          <div class="my-page-main-content-item my-page-content-row">
+            <span class="my-page-item-text">사는 곳</span>
+            <a th:href="@{#}" class="my-page-btn-edit">수정</a>
+          </div>
+        </div>
+
+        <div class="my-page-main-content-header"><h4>서비스 관리</h4></div>
+        <div class="my-page-main-content">
+          <div class="my-page-main-content-item">
+            <span class="my-page-item-text">찜목록?</span>
+            <a th:href="@{#}" class="my-page-btn-edit">관리</a>
+          </div>
+
+          <div class="my-page-main-content-item my-page-content-row">
+            <span class="my-page-item-text">내 중고거래</span>
+            <a th:href="@{#}" class="my-page-btn-edit">관리</a>
+          </div>
+
+          <div class="my-page-main-content-item my-page-content-row">
+            <span class="my-page-item-text">숙소</span>
+            <a th:href="@{#}" class="my-page-btn-edit">관리</a>
+          </div>
+
+
+        </div>
+
+      </div>
+  </div>
+</main>
+</html>

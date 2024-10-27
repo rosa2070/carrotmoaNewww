@@ -3,6 +3,7 @@ package carrotmoa.carrotmoa.model.request;
 import carrotmoa.carrotmoa.entity.Account;
 import carrotmoa.carrotmoa.entity.User;
 import carrotmoa.carrotmoa.entity.UserProfile;
+import lombok.Builder;
 import lombok.Data;
 
 @Data
@@ -16,6 +17,7 @@ public class UserJoinDto {
     private Integer accountNumber;
     private String accountHolder;
     private long userId;
+    private int state = 0;
 
     public User toUserEntity() {
         return User.builder()
@@ -23,6 +25,7 @@ public class UserJoinDto {
             .password(this.getPassword())
             .authorityId(this.getAuthorityId())
             .isWithdrawal(this.getIsWithdrawal())
+            .state(this.getState())
             .build();
     }
 

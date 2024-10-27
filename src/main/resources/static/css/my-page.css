@@ -1,7 +1,119 @@
-.my-page-child {
-  display: block;
-  flex-direction: column;
+.my-page-div{
+  display: flex;
+  width: 100%;
+  padding: 30px 0;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+}
+.my-page-profile {
+  display: flex;
   margin: 10px;
-  border: 1px solid #000;
+  /*border: 1px solid #000;*/
   padding: 10px;
+  flex: 1;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  background-color: #fff;
+  box-shadow: 5px 1px 8px 0 rgba(0, 0, 0, .06);
+  border-left: 1px solid rgba(0, 0, 0, .08);
+}
+.my-page-main {
+  display: flex;
+  flex-direction: column;
+
+  margin: 10px;
+  /*border: 1px solid #000;*/
+  padding: 10px;
+  flex: 2;
+
+}
+.photo .my-page-profile-image {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+}
+.my-page-profile-field{
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  margin-left: 35px;
+}
+.my-page-profile-field  p{
+margin: 5px 0;
+}
+.my-page-profile-field .my-page-field{
+  font-size: 20px;
+}
+.my-page-profile-field .my-page-field-nickname{
+  font-size: 20px;
+}
+.my-page-field-manner{
+font-size: 10px;
+  text-decoration-color: #b3b3b3;
+  margin-left: 15px;
+}
+.my-page-profile .my-page-profile-box{
+  display: flex;
+  justify-content: space-around;
+  margin: 25px 0;
+
+}
+.my-page-profile-detail{
+  display: flex;
+  flex-direction: column;
+}
+.my-page-main-content{
+  display: flex;
+  flex-direction: column;
+  background-color: #fff;
+  border: solid #e3e9ed 1px;
+  border-radius: 12px;
+  margin: 5px 5px;
+  gap: 10px;
+
+}
+.my-page-main-content-item{
+  display: flex;
+  justify-content: space-between;
+  padding: 15px 72px;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 24px;
+  letter-spacing: -.8px;
+}
+.my-page-main-content-header{
+  padding: 0 40px;
+  margin-bottom: -29px;
+  margin-left: -16px;
+}
+
+.my-page-btn-edit{
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 17px;
+  letter-spacing: -.47px;
+  color: #FE6F0F;
+  border: solid #FE6F0F 1px;
+  background-color: #fff;
+  display: inline-block;
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none; /* 밑줄 제거 */
+
+}
+.my-page-content-row {
+  border-top: 1px solid rgba(220, 227, 233, .8);
+}
+.con{
+  display: flex;
+  align-items: flex-start;
+  position: relative;
+}
+
+.my-page-profile-update-bio{
+  resize: none;
+  width: 486px;
+  height: 185px;
 }
