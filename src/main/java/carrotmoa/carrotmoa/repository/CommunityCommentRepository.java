@@ -14,12 +14,14 @@ public interface CommunityCommentRepository extends JpaRepository<CommunityComme
             "FROM CommunityComment c " +
             "JOIN UserProfile up ON c.userId = up.userId " +
             "JOIN UserAddress ua ON c.userId = ua.userId " +
-            "WHERE c.communityPostId = :communityPostId AND c.isDeleted = false " +
-            "ORDER BY CASE WHEN c.parentId IS NULL THEN 0 ELSE 1 END, c.createdAt ASC")
-    List<CommunityCommentResponse> findActiveCommentsByCommunityPostId(@Param("communityPostId") Long communityPostId);
+            "WHERE c.communityPostId = :postId AND c.isDeleted = false " +
+            "ORDER BY c.depth ASC, c.orderInGroup ASC")
+    List<CommunityCommentResponse> findActiveCommentsByCommunityPostId(@Param("postId") Long postId);
 
     @Query("select count(c) from CommunityComment c where c.communityPostId = :communityPostId and c.isDeleted = false")
     int countByCommunityPostId(@Param("communityPostId") Long communityPostId);
 
     Optional<CommunityComment> findByIdAndCommunityPostId(Long commentId, Long communityPostId);
+
+    List<CommunityComment> findByParentId(Long parentId);
 }

@@ -26,9 +26,12 @@ public class CommunityCommentResponse {
     private String region2DepthName;
     private String region3DepthName;
     private String content;
+    private int depth;
+    private int orderInGroup;
     private boolean isDeleted;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
+
     public CommunityCommentResponse(CommunityComment comment, UserProfile userProfile, UserAddress userAddress) {
         this.id = comment.getId();
         this.communityPostId = comment.getCommunityPostId();
@@ -39,19 +42,12 @@ public class CommunityCommentResponse {
         this.region2DepthName = userAddress.getRegion2DepthName();
         this.region3DepthName = userAddress.getRegion3DepthName();
         this.content = comment.getContent();
+        this.depth = comment.getDepth();
+        this.orderInGroup = comment.getOrderInGroup();
         this.isDeleted = comment.isDeleted();
         this.createdAt = comment.getCreatedAt();
         this.updatedAt = comment.getUpdatedAt();
     }
 
-    public CommunityComment toCommunityCommentEntity() {
-        return CommunityComment.builder()
-            .communityPostId(communityPostId)
-            .parentId(parentId)
-            .userId(userId)
-            .content(content)
-            .isDeleted(false)
-            .build();
-    }
 
 }

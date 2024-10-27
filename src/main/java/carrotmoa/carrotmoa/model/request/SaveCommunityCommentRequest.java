@@ -16,6 +16,8 @@ public class SaveCommunityCommentRequest {
     private Long parentId;
     private Long userId;
     private String content;
+    private int depth;
+    private int orderInGroup;
     private boolean isDeleted;
 
 
@@ -25,6 +27,8 @@ public class SaveCommunityCommentRequest {
                 .parentId(parentId)
                 .userId(userId)
                 .content(content)
+                .depth(depth)
+                .orderInGroup(orderInGroup)
                 .isDeleted(false)
                 .build();
     }

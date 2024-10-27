@@ -1,6 +1,8 @@
 package carrotmoa.carrotmoa.controller.api;
 
 import carrotmoa.carrotmoa.model.request.SaveCommunityCommentRequest;
+import carrotmoa.carrotmoa.model.request.SaveCommunityReplyRequest;
+import carrotmoa.carrotmoa.model.response.CommunityCommentResponse;
 import carrotmoa.carrotmoa.model.response.SaveCommunityCommentResponse;
 import carrotmoa.carrotmoa.service.CommunityCommentService;
 import java.util.Map;
@@ -27,8 +29,8 @@ public class CommunityCommentController {
 
     @GetMapping("/posts/{communityPostId}/comments")
     public ResponseEntity<Map<String, Object>> findActiveCommentsByCommunityPostId(@PathVariable("communityPostId") Long communityPostId) {
-        Map<String, Object> activeComments = communityCommentService.findActiveCommentsByCommunityPostId(communityPostId);
-        return new ResponseEntity<>(activeComments, HttpStatus.OK);
+        Map<String, Object> activeCommentsByCommunityPostId = communityCommentService.findActiveCommentsByCommunityPostId(communityPostId);
+        return new ResponseEntity<>(activeCommentsByCommunityPostId, HttpStatus.OK);
     }
 
     @DeleteMapping("/posts/{communityPostId}/comments/{commentId}")
@@ -37,4 +39,14 @@ public class CommunityCommentController {
         return new ResponseEntity<>(softDeletedId, HttpStatus.OK);
     }
 
+
+
+
+
+
+    @PostMapping("/posts/{communityPostId}/comments/{commentId}/replies")
+    public ResponseEntity<Long> createCommunityReply(@PathVariable("communityPostId")Long communityPostId, @PathVariable("commentId") Long commentId, @RequestBody SaveCommunityReplyRequest saveCommunityCommentRequest) {
+        Long replyId = communityCommentService.createCommunityReply(communityPostId, commentId, saveCommunityCommentRequest);
+        return ResponseEntity.status(HttpStatus.CREATED).body(replyId);
+    }
 }

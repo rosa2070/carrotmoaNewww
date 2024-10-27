@@ -50,7 +50,7 @@ function createCommentHtml(data) {
     return `
 <div class="detail-comment-wrap-replytag" >
  ${childTag}
-    <div class="detail-comment-wrap" data-comment-id="${data.id}">
+    <div class="detail-comment-wrap" data-comment-id="${data.id}" data-comment-depth="${data.depth}" data-comment-order="${data.orderInGroup}">
       <div class="detail-comment-header">
         <div class="detail-comment-profile">
           <img src="${data.picUrl}" alt="유저 프로필 사진" id="commentUserProfile">
@@ -128,17 +128,15 @@ document.addEventListener("DOMContentLoaded", function () {
       const replyForm = e.target;
       const replyContent = replyForm.querySelector("#replyInput").value;
       const commentId = replyForm.closest(".detail-comment-wrap").querySelector(".reply-button").getAttribute("data-comment-id");
-
       // 답글 등록 API 호출
-      fetch(`/api/community/posts/${communityPostId}/comments`, {
+        fetch(`/api/community/posts/${communityPostId}/comments/${commentId}/replies`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
         },
         body: JSON.stringify({
-          content: replyContent,
-          userId : currentUserId,
-          parentId: commentId // 상위 댓글 ID
+            content: replyContent,
+            userId: currentUserId,
         })
       })
           .then(response => {
@@ -238,7 +236,9 @@ document.getElementById("submitCommentBtn").addEventListener("click", function (
     const content = document.getElementById("commentInput").value;
     const data = {
         content: content,
-        userId: currentUserId
+        userId: currentUserId,
+        depth: 0,
+        orderInGroup : 1
     };
 
     fetch(`/api/community/posts/${communityPostId}/comments`, {

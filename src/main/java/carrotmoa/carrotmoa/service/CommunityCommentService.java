@@ -3,6 +3,7 @@ package carrotmoa.carrotmoa.service;
 import carrotmoa.carrotmoa.entity.CommunityComment;
 import carrotmoa.carrotmoa.exception.ResourceNotFoundException;
 import carrotmoa.carrotmoa.model.request.SaveCommunityCommentRequest;
+import carrotmoa.carrotmoa.model.request.SaveCommunityReplyRequest;
 import carrotmoa.carrotmoa.model.response.SaveCommunityCommentResponse;
 import carrotmoa.carrotmoa.model.response.CommunityCommentResponse;
 import carrotmoa.carrotmoa.repository.CommunityCommentRepository;
@@ -39,35 +40,75 @@ public class CommunityCommentService {
     @Transactional(readOnly = true)
     public Map<String, Object> findActiveCommentsByCommunityPostId(Long communityPostId) {
         List<CommunityCommentResponse> commentList = communityCommentRepository.findActiveCommentsByCommunityPostId(communityPostId);
-        int commentCount = communityCommentRepository.countByCommunityPostId(communityPostId);
+        int commentCount = commentList.size();
 
-        // parentId가 null인 최상위 댓글들을 저장할 리스트
-        List<CommunityCommentResponse> topLevelComments = new ArrayList<>();
+        List<CommunityCommentResponse> structuredCommentList = new ArrayList<>();
+
+
         Map<Long, List<CommunityCommentResponse>> repliesMap = new HashMap<>();
 
+        // 댓글 리스트를 순회하며 대댓글을 그룹화한다.
         for (CommunityCommentResponse comment : commentList) {
-            if (comment.getParentId() == null) {
-                // 최상위 댓글은 따로 저장
-                topLevelComments.add(comment);
+            if (comment.getDepth() == 0) {
+                // 부모 댓글인 경우, 바로 추가
+                structuredCommentList.add(comment);
             } else {
-                // 그 외의 대댓글들은 repliesMap에 저장
+                // 대댓글인 경우, 해당 부모 댓글에 추가
                 repliesMap.computeIfAbsent(comment.getParentId(), k -> new ArrayList<>()).add(comment);
             }
         }
 
-        // 최상위 댓글들로부터 시작해서 재귀적으로 하위 댓글을 설정
-        List<CommunityCommentResponse> structuredCommentList = new ArrayList<>();
-        for (CommunityCommentResponse topComment : topLevelComments) {
-            structuredCommentList.add(topComment);
-            // 해당 최상위 댓글의 하위 대댓글들을 재귀적으로 추가
-            List<CommunityCommentResponse> replies = buildCommentHierarchy(topComment.getId(), repliesMap);
-            structuredCommentList.addAll(replies);
+        // 대댓글을 부모 댓글 아래에 추가하기 위해 새로운 리스트를 사용
+        List<CommunityCommentResponse> finalStructuredCommentList = new ArrayList<>();
+
+        // 부모 댓글을 순회하며 대댓글을 추가하는 메서드 호출
+        for (CommunityCommentResponse parentComment : structuredCommentList) {
+            addCommentWithReplies(finalStructuredCommentList, parentComment, repliesMap);
         }
 
+        // 최종 결과 리스트를 원래 리스트에 대입
+        structuredCommentList = finalStructuredCommentList;
+
+        // 응답 구성
         Map<String, Object> responseMap = new HashMap<>();
         responseMap.put("commentCount", commentCount);
         responseMap.put("commentList", structuredCommentList);
         return responseMap;
+    }
+
+    // 재귀적으로 댓글과 대댓글을 추가하는 메서드
+    private void addCommentWithReplies(List<CommunityCommentResponse> finalList, CommunityCommentResponse parentComment, Map<Long, List<CommunityCommentResponse>> repliesMap) {
+        finalList.add(parentComment); // 부모 댓글 추가
+
+        // 대댓글이 있는 경우, 해당 부모 댓글 아래에 추가
+        List<CommunityCommentResponse> replies = repliesMap.get(parentComment.getId());
+        if (replies != null) {
+            for (CommunityCommentResponse reply : replies) {
+                addCommentWithReplies(finalList, reply, repliesMap); // 재귀 호출
+            }
+        }
+    }
+
+
+
+
+    @Transactional
+    public Long createCommunityReply(Long communityPostId, Long commentId, SaveCommunityReplyRequest saveCommunityCommentRequest) {
+        // 부모 댓글 조회
+        CommunityComment parentComment = communityCommentRepository.findById(commentId)
+                .orElseThrow(() -> new RuntimeException("Parent comment not found"));
+        // 새로운 대댓글 생성
+        CommunityComment replyComment = parentComment.createReply(communityPostId, saveCommunityCommentRequest.getUserId(), saveCommunityCommentRequest.getContent());
+
+        // 같은 부모 댓글에 대한 최대 orderInGroup 조회
+        List<CommunityComment> replies = communityCommentRepository.findByParentId(parentComment.getId());
+        int maxOrderInGroup = replies.stream()
+                .mapToInt(CommunityComment::getOrderInGroup)
+                .max()
+                .orElse(0);
+        replyComment.setOrderInGroup(maxOrderInGroup + 1); // 최대값 + 1
+        // 대댓글 저장
+        return communityCommentRepository.save(replyComment).getId(); // 저장 후 ID 반환
     }
 
     @Transactional
@@ -77,23 +118,5 @@ public class CommunityCommentService {
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "댓글을 찾을 수 없습니다."));
         communityComment.softDeleteComment(true);
         return communityComment.getId();
-    }
-
-
-    // 재귀적으로 댓글 구조를 설정하는 함수
-    private List<CommunityCommentResponse> buildCommentHierarchy(Long parentId, Map<Long, List<CommunityCommentResponse>> repliesMap) {
-        List<CommunityCommentResponse> structuredComments = new ArrayList<>();
-
-        // parentId에 해당하는 댓글 리스트를 가져옴
-        List<CommunityCommentResponse> comments = repliesMap.get(parentId);
-        if (comments != null) {
-            for (CommunityCommentResponse comment : comments) {
-                structuredComments.add(comment);
-                // 현재 댓글의 하위 댓글들도 추가 (재귀 호출)
-                List<CommunityCommentResponse> replies = buildCommentHierarchy(comment.getId(), repliesMap);
-                structuredComments.addAll(replies);
-            }
-        }
-        return structuredComments;
     }
 }
