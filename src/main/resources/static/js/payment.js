@@ -26,7 +26,7 @@ function generateMerchantUid() {
 function paymentProcess() {
     if (confirm("구매 하시겠습니까?")) {
         if(isLogin){ // 회원만 결제 가능
-            IMP.init("imp15548812"); // 가맹점 식별코드
+            IMP.init("imp34428218"); // 가맹점 식별코드
             IMP.request_pay({
                 pg: 'kakaopay.TC0ONETIME', // PG사 코드표에서 선택
                 pay_method: 'card', // 결제 방식
@@ -62,7 +62,7 @@ function paymentProcess() {
                     const result = await response.json();
                     console.log(result)
 
-                    if (rsp.status == 200) { // DB저장 성공시
+                    if (rsp.status == "paid") { // DB저장 성공시
                         alert('결제 완료!')
                         window.location.reload();
                     } else { // 결제완료 후 DB저장 실패시
