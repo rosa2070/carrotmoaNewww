@@ -1,27 +1,73 @@
-document.addEventListener("DOMContentLoaded", function() {
-    const notificationIcon = document.getElementById("notificationIcon");
-    const notificationModal = document.getElementById("notificationModal");
-    const closeModal = document.querySelector(".notification-close");
-    const notificationList = document.getElementById("notificationList");
+const notificationIcon = document.getElementById("notificationIcon");
+const notificationModal = document.getElementById("notificationModal");
+const notificationCloseModal = document.querySelector(".notification-close");
+const notificationList = document.getElementById("notificationList");
+const notificationToast = document.getElementById("notificationToast");
+document.addEventListener("DOMContentLoaded", function () {
 
-
-
-
-
-
-    notificationIcon.addEventListener("click", function() {
+    notificationIcon.addEventListener("click", function () {
         notificationModal.style.display = "block"; // 모달 보이기
-        const eventSource = new EventSource(`/notifications${userId}`);
-// 여기서 로그인되어있는 userId 전송하기
-//         eventSource.onmessage = function (event) {
-
-
-
-
+        notificationIcon.querySelector("img").src = "/images/notification.svg"; // 기본 아이콘으로 복원
     });
 
-    closeModal.addEventListener("click", function() {
+    notificationCloseModal.addEventListener("click", function () {
         notificationModal.style.display = "none"; // 모달 숨기기
     });
+});
+
+
+document.addEventListener("DOMContentLoaded", function () {
+// login이 된 상태면 -> SSE 연결하기.
+    if (userObject) {
+        const userId = userObject.userProfile.userId;
+        const sse = new EventSource(`/notifications/${userId}`);
+
+
+        sse.onopen = function () {
+            console.log('SSE 연결이 성공적으로 설정되었습니다.');
+        };
+
+        sse.onmessage = function (event) {
+            const notification = event.data;
+            console.log('새로운 알림:', notification);
+            // 알림 UI 업데이트 로직 추가
+            updateNotificationIcon();
+            showNotificationToast();
+        };
+
+        sse.onerror = function (err) {
+            console.error('SSE 연결 오류:', err);
+        };
+        // 이벤트는 이름이고 이벤트.data로해서 값을 불러오는듯.
+        // 작성해준 이벤트의 이름(connect)은 클라이언트가 이벤트를 불러올 때 사용!!!
+        sse.addEventListener("connect", function (e) {
+            let datatest = e.data;
+            console.log("더미데이터 값을 받아서 사용이 가능할까? -> ", datatest)
+        })
+
+    } else {
+        console.log('로그인되지 않은 사용자입니다.');
+    }
 
 });
+
+function updateNotificationIcon() {
+    // 알림 아이콘을 변경
+    notificationIcon.querySelector("img").src = "/images/notification-dot.svg"; // 기본 아이콘으로 복원
+}
+
+function showNotificationToast() {
+    notificationToast.style.display = "block"; // 모달 보이기
+    setTimeout(() => {
+        notificationToast.style.opacity = 1; // 불투명도 설정
+        notificationToast.style.transform = "translateY(0)"; // 기본 위치로 이동
+    }, 10); // 약간의 지연 후 애니메이션 시작
+
+    // 10초 후에 자동으로 사라지게 설정
+    setTimeout(function () {
+        notificationToast.style.opacity = 0; // 사라짐 효과
+        setTimeout(function () {
+            notificationToast.style.display = "none"; // 완전히 숨기기
+        }, 500); // 사라짐 효과가 끝난 후 숨김
+    }, 5000); // 5초 후
+}

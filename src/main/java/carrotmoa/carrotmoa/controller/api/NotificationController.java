@@ -18,7 +18,8 @@ public class NotificationController {
 
     @GetMapping(value = "/notifications/{userId}", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
     public ResponseEntity<SseEmitter> subscribe(@PathVariable("userId") Long userId) {
-      return ResponseEntity.ok(notificationService.subscribe(userId));
+        System.out.println(userId);
+        return ResponseEntity.ok(notificationService.subscribe(userId));
     }
 
 }

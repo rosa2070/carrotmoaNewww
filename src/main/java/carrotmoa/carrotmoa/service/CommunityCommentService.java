@@ -19,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class CommunityCommentService {
     private final CommunityCommentRepository communityCommentRepository;
     private final CommunityPostRepository communityPostRepository;
+    private final NotificationService notificationService;
 
     //    TODO: dto에 userId 변수 정의하고, existsById로 유저 아이디 있는지 검사하는 로직 추가해야함.
     @Transactional
@@ -30,6 +31,11 @@ public class CommunityCommentService {
         dto.setCommunityPostId(communityPostId);
         CommunityComment CommunityCommentEntity = communityCommentRepository.save(dto.toCommunityCommentEntity());
         int commentCount = communityCommentRepository.countByCommunityPostId(communityPostId);
+
+        // SSE 알림 메서드 사용하기
+        notificationService.sendNotification(32L, "테스트 알림입니다.");
+
+
         return new SaveCommunityCommentResponse(CommunityCommentEntity, commentCount);
     }
 
