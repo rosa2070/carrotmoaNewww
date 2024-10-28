@@ -126,7 +126,6 @@ function handleFormSubmission(event) {
 }
 
 
-
 document.addEventListener('DOMContentLoaded', () => {
     // Kakao SDK가 로드된 후 initMap 호출
     if (typeof kakao !== 'undefined' && kakao.maps) {
@@ -154,19 +153,31 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     document.getElementById('images').addEventListener('change', function (event) {
-        const files = event.target.files;
+        const files = Array.from(event.target.files);
         const imageContainer = document.getElementById('div_added_pictures');
         imageContainer.innerHTML = '';
 
-        Array.from(files).forEach(file => {
-            const reader = new FileReader();
-            reader.onload = function (e) {
-                const imageItem = document.createElement('div');
-                imageItem.className = 'image_item';
-                imageItem.innerHTML = `<img src="${e.target.result}" alt="미리보기 이미지">`;
-                imageContainer.appendChild(imageItem);
-            };
-            reader.readAsDataURL(file);
+        // 순서를 보장하기 위해 Promise.all 사용
+        const imagePromises = files.map((file, index) => {
+            return new Promise((resolve) => {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    const imageItem = document.createElement('div');
+                    imageItem.className = 'image_item';
+                    imageItem.innerHTML = `<img src="${e.target.result}" alt="미리보기 이미지">`;
+                    resolve({index, element: imageItem});
+                };
+                reader.readAsDataURL(file);
+            });
+        });
+
+        // 모든 이미지가 로드되면, index 순서대로 정렬하여 추가
+        Promise.all(imagePromises).then(imageResults => {
+            imageResults.sort((a, b) => a.index - b.index);
+            imageResults.forEach(result => {
+                imageContainer.appendChild(result.element);
+            });
         });
     });
+
 });
