@@ -128,7 +128,12 @@ function handleFormSubmission(event) {
 
 
 document.addEventListener('DOMContentLoaded', () => {
-    initMap();
+    // Kakao SDK가 로드된 후 initMap 호출
+    if (typeof kakao !== 'undefined' && kakao.maps) {
+        initMap();
+    } else {
+        console.error('Kakao Maps SDK가 로드되지 않았습니다.');
+    }
     document.getElementById('btn_search_addr').addEventListener('click', sample4_execDaumPostcode);
 
     const roadAddressInput = document.getElementById('roadAddress');
