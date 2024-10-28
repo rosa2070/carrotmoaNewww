@@ -63,8 +63,11 @@
                         </div>
                     </a>
                 </div>
+
                 <div class="user-profile-box notification-icon">
-                    <a class="user-profile-a notification-icon" href="#"><img alt="" src="/images/notification.svg"></a>
+                    <button class="user-profile-a notification-icon" id="notificationIcon" aria-label="알림 아이콘">
+                        <img alt="알림 아이콘" src="/images/notification.svg">
+                    </button>
                 </div>
 
             </div>
@@ -77,10 +80,7 @@
 
                 <div class="notification-menu">
                     <div>
-                        <a th:href="@{/}">활동 알림</a>
-                    </div>
-                    <div>
-                        <a th:href="@{/}">키워드 알림</a>
+                       활동 알림
                     </div>
                 </div>
                 <div class="notification-content">
@@ -118,9 +118,6 @@
                                 </div>
                             </div>
                         </div>
-
-
-
                     </div>
 
                 </div>
