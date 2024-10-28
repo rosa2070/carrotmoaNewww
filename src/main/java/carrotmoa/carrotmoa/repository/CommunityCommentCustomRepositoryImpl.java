@@ -20,7 +20,7 @@ public class CommunityCommentCustomRepositoryImpl implements CommunityCommentCus
     @Override
     public List<CommunityCommentResponse> findCommentsByPostIdOrdered(Long communityPostId) {
         QCommunityComment communityComment = QCommunityComment.communityComment;
-        QCommunityComment replyComment = new QCommunityComment("replyComment"); // 답글을 위한 alias
+        QCommunityComment replyComment = new QCommunityComment("replyComment"); // 답글 alias
         QUserProfile userProfile = QUserProfile.userProfile;
         QUserAddress userAddress = QUserAddress.userAddress;
 
@@ -51,7 +51,7 @@ public class CommunityCommentCustomRepositoryImpl implements CommunityCommentCus
                                                 .or(
                                                         communityComment.isDeleted.eq(true)
                                                                 .and(
-                                                                        // 답글이 하나라도 있는 댓글 조회를 위한 서브쿼리
+                                                                        // 답글이 하나라도 있는지 확인
                                                                         JPAExpressions.selectOne()
                                                                                 .from(replyComment)
                                                                                 .where(replyComment.parentId.eq(communityComment.id)
@@ -64,4 +64,5 @@ public class CommunityCommentCustomRepositoryImpl implements CommunityCommentCus
                 .orderBy(communityComment.orderInGroup.asc(), communityComment.depth.asc())
                 .fetch();
     }
+
 }
