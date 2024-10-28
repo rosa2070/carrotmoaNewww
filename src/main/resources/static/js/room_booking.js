@@ -53,7 +53,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     // 이미 예약이 있는 날과 겹치면 X, 예약 마지막 날은 겹치는 거 가능
                     const isBlocked = data.some(event =>
                         (info.start < new Date(event.checkOutDate) && info.end > new Date(event.checkInDate)) && !(info.end === new Date(event.checkOutDate))
-                    );
+                        );
                     if (isBlocked) {
                         alert('이 날짜는 예약할 수 없습니다.');
                         calendar.unselect(); // 선택을 취소

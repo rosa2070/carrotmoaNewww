@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="ko"
+      layout:decorate="~{layout/layout}"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+  <title th:text="'계약시작 - 단기임대 숙소 | 당근모아'"> 계약시작 - 단기임대 숙소 | 당근모아 </title>
+  <link rel="stylesheet" th:href="@{/css/guest-room-detail.css}"/>
+</head>
+
+<main layout:fragment="main">
+  <section class="content">
+    <p class="title_left">계약 시작하기</p>
+
+    <div class="contract_detail" style="min-height:1300px;">
+      <div class="flex">
+        <div class="detail_cont">
+          <div class="flex">
+            <div class="border_box">
+              <p class="title" th:object="${contract}">방 정보</p>
+              <ul class="info_list">
+                <li>
+                  <span>방 이름</span>
+                  <p class="ellipsis" th:text="${contract.title}">애버랜드</p>
+                </li>
+                <li>
+                  <span>소재지</span>
+                  <p class="ellipsis2" th:text="${contract.lotAddress} + ${contract.detailAddress} + ${contract.floor}">용인시 처인구 애버랜드로</p>
+                </li>
+              </ul>
+            </div>
+
+            <div class="border_box">
+              <p class="title">호스트 정보</p>
+              <ul class="info_list">
+                <li>
+                  <span>이름</span>
+                  <p th:text="${contract.nickname}">삼성</p>
+                </li>
+                <li>
+                  <span>채팅</span>
+<!--                  채팅 버튼으로 변경-->
+                  <p class="font_999">계약이 확정되면 연락처 공개</p>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="contract_period_box">
+            <strong>임대기간</strong>
+            <p>2024-11-11 (입주) ~ 2024-11-17 (퇴실)</p>
+          </div>
+
+          <p class="green_text" style="display:none;">호스트가 제안한 특약을 확인해주세요</p>
+
+          <div class="contract_detail_box">
+            <div class="detail_pay">
+              <ul class="pay_list">
+                <li class="text_bold">
+                  <span>결제 금액</span>
+                </li>
+                <li>
+                  <span>임대료</span>
+                  <p>300,000 원</p>
+                </li>
+
+
+<!--                <li>-->
+<!--                  <span>관리비용</span>-->
+<!--                  <p>60,000 원</p>-->
+<!--                </li>-->
+<!--                <li>-->
+<!--                  <span>청소비용</span>-->
+<!--                  <p>60,000 원</p>-->
+<!--                </li>-->
+<!--                <li>-->
+<!--                  <span>계약 수수료</span>-->
+<!--                  <p>41,580원</p>-->
+<!--                </li>-->
+<!--                <li class="amount_used">-->
+<!--                  <span class="font_000">실이용 금액</span>-->
+<!--                  <p class="font_purple">461,580원</p>-->
+<!--                </li>-->
+<!--                <li class="hr">-->
+<!--                  <span>보증금</span>-->
+<!--                  <p>330,000원</p>-->
+<!--                </li>-->
+<!--                <li class="font_999">* 보증금은 삼삼엠투에서 보관하며, 퇴실 후 반환됩니다.</li>-->
+<!--                <li class="total_pay">-->
+                  <span>최종 결제 금액</span>
+                  <p class="font_red"> 원</p>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="contract_detail_box">
+            <p class="refund_title">계약 해지 조항</p>
+            <ul class="dot_list">
+
+              <li>2024년 10월 27일까지 취소 시 : 90% 환불</li>
+
+              <li>2024년 11월 03일까지 취소 시 : 70% 환불</li>
+
+              <li>2024년 11월 10일까지 취소 시 : 50% 환불</li>
+
+              <li>2024년 11월 11일 0시 부터 : 환불 불가</li>
+
+            </ul>
+
+            <div class="notice_box">
+              <p class="title">안내사항</p>
+              <ul>
+                <li>결제 당일 취소 시 규정과 관계 없이 10% 위약금 (90% 환불)만 적용됩니다. <em>*당일 자정 이전까지만 적용</em></li>
+                <li>계약 수수료는 환불 대상에 포함되지 않습니다.</li>
+                <li>환불규정은 방마다 다르게 적용 될 수 있습니다.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="side_cont">
+          <div class="side_cont_box">
+            <div class="request_box">
+              <strong class="title">호스트에게 전하고 싶은 말을<br>남겨주세요</strong>
+              <p class="text">입주 시간, 인원 수 등을 호스트에게 알려주시면 미리 방을 준비하는 데 도움이 됩니다. <span>(선택)</span></p>
+
+              <div class="text_box length_500">
+                <textarea maxlength="500" style="width:100%; height:80px;" id="to_host"></textarea>
+                <p class="text_counter">0/500</p>
+              </div>
+
+              <div class="gray_box">
+                계약을 승인하시면 게스트가 결제를 진행할 수 있습니다.
+                게스트 결제 완료 후 계약이 확정됩니다.
+              </div>
+
+              <button type="button" class="btn_purple" id="btn_booking_request" uid="200143" rid="27121" start_date="2024-11-11" end_date="2024-11-17" week="1" is_extend="false">계약 승인 요청하기</button>
+
+              <div class="notice_box">
+                <p class="title">방 입주 매너</p>
+                <ul>
+                  <li>
+                    <strong>실내에서는 흡연이 안돼요.</strong>
+                    <p class="sub_text">흡연으로 인한 냄새, 오염 혹은 민원 등은<br>손해배상의 사유가 될 수 있어요.</p>
+                  </li>
+                  <li>
+                    <strong>입주 전 반려동물 동반 여부를 알려주세요.</strong>
+                    <p class="sub_text">협의되지 않은 반려동물의 입주는 거부될 수 있습니다.</p>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+</html>

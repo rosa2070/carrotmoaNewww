@@ -169,8 +169,8 @@
                 </div>
                 <div class="reservation-container" th:attr="data-accommodation-id=${room.id}">
                     <div class="reservation" id="calendar">
-                        <script th:src="@{/js/room_booking.js}"></script>
                     </div>
+                    <script th:src="@{/js/room_booking.js}"></script>
                 </div>
                 <div class="btn_date_full">
                     <div class="line_box" id="div_selected_schedule" style>
@@ -191,7 +191,7 @@
                     </div>
                 </div>
                 <div class="btn_full">
-                    <a id="btn_start_booking_now" class="btn medium orange">계약 시작하기</a>
+                    <a id="btn_start_booking_now" class="btn medium orange" th:href="@{/guest/booking/start}">계약 시작하기</a>
                 </div>
             </div>
         </div>

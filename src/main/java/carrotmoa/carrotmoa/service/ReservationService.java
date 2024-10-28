@@ -1,6 +1,7 @@
 package carrotmoa.carrotmoa.service;
 
 import carrotmoa.carrotmoa.model.response.BookingListResponse;
+import carrotmoa.carrotmoa.model.response.ContractDetailResponse;
 import carrotmoa.carrotmoa.repository.AccommodationRepository;
 import carrotmoa.carrotmoa.repository.ReservationRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -14,19 +15,13 @@ import java.util.stream.Collectors;
 @Service
 public class ReservationService {
     private final ReservationRepository reservationRepository;
+    private final AccommodationRepository accommodationRepository;
 
     public ReservationService(ReservationRepository reservationRepository, AccommodationRepository accommodationRepository) {
         this.reservationRepository = reservationRepository;
+        this.accommodationRepository = accommodationRepository;
     }
 
-//    @Transactional
-//    public List<ReservationResponse> getUserReservations(Long id) {
-//        List<Reservation> reservations = reservationRepository.findByUserId(id);
-//
-//        return reservations.stream()
-//                .map(ReservationResponse::fromData)
-//                .collect(Collectors.toList());
-//    }
     @Transactional
     public List<BookingListResponse> getBookingList(Long id) {
         List<Object[]> bookings = reservationRepository.findByAccommodationIdAndStatus(id);
@@ -34,5 +29,11 @@ public class ReservationService {
         return bookings.stream()
                 .map(BookingListResponse::fromData)
                 .collect(Collectors.toList());
+    }
+
+    @Transactional
+    public ContractDetailResponse getContractDeatil(Long id) {
+        Object[] info = accommodationRepository.findContractInfo(id);
+        return ContractDetailResponse.fromdata(info);
     }
 }
