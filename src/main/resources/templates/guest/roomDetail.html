@@ -4,7 +4,7 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <head>
     <title th:text="${room.title} + ' 단기임대 숙소 | 당근모아'"> 단기임대 숙소 | 당근모아 </title>
-    <link rel="stylesheet" th:href="@{/css/guest_room_detail.css}"/>
+    <link rel="stylesheet" th:href="@{/css/guest-room-detail.css}"/>
     <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.js'></script>
 </head>
 
@@ -124,8 +124,9 @@
                         <li>
                             <div class="review_info">
                                 <div class="bg_score">
-                                    <span class="score" style="width: 80%">/////////</span>
+                                    <span class="score" style="width: 80%"></span>
                                 </div>
+<!--                                <span class="review-rating" data-rating="${review.rating}"></span>-->
                                 <span class="review_item" th:text="${review.nickname}">최이재</span>
                                 <span class="review_item" th:text="${review.updatedAt}">
                                     ::before
@@ -138,6 +139,10 @@
             </div>
             <div class="room_sticky">
                 <div class="top_icon">
+                    <input type="text" id="url_copylink_room" th:value="${copyLinkUrl}" readonly="" style="width:1px; height:1px;">
+                    <a id="btn_share" data-clipboard-target="#url_copylink_room">
+                        <img src="https://carrots-bucket.s3.ap-northeast-2.amazonaws.com/room_detail_icon/icon_sharing.svg" alt="">
+                    </a>
                     <button type="button" class="btn_like">
                         <span class="blind">찜하기</span>
                     </button>
@@ -149,20 +154,20 @@
                     </p>
                     <ul class="place_list">
                         <li>
-                            <p th:text="'방 · ' + ${room.spaceCounts[0]} + ' '"></p>
+                            <p th:text="'방 ' + ${room.spaceCounts[0]}"></p>
                         </li>
                         <li>
-                            <p th:text="'화장실 · ' + ${room.spaceCounts[1]} + ' '"></p>
+                            <p th:text="' · 화장실 ' + ${room.spaceCounts[1]}"></p>
                         </li>
                         <li>
-                            <p th:text="' 거실 · ' + ${room.spaceCounts[2]} + ' '"></p>
+                            <p th:text="' · 거실 ' + ${room.spaceCounts[2]}"></p>
                         </li>
                         <li>
-                            <p th:text="' 주방 · ' + ${room.spaceCounts[3]} + ' '"></p>
+                            <p th:text="' · 주방 ' + ${room.spaceCounts[3]}"></p>
                         </li>
                     </ul>
                 </div>
-                <div class="reservation-container">
+                <div class="reservation-container" th:attr="data-accommodation-id=${room.id}">
                     <div class="reservation" id="calendar">
                         <script th:src="@{/js/room_booking.js}"></script>
                     </div>
@@ -181,7 +186,7 @@
                     <div class="line_box" id="count_nights" style>
                         <p>
                             총 숙박일
-                            <span id="nights-count"></span>
+                            <span id="nights-count">0</span>
                         </p>
                     </div>
                 </div>

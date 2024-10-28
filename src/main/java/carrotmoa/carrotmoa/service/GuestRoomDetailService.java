@@ -64,7 +64,7 @@ public class GuestRoomDetailService {
     }
 
     @Transactional(readOnly = true)
-    public List<AccommodationReviewResponse> getAllReview(long id) {
+    public List<AccommodationReviewResponse> getAllReview(Long id) {
         List<Object[]> reviews = reviewRepository.findReviewByAccommodationId(id);
         return reviews.stream()
                 .map(AccommodationReviewResponse::fromData)

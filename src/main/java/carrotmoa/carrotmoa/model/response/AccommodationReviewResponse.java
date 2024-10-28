@@ -13,8 +13,8 @@ import java.time.LocalDateTime;
 @Builder
 @Slf4j
 public class AccommodationReviewResponse {
-    private long id;
-    private long userId;
+    private Long id;
+    private Long userId;
     private int rating;
     private String comment;
     private LocalDate updatedAt;
@@ -22,8 +22,8 @@ public class AccommodationReviewResponse {
 
     public static AccommodationReviewResponse fromData(Object[] data){
         return AccommodationReviewResponse.builder()
-                .id((long) data[0])
-                .userId((long) data[1])
+                .id((Long) data[0])
+                .userId((Long) data[1])
                 .rating((int) data[2])
                 .comment((String) data[3])
                 .updatedAt(((LocalDateTime) data[4]).toLocalDate())
