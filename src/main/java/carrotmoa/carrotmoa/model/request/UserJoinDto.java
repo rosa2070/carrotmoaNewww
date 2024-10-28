@@ -3,7 +3,6 @@ package carrotmoa.carrotmoa.model.request;
 import carrotmoa.carrotmoa.entity.Account;
 import carrotmoa.carrotmoa.entity.User;
 import carrotmoa.carrotmoa.entity.UserProfile;
-import lombok.Builder;
 import lombok.Data;
 
 @Data

@@ -1,8 +1,10 @@
 package carrotmoa.carrotmoa.service;
 
 import carrotmoa.carrotmoa.entity.User;
+import carrotmoa.carrotmoa.entity.UserProfile;
 import carrotmoa.carrotmoa.enums.AuthorityCode;
 import carrotmoa.carrotmoa.model.request.UserJoinDto;
+import carrotmoa.carrotmoa.model.request.UserUpdateRequest;
 import carrotmoa.carrotmoa.repository.AccountRepository;
 import carrotmoa.carrotmoa.repository.UserProfileRepository;
 import carrotmoa.carrotmoa.repository.UserRepository;
@@ -115,6 +117,25 @@ public class UserService {
             System.out.println(e.getMessage());
             return false;
         }
+    }
+    public boolean userProfileUpdate(UserUpdateRequest request){
+        try{
+            userRepository.findById(request.getUserId()).get().setName(request.getName());
+            UserProfile updateProfile =  userProfileRepository.findByUserId(request.getUserId());
+            updateProfile.setNickname(request.getNickname());
+            updateProfile.setPhoneNumber(request.getPhoneNumber());
+            updateProfile.setBirthday(request.getBirthday());
+            updateProfile.setBio(request.getBio());
+
+
+            return true;
+        } catch(Exception updateException){
+            System.out.println("updateException");
+            System.out.println(updateException.getMessage());
+            return false;
+        }
+
+
     }
 
 

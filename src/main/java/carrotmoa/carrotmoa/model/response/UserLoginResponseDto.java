@@ -6,6 +6,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
+
 
 @Data
 @AllArgsConstructor
@@ -17,7 +19,7 @@ public class UserLoginResponseDto {
     private String picUrl;
     private long addressId;
     private String phoneNumber;
-    private String birthday;
+    private LocalDate birthday;
     private String bio;
     private String defaultProfileImageUrl;
 
@@ -38,7 +40,7 @@ public class UserLoginResponseDto {
         }
 
         if (userProfile.getBirthday() != null) {
-            this.birthday = userProfile.getBirthday().toString();
+            this.birthday = userProfile.getBirthday();
         }
         if (userProfile.getBio() != null) {
             this.bio = userProfile.getBio();

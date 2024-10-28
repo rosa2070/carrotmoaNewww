@@ -85,7 +85,7 @@ font-size: 10px;
 }
 .my-page-main-content-header{
   padding: 0 40px;
-  margin-bottom: -29px;
+  margin-bottom: -15px;
   margin-left: -16px;
 }
 
@@ -116,4 +116,23 @@ font-size: 10px;
   resize: none;
   width: 486px;
   height: 185px;
+}
+.my-page-profile-birthday{
+  width: 99%;
+  height: 31px;
+  font-size: 21px;
+  text-align: center;
+  font-weight: bold;
+  /*color: #FE6F0F;*/
+  /*border: solid 1px;*/
+}
+form[name="user-update"] input {
+  text-decoration-color: #FE6F0F;
+  color: rgb(255, 185, 139);
+  border: solid 1px;
+  border-radius: 10px;
+}
+.user-form input:focus {
+  border: 2px solid #FE6F0F; /* 포커스 시 보더 색상 변경 */
+  outline: none; /* 기본 outline 제거 (선택 사항) */
 }
