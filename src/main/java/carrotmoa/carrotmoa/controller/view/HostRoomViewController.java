@@ -3,9 +3,11 @@ package carrotmoa.carrotmoa.controller.view;
 import carrotmoa.carrotmoa.config.KakaoMapConfig;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -23,9 +25,17 @@ public class HostRoomViewController {
 
     // 방 등록
     @GetMapping("/register")
-    public String showRegisterForm(Model model) {
+    public String showRegisterForm(Model model, @ModelAttribute("user") UserDetails user) {
+        if (user == null) {
+            // 사용자 정보가 없을 경우 처리 (예: 로그인 페이지로 리디렉션)
+            return "/user/login-page"; // 또는 적절한 페이지로 리디렉션
+        }
+
         String kakaoMapSdkUrl = kakaoMapConfig.getSdkUrl(); // 설정 값 가져오기
         model.addAttribute("kakaoMapSdkUrl", kakaoMapSdkUrl);
+
+        // 로그인한 유저
+        model.addAttribute("user", user);
         return "host/room_register";
     }
 

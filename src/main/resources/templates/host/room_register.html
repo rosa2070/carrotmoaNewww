@@ -19,13 +19,13 @@
     <section class="content">
       <form enctype="multipart/form-data" id="registerForm" method="post" onsubmit="submitForm(event)">
 
-        <!-- userId 입력 필드 추가 -->
-        <input type="hidden" name="userId">
-
         <div class="host_room_reg">
           <div class="flex">
             <p class="title_left">방 등록하기</p>
           </div>
+
+          <!-- userId 입력 필드 추가 -->
+          <input type="hidden" name="userId" th:value="${user.userProfile.userId}">
 
           <div class="white_box">
             <div class="room_input">
