@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
+import carrotmoa.carrotmoa.repository.AccommodationLocationRepository;
 import carrotmoa.carrotmoa.repository.AccommodationRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -26,6 +27,7 @@ public class AccommodationHostService {
     private final AccommodationImageService accommodationImageService;
     private final AccommodationDetailCustomRepository accommodationDetailCustomRepository;
     private final AccommodationRepository accommodationRepository;
+    private final AccommodationLocationService accommodationLocationService;
 
     public AccommodationHostService(PostService postService,
                                     AccommodationService accommodationService,
@@ -33,7 +35,8 @@ public class AccommodationHostService {
                                     AccommodationAmenityService accommodationAmenityService,
                                     AccommodationImageService accommodationImageService,
                                     AccommodationDetailCustomRepository accommodationDetailCustomRepository,
-                                    AccommodationRepository accommodationRepository) {
+                                    AccommodationRepository accommodationRepository,
+                                    AccommodationLocationService accommodationLocationService) {
         this.postService = postService;
         this.accommodationService = accommodationService;
         this.accommodationSpaceService = accommodationSpaceService;
@@ -41,6 +44,7 @@ public class AccommodationHostService {
         this.accommodationImageService = accommodationImageService;
         this.accommodationDetailCustomRepository = accommodationDetailCustomRepository;
         this.accommodationRepository = accommodationRepository;
+        this.accommodationLocationService = accommodationLocationService;
     }
 
     @Transactional
@@ -51,6 +55,7 @@ public class AccommodationHostService {
             accommodationSpaceService.saveAccommodationSpaces(saveAccommodationRequest.toAccommodationSpaceEntities(), savedAccommodation.getId());
             accommodationAmenityService.saveAmenities(savedAccommodation.getId(), saveAccommodationRequest.getAmenityIds());
             accommodationImageService.saveAccommodationImages(savedAccommodation.getId(), saveAccommodationRequest.getImages());
+            accommodationLocationService.saveAccommodationLocation(savedAccommodation.getId(), saveAccommodationRequest);
             return savedAccommodation.getId();
         } catch (IOException e) {
             log.error("Image upload failed: {}", e.getMessage());

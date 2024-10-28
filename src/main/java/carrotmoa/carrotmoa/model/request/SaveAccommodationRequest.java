@@ -1,6 +1,7 @@
 package carrotmoa.carrotmoa.model.request;
 
 import carrotmoa.carrotmoa.entity.Accommodation;
+import carrotmoa.carrotmoa.entity.AccommodationLocation;
 import carrotmoa.carrotmoa.entity.AccommodationSpace;
 import carrotmoa.carrotmoa.entity.Post;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -57,6 +58,9 @@ public class SaveAccommodationRequest implements RequestDTO {
     @NotBlank(message = "교통 정보는 필수 입력입니다.")
     private String transportationInfo;
 
+    private BigDecimal latitude;
+    private BigDecimal longitude;
+
 
     // 관계 테이블 리스트 (Space 테이블에 방, 화장실, 거실, 주방 순서로 담겨 있어야)
     private List<AccommodationSpaceRequest> accommodationSpaces = new ArrayList<>(); // 초기화
@@ -88,6 +92,13 @@ public class SaveAccommodationRequest implements RequestDTO {
             .title(title)
             .content(content)
             .build();
+    }
+
+    public AccommodationLocation toAccommodationLocationEntity() {
+        return AccommodationLocation.builder()
+                .longitude(longitude)
+                .latitude(latitude)
+                .build();
     }
 
     public List<AccommodationSpace> toAccommodationSpaceEntities() {
