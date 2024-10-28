@@ -27,8 +27,8 @@ public class HostRoomViewController {
     @GetMapping("/register")
     public String showRegisterForm(Model model, @ModelAttribute("user") UserDetails user) {
         if (user == null) {
-            // 사용자 정보가 없을 경우 처리 (예: 로그인 페이지로 리디렉션)
-            return "/user/login-page"; // 또는 적절한 페이지로 리디렉션
+            // 사용자 정보가 없을 경우 처리
+            return "/user/login-page"; // 로그인 페이지로 리디렉션
         }
 
         String kakaoMapSdkUrl = kakaoMapConfig.getSdkUrl(); // 설정 값 가져오기
@@ -41,7 +41,12 @@ public class HostRoomViewController {
 
     // 방 관리 이동
     @GetMapping("/manage")
-    public String getRoomManage() {
+    public String getRoomManage(@ModelAttribute("user") UserDetails user, Model model) {
+        if (user == null) {
+            return "/user/login-page";
+        }
+
+        model.addAttribute("user", user);
         return "host/room_manage";
     }
 

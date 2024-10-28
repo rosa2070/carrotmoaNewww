@@ -25,6 +25,8 @@
           </button>
         </div>
 
+        <div th:attr="data-user-id=${user.userProfile.userId}" id="user-data"></div>
+
         <!-- 방 리스트를 표시할 ul 요소 추가 -->
         <ul class="list_item" id="roomList"></ul>
         <script src="/js/roomManagement.js"></script> <!-- 외부 JavaScript 파일 포함 -->
