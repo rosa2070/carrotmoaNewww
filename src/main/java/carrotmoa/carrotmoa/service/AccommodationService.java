@@ -18,9 +18,20 @@ public class AccommodationService {
     }
 
     @Transactional
-    public Accommodation saveAccommodation(SaveAccommodationRequest request, Long postId) {
-        Accommodation accommodation = request.toAccommodationEntity();
-        accommodation.setPostId(postId);
+    public Accommodation saveAccommodation(SaveAccommodationRequest saveAccommodationRequest, Long postId) {
+
+        Accommodation accommodation = Accommodation.builder()
+                .postId(postId)
+                .totalArea(saveAccommodationRequest.getTotalArea())
+                .roadAddress(saveAccommodationRequest.getRoadAddress())
+                .lotAddress(saveAccommodationRequest.getLotAddress())
+                .detailAddress(saveAccommodationRequest.getDetailAddress())
+                .floor(saveAccommodationRequest.getFloor())
+                .totalFloor(saveAccommodationRequest.getTotalFloor())
+                .price(saveAccommodationRequest.getPrice())
+                .transportationInfo(saveAccommodationRequest.getTransportationInfo())
+                .build();
+
         return accommodationRepository.save(accommodation);
     }
 

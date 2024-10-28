@@ -69,17 +69,6 @@ public class UpdateAccommodationRequest {
             .collect(Collectors.toList());
     }
 
-    // 공간 초기화 메서드
-    public void initializeSpaces(int spaceCount) {
-        accommodationSpaces.clear(); // 기존 공간 초기화
-        for (int i = 0; i < spaceCount; i++) {
-            AccommodationSpaceRequest accommodationSpaceRequest = new AccommodationSpaceRequest();
-            accommodationSpaceRequest.setSpaceId(i + 1);
-            accommodationSpaceRequest.setCount(0);
-            accommodationSpaces.add(accommodationSpaceRequest);
-        }
-    }
-
     public void logRequestDetails() {
         log.info("Host ID: {}", userId);
         log.info("Accommodation Name: {}", title);

@@ -2,6 +2,7 @@ package carrotmoa.carrotmoa.service;
 
 import carrotmoa.carrotmoa.entity.AccommodationSpace;
 import carrotmoa.carrotmoa.model.request.AccommodationSpaceRequest;
+import carrotmoa.carrotmoa.model.request.SaveAccommodationRequest;
 import carrotmoa.carrotmoa.model.request.UpdateAccommodationRequest;
 import carrotmoa.carrotmoa.repository.AccommodationSpaceRepository;
 import java.util.List;
@@ -20,16 +21,25 @@ public class AccommodationSpaceService {
         this.accommodationSpaceRepository = accommodationSpaceRepository;
     }
 
-    @Transactional
-    public void saveAccommodationSpaces(List<AccommodationSpace> accommodationSpaces, Long accommodationId) {
-        accommodationSpaces.forEach(accommodationSpace -> saveAccommodationSpace(accommodationSpace, accommodationId));
+    public void saveAccommodationSpaces(Long accommodationId, SaveAccommodationRequest saveAccommodationRequest) {
+        List<AccommodationSpaceRequest> accommodationSpaceRequests = saveAccommodationRequest.getAccommodationSpaces();
+
+        if (accommodationSpaceRequests != null) {
+            List<AccommodationSpace> accommodationSpaces = accommodationSpaceRequests.stream()
+                    .map(accommodationSpaceRequest -> AccommodationSpace.builder()
+                            .accommodationId(accommodationId)
+                            .spaceId(accommodationSpaceRequest.getSpaceId())
+                            .count(accommodationSpaceRequest.getCount())
+                            .build())
+                    .toList();
+
+            accommodationSpaceRepository.saveAll(accommodationSpaces);
+            log.info("Saved accommodation spaces: {}", accommodationSpaces);
+
+        }
     }
 
-    private void saveAccommodationSpace(AccommodationSpace accommodationSpace, Long accommodationId) {
-        accommodationSpace.setAccommodationId(accommodationId);
-        accommodationSpaceRepository.save(accommodationSpace);
-        log.info("Saved accommodation space: {}", accommodationSpace);
-    }
+
 
     @Transactional
     public void updateAccommodationSpaces(Long accommodationId, UpdateAccommodationRequest updateAccommodationRequest) {

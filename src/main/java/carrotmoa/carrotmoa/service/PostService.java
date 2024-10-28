@@ -12,6 +12,8 @@ import org.springframework.stereotype.Service;
 @Service
 @Slf4j
 public class PostService {
+    private static final Long SERVICE_ID = 8L;
+
     private final PostRepository postRepository;
     private final AccommodationRepository accommodationRepository;
 
@@ -21,7 +23,13 @@ public class PostService {
     }
 
     public Post savePost(SaveAccommodationRequest saveAccommodationRequest) {
-        Post post = saveAccommodationRequest.toPostEntity();
+//        Post post = saveAccommodationRequest.toPostEntity();
+        Post post = Post.builder()
+                .serviceId(SERVICE_ID)
+                .userId(saveAccommodationRequest.getUserId())
+                .title(saveAccommodationRequest.getTitle())
+                .content(saveAccommodationRequest.getContent())
+                .build();
         return postRepository.save(post);
     }
 

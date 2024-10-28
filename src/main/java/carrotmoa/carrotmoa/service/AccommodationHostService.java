@@ -52,8 +52,8 @@ public class AccommodationHostService {
         try {
             Post savedPost = postService.savePost(saveAccommodationRequest);
             Accommodation savedAccommodation = accommodationService.saveAccommodation(saveAccommodationRequest, savedPost.getId());
-            accommodationSpaceService.saveAccommodationSpaces(saveAccommodationRequest.toAccommodationSpaceEntities(), savedAccommodation.getId());
-            accommodationAmenityService.saveAmenities(savedAccommodation.getId(), saveAccommodationRequest.getAmenityIds());
+            accommodationSpaceService.saveAccommodationSpaces(savedAccommodation.getId(), saveAccommodationRequest);
+            accommodationAmenityService.saveAccommodationAmenities(savedAccommodation.getId(), saveAccommodationRequest);
             accommodationImageService.saveAccommodationImages(savedAccommodation.getId(), saveAccommodationRequest.getImages());
             accommodationLocationService.saveAccommodationLocation(savedAccommodation.getId(), saveAccommodationRequest);
             return savedAccommodation.getId();

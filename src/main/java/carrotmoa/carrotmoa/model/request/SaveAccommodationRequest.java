@@ -1,28 +1,25 @@
 package carrotmoa.carrotmoa.model.request;
 
-import carrotmoa.carrotmoa.entity.Accommodation;
-import carrotmoa.carrotmoa.entity.AccommodationLocation;
-import carrotmoa.carrotmoa.entity.AccommodationSpace;
-import carrotmoa.carrotmoa.entity.Post;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
+
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.multipart.MultipartFile;
 
+
 @Getter
 @Setter
 @Slf4j
 public class SaveAccommodationRequest implements RequestDTO {
-    private static final Long SERVICE_ID = 8L;
 
     private Long userId; //호스트 ID
 
@@ -72,54 +69,15 @@ public class SaveAccommodationRequest implements RequestDTO {
     @Size(min = 4, max = 20, message = "이미지는 최소 4개, 최대 20개까지 업로드할 수 있습니다.")
     private List<MultipartFile> images; // 업로드된 이미지 파일들
 
-    public Accommodation toAccommodationEntity() {
-        return Accommodation.builder()
-            .totalArea(totalArea)
-            .roadAddress(roadAddress)
-            .lotAddress(lotAddress)
-            .detailAddress(detailAddress)
-            .floor(floor)
-            .totalFloor(totalFloor)
-            .price(price)
-            .transportationInfo(transportationInfo)
-            .build();
-    }
-
-    public Post toPostEntity() {
-        return Post.builder()
-            .serviceId(SERVICE_ID)
-            .userId(userId)
-            .title(title)
-            .content(content)
-            .build();
-    }
-
-    public AccommodationLocation toAccommodationLocationEntity() {
-        return AccommodationLocation.builder()
-                .longitude(longitude)
-                .latitude(latitude)
-                .build();
-    }
-
-    public List<AccommodationSpace> toAccommodationSpaceEntities() {
-        return accommodationSpaces.stream()
-            .map(accommodationSpaceRequest -> {
-                AccommodationSpace accommodationSpace = new AccommodationSpace();
-                accommodationSpace.setAccommodationId(accommodationSpaceRequest.getAccommodationId());
-                accommodationSpace.setSpaceId(accommodationSpaceRequest.getSpaceId());
-                accommodationSpace.setCount(accommodationSpaceRequest.getCount());
-                return accommodationSpace;
-            })
-            .collect(Collectors.toList());
-    }
 
     // 공간 초기화 메서드
     public void initializeSpaces(int spaceCount) {
         accommodationSpaces.clear(); // 기존 공간 초기화
         for (int i = 0; i < spaceCount; i++) {
-            AccommodationSpaceRequest accommodationSpaceRequest = new AccommodationSpaceRequest();
-            accommodationSpaceRequest.setSpaceId(i + 1);
-            accommodationSpaceRequest.setCount(0);
+            AccommodationSpaceRequest accommodationSpaceRequest = AccommodationSpaceRequest.builder()
+                    .spaceId(i + 1) // 공간 ID는 1부터 시작
+                    .count(0) // 초기 개수는 0
+                    .build();
             accommodationSpaces.add(accommodationSpaceRequest);
         }
     }
