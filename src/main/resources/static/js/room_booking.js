@@ -24,9 +24,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 end: booking.checkOutDate,
                 display: 'background', // 배경으로 표시하여 예약 불가 처리
                 color: '#FF6F0F', // 예약된 날짜의 배경색
-                // classNames: ['booked']
-                // selectable: false, // 이벤트의 속성으로 사용할 수 업다
-                // dragScroll: false,
             }));
 
             var calendar = new FullCalendar.Calendar(calendarEl, {
@@ -36,6 +33,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     return `${date.date.year}년 ${date.date.month + 1}월`;
                 },
                 selectable: true,
+
                 dragScroll: true,
                 validRange: {
                     start: tomorrow.toISOString().split('T')[0], // 오늘부터 예약 가능
@@ -44,7 +42,11 @@ document.addEventListener('DOMContentLoaded', function() {
                 events: events, // 예약된 날짜를 events로 추가
                 select: function(info) {
                     // 하루만 선택하는 것도 불가능하게
-                    if(info.start === info.end) {
+                    const newEndDate = new Date(info.end.getFullYear(), info.end.getMonth(), info.end.getDate());
+                    newEndDate.setDate(info.end.getDate() - 1);
+                    console.log(newEndDate);
+
+                    if(info.start.getDate() === newEndDate.getDate()) {
                         alert('하루는 선택할 수 없습니다. 최소 1박 이상 선택해주세요');
                         calendar.unselect();
                         return;
