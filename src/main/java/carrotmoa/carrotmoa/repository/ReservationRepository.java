@@ -12,8 +12,13 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ReservationRepository extends JpaRepository<Reservation, Long> {
     @Query("SELECT new carrotmoa.carrotmoa.model.response.BookingListResponse(" +
-            "r.accommodationId, r.checkInDate, r.checkOutDate, r.status) " +
+            "r.accommodationId, r.checkInDate, r.checkOutDate, r.status, r.totalPrice, " +
+            "p.title, a.lotAddress, a.detailAddress, a.floor)" +
+//            "i.imageUrl) " +
             "FROM Reservation r " +
+            "JOIN Accommodation a ON a.id = r.accommodationId " +
+            "JOIN Post p ON p.userId = r.userId " +
+//            "JOIN AccommodationImage i ON i.accommodationId = r.accommodationId " +
             "WHERE r.userId = :userId")
     List<BookingListResponse> findBookingData(@Param("userId") Long userId);
 }

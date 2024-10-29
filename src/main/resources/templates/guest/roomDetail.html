@@ -191,7 +191,7 @@
                     </div>
                 </div>
                 <div class="btn_full">
-                    <a id="btn_start_booking_now" class="btn medium orange" th:href="@{/guest/booking/start}">계약 시작하기</a>
+                    <a id="btn_start_booking_now" class="btn medium orange" th:href="@{/guest/booking/start/{id}(id=${room.id})}">계약 시작하기</a>
                 </div>
             </div>
         </div>
