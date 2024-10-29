@@ -1,6 +1,6 @@
 // 구매자 정보
-const useremail = "jj@gmail.com"
-const username = "jj"
+const useremail = "jj@gmail.com" // user 테이블 email
+const username = "jj" // user 테이블 name
 
 // 결제창 함수 넣어주기
 document.getElementById('payment-button').addEventListener("click",
@@ -31,8 +31,8 @@ function paymentProcess() {
                 pg: 'kakaopay.TC0ONETIME', // PG사 코드표에서 선택 (포트원 사이트)
                 pay_method: 'card', // 결제 방식
                 merchant_uid: "IMP" + generateMerchantUid(), // 결제 고유 번호
-                name: '상품명', // 제품명
-                amount: 300, // 가격
+                name: '상품명', // 방이름??
+                amount: 300, // reservation의 total_price
 
                 /* 구매자 정보 */
                 buyer_email: `${useremail}`,
@@ -46,7 +46,7 @@ function paymentProcess() {
                     // 필요한 데이터를 추가
                     rsp.partnerId = 12345;  // partnerId 값 설정 (필요시 동적으로 가져올 수 있음)
                     rsp.userId = 67890;     // userId 값 설정 (현재 로그인한 사용자 정보로 설정 가능)
-                    rsp.orderId = 112233;   // orderId 값 설정 (주문 관련 정보로 설정 가능)
+                    rsp.orderId = 112233;   // orderId 값 설정 (주문 관련 정보로 설정 가능) 예약 id?
                     rsp.paymentDate = new Date().toISOString().split('T')[0];  // paymentDate를 현재 날짜로 설정 (yyyy-mm-dd 형식)
 
                     console.log(rsp);
