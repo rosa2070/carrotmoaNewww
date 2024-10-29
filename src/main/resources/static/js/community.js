@@ -9,7 +9,7 @@ document.addEventListener("DOMContentLoaded", function () {
   .then(data => {
     const categoryList = document.getElementById("community-category-list");
     console.log(data);
-    data.forEach(data => {
+    data.categories.forEach(data => {
       const li = document.createElement('li');
       li.innerHTML = `<a href="/api/community/sub-categories/${data.id}">${data.name}</a>`;
       categoryList.appendChild(li);

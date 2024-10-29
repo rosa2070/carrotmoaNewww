@@ -3,6 +3,7 @@ package carrotmoa.carrotmoa.controller.api;
 import carrotmoa.carrotmoa.model.request.SaveCommunityPostRequest;
 import carrotmoa.carrotmoa.model.request.UpdateCommunityPostRequest;
 import carrotmoa.carrotmoa.model.response.CommunityCategoryResponse;
+import carrotmoa.carrotmoa.model.response.CommunityCategoryResponses;
 import carrotmoa.carrotmoa.model.response.CommunityPostDetailResponse;
 import carrotmoa.carrotmoa.model.response.CommunityPostListResponse;
 import carrotmoa.carrotmoa.service.CommunityCategoryService;
@@ -37,9 +38,9 @@ public class CommunityController {
     }
 
     @GetMapping("/sub-categories")
-    public ResponseEntity<List<CommunityCategoryResponse>> getSubCategories() {
-        List<CommunityCategoryResponse> Categories = categoriesService.getSubCategories();
-        return new ResponseEntity<>(Categories, HttpStatus.OK);
+    public ResponseEntity<CommunityCategoryResponses> getSubCategories() {
+        CommunityCategoryResponses subCategories = categoriesService.getSubCategories();
+        return new ResponseEntity<>(subCategories, HttpStatus.OK);
     }
 
     @GetMapping("/categories")
