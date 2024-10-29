@@ -90,14 +90,15 @@ document.addEventListener("DOMContentLoaded", function () {
   fetch("/api/community/categories")
   .then(response => response.json())
   .then(data => {
+      console.log(data);
     const categorySelect = document.getElementById("community-post-category");
-    const parentCategories = data.filter(category => !category.parentId);
+    const parentCategories = data.categories.filter(category => !category.parentId);
 
     parentCategories.forEach(parentCategory => {
       const optgroup = document.createElement("optgroup");
       optgroup.label = parentCategory.name;
 
-      const childCategories = data.filter(
+      const childCategories = data.categories.filter(
           category => category.parentId === parentCategory.id);
       childCategories.forEach(childCategory => {
         const option = document.createElement("option");

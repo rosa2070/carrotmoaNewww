@@ -44,8 +44,8 @@ public class CommunityController {
     }
 
     @GetMapping("/categories")
-    public ResponseEntity<List<CommunityCategoryResponse>> getAllCategories() {
-        List<CommunityCategoryResponse> categories = categoriesService.getAllCategories();
+    public ResponseEntity<CommunityCategoryResponses> getAllCategories() {
+        CommunityCategoryResponses categories = categoriesService.getAllCategories();
         return new ResponseEntity<>(categories, HttpStatus.OK);
     }
 

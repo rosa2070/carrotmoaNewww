@@ -67,9 +67,7 @@ document.addEventListener("DOMContentLoaded", function () {
     .then(response => response.json())
     .then(posts => {
       console.log(posts);
-
       postListContainer.innerHTML = '';
-
       posts.forEach(post => {
         const postItem = document.createElement('a');
         postItem.href = `/community/posts/${post.communityPostId}`;
