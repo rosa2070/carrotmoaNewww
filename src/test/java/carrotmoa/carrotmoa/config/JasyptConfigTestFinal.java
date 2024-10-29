@@ -1,8 +1,10 @@
 //package carrotmoa.carrotmoa.config;
+//
 //import org.jasypt.encryption.pbe.PooledPBEStringEncryptor;
 //import org.jasypt.encryption.pbe.config.SimpleStringPBEConfig;
 //import org.junit.jupiter.api.Test;
-//public class JasyptConfigTest2 {
+//
+//public class JasyptConfigTestFinal {
 //    @Test
 //    public void jasypt_test() {
 //        // Jasypt 설정
@@ -17,23 +19,56 @@
 //        config.setIvGeneratorClassName("org.jasypt.iv.NoIvGenerator");
 //        config.setStringOutputType("base64");
 //        encryptor.setConfig(config);
+//
 //        // 암호화할 값들
-//        String datasourceUrl = ""; // 데이터베이스 URL
-//        String username = ""; // 사용자 이름
-//        String password = ""; // 비밀번호
-//        String accessKey = ""; // AWS 액세스 키
-//        String secretKey = ""; // AWS 시크릿 키
+//        String datasourceUrl = "";
+//        String username = "";
+//        String password = "";
+//        String accessKey = "";
+//        String secretKey = "";
+//
+//        String mailHost = "";
+//        String mailUsername = "";
+//        String mailPassword = "";
+//
+//        String redisHost = "";
+//        String redisUsername = "";
+//        String redisPassword = "";
+//
+//        String kakaoMapsUrl = "";
+//
 //        // 암호화
 //        String encryptDatasourceUrl = encryptor.encrypt(datasourceUrl);
 //        String encryptUsername = encryptor.encrypt(username);
 //        String encryptPassword = encryptor.encrypt(password);
 //        String encryptAccessKey = encryptor.encrypt(accessKey);
 //        String encryptSecretKey = encryptor.encrypt(secretKey);
+//
+//        String encryptMailHost = encryptor.encrypt(mailHost);
+//        String encryptMailUsername = encryptor.encrypt(mailUsername);
+//        String encryptMailPassword = encryptor.encrypt(mailPassword);
+//
+//        String encryptRedisHost = encryptor.encrypt(redisHost);
+//        String encryptRedisUsername = encryptor.encrypt(redisUsername);
+//        String encryptRedisPassword = encryptor.encrypt(redisPassword);
+//
+//        String encryptKakaoMapsUrl = encryptor.encrypt(kakaoMapsUrl);
+//
 //        // 암호화 결과 출력
 //        System.out.println("Encrypted datasource.url: " + encryptDatasourceUrl);
 //        System.out.println("Encrypted spring.datasource.username: " + encryptUsername);
 //        System.out.println("Encrypted spring.datasource.password: " + encryptPassword);
 //        System.out.println("Encrypted cloud.aws.credentials.accessKey: " + encryptAccessKey);
 //        System.out.println("Encrypted cloud.aws.credentials.secretKey: " + encryptSecretKey);
+//
+//        System.out.println("Encrypted spring.mail.host: " + encryptMailHost);
+//        System.out.println("Encrypted spring.mail.username: " + encryptMailUsername);
+//        System.out.println("Encrypted spring.mail.password: " + encryptMailPassword);
+//
+//        System.out.println("Encrypted spring.data.redis.host: " + encryptRedisHost);
+//        System.out.println("Encrypted spring.data.redis.username: " + encryptRedisUsername);
+//        System.out.println("Encrypted spring.data.redis.password: " + encryptRedisPassword);
+//
+//        System.out.println("Encrypted kakao.maps.sdk.url: " + encryptKakaoMapsUrl);
 //    }
 //}
