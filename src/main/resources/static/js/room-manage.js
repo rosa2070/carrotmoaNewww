@@ -27,7 +27,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 listItem.innerHTML = `
                     <dl class="room_item">
                         <dt>
-                            <img src="${accommodation.imageUrl}" alt="방 이미지">
+                            <img class="room_img" src="${accommodation.imageUrl}" alt="방 이미지">
                         </dt>
                         <dd>
                             <p class="room_name ellipsis">

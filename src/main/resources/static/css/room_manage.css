@@ -95,7 +95,7 @@ ul, li, dt, dd {
   border-radius: 6px;
 }
 
-img {
+.room_img {
   width: 100%;
   height: 100%;
 }
