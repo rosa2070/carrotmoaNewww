@@ -28,7 +28,7 @@ import org.hibernate.annotations.DynamicUpdate;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@DynamicUpdate
+//@DynamicUpdate
 public class UserProfile extends BaseEntity {
 
     @Column(name = "user_id")

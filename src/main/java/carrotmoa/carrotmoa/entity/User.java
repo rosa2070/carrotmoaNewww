@@ -19,7 +19,7 @@ import org.hibernate.annotations.DynamicUpdate;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@DynamicUpdate
+//@DynamicUpdate
 public class User extends BaseEntity {
 
     @Column(name = "email")

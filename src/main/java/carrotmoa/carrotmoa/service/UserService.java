@@ -1,13 +1,13 @@
 package carrotmoa.carrotmoa.service;
 
 import carrotmoa.carrotmoa.entity.User;
-import carrotmoa.carrotmoa.entity.UserProfile;
 import carrotmoa.carrotmoa.enums.AuthorityCode;
 import carrotmoa.carrotmoa.model.request.UserJoinDto;
 import carrotmoa.carrotmoa.model.request.UserUpdateRequest;
 import carrotmoa.carrotmoa.repository.AccountRepository;
 import carrotmoa.carrotmoa.repository.UserProfileRepository;
 import carrotmoa.carrotmoa.repository.UserRepository;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
@@ -118,24 +118,18 @@ public class UserService {
             return false;
         }
     }
+    @Transactional
     public boolean userProfileUpdate(UserUpdateRequest request){
         try{
-            userRepository.findById(request.getUserId()).get().setName(request.getName());
-            UserProfile updateProfile =  userProfileRepository.findByUserId(request.getUserId());
-            updateProfile.setNickname(request.getNickname());
-            updateProfile.setPhoneNumber(request.getPhoneNumber());
-            updateProfile.setBirthday(request.getBirthday());
-            updateProfile.setBio(request.getBio());
-
-
-            return true;
+          request.updateUser(
+                  userRepository.findById(request.getUserId()).orElseThrow(() -> new EntityNotFoundException("해당 유저가 존재하지않음")),
+                  userProfileRepository.findByUserId(request.getUserId()));
+          return true;
         } catch(Exception updateException){
-            System.out.println("updateException");
+            System.out.println("UserUpdateException");
             System.out.println(updateException.getMessage());
-            return false;
+          return false;
         }
-
-
     }
 
 

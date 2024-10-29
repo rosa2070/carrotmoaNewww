@@ -25,7 +25,8 @@ public class UserViewController {
     }
 
     @GetMapping("/my-page")
-    public String userMyPage() {
+    public String userMyPage(Model model) {
+        model.addAttribute("fragment","main");
         return "/user/my-page";
     }
 
@@ -35,7 +36,8 @@ public class UserViewController {
     @GetMapping("/profile-update")
     public String userUpdateProfileForm(@AuthenticationPrincipal CustomUserDetails user,Model model) {
         model.addAttribute("userUpdateRequestDto", new UserUpdateRequest(user));
-        return "user/profile-update";}
+        model.addAttribute("fragment","profile-update");
+        return "/user/my-page";}
 }
 
 

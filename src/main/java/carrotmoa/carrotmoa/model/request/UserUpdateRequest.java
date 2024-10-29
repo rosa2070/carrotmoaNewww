@@ -28,6 +28,13 @@ public class UserUpdateRequest {
         this.bio = user.getUserProfile().getBio();
         this.birthday = user.getUserProfile().getBirthday();
     }
+    public void updateUser(User user,UserProfile userProfile){
+        user.setName(this.name);
+        userProfile.setNickname(this.nickname);
+        userProfile.setBio(this.bio);
+        userProfile.setBirthday(this.birthday);
+        userProfile.setPhoneNumber(this.phoneNumber);
+    }
 
 }
 

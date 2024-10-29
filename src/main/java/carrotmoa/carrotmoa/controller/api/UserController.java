@@ -59,8 +59,7 @@ public class UserController {
         System.out.println("update 호출");
         System.out.println(userUpdateRequestDto.getNickname());
         System.out.println(userUpdateRequestDto.getBirthday());
-        userService.userProfileUpdate(userUpdateRequestDto);
-        return new ResponseEntity<Boolean>(true,HttpStatus.OK);
+        return new ResponseEntity<Boolean>(userService.userProfileUpdate(userUpdateRequestDto),HttpStatus.OK);
     }
 
 
