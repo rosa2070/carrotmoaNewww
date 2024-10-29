@@ -8,6 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -23,17 +24,15 @@ public class ReservationService {
     }
 
     @Transactional
+    // 게스트 예약 확인하는 페이지에서 사용
+    // guest/booking/list/{id}
     public List<BookingListResponse> getBookingList(Long id) {
-        List<Object[]> bookings = reservationRepository.findByAccommodationIdAndStatus(id);
-
-        return bookings.stream()
-                .map(BookingListResponse::fromData)
-                .collect(Collectors.toList());
+        return reservationRepository.findBookingData(id);
     }
 
     @Transactional
     public ContractDetailResponse getContractDeatil(Long id) {
         Object[] info = accommodationRepository.findContractInfo(id);
-        return ContractDetailResponse.fromdata(info);
+        return ContractDetailResponse.fromData(info);
     }
 }

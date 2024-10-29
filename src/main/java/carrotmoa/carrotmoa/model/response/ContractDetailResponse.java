@@ -16,7 +16,7 @@ public class ContractDetailResponse {
     private int floor;
     private String nickname;
 
-    public static ContractDetailResponse fromdata(Object[] data) {
+    public static ContractDetailResponse fromData(Object[] data) {
         return ContractDetailResponse.builder()
                 .title((String) data[0])
                 .lotAddress((String) data[1])
