@@ -17,13 +17,4 @@ public class MvcConfiguration implements WebMvcConfigurer {
             .addResourceLocations("classpath:/static/", "classpath:/templates/")
             .setCacheControl(CacheControl.maxAge(10, TimeUnit.MINUTES));
     }
-    @Override
-    public void addCorsMappings(CorsRegistry registry){
-        registry.addMapping("/**")
-                .allowedOrigins("http://localhost:8080")
-                .allowedMethods("GET","POST","PUT","DELETE")
-                .exposedHeaders("location")
-                .allowedHeaders("*")
-                .allowCredentials(true);
-    }
 }

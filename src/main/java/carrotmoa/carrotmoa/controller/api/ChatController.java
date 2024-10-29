@@ -12,7 +12,7 @@ import java.util.List;
 
 @RestController
 public class ChatController {
-    @GetMapping("/chat{id}")
+    @GetMapping("/chat/{id}")
     public ResponseEntity<List<ChatMessage>> getChatmessage(@PathVariable long id){
         ChatMessage testMessage = new ChatMessage(1L,"test1","test");
         return new ResponseEntity<List<ChatMessage>>(List.of(testMessage), HttpStatus.OK);

@@ -13,9 +13,9 @@ public class ChattingConfig implements WebSocketMessageBrokerConfigurer {
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry){
         //접속 url http 가 아닌 carrot-chat://localhost
-        registry.addEndpoint("carrot-chat")
+        registry.addEndpoint("chat")
                 //cors설정 나중에 url특정해서 닫을 것
-                .setAllowedOrigins("*")
+                .setAllowedOriginPatterns("*")
                 //하위 버전의 http에서도 작동
                 .withSockJS();
     }
