@@ -1,8 +1,10 @@
 package carrotmoa.carrotmoa.service;
 
 import carrotmoa.carrotmoa.entity.AccommodationImage;
+import carrotmoa.carrotmoa.model.request.SaveAccommodationRequest;
 import carrotmoa.carrotmoa.repository.AccommodationImageRepository;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import carrotmoa.carrotmoa.util.AwsS3Utils;
@@ -14,6 +16,8 @@ import org.springframework.web.multipart.MultipartFile;
 @Service
 @Slf4j
 public class AccommodationImageService {
+    private static final String IMAGE_FOLDER = "room";
+
     private final AccommodationImageRepository accommodationImageRepository;
     private final AwsS3Utils awsS3Utils;
 
@@ -31,15 +35,6 @@ public class AccommodationImageService {
 
         // 새 이미지 저장
         saveAccommodationImages(accommodationId, newImages);
-    }
-
-    @Transactional
-    public void saveAccommodationImages(Long accommodationId, List<MultipartFile> images) throws IOException {
-        if (images != null && !images.isEmpty()) {
-            for (int i = 0; i < images.size(); i++) {
-                String imageUrl = uploadAndSaveImage(accommodationId, images.get(i), i);
-            }
-        }
     }
 
     // 기존 이미지 삭제 ( 메타 데이터 삭제 + s3 이미지 삭제)
@@ -64,21 +59,35 @@ public class AccommodationImageService {
     }
 
 
-    // s3 직접 업로드 + url 데베에 저장
-    private String uploadAndSaveImage(Long accommodationId, MultipartFile image, int order) throws IOException {
-        String imageUrl = awsS3Utils.uploadImageToFolder("room", accommodationId, image);
-        saveImageMetadata(accommodationId, imageUrl, order);
-        return imageUrl;
+    // s3에 올리고 메타데이터 저장
+    public void saveAccommodationImages(Long accommodationId, List<MultipartFile> images) throws IOException {
+        if (images != null && !images.isEmpty()) {
+            List<AccommodationImage> accommodationImages = new ArrayList<>();
+
+            for (int i=0; i<images.size(); i++) {
+                String imageUrl = uploadImageToS3(accommodationId, images.get(i));
+                AccommodationImage accommodationImage = createAccommodationImage(accommodationId, imageUrl, i);
+                accommodationImages.add(accommodationImage);
+            }
+
+            accommodationImageRepository.saveAll(accommodationImages);
+        }
     }
 
-    // url만 데베에 저장
-    private void saveImageMetadata(Long accommodationId, String imageUrl, int order) {
-        AccommodationImage accommodationImage = AccommodationImage.builder()
-            .accommodationId(accommodationId)
-            .imageUrl(imageUrl)
-            .imageOrder(order)
-            .build();
-        accommodationImageRepository.save(accommodationImage);
+    // S3에 이미지 업로드
+    private String uploadImageToS3(Long accommodationId, MultipartFile image) throws IOException {
+        return awsS3Utils.uploadImageToFolder(IMAGE_FOLDER, accommodationId, image);
     }
+
+    // 메타데이터 생성
+    private AccommodationImage createAccommodationImage(Long accommodationId, String imageUrl, int order) {
+        return AccommodationImage.builder()
+                .accommodationId(accommodationId)
+                .imageUrl(imageUrl)
+                .imageOrder(order)
+                .build();
+    }
+
+
 
 }

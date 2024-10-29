@@ -58,21 +58,30 @@ function showImagePreviews(imageUrls) {
 }
 
 document.getElementById('images').addEventListener('change', function (event) {
-    const files = event.target.files;
+    const files = Array.from(event.target.files);
     const imageContainer = document.getElementById('div_added_pictures');
-    imageContainer.innerHTML = ''; // 기존 미리보기 이미지 제거
+    imageContainer.innerHTML = '';
 
-    Array.from(files).forEach(file => {
-        const reader = new FileReader();
+    // 순서를 보장하기 위해 Promise.all 사용
+    const imagePromises = files.map((file, index) => {
+        return new Promise((resolve) => {
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                const imageItem = document.createElement('div');
+                imageItem.className = 'image_item';
+                imageItem.innerHTML = `<img src="${e.target.result}" alt="미리보기 이미지">`;
+                resolve({index, element: imageItem});
+            };
+            reader.readAsDataURL(file);
+        });
+    });
 
-        reader.onload = function (e) {
-            const imageItem = document.createElement('div');
-            imageItem.className = 'image_item';
-            imageItem.innerHTML = `<img src="${e.target.result}" alt="미리보기 이미지">`;
-            imageContainer.appendChild(imageItem);
-        };
-
-        reader.readAsDataURL(file);
+    // 모든 이미지가 로드되면, index 순서대로 정렬하여 추가
+    Promise.all(imagePromises).then(imageResults => {
+        imageResults.sort((a, b) => a.index - b.index);
+        imageResults.forEach(result => {
+            imageContainer.appendChild(result.element);
+        });
     });
 });
 
@@ -133,10 +142,10 @@ function checkAmenities(amenityIds) {
 function createHandleSubmit(accommodationId) {
     return function (event) {
         event.preventDefault();
-        const updatedData = new FormData();
+        const updatedData = new FormData(); // 다 빈상태로 만들어줌
         const fields = ['title', 'roadAddress', 'lotAddress', 'detailAddress',
             'floor', 'totalFloor', 'totalArea', 'price', 'content',
-            'transportationInfo'];
+            'transportationInfo', 'latitude', 'longitude'];
 
         fields.forEach(field => {
             const value = document.getElementById(field).value;
@@ -157,14 +166,6 @@ function createHandleSubmit(accommodationId) {
         existingImageUrls.forEach(url => {
             updatedData.append('existingImageUrls', url); // 각 URL을 개별 항목으로 추가
         });
-
-        // 기존 이미지 URLs 추가
-        // console.log(originalData);
-        // const existingImageUrls = originalData.imageUrls || [];
-        // console.log('기존 이미지 URL:', existingImageUrls); // 이미지 URL 출력
-        // existingImageUrls.forEach((url, index) => {
-        //     updatedData.append(`imageUrls[${index}]`, url);
-        // });
 
         const spaceIds = [1, 2, 3, 4];
         const spaceCounts = [

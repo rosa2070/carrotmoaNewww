@@ -1,6 +1,5 @@
-const userId = 3; // 실제 사용자 ID를 여기에 설정
-window.userId = userId; // window 객체에 userId 저장
-
+// data-user-id 속성에서 사용자 ID를 가져오기
+const userId = document.getElementById('user-data').getAttribute('data-user-id');
 console.log(`사용자 ID: ${userId}`);
 
 function goToRegisterPage() {
@@ -8,7 +7,7 @@ function goToRegisterPage() {
 }
 
 document.addEventListener("DOMContentLoaded", function () {
-    const userId = window.userId; // HTML에서 정의한 userId를 가져옴
+    // const userId = window.userId; // HTML에서 정의한 userId를 가져옴
 
     console.log(`Calling API with userId: ${userId}`);
     fetch(`/api/host/room/manage/${userId}`) // API 호출

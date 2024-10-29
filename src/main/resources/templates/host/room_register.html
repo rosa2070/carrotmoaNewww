@@ -19,13 +19,13 @@
     <section class="content">
       <form enctype="multipart/form-data" id="registerForm" method="post" onsubmit="submitForm(event)">
 
-        <!-- userId 입력 필드 추가 -->
-        <input type="hidden" name="userId">
-
         <div class="host_room_reg">
           <div class="flex">
             <p class="title_left">방 등록하기</p>
           </div>
+
+          <!-- userId 입력 필드 추가 -->
+          <input type="hidden" name="userId" th:value="${user.userProfile.userId}">
 
           <div class="white_box">
             <div class="room_input">
@@ -59,8 +59,8 @@
                 <input class="style-border" id="detailAddress" name="detailAddress" placeholder="상세주소를 입력해주세요."
                        type="text"
                        value>
-                <input type="hidden" id="latitude" placeholder="위도">
-                <input type="hidden" id="longitude" placeholder="경도">
+                <input type="input" id="latitude" name="latitude" placeholder="위도">
+                <input type="input" id="longitude" name="longitude" placeholder="경도">
               </div>
             </div>
 
@@ -243,8 +243,9 @@
       </form>
     </section>
   </div>
-  <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-  <script src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=f1079392033d931767eee2ba4737b1ad&libraries=services"></script>
+  <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<!--  <script src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=f1079392033d931767eee2ba4737b1ad&libraries=services"></script>-->
+  <script th:src="${kakaoMapSdkUrl}"></script>
   <script src="/js/room-register.js"></script>
 
 

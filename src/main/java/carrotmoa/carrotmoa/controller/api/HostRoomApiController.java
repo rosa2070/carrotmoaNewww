@@ -65,13 +65,10 @@ public class HostRoomApiController {
         if (saveAccommodationRequest.getAccommodationSpaces().isEmpty()) {
             saveAccommodationRequest.initializeSpaces(DEFAULT_SPACE_COUNT);
         }
-        saveAccommodationRequest.setUserId(3L);
+
 
         // 여기서 AOP가 자동으로 logBefore 메서드를 호출하여 로깅을 수행합니다.
 
-
-        // 입력한 거 로그 찍기
-//        createAccommodationRequest.logRequestDetails();
 
         Long accommodationId = accommodationHostService.createAccommodation(saveAccommodationRequest);
         return new ResponseEntity<>(accommodationId, HttpStatus.CREATED);

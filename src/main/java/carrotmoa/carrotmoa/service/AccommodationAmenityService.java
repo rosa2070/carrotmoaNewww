@@ -1,11 +1,16 @@
 package carrotmoa.carrotmoa.service;
 
+import carrotmoa.carrotmoa.entity.Accommodation;
 import carrotmoa.carrotmoa.entity.AccommodationAmenity;
+import carrotmoa.carrotmoa.model.request.SaveAccommodationRequest;
 import carrotmoa.carrotmoa.model.request.UpdateAccommodationRequest;
 import carrotmoa.carrotmoa.repository.AccommodationAmenityRepository;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
+
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,15 +24,16 @@ public class AccommodationAmenityService {
         this.accommodationAmenityRepository = accommodationAmenityRepository;
     }
 
-    @Transactional
-    public void saveAmenities(Long accommodationId, List<Long> amenityIds) {
-        if (amenityIds != null) {
-            amenityIds.forEach(amenityId -> {
-                AccommodationAmenity accommodationAmenity = new AccommodationAmenity();
-                accommodationAmenity.setAccommodationId(accommodationId);
-                accommodationAmenity.setAmenityId(amenityId);
-                accommodationAmenityRepository.save(accommodationAmenity);
-            });
+    public void saveAccommodationAmenities(Long accommodationId, SaveAccommodationRequest saveAccommodationRequest) {
+        if (saveAccommodationRequest.getAmenityIds() != null) {
+            List<AccommodationAmenity> accommodationAmenities = saveAccommodationRequest.getAmenityIds().stream()
+                    .map(amenityId -> AccommodationAmenity.builder()
+                            .accommodationId(accommodationId)
+                            .amenityId(amenityId)
+                            .build())
+                    .toList();
+
+            accommodationAmenityRepository.saveAll(accommodationAmenities);
         }
     }
 
@@ -41,26 +47,26 @@ public class AccommodationAmenityService {
 
         // 기존의 amenityId 목록 생성
         Set<Long> existingAmenityIds = existingAmenities.stream()
-            .map(AccommodationAmenity::getAmenityId)
-            .collect(Collectors.toSet());
+                .map(AccommodationAmenity::getAmenityId)
+                .collect(Collectors.toSet());
 
-        // 새로 추가할 amenityId 목록
-        List<Long> amenitiesToAdd = newAmenityIds.stream()
-            .filter(amenityId -> !existingAmenityIds.contains(amenityId))
-            .toList();
+        // 새로 추가할 편의 시설 객체 목록 생성
+        List<AccommodationAmenity> amenitiesToAdd = newAmenityIds.stream()
+                .filter(amenityId -> !existingAmenityIds.contains(amenityId))
+                .map(amenityId -> AccommodationAmenity.builder()
+                        .accommodationId(accommodationId)
+                        .amenityId(amenityId)
+                        .build())
+                .toList();
 
         // 삭제할 amenityId 목록
         List<Long> amenitiesToRemove = existingAmenityIds.stream()
-            .filter(amenityId -> !newAmenityIds.contains(amenityId))
-            .toList();
+                .filter(amenityId -> !newAmenityIds.contains(amenityId))
+                .toList();
 
         // 새로운 편의 시설 추가
-        for (Long amenityId : amenitiesToAdd) {
-            AccommodationAmenity accommodationAmenity = AccommodationAmenity.builder()
-                .accommodationId(accommodationId)
-                .amenityId(amenityId)
-                .build();
-            accommodationAmenityRepository.save(accommodationAmenity);
+        if (!amenitiesToAdd.isEmpty()) {
+            accommodationAmenityRepository.saveAll(amenitiesToAdd);
         }
 
         // 기존의 편의 시설 삭제
@@ -68,8 +74,5 @@ public class AccommodationAmenityService {
             accommodationAmenityRepository.deleteByAccommodationIdAndAmenityId(accommodationId, amenityId);
         }
 
-
     }
-
-
 }

@@ -29,6 +29,8 @@ public class UpdateAccommodationRequest {
     private BigDecimal price;
     private String content;
     private String transportationInfo;
+    private BigDecimal latitude;
+    private BigDecimal longitude;
 
     // 관계 테이블 리스트 (Space 테이블에 방, 화장실, 거실, 주방 순서로 담겨 있어야)
     private List<AccommodationSpaceRequest> accommodationSpaces = new ArrayList<>(); // 초기화
@@ -67,17 +69,6 @@ public class UpdateAccommodationRequest {
                 return accommodationSpace;
             })
             .collect(Collectors.toList());
-    }
-
-    // 공간 초기화 메서드
-    public void initializeSpaces(int spaceCount) {
-        accommodationSpaces.clear(); // 기존 공간 초기화
-        for (int i = 0; i < spaceCount; i++) {
-            AccommodationSpaceRequest accommodationSpaceRequest = new AccommodationSpaceRequest();
-            accommodationSpaceRequest.setSpaceId(i + 1);
-            accommodationSpaceRequest.setCount(0);
-            accommodationSpaces.add(accommodationSpaceRequest);
-        }
     }
 
     public void logRequestDetails() {
