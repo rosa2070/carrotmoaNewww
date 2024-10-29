@@ -23,7 +23,6 @@ public class PostService {
     }
 
     public Post savePost(SaveAccommodationRequest saveAccommodationRequest) {
-//        Post post = saveAccommodationRequest.toPostEntity();
         Post post = Post.builder()
                 .serviceId(SERVICE_ID)
                 .userId(saveAccommodationRequest.getUserId())
@@ -42,8 +41,8 @@ public class PostService {
 
         log.info("방 이름 및 설명 변경 전: 제목: {}, 내용: {}", post.getTitle(), post.getContent());
 
-        // update 메서드 호출
-        post.updatePost(updateAccommodationRequest.getTitle(), updateAccommodationRequest.getContent());
+        post.updatePost(updateAccommodationRequest.getTitle(),
+                updateAccommodationRequest.getContent());
 
         log.info("방 이름 및 설명 변경 후: 제목: {}, 내용: {}", post.getTitle(), post.getContent());
 

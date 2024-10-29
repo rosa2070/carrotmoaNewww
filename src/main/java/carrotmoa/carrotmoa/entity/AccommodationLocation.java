@@ -31,4 +31,16 @@ public class AccommodationLocation extends BaseEntity {
     @Column(name = "longitude")
     private BigDecimal longitude;
 
+    public void updateAccommodationLocation(BigDecimal latitude, BigDecimal longitude) {
+        if (latitude != null) {
+            this.latitude = latitude;
+        }
+
+        if (longitude != null) {
+            this.longitude = longitude;
+        }
+
+
+    }
+
 }

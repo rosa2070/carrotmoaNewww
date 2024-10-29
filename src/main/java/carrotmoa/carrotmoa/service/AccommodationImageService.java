@@ -16,6 +16,8 @@ import org.springframework.web.multipart.MultipartFile;
 @Service
 @Slf4j
 public class AccommodationImageService {
+    private static final String IMAGE_FOLDER = "room";
+
     private final AccommodationImageRepository accommodationImageRepository;
     private final AwsS3Utils awsS3Utils;
 
@@ -34,15 +36,6 @@ public class AccommodationImageService {
         // 새 이미지 저장
         saveAccommodationImages(accommodationId, newImages);
     }
-
-//    @Transactional
-//    public void saveAccommodationImages(Long accommodationId, List<MultipartFile> images) throws IOException {
-//        if (images != null && !images.isEmpty()) {
-//            for (int i = 0; i < images.size(); i++) {
-//                String imageUrl = uploadAndSaveImage(accommodationId, images.get(i), i);
-//            }
-//        }
-//    }
 
     // 기존 이미지 삭제 ( 메타 데이터 삭제 + s3 이미지 삭제)
     private void deleteExistingImages(List<String> existingImageUrls) throws IOException {
@@ -66,23 +59,6 @@ public class AccommodationImageService {
     }
 
 
-    // s3 직접 업로드 + url 데베에 저장
-//    private String uploadAndSaveImage(Long accommodationId, MultipartFile image, int order) throws IOException {
-//        String imageUrl = awsS3Utils.uploadImageToFolder("room", accommodationId, image);
-//        saveImageMetadata(accommodationId, imageUrl, order);
-//        return imageUrl;
-//    }
-
-//    // url만 데베에 저장
-//    private void saveImageMetadata(Long accommodationId, String imageUrl, int order) {
-//        AccommodationImage accommodationImage = AccommodationImage.builder()
-//            .accommodationId(accommodationId)
-//            .imageUrl(imageUrl)
-//            .imageOrder(order)
-//            .build();
-//        accommodationImageRepository.save(accommodationImage);
-//    }
-
     // s3에 올리고 메타데이터 저장
     public void saveAccommodationImages(Long accommodationId, List<MultipartFile> images) throws IOException {
         if (images != null && !images.isEmpty()) {
@@ -100,7 +76,7 @@ public class AccommodationImageService {
 
     // S3에 이미지 업로드
     private String uploadImageToS3(Long accommodationId, MultipartFile image) throws IOException {
-        return awsS3Utils.uploadImageToFolder("room", accommodationId, image);
+        return awsS3Utils.uploadImageToFolder(IMAGE_FOLDER, accommodationId, image);
     }
 
     // 메타데이터 생성

@@ -50,9 +50,13 @@ public class AccommodationAmenityService {
                 .map(AccommodationAmenity::getAmenityId)
                 .collect(Collectors.toSet());
 
-        // 새로 추가할 amenityId 목록
-        List<Long> amenitiesToAdd = newAmenityIds.stream()
+        // 새로 추가할 편의 시설 객체 목록 생성
+        List<AccommodationAmenity> amenitiesToAdd = newAmenityIds.stream()
                 .filter(amenityId -> !existingAmenityIds.contains(amenityId))
+                .map(amenityId -> AccommodationAmenity.builder()
+                        .accommodationId(accommodationId)
+                        .amenityId(amenityId)
+                        .build())
                 .toList();
 
         // 삭제할 amenityId 목록
@@ -61,12 +65,8 @@ public class AccommodationAmenityService {
                 .toList();
 
         // 새로운 편의 시설 추가
-        for (Long amenityId : amenitiesToAdd) {
-            AccommodationAmenity accommodationAmenity = AccommodationAmenity.builder()
-                    .accommodationId(accommodationId)
-                    .amenityId(amenityId)
-                    .build();
-            accommodationAmenityRepository.save(accommodationAmenity);
+        if (!amenitiesToAdd.isEmpty()) {
+            accommodationAmenityRepository.saveAll(amenitiesToAdd);
         }
 
         // 기존의 편의 시설 삭제
@@ -74,8 +74,5 @@ public class AccommodationAmenityService {
             accommodationAmenityRepository.deleteByAccommodationIdAndAmenityId(accommodationId, amenityId);
         }
 
-
     }
-
-
 }

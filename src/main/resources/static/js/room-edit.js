@@ -142,10 +142,10 @@ function checkAmenities(amenityIds) {
 function createHandleSubmit(accommodationId) {
     return function (event) {
         event.preventDefault();
-        const updatedData = new FormData();
+        const updatedData = new FormData(); // 다 빈상태로 만들어줌
         const fields = ['title', 'roadAddress', 'lotAddress', 'detailAddress',
             'floor', 'totalFloor', 'totalArea', 'price', 'content',
-            'transportationInfo'];
+            'transportationInfo', 'latitude', 'longitude'];
 
         fields.forEach(field => {
             const value = document.getElementById(field).value;
@@ -166,14 +166,6 @@ function createHandleSubmit(accommodationId) {
         existingImageUrls.forEach(url => {
             updatedData.append('existingImageUrls', url); // 각 URL을 개별 항목으로 추가
         });
-
-        // 기존 이미지 URLs 추가
-        // console.log(originalData);
-        // const existingImageUrls = originalData.imageUrls || [];
-        // console.log('기존 이미지 URL:', existingImageUrls); // 이미지 URL 출력
-        // existingImageUrls.forEach((url, index) => {
-        //     updatedData.append(`imageUrls[${index}]`, url);
-        // });
 
         const spaceIds = [1, 2, 3, 4];
         const spaceCounts = [

@@ -72,6 +72,8 @@ public class AccommodationHostService {
         accommodationSpaceService.updateAccommodationSpaces(accommodationId, updateAccommodationRequest);
         accommodationAmenityService.updateAccommodationAmenities(accommodationId, updateAccommodationRequest);
         accommodationImageService.updateAccommodationImages(accommodationId, updateAccommodationRequest.getImages(), existingImageUrls);
+        accommodationLocationService.updateAccommodationLocation(accommodationId, updateAccommodationRequest);
+
     }
 
     @Transactional
