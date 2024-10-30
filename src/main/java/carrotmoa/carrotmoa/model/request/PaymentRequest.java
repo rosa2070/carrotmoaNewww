@@ -1,11 +1,14 @@
 package carrotmoa.carrotmoa.model.request;
 
+import carrotmoa.carrotmoa.entity.Payment;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Data
 @AllArgsConstructor
@@ -17,7 +20,7 @@ public class PaymentRequest {
     private LocalDate paymentDate;
 
     @JsonProperty("imp_uid")
-    private String impUid;
+    private String impUid; // 결제 성공시 응답 객체에서 제공(rsp 객체에 포함)
 
     @JsonProperty("pay_method")
     private String payMethod;
@@ -25,7 +28,7 @@ public class PaymentRequest {
     @JsonProperty("merchant_uid")
     private String merchantUid;
 
-    @JsonProperty("paid_amount") //??
+    @JsonProperty("paid_amount") //
     private int paidAmount;
 
     @JsonProperty("pg_provider")
@@ -44,6 +47,27 @@ public class PaymentRequest {
 
     @JsonProperty("card_number")
     private String cardNumber;
+
+    public Payment toPaymentEntity() {
+        return Payment.builder()
+                .partnerId(partnerId)
+                .userId(userId)
+                .orderId(orderId)
+                .impUid(impUid)
+                .paymentMethod(payMethod)
+                .merchantUid(merchantUid)
+                .paymentAmount(BigDecimal.valueOf(paidAmount))
+                .pgProvider(pgProvider)
+                .pgType(pgType)
+                .pgTid(pgTid)
+                .status(status)
+                .cardName(cardName)
+                .cardNumber(cardNumber)
+//                .paymentDate(LocalDateTime.now()) // 필요에 따라 현재 시간을 설정
+                .build();
+    }
+
+
 
 
 }

@@ -55,4 +55,16 @@ public class HostRoomViewController {
     public String showEditRoomForm(@PathVariable("accommodationId") Long accommodationId) {
         return "host/room_edit";
     }
+
+    // 정산
+    @GetMapping("/settlement")
+    public String getSettlements() {
+        return "host/room_settlement";
+    }
+
+    // 계약
+    @GetMapping("/contract")
+    public String getContracts() {
+        return "host/room_contract";
+    }
 }

@@ -22,14 +22,14 @@ function generateMerchantUid() {
     return makeMerchantUid;
 }
 
-
+// rsp는 response
 function paymentProcess() {
     if (confirm("구매 하시겠습니까?")) {
         if(isLogin){ // 회원만 결제 가능
             IMP.init("imp15548812"); // 고객사 식별코드 (포트원 사이트)
             IMP.request_pay({
                 pg: 'kakaopay.TC0ONETIME', // PG사 코드표에서 선택 (포트원 사이트)
-                pay_method: 'card', // 결제 방식
+                pay_method: 'point', // 결제 방식
                 merchant_uid: "IMP" + generateMerchantUid(), // 결제 고유 번호
                 name: '상품명', // 방이름??
                 amount: 300, // reservation의 total_price
@@ -43,14 +43,16 @@ function paymentProcess() {
             }, async function (rsp) { // callback
                 if (rsp.success) { //결제 성공시
 
-                    // 필요한 데이터를 추가
-                    rsp.partnerId = 12345;  // partnerId 값 설정 (필요시 동적으로 가져올 수 있음)
+                    // 필요한 데이터를 추가 (우리가 넣을 데이터)
+                    rsp.partnerId = 12345;  // partnerId 값 설정 (필요시 동적으로 가져올 수 있음) 숙소 호스트 ID?
                     rsp.userId = 67890;     // userId 값 설정 (현재 로그인한 사용자 정보로 설정 가능)
                     rsp.orderId = 112233;   // orderId 값 설정 (주문 관련 정보로 설정 가능) 예약 id?
                     rsp.paymentDate = new Date().toISOString().split('T')[0];  // paymentDate를 현재 날짜로 설정 (yyyy-mm-dd 형식)
 
                     console.log(rsp);
                     // Send the payment details to your Spring Boot backend
+                    // fetch 요청을 보내고 await를 사용하면, 서버의 응답이 올 때까지 코드 실행이 잠시 멈추고,
+                    // 그 응답값을 기다린 후에 다음 코드를 실행합니다.
                     const response = await fetch('/api/payment/portone', {
                         method: 'POST',
                         headers: {
@@ -59,12 +61,13 @@ function paymentProcess() {
                         body: JSON.stringify(rsp) // Send the response object
                     });
 
-                    const result = await response.json();
+                    const result = await response.text(); // String으로 바꾸려면 response.text()t로?
+                    // const result = await response.json(); // String으로 바꾸려면 response.text()t로?
                     console.log(result)
 
                     if (rsp.status == "paid") { // DB저장 성공시
                         alert('결제 완료!')
-                        window.location.reload();
+                        // window.location.reload();
                     } else { // 결제완료 후 DB저장 실패시
                         alert(`error:[${rsp.status}]\n결제요청이 승인된 경우 관리자에게 문의바랍니다.`);
                         // DB저장 실패시 status에 따라 추가적인 작업 가능성

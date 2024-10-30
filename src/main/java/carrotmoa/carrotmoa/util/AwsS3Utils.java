@@ -45,7 +45,7 @@ public class AwsS3Utils {
     }
 
     // getBytes와 fromInputStream()의 차이 공부
-    public void uploadImage(String fileName, MultipartFile file) {
+    private void uploadImage(String fileName, MultipartFile file) {
         try {
             // S3에 업로드할 객체 요청을 생성
             PutObjectRequest putObjectRequest = PutObjectRequest.builder()

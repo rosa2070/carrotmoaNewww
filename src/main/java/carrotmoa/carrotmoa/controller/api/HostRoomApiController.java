@@ -35,6 +35,7 @@ public class HostRoomApiController {
         @Valid @ModelAttribute SaveAccommodationRequest saveAccommodationRequest,
         BindingResult bindingResult) {
 
+        // Service로 옮겨야??
         // 유효성 검사 실패 시 처리
         if (bindingResult.hasErrors()) {
             List<String> errorMessages = bindingResult.getFieldErrors()

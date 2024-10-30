@@ -23,14 +23,24 @@ public class PaymentController {
         this.paymentService = paymentService;
     }
 
+//    @PostMapping("/portone")
+//    public ResponseEntity<?> savePortone(@RequestBody PaymentRequest paymentRequest) {
+//        try {
+//            paymentService.savePayment(paymentRequest.toPaymentEntity());
+//            return ResponseEntity.ok(new SuccessResponse("Payment processed successfully."));
+//        } catch (Exception e) {
+//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+//                    .body(new ErrorResponse("Failed to process payment.", HttpStatus.INTERNAL_SERVER_ERROR.value()));        }
+//    }
+
     @PostMapping("/portone")
-    public ResponseEntity<?> savePortone(@RequestBody PaymentRequest paymentRequest) {
+    public ResponseEntity<String> savePortone(@RequestBody PaymentRequest paymentRequest) {
         try {
-            paymentService.savePayment(Payment.of(paymentRequest));
-            return ResponseEntity.ok(new SuccessResponse("Payment processed successfully."));
+            paymentService.savePayment(paymentRequest.toPaymentEntity());
+            return ResponseEntity.ok("Payment processed successfully.");
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(new ErrorResponse("Failed to process payment.", HttpStatus.INTERNAL_SERVER_ERROR.value()));        }
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to process payment.");
+        }
     }
 
 
@@ -39,9 +49,15 @@ public class PaymentController {
      *
      * @return 모든 Payment 엔티티 리스트
      */
-    @GetMapping
+    @GetMapping("/list")
     public ResponseEntity<List<Payment>> getAllPayments() {
         List<Payment> payments = paymentService.getAllPayments();
         return ResponseEntity.ok(payments);
+    }
+
+    @GetMapping("/cancle/{uid}")
+    public ResponseEntity<String> cancelPayment(@PathVariable("uid") String uid) {
+        paymentService.canclePayment(uid);
+        return ResponseEntity.ok("Payment cancel processed successfully.");
     }
 }
