@@ -37,10 +37,8 @@ public class CommunityCommentService {
 
         //  SSE 알림 메서드 사용하기
         notificationService.sendNotification(32L, "테스트 알림입니다.");
-
         return new SaveCommunityCommentResponse(CommunityCommentEntity, commentCount);
     }
-
 
     @Transactional(readOnly = true)
     public Map<String, Object> findActiveCommentsByCommunityPostId(Long communityPostId) {

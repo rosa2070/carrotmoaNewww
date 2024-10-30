@@ -25,12 +25,9 @@ public class NotificationService {
 //            return emitterRepository.getById(userId); // 기존 Emitter 반환
 //        }
         SseEmitter emitter = new SseEmitter(DEFAULT_TIMEOUT);
-        // 타임아웃 시 Emitter 제거
-        emitter.onCompletion(() -> emitterRepository.deleteById(userId)); // onCompletion -> 클라이언트 or 서버에서 연결 이 종료시 실행되는 코드
+        emitter.onCompletion(() -> emitterRepository.deleteById(userId));
         emitter.onTimeout(() -> emitterRepository.deleteById(userId));
         try {
-            // 처음에 SSE 응답을 할 때 아무런 이벤트도 보내지 않으면 재연결 요청을 보낼때나, 아니면 연결 요청 자체에서 오류가 발생합니다.
-            //따라서 첫 SSE 응답을 보낼 시에는 반드시 더미 데이터라도 넣어서 데이터를 전달
             emitter.send(SseEmitter.event()
                     .name("connect") // 이벤트 이름 지정
                     .data("connected!")); // 503에러 방지를 위한 더미 데이터
@@ -42,6 +39,8 @@ public class NotificationService {
         return emitter;
     }
 
+
+    // 여기에 알림 저장한느 레파ㅣ토리 작성
     public void sendNotification(Long receiverId, String message) {
         SseEmitter emitter = emitterRepository.get(receiverId);
         if (emitter != null) {
@@ -51,6 +50,8 @@ public class NotificationService {
                 emitterRepository.deleteById(receiverId);
             }
         }
+
+        //Notification savedNotification = notificationRepository.save(notification);
     }
 
     public List<NotificationResponse> findNotificationsByReceiverId(Long receiverId) {
