@@ -1,16 +1,21 @@
 package carrotmoa.carrotmoa.service;
 
 import carrotmoa.carrotmoa.entity.CommunityComment;
-import carrotmoa.carrotmoa.model.response.CommunityCommentResponse;
+import carrotmoa.carrotmoa.exception.ResourceNotFoundException;
+import carrotmoa.carrotmoa.model.request.SaveCommunityCommentRequest;
+import carrotmoa.carrotmoa.model.request.SaveCommunityReplyRequest;
 import carrotmoa.carrotmoa.model.response.SaveCommunityCommentResponse;
+import carrotmoa.carrotmoa.model.response.CommunityCommentResponse;
 import carrotmoa.carrotmoa.repository.CommunityCommentRepository;
 import carrotmoa.carrotmoa.repository.CommunityPostRepository;
-import carrotmoa.carrotmoa.repository.NotificationRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.server.ResponseStatusException;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -21,33 +26,142 @@ import java.util.Map;
 public class CommunityCommentService {
     private final CommunityCommentRepository communityCommentRepository;
     private final CommunityPostRepository communityPostRepository;
-    private final NotificationService notificationService;
-    private final NotificationRepository notificationRepository;
 
-    //    TODO: dto에 userId 변수 정의하고, existsById로 유저 아이디 있는지 검사하는 로직 추가해야함.
     @Transactional
-    public SaveCommunityCommentResponse createCommunityComment(Long communityPostId, SaveCommunityCommentResponse dto) {
+    public Long createCommunityComment(Long communityPostId, SaveCommunityCommentRequest request) {
         if (!communityPostRepository.existsById(communityPostId)) {
-            throw new IllegalArgumentException("해당 게시글이 존재하지 않습니다.");
+            throw new ResourceNotFoundException("해당 게시글이 존재하지 않습니다.");
         }
-        dto.setUserId(1L);
-        dto.setCommunityPostId(communityPostId);
-        CommunityComment CommunityCommentEntity = communityCommentRepository.save(dto.toCommunityCommentEntity());
-        int commentCount = communityCommentRepository.countByCommunityPostId(communityPostId);
-
-        //  SSE 알림 메서드 사용하기
-        notificationService.sendNotification(32L, "테스트 알림입니다.");
-        return new SaveCommunityCommentResponse(CommunityCommentEntity, commentCount);
+        request.setCommunityPostId(communityPostId);
+        CommunityComment commentEntity = communityCommentRepository.save(request.toCommunityCommentEntity());
+        return commentEntity.getId();
     }
 
     @Transactional(readOnly = true)
     public Map<String, Object> findActiveCommentsByCommunityPostId(Long communityPostId) {
-        List<CommunityComment> commentListEntity = communityCommentRepository.findActiveCommentsByCommunityPostId(communityPostId);
-        int commentCount = communityCommentRepository.countByCommunityPostId(communityPostId);
-        List<CommunityCommentResponse> commentList = commentListEntity.stream().map(CommunityCommentResponse::new).toList();
+        List<CommunityCommentResponse> commentResponseList = communityCommentRepository.findCommentsByPostIdOrdered(communityPostId);
+
+        Map<Long, List<CommunityCommentResponse>> repliesMap = new HashMap<>();
+        List<CommunityCommentResponse> topLevelComments = new ArrayList<>();
+
+        for (CommunityCommentResponse comment : commentResponseList) {
+            if (comment.getParentId() == null) {
+                topLevelComments.add(comment);
+            } else {
+                repliesMap.computeIfAbsent(comment.getParentId(), k -> new ArrayList<>()).add(comment);
+            }
+        }
+
+        // Nest replies under each top-level comment recursively
+        for (CommunityCommentResponse topComment : topLevelComments) {
+            nestReplies(topComment, repliesMap);
+        }
+
         Map<String, Object> responseMap = new HashMap<>();
-        responseMap.put("commentCount", commentCount);
-        responseMap.put("commentList", commentList);
+        responseMap.put("commentCount", commentResponseList.size());
+        responseMap.put("commentList", topLevelComments);
         return responseMap;
+    }
+
+    private void nestReplies(CommunityCommentResponse parentComment, Map<Long, List<CommunityCommentResponse>> repliesMap) {
+        if (parentComment.isDeleted()) {
+            parentComment.setContent("댓글이 삭제되었습니다");
+        }
+
+        List<CommunityCommentResponse> replies = repliesMap.get(parentComment.getId());
+        if (replies != null) {
+            for (CommunityCommentResponse reply : replies) {
+                parentComment.addReply(reply);
+                nestReplies(reply, repliesMap);
+            }
+        }
+    }
+
+
+
+
+
+
+//    @Transactional(readOnly = true)
+//    public Map<String, Object> findActiveCommentsByCommunityPostId(Long communityPostId) {
+//        List<CommunityCommentResponse> commentList = communityCommentRepository.findActiveCommentsByCommunityPostId(communityPostId);
+//        int commentCount = commentList.size();
+//
+//        List<CommunityCommentResponse> structuredCommentList = new ArrayList<>();
+//
+//
+//        Map<Long, List<CommunityCommentResponse>> repliesMap = new HashMap<>();
+//
+//        // 댓글 리스트를 순회하며 대댓글을 그룹화한다.
+//        for (CommunityCommentResponse comment : commentList) {
+//            if (comment.getDepth() == 0) {
+//                // 부모 댓글인 경우, 바로 추가
+//                structuredCommentList.add(comment);
+//            } else {
+//                // 대댓글인 경우, 해당 부모 댓글에 추가
+//                repliesMap.computeIfAbsent(comment.getParentId(), k -> new ArrayList<>()).add(comment);
+//            }
+//        }
+//
+//        // 대댓글을 부모 댓글 아래에 추가하기 위해 새로운 리스트를 사용
+//        List<CommunityCommentResponse> finalStructuredCommentList = new ArrayList<>();
+//
+//        // 부모 댓글을 순회하며 대댓글을 추가하는 메서드 호출
+//        for (CommunityCommentResponse parentComment : structuredCommentList) {
+//            addCommentWithReplies(finalStructuredCommentList, parentComment, repliesMap);
+//        }
+//
+//        // 최종 결과 리스트를 원래 리스트에 대입
+//        structuredCommentList = finalStructuredCommentList;
+//
+//        // 응답 구성
+//        Map<String, Object> responseMap = new HashMap<>();
+//        responseMap.put("commentCount", commentCount);
+//        responseMap.put("commentList", structuredCommentList);
+//        return responseMap;
+//    }
+//
+//    // 재귀적으로 댓글과 대댓글을 추가하는 메서드
+//    private void addCommentWithReplies(List<CommunityCommentResponse> finalList, CommunityCommentResponse parentComment, Map<Long, List<CommunityCommentResponse>> repliesMap) {
+//        finalList.add(parentComment); // 부모 댓글 추가
+//
+//        // 대댓글이 있는 경우, 해당 부모 댓글 아래에 추가
+//        List<CommunityCommentResponse> replies = repliesMap.get(parentComment.getId());
+//        if (replies != null) {
+//            for (CommunityCommentResponse reply : replies) {
+//                addCommentWithReplies(finalList, reply, repliesMap); // 재귀 호출
+//            }
+//        }
+//    }
+
+
+
+
+    @Transactional
+    public Long createCommunityReply(Long communityPostId, Long commentId, SaveCommunityReplyRequest saveCommunityCommentRequest) {
+        // 부모 댓글 조회
+        CommunityComment parentComment = communityCommentRepository.findById(commentId)
+                .orElseThrow(() -> new RuntimeException("Parent comment not found"));
+        // 새로운 대댓글 생성
+        CommunityComment replyComment = parentComment.createReply(communityPostId, saveCommunityCommentRequest.getUserId(), saveCommunityCommentRequest.getContent());
+
+        // 같은 부모 댓글에 대한 최대 orderInGroup 조회
+        List<CommunityComment> replies = communityCommentRepository.findByParentId(parentComment.getId());
+        int maxOrderInGroup = replies.stream()
+                .mapToInt(CommunityComment::getOrderInGroup)
+                .max()
+                .orElse(0);
+        replyComment.setOrderInGroup(maxOrderInGroup + 1); // 최대값 + 1
+        // 대댓글 저장
+        return communityCommentRepository.save(replyComment).getId(); // 저장 후 ID 반환
+    }
+
+    @Transactional
+    public Long softDeleteCommentById(Long commentId, Long communityPostId) {
+        CommunityComment communityComment = communityCommentRepository
+                .findByIdAndCommunityPostId(commentId, communityPostId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "댓글을 찾을 수 없습니다."));
+        communityComment.softDeleteComment(true);
+        return communityComment.getId();
     }
 }

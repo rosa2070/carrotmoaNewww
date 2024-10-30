@@ -27,6 +27,26 @@ public class CommunityComment extends BaseEntity {
     @Column(name = "content")
     private String content;
 
+    @Column(name = "depth")
+    private int depth;
+
+    @Column(name = "order_in_group")
+    private int orderInGroup;
+
     @Column(name = "is_deleted")
     private boolean isDeleted;
+
+    public void softDeleteComment(boolean isDeleted) {
+        this.isDeleted = isDeleted;
+    }
+
+    public CommunityComment createReply(Long communityPostId, Long userId, String content) {
+        CommunityComment replyComment = new CommunityComment();
+        replyComment.setCommunityPostId(communityPostId);
+        replyComment.setParentId(this.getId()); // 현재 댓글의 ID를 부모 ID로 설정
+        replyComment.setUserId(userId);
+        replyComment.setContent(content);
+        replyComment.setDepth(this.depth + 1); // 부모 댓글의 depth + 1
+        return replyComment;
+    }
 }

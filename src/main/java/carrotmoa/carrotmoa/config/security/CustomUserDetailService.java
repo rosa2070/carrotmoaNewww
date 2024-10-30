@@ -1,4 +1,4 @@
-package carrotmoa.carrotmoa.config.sequrity;
+package carrotmoa.carrotmoa.config.security;
 
 import carrotmoa.carrotmoa.entity.User;
 import carrotmoa.carrotmoa.repository.UserProfileRepository;

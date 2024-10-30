@@ -50,42 +50,7 @@ public class AwsS3Utils {
         }
     }
 
-    // S3에서 이미지를 삭제하는 메서드
-//    public void deleteImage(String fileName) throws IOException {
-//        // S3에서 객체 삭제 요청 생성
-//        DeleteObjectRequest deleteObjectRequest = DeleteObjectRequest.builder()
-//                .bucket(bucketName) // 버킷 이름
-//                .key(fileName) // 파일 이름
-//                .build();
-//
-//        try {
-//            s3Client.deleteObject(deleteObjectRequest); // S3에서 객체 삭제
-//            log.info("Deleted image: {}", fileName); // 삭제 성공 로그
-//        } catch (SdkException e) {
-//            log.error("Error deleting file from S3: {}", fileName, e); // 삭제 실패 로그
-//            throw new IOException("Error deleting file from S3: " + fileName); // 예외 발생
-//        }
-//    }
 
-    // S3에서 이미지를 삭제하는 메서드
-//    public void deleteImageFromUrl(String url) throws IOException {
-//        // S3 URL에서 fileName 추출
-//        String fileName = extractFileName(url);
-//
-//        // S3에서 객체 삭제 요청 생성
-//        DeleteObjectRequest deleteObjectRequest = DeleteObjectRequest.builder()
-//                .bucket(bucketName) // 버킷 이름
-//                .key(fileName) // 파일 이름
-//                .build();
-//
-//        try {
-//            s3Client.deleteObject(deleteObjectRequest); // S3에서 객체 삭제
-//            log.info("Deleted image: {}", fileName); // 삭제 성공 로그
-//        } catch (SdkException e) {
-//            log.error("Error deleting file from S3: {}", fileName, e); // 삭제 실패 로그
-//            throw new IOException("Error deleting file from S3: " + fileName, e); // 예외 발생
-//        }
-//    }
 
     // 파일 확장자를 추출하는 메서드
     public String getFileExtension(String fileName) {
@@ -97,13 +62,30 @@ public class AwsS3Utils {
         return String.format("https://%s.s3.%s.amazonaws.com/%s", bucketName, region, fileName);
     }
 
-    // 삭제 구현할 때 url에서 fileName 분리
-//    public String extractFileName(String url) {
-//        // URL을 슬래시('/')로 분리
-//        String[] parts = url.split("/");
-//        // 마지막 부분이 파일 이름
-//        return parts[parts.length - 1];
-//    }
+    // 특정 디렉토리 경로에 이미지 업로드
+    public void uploadImage(String directory, String fileName, MultipartFile file) {
+        try {
+            String filePath = directory + "/" + fileName;
+
+            // S3에 업로드할 객체 요청을 생성
+            PutObjectRequest putObjectRequest = PutObjectRequest.builder()
+                    .bucket(bucketName)
+                    .key(filePath)
+                    .contentType(file.getContentType())
+                    .build();
+
+            // S3에 파일 업로드
+            s3Client.putObject(putObjectRequest,
+                    RequestBody.fromInputStream(file.getInputStream(), file.getSize())
+            );
+
+            log.info("Uploaded image to S3: {}", filePath);
+
+        } catch (IOException e) {
+            log.error("Error uploading image: {}", fileName, e);
+            throw new RuntimeException("Error uploading file: " + fileName, e);
+        }
+    }
 
     public void deleteImageFromUrl(String url) throws IOException {
         // URL에서 파일 경로 추출
