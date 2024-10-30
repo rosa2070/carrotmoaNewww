@@ -27,6 +27,8 @@ public class BookingListResponse {
     private String lotAddress;
     private String detailAddress;
     private int floor;
-    // accommodationImage
-//    private String image;
+    // accommodationImage - 보류
+    // userProfile
+    private String nickname;
+
 }

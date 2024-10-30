@@ -1,6 +1,7 @@
 package carrotmoa.carrotmoa.service;
 
 import carrotmoa.carrotmoa.model.response.AccommodationImageListResponse;
+import carrotmoa.carrotmoa.model.response.BookingDetailResponse;
 import carrotmoa.carrotmoa.model.response.BookingListResponse;
 import carrotmoa.carrotmoa.model.response.ContractDetailResponse;
 import carrotmoa.carrotmoa.repository.AccommodationImageRepository;
@@ -10,21 +11,15 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Slf4j
 @Service
 public class ReservationService {
     private final ReservationRepository reservationRepository;
-    private final AccommodationRepository accommodationRepository;
-    private final AccommodationImageRepository accommodationImageRepository;
 
-    public ReservationService(ReservationRepository reservationRepository, AccommodationRepository accommodationRepository, AccommodationImageRepository accommodationImageRepository) {
+    public ReservationService(ReservationRepository reservationRepository) {
         this.reservationRepository = reservationRepository;
-        this.accommodationRepository = accommodationRepository;
-        this.accommodationImageRepository = accommodationImageRepository;
     }
 
     @Transactional
@@ -35,13 +30,7 @@ public class ReservationService {
     }
 
     @Transactional
-    public ContractDetailResponse getContractDeatil(Long id) {
-        Object[] info = accommodationRepository.findContractInfo(id);
-        return ContractDetailResponse.fromData(info);
+    public BookingDetailResponse getBookingDetail(Long id) {
+        return reservationRepository.findBookingDetail(id);
     }
-//    @Transactional
-//    public List<AccommodationImageListResponse> getAccommodationImageList(Long id) {
-//        List<AccommodationImageListResponse> images = accommodationImageRepository.findByAccommodationId(id);
-//        return images;
-//    }
 }

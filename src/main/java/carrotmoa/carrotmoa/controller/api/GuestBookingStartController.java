@@ -1,0 +1,31 @@
+package carrotmoa.carrotmoa.controller.api;
+
+import carrotmoa.carrotmoa.model.response.BookingDetailResponse;
+import carrotmoa.carrotmoa.service.ReservationService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+//@RestController
+@Controller
+@RequestMapping("/guest/booking/start")
+public class GuestBookingStartController {
+    @Autowired
+    ReservationService reservationService;
+
+//    @GetMapping("/{id}") // postman
+//    public BookingDetailResponse getBookingDetail(@PathVariable("id") Long id) {
+//        BookingDetailResponse bookingDetail = reservationService.getBookingDetail(id);
+//        return bookingDetail;
+//    }
+
+    @GetMapping("/{id}")
+    public String getBookingDetail(@PathVariable("id") Long id, Model model) {
+        BookingDetailResponse bookingDetail = reservationService.getBookingDetail(id);
+        model.addAttribute("booking", bookingDetail);
+        return "guest/bookingStart";
+    }
+}

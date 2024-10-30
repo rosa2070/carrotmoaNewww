@@ -12,7 +12,7 @@ import java.util.List;
 
 @Controller
 //@RestController
-@RequestMapping("/guest/booking")
+@RequestMapping("/guest/booking/list")
 public class GetBookingListController {
     @Autowired
     ReservationService reservationService;
@@ -23,8 +23,8 @@ public class GetBookingListController {
 //        return images;
 //    }
 
-    @GetMapping("/list")
-    public String getBookingList(@RequestParam("id") Long id, Model model) {
+    @GetMapping("/{id}")
+    public String getBookingList(@PathVariable("id") Long id, Model model) {
         List<BookingListResponse> bookings = reservationService.getBookingList(id);
         model.addAttribute("bookings", bookings);
         return "guest/bookingList";

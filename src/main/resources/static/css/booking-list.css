@@ -10,7 +10,7 @@
     font-weight: 700;
     line-height: 38px;
 }
-.contract_item {
+.contract-item {
     border: 1px solid #DFDFDF;
     border-radius: 6px;
 }
@@ -30,21 +30,21 @@
 .flex {
     display: flex;
     align-items: flex-start;
-    justify-content: space-between;
+    /*justify-content: space-between;*/
 }
 .guest_contract .badge {
     display: inline-block;
     width: 50px;
     height: auto;
-    margin-right: 8px;
+    margin-right: 15px;
     padding: 4px 0;
     font-size: 11px;
     line-height: 16px;
     text-align: center;
 }
 .badge.orange {
-    background: #777;
-    color: #FF6F0F;
+    background: #FF6F0F;
+    color: #fff;
 }
 .badge.gray {
     background: #777;
@@ -119,4 +119,9 @@
 .room_pay {
     margin-top: 6px;
 }
-
+.contract_info {
+    display: flex; /* flexbox로 설정 */
+    align-items: center; /* 세로 중앙 정렬 */
+    /*justify-content: space-between; !* 양쪽 끝으로 정렬 *!*/
+    width: 100%; /* 전체 너비 사용 */
+}
