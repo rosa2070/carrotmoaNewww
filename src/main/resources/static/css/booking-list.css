@@ -44,6 +44,10 @@
 }
 .badge.orange {
     background: #777;
+    color: #FF6F0F;
+}
+.badge.gray {
+    background: #777;
     color: #fff;
 }
 .badge {

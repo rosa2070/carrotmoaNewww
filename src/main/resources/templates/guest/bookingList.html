@@ -11,48 +11,44 @@
     <section class="content">
         <h3 class="title_left">계약관리</h3>
         <div class="guest_contract" th:each="booking : ${bookings}">
-            <div class="contract-item" th:if="${booking.status == '1'}">
-                <div class="contract-header">
-                    <div class="contract_header">
-                        <div class="flex" style="cursor:pointer;" th:onclick="@{/guest/room/detail/{id}(id=${booking.accommodationId})}">
-                            <span class="badge orange">계약 완료</span>
-                            <p class="room_title" th:text="">애버랜드</p>
-                        </div>
-                    </div>
-                    <div class="contract_cont" style="align-items:center">
-                        <dl class="room_item" style="cursor:pointer;" th:onclick="@{/guest/room/detail/{id}(id=${booking.accommodationId})}">
-                            <dt>
-                                <img th:src="${booking.imageUrl}">
-                            </dt>
-                            <dd>
-                                <div class="room_address_ellipsis" th:text="${booking.lotAddress} + ${booking.detailAddress} + ${booking.floor}">용인시 처인구 애버랜드로</div>
-                                <p class="room_period" th:text="${booking.checkInDate} + '~' + ${booking.checkOutDate}"></p>
-                            </dd>
-                        </dl>
-                        <strong class="room.pay" th:text="${booking.totalPrice}"></strong>
+            <div class="contract-item" th:if="${booking.status == 1}">
+                <div class="contract_header">
+                    <div class="flex" style="cursor:pointer;" th:onclick="@{/guest/room/detail/{id}(id=${booking.accommodationId})}">
+                        <span class="badge orange">계약 완료</span>
+                        <p class="room_title" th:text="${booking.title}">애버랜드</p>
                     </div>
                 </div>
-                <div class="contract-item" th:if="${booking.status == '3'}">
-                    <div class="contract-header">
-                        <div class="contract_header">
-                            <div class="flex" style="cursor:pointer;" th:onclick="@{/guest/room/detail/{id}(id=${booking.accommodationId})}">
-                                <span class="badge orange">결제 완료(사용 완료)</span>
-                                <p class="room_title" th:text="">애버랜드</p>
-                            </div>
-                        </div>
-                        <div class="contract_cont" style="align-items:center">
-                            <dl class="room_item" style="cursor:pointer;" th:onclick="@{/guest/room/detail/{id}(id=${booking.accommodationId})}">
-                                <dt>
-                                    <img th:src="${booking.imageUrl}">
-                                </dt>
-                                <dd>
-                                    <div class="room_address_ellipsis" th:text="${booking.lotAddress} + ${booking.detailAddress} + ${booking.floor}">용인시 처인구 애버랜드로</div>
-                                    <p class="room_period" th:text="${booking.checkInDate} + '~' + ${booking.checkOutDate}"></p>
-                                </dd>
-                            </dl>
-                            <strong class="room.pay" th:text="${booking.totalPrice}"></strong>
-                        </div>
+                <div class="contract_cont" style="align-items:center">
+                    <dl class="room_item" style="cursor:pointer;" th:onclick="@{/guest/room/detail/{id}(id=${booking.accommodationId})}">
+<!--                            <dt>-->
+<!--                                <img th:src="${booking.imageUrl}">-->
+<!--                            </dt>-->
+                        <dd>
+                            <div class="room_address_ellipsis" th:text="${booking.lotAddress} + ${booking.detailAddress} + ${booking.floor}">용인시 처인구 애버랜드로</div>
+                            <p class="room_period" th:text="${booking.checkInDate} + '~' + ${booking.checkOutDate}"></p>
+                        </dd>
+                    </dl>
+                    <strong class="room.pay" th:text="${booking.totalPrice}"></strong>
+                </div>
+            </div>
+            <div class="contract-item" th:if="${booking.status == 3}">
+                <div class="contract_header">
+                    <div class="flex" style="cursor:pointer;" th:onclick="@{/guest/room/detail/{id}(id=${booking.accommodationId})}">
+                        <span class="badge gray">사용 완료</span>
+                        <p class="room_title" th:text="${booking.title}">애버랜드</p>
                     </div>
+                </div>
+                <div class="contract_cont" style="align-items:center">
+                    <dl class="room_item" style="cursor:pointer;" th:onclick="@{/guest/room/detail/{id}(id=${booking.accommodationId})}">
+<!--                            <dt>-->
+<!--                                <img th:src="${booking.imageUrl}">-->
+<!--                            </dt>-->
+                        <dd>
+                            <div class="room_address_ellipsis" th:text="${booking.lotAddress} + ${booking.detailAddress} + ${booking.floor}">용인시 처인구 애버랜드로</div>
+                            <p class="room_period" th:text="${booking.checkInDate} + '~' + ${booking.checkOutDate}"></p>
+                        </dd>
+                    </dl>
+                    <strong class="room.pay" th:text="${booking.totalPrice}"></strong>
                 </div>
             </div>
         </div>

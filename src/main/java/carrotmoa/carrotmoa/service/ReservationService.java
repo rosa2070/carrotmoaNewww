@@ -1,7 +1,9 @@
 package carrotmoa.carrotmoa.service;
 
+import carrotmoa.carrotmoa.model.response.AccommodationImageListResponse;
 import carrotmoa.carrotmoa.model.response.BookingListResponse;
 import carrotmoa.carrotmoa.model.response.ContractDetailResponse;
+import carrotmoa.carrotmoa.repository.AccommodationImageRepository;
 import carrotmoa.carrotmoa.repository.AccommodationRepository;
 import carrotmoa.carrotmoa.repository.ReservationRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -17,10 +19,12 @@ import java.util.stream.Collectors;
 public class ReservationService {
     private final ReservationRepository reservationRepository;
     private final AccommodationRepository accommodationRepository;
+    private final AccommodationImageRepository accommodationImageRepository;
 
-    public ReservationService(ReservationRepository reservationRepository, AccommodationRepository accommodationRepository) {
+    public ReservationService(ReservationRepository reservationRepository, AccommodationRepository accommodationRepository, AccommodationImageRepository accommodationImageRepository) {
         this.reservationRepository = reservationRepository;
         this.accommodationRepository = accommodationRepository;
+        this.accommodationImageRepository = accommodationImageRepository;
     }
 
     @Transactional
@@ -35,4 +39,9 @@ public class ReservationService {
         Object[] info = accommodationRepository.findContractInfo(id);
         return ContractDetailResponse.fromData(info);
     }
+//    @Transactional
+//    public List<AccommodationImageListResponse> getAccommodationImageList(Long id) {
+//        List<AccommodationImageListResponse> images = accommodationImageRepository.findByAccommodationId(id);
+//        return images;
+//    }
 }
