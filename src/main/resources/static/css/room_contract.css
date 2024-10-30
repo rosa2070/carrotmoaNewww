@@ -50,14 +50,14 @@
 .flex {
     display: flex;
     align-items: flex-start;
-    justify-content: space-between;
+    /*justify-content: space-between;*/
 }
 
 .guest_contract .badge {
     display: inline-block;
     width: 50px;
     height: auto;
-    margin-right: 8px;
+    margin-right: 15px;
     padding: 5px 1px;
     font-size: 11px;
     line-height: 16px;
@@ -69,7 +69,7 @@
     color: #fff;
 }
 
-.contract-info {
+.contract_info {
     display: flex; /* flexbox로 설정 */
     align-items: center; /* 세로 중앙 정렬 */
     /*justify-content: space-between; !* 양쪽 끝으로 정렬 *!*/
