@@ -52,7 +52,6 @@ public class CommunityCommentService {
             }
         }
 
-        // Nest replies under each top-level comment recursively
         for (CommunityCommentResponse topComment : topLevelComments) {
             nestReplies(topComment, repliesMap);
         }
