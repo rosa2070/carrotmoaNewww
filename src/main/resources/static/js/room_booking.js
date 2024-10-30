@@ -60,61 +60,16 @@ document.addEventListener('DOMContentLoaded', function() {
                 },
                 events: events, // 예약된 날짜를 events로 추가
                 select: function(info) {
-                    // 하루만 선택하는 것도 불가능하게
-                    // const newEndDate = new Date(info.end.getFullYear(), info.end.getMonth(), info.end.getDate());
-                    // newEndDate.setDate(info.end.getDate() - 1);
-                    // console.log(newEndDate);
+                    // var checkInDate = info.startStr; // 문자열로 받아오는 방식
+                    var checkInDate = info.start; // Date 객체로 받아오는 방식
+                    var checkOutDate = info.end;
 
-                    if(!checkInDate) {
-                        checkInDate = info.start;
-                        calendar.addEvent({
-                            start: checkInDate,
-                            end: new Date(checkInDate.getTime() + 86400000),
-                            display: 'background',
-                            color: '#FF6F0F'
-                        });
-                    } else if (!checkOutDate) {
-                        checkOutDate = info.start;
+                    document.getElementById('checkin-dates').textContent = checkInDate.toISOString().split('T')[0];
+                    document.getElementById('checkout-dates').textContent = checkOutDate.toISOString().split('T')[0];
 
-                        if(checkOutDate <= checkInDate) {
-                            alert('1박 이상 예약이 가능합니다');
-                            calendar.unselect();
-                            return;
-                        }
-                        calendar.addEvent({
-                            start: checkInDate,
-                            end: new Date(checkInDate.getTime() + 86400000),
-                            display: 'background',
-                            color: '#FF6F0F'
-                        });
-                        document.getElementById('checkin-dates').textContent = checkInDate.toISOString().split('T')[0];
-                        document.getElementById('checkout-dates').textContent = checkOutDate.toISOString().split('T')[0];
-
-                        var timeDifference = checkOutDate - checkInDate;
-                        var countNights = ((timeDifference) / (1000 * 60 * 60 * 24)) + 1;
-                        document.getElementById('nights-count').textContent = countNights;
-
-                    }  else {
-                        checkInDate = null;
-                        checkOutDate = null;
-                        calendar.getEvents().forEach(event => {
-                            if (event.display == 'background' && event.color == '#FF6F0F') {
-                                event.remove();
-                            }
-                        });
-                    }
-
-                    // // 선택한 날짜 범위 정보
-                    // var startDate = info.startStr;
-                    // var endDate = new Date(info.endStr);
-                    // endDate.setDate(endDate.getDate() - 1);
-                    // var selectedEndDate = endDate.toISOString().split('T')[0];
-                    //
-                    // document.getElementById('checkin-dates').textContent = startDate;
-                    // document.getElementById('checkout-dates').textContent = selectedEndDate;
-
-
-
+                    var timeDifference = checkOutDate - checkInDate;
+                    var countNights = ((timeDifference) / (1000 * 60 * 60 * 24)) + 1;
+                    document.getElementById('nights-count').textContent = countNights;
                 },
                 unselect: function() {
                     if (!checkOutDate) {
