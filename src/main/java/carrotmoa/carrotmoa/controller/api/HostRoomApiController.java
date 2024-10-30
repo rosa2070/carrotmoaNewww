@@ -6,20 +6,14 @@ import carrotmoa.carrotmoa.model.response.AccommodationDetailResponse;
 import carrotmoa.carrotmoa.model.response.HostManagedAccommodationResponse;
 import carrotmoa.carrotmoa.service.AccommodationHostService;
 import jakarta.validation.Valid;
-import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Slf4j
 @RestController
@@ -34,8 +28,8 @@ public class HostRoomApiController {
     // 방 등록 폼 제출 후 테이블에 값 들어옴
     @PostMapping("/register")
     public ResponseEntity<?> registerAccommodation(
-        @Valid @ModelAttribute CreateAccommodationRequest createAccommodationRequest,
-        BindingResult bindingResult) {
+            @Valid @ModelAttribute CreateAccommodationRequest createAccommodationRequest,
+            BindingResult bindingResult) {
 
         // 유효성 검사 실패 시 처리
         if (bindingResult.hasErrors()) {
@@ -59,9 +53,9 @@ public class HostRoomApiController {
     // 숙소 정보 업데이트 (PATCH 요청)
     @PatchMapping("/edit/{id}")
     public ResponseEntity<String> updateAccommodation(
-        @PathVariable("id") Long id,
-        @ModelAttribute UpdateAccommodationRequest updateAccommodationRequest,
-        @RequestParam(value = "existingImageUrls", required = false) List<String> existingImageUrls) {
+            @PathVariable("id") Long id,
+            @ModelAttribute UpdateAccommodationRequest updateAccommodationRequest,
+            @RequestParam(value = "existingImageUrls", required = false) List<String> existingImageUrls) {
 
         log.info("기존 이미지 URL: {}", existingImageUrls);
         log.info("업로드된 이미지 개수: {}", (updateAccommodationRequest.getImages() != null ? updateAccommodationRequest.getImages().size() : 0));

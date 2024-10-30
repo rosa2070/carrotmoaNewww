@@ -1,7 +1,8 @@
 package carrotmoa.carrotmoa.entity;
 
-import carrotmoa.carrotmoa.enums.NotificationType;
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
 import lombok.*;
 
 @Entity
@@ -14,9 +15,8 @@ import lombok.*;
 @AllArgsConstructor
 public class Notification extends BaseEntity {
 
-    @Enumerated(EnumType.STRING)
     @Column(name = "type_id")
-    private NotificationType typeId;
+    private Long typeId;
 
     @Column(name = "receiver_id")
     private Long receiverId;
@@ -26,6 +26,12 @@ public class Notification extends BaseEntity {
 
     @Column(name = "message")
     private String message;
+
+    @Column(name = "url")
+    private String url;
+
+    @Column(name = "is_read")
+    private boolean isRead;
 
     @Column(name = "is_deleted")
     private boolean isDeleted;

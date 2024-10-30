@@ -29,16 +29,20 @@ public class QNotification extends EntityPathBase<Notification> {
 
     public final BooleanPath isDeleted = createBoolean("isDeleted");
 
+    public final BooleanPath isRead = createBoolean("isRead");
+
     public final StringPath message = createString("message");
 
     public final NumberPath<Long> receiverId = createNumber("receiverId", Long.class);
 
     public final NumberPath<Long> senderId = createNumber("senderId", Long.class);
 
-    public final EnumPath<carrotmoa.carrotmoa.enums.NotificationType> typeId = createEnum("typeId", carrotmoa.carrotmoa.enums.NotificationType.class);
+    public final NumberPath<Long> typeId = createNumber("typeId", Long.class);
 
     //inherited
     public final DateTimePath<java.time.LocalDateTime> updatedAt = _super.updatedAt;
+
+    public final StringPath url = createString("url");
 
     public QNotification(String variable) {
         super(Notification.class, forVariable(variable));

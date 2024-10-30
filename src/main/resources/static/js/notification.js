@@ -13,6 +13,10 @@ document.addEventListener("DOMContentLoaded", function () {
     notificationCloseModal.addEventListener("click", function () {
         notificationModal.style.display = "none"; // 모달 숨기기
     });
+
+    fetchLoginUserNotifications();
+
+
 });
 
 
@@ -20,7 +24,7 @@ document.addEventListener("DOMContentLoaded", function () {
 // login이 된 상태면 -> SSE 연결하기.
     if (userObject) {
         const userId = userObject.userProfile.userId;
-        const sse = new EventSource(`/notifications/${userId}`);
+        const sse = new EventSource(`/sse/notifications/${userId}`);
 
 
         sse.onopen = function () {
@@ -71,3 +75,47 @@ function showNotificationToast() {
         }, 500); // 사라짐 효과가 끝난 후 숨김
     }, 5000); // 5초 후
 }
+
+// 알림 데이터를 가져오는 함수
+function fetchLoginUserNotifications() {
+    const receiverId = userObject.userProfile.userId; // 로그인한 사용자 ID
+    fetch(`/api/notifications/${receiverId}`)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('네트워크 응답이 좋지 않습니다.');
+            }
+            return response.json(); // JSON으로 변환
+        })
+        .then(data => {
+            // 알림 목록을 업데이트
+            updateNotificationList(data);
+        })
+        .catch(error => {
+            console.error('Fetch 오류:', error);
+        });
+}
+
+
+    // 알림 목록을 업데이트하는 함수
+    function updateNotificationList(notifications) {
+        notificationList.innerHTML = ""; // 기존 알림 목록 초기화
+        //
+            notifications.forEach(notification => {
+            const notificationEntry = document.createElement("div");
+            notificationEntry.className = "notification-entry";
+            notificationEntry.innerHTML = `
+            <a class="notification-url" href="${notification.url}">
+                <div class="notification-user-pic" >
+                    <img src="${notification.picUrl}" alt="유저 프로필 이미지">
+                </div>
+                <div class="notification-details">
+                            <div class="notification-title">  ${notification.title} </div>
+                    <div class="notification-message">
+                           ${notification.userName}님: ${notification.message}</div>
+                    <div class="notification-createdAt">${new Date(notification.createdAt).toLocaleString()}</div>
+                </div>
+            </a>
+            `;
+            notificationList.appendChild(notificationEntry); // 알림 목록에 추가
+        });
+            }

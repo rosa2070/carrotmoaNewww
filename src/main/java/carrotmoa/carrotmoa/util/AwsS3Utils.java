@@ -1,7 +1,6 @@
 package carrotmoa.carrotmoa.util;
 
 
-import java.io.IOException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -12,6 +11,8 @@ import software.amazon.awssdk.core.sync.RequestBody;
 import software.amazon.awssdk.services.s3.S3Client;
 import software.amazon.awssdk.services.s3.model.DeleteObjectRequest;
 import software.amazon.awssdk.services.s3.model.PutObjectRequest;
+
+import java.io.IOException;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -31,14 +32,14 @@ public class AwsS3Utils {
         try {
             // S3에 업로드할 객체 요청을 생성
             PutObjectRequest putObjectRequest = PutObjectRequest.builder()
-                .bucket(bucketName) // 업로드할 S3 버킷의 이름
-                .key(fileName) // S3에서의 파일 이름 (경로 포함)
-                .contentType(file.getContentType()) // 파일의 콘텐츠 타입 (예: image/jpeg)
-                .build();
+                    .bucket(bucketName) // 업로드할 S3 버킷의 이름
+                    .key(fileName) // S3에서의 파일 이름 (경로 포함)
+                    .contentType(file.getContentType()) // 파일의 콘텐츠 타입 (예: image/jpeg)
+                    .build();
 
             // s3에 파일 업로드
             s3Client.putObject(putObjectRequest,
-                RequestBody.fromInputStream(file.getInputStream(), file.getSize()) // InputStream으로부터 RequestBody를 생성, 실제 파일 데이터 포함
+                    RequestBody.fromInputStream(file.getInputStream(), file.getSize()) // InputStream으로부터 RequestBody를 생성, 실제 파일 데이터 포함
             );
 
             log.info("Uploaded image: {}", fileName);
@@ -110,9 +111,9 @@ public class AwsS3Utils {
 
         // S3에서 객체 삭제 요청 생성
         DeleteObjectRequest deleteObjectRequest = DeleteObjectRequest.builder()
-            .bucket(bucketName) // 버킷 이름
-            .key(filePath) // 파일 경로
-            .build();
+                .bucket(bucketName) // 버킷 이름
+                .key(filePath) // 파일 경로
+                .build();
 
         try {
             s3Client.deleteObject(deleteObjectRequest); // S3에서 객체 삭제

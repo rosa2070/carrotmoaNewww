@@ -7,11 +7,12 @@ import carrotmoa.carrotmoa.model.request.UpdateAccommodationRequest;
 import carrotmoa.carrotmoa.model.response.AccommodationDetailResponse;
 import carrotmoa.carrotmoa.model.response.HostManagedAccommodationResponse;
 import carrotmoa.carrotmoa.repository.AccommodationDetailCustomRepository;
-import java.io.IOException;
-import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.io.IOException;
+import java.util.List;
 
 @Service
 @Slf4j
@@ -24,11 +25,11 @@ public class AccommodationHostService {
     private final AccommodationDetailCustomRepository accommodationDetailCustomRepository;
 
     public AccommodationHostService(PostService postService,
-        AccommodationService accommodationService,
-        AccommodationSpaceService accommodationSpaceService,
-        AccommodationAmenityService accommodationAmenityService,
-        AccommodationImageService accommodationImageService,
-        AccommodationDetailCustomRepository accommodationDetailCustomRepository) {
+                                    AccommodationService accommodationService,
+                                    AccommodationSpaceService accommodationSpaceService,
+                                    AccommodationAmenityService accommodationAmenityService,
+                                    AccommodationImageService accommodationImageService,
+                                    AccommodationDetailCustomRepository accommodationDetailCustomRepository) {
         this.postService = postService;
         this.accommodationService = accommodationService;
         this.accommodationSpaceService = accommodationSpaceService;
@@ -55,7 +56,7 @@ public class AccommodationHostService {
 
     @Transactional
     public void updateAccommodation(Long accommodationId, UpdateAccommodationRequest updateAccommodationRequest, List<String> existingImageUrls)
-        throws IOException {
+            throws IOException {
         accommodationService.updateAccommodation(accommodationId, updateAccommodationRequest);
         postService.updatePost(accommodationId, updateAccommodationRequest);
         accommodationSpaceService.updateAccommodationSpaces(accommodationId, updateAccommodationRequest);

@@ -3,14 +3,15 @@ package carrotmoa.carrotmoa.model.request;
 import carrotmoa.carrotmoa.entity.Accommodation;
 import carrotmoa.carrotmoa.entity.AccommodationSpace;
 import carrotmoa.carrotmoa.entity.Post;
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Getter
 @Setter
@@ -37,36 +38,36 @@ public class UpdateAccommodationRequest {
 
     public Accommodation toAccommodationEntity() {
         return Accommodation.builder()
-            .totalArea(totalArea)
-            .roadAddress(roadAddress)
-            .lotAddress(lotAddress)
-            .detailAddress(detailAddress)
-            .floor(floor)
-            .totalFloor(totalFloor)
-            .price(price)
-            .transportationInfo(transportationInfo)
-            .build();
+                .totalArea(totalArea)
+                .roadAddress(roadAddress)
+                .lotAddress(lotAddress)
+                .detailAddress(detailAddress)
+                .floor(floor)
+                .totalFloor(totalFloor)
+                .price(price)
+                .transportationInfo(transportationInfo)
+                .build();
     }
 
     public Post toPostEntity() {
         return Post.builder()
-            .serviceId(SERVICE_ID)
-            .userId(userId)
-            .title(title)
-            .content(content)
-            .build();
+                .serviceId(SERVICE_ID)
+                .userId(userId)
+                .title(title)
+                .content(content)
+                .build();
     }
 
     public List<AccommodationSpace> toAccommodationSpaceEntities() {
         return accommodationSpaces.stream()
-            .map(accommodationSpaceRequest -> {
-                AccommodationSpace accommodationSpace = new AccommodationSpace();
-                accommodationSpace.setAccommodationId(accommodationSpaceRequest.getAccommodationId());
-                accommodationSpace.setSpaceId(accommodationSpaceRequest.getSpaceId());
-                accommodationSpace.setCount(accommodationSpaceRequest.getCount());
-                return accommodationSpace;
-            })
-            .collect(Collectors.toList());
+                .map(accommodationSpaceRequest -> {
+                    AccommodationSpace accommodationSpace = new AccommodationSpace();
+                    accommodationSpace.setAccommodationId(accommodationSpaceRequest.getAccommodationId());
+                    accommodationSpace.setSpaceId(accommodationSpaceRequest.getSpaceId());
+                    accommodationSpace.setCount(accommodationSpaceRequest.getCount());
+                    return accommodationSpace;
+                })
+                .collect(Collectors.toList());
     }
 
     // 공간 초기화 메서드

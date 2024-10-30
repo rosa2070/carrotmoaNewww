@@ -5,13 +5,15 @@ import carrotmoa.carrotmoa.model.response.CommunityCommentResponse;
 import carrotmoa.carrotmoa.model.response.SaveCommunityCommentResponse;
 import carrotmoa.carrotmoa.repository.CommunityCommentRepository;
 import carrotmoa.carrotmoa.repository.CommunityPostRepository;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import carrotmoa.carrotmoa.repository.NotificationRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -20,6 +22,7 @@ public class CommunityCommentService {
     private final CommunityCommentRepository communityCommentRepository;
     private final CommunityPostRepository communityPostRepository;
     private final NotificationService notificationService;
+    private final NotificationRepository notificationRepository;
 
     //    TODO: dto에 userId 변수 정의하고, existsById로 유저 아이디 있는지 검사하는 로직 추가해야함.
     @Transactional
@@ -32,12 +35,12 @@ public class CommunityCommentService {
         CommunityComment CommunityCommentEntity = communityCommentRepository.save(dto.toCommunityCommentEntity());
         int commentCount = communityCommentRepository.countByCommunityPostId(communityPostId);
 
-        // SSE 알림 메서드 사용하기
+        //  SSE 알림 메서드 사용하기
         notificationService.sendNotification(32L, "테스트 알림입니다.");
-
 
         return new SaveCommunityCommentResponse(CommunityCommentEntity, commentCount);
     }
+
 
     @Transactional(readOnly = true)
     public Map<String, Object> findActiveCommentsByCommunityPostId(Long communityPostId) {
