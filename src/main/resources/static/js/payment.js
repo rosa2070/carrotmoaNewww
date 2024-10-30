@@ -1,6 +1,6 @@
 // 구매자 정보
-const useremail = "jj@gmail.com" // user 테이블 email
-const username = "jj" // user 테이블 name
+// const useremail = document.querySelector('input[name="userEmail"]').value; // user 테이블 email
+const username = document.querySelector('input[name="userEmail"]').value; // user 테이블 name
 
 // 결제창 함수 넣어주기
 document.getElementById('payment-button').addEventListener("click",
@@ -35,7 +35,7 @@ function paymentProcess() {
                 amount: 300, // reservation의 total_price
 
                 /* 구매자 정보 */
-                buyer_email: `${useremail}`,
+                // buyer_email: `${useremail}`,
                 buyer_name: `${username}`,
                 // buyer_tel : '010-1234-5678',
                 // buyer_addr : '서울특별시 강남구 삼성동',

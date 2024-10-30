@@ -1,5 +1,6 @@
 package carrotmoa.carrotmoa.controller.api;
 
+import carrotmoa.carrotmoa.config.security.CustomUserDetails;
 import carrotmoa.carrotmoa.model.response.BookingDetailResponse;
 import carrotmoa.carrotmoa.service.ReservationService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,7 +34,7 @@ public class GuestBookingStartController {
 //    }
 
     @GetMapping("/{id}")
-    public String getBookingDetail(@ModelAttribute("user") UserDetails user, @PathVariable("id") Long id, Model model) {
+    public String getBookingDetail(@ModelAttribute("user") CustomUserDetails user, @PathVariable("id") Long id, Model model) {
         if (user == null) {
             return "/user/login-page";
         }

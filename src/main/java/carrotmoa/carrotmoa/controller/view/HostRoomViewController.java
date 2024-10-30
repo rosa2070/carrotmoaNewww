@@ -1,6 +1,7 @@
 package carrotmoa.carrotmoa.controller.view;
 
 import carrotmoa.carrotmoa.config.KakaoMapConfig;
+import carrotmoa.carrotmoa.config.security.CustomUserDetails;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -25,7 +26,7 @@ public class HostRoomViewController {
 
     // 방 등록
     @GetMapping("/register")
-    public String showRegisterForm(Model model, @ModelAttribute("user") UserDetails user) {
+    public String showRegisterForm(Model model, @ModelAttribute("user") CustomUserDetails user) {
         if (user == null) {
             // 사용자 정보가 없을 경우 처리
             return "/user/login-page"; // 로그인 페이지로 리디렉션
@@ -41,7 +42,7 @@ public class HostRoomViewController {
 
     // 방 관리 이동
     @GetMapping("/manage")
-    public String getRoomManage(@ModelAttribute("user") UserDetails user, Model model) {
+    public String getRoomManage(@ModelAttribute("user") CustomUserDetails user, Model model) {
         if (user == null) {
             return "/user/login-page";
         }
