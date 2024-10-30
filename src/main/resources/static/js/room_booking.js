@@ -22,6 +22,7 @@ document.addEventListener('DOMContentLoaded', function() {
     fetch(`/guest/booking/${id}`)
         .then(response => response.json())
         .then(data => {
+            console.log(data)
             const events = data.map(booking => ({
                 start: booking.checkInDate,
                 end: booking.checkOutDate,
@@ -60,15 +61,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 events: events, // 예약된 날짜를 events로 추가
                 select: function(info) {
                     // 하루만 선택하는 것도 불가능하게
-                    const newEndDate = new Date(info.end.getFullYear(), info.end.getMonth(), info.end.getDate());
-                    newEndDate.setDate(info.end.getDate() - 1);
-                    console.log(newEndDate);
-
-                    // if(info.start.getDate() === newEndDate.getDate()) {
-                    //     alert('하루는 선택할 수 없습니다. 최소 1박 이상 선택해주세요');
-                    //     calendar.unselect();
-                    //     return;
-                    // }
+                    // const newEndDate = new Date(info.end.getFullYear(), info.end.getMonth(), info.end.getDate());
+                    // newEndDate.setDate(info.end.getDate() - 1);
+                    // console.log(newEndDate);
 
                     if(!checkInDate) {
                         checkInDate = info.start;
@@ -95,7 +90,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         document.getElementById('checkin-dates').textContent = checkInDate.toISOString().split('T')[0];
                         document.getElementById('checkout-dates').textContent = checkOutDate.toISOString().split('T')[0];
 
-                        var timeDifference = checkOutDate - chekIndate;
+                        var timeDifference = checkOutDate - checkInDate;
                         var countNights = ((timeDifference) / (1000 * 60 * 60 * 24)) + 1;
                         document.getElementById('nights-count').textContent = countNights;
 
@@ -103,7 +98,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         checkInDate = null;
                         checkOutDate = null;
                         calendar.getEvents().forEach(event => {
-                            if (event.display === 'background' && event.color === '#FF6F0F') {
+                            if (event.display == 'background' && event.color == '#FF6F0F') {
                                 event.remove();
                             }
                         });
@@ -125,7 +120,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     if (!checkOutDate) {
                         checkInDate = null;
                         calendar.getEvents().forEach(event => {
-                            if (event.display === 'background' && event.color === '#FF6F0F') {
+                            if (event.display == 'background' && event.color == '#FF6F0F') {
                                 event.remove();
                             }
                         });

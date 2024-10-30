@@ -1,9 +1,6 @@
 package carrotmoa.carrotmoa.service;
 
-import carrotmoa.carrotmoa.model.response.AccommodationImageListResponse;
-import carrotmoa.carrotmoa.model.response.BookingDetailResponse;
-import carrotmoa.carrotmoa.model.response.BookingListResponse;
-import carrotmoa.carrotmoa.model.response.ContractDetailResponse;
+import carrotmoa.carrotmoa.model.response.*;
 import carrotmoa.carrotmoa.repository.AccommodationImageRepository;
 import carrotmoa.carrotmoa.repository.AccommodationRepository;
 import carrotmoa.carrotmoa.repository.ReservationRepository;
@@ -32,5 +29,10 @@ public class ReservationService {
     @Transactional
     public BookingDetailResponse getBookingDetail(Long id) {
         return reservationRepository.findBookingDetail(id);
+    }
+
+    @Transactional
+    public List<FullCalendarResponse> getBookedDates(Long id) {
+        return reservationRepository.findBookedDates(id);
     }
 }

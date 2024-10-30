@@ -5,6 +5,7 @@ import java.util.List;
 
 import carrotmoa.carrotmoa.model.response.BookingDetailResponse;
 import carrotmoa.carrotmoa.model.response.BookingListResponse;
+import carrotmoa.carrotmoa.model.response.FullCalendarResponse;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -32,4 +33,11 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
             "JOIN UserProfile u ON u.userId = p.userId " +
             "WHERE a.id = :accommodationId")
     BookingDetailResponse findBookingDetail(@Param("accommodationId") Long accommodationId);
+
+    // full calendar
+    @Query("SELECT new carrotmoa.carrotmoa.model.response.FullCalendarResponse( " +
+            "r.checkInDate, r.checkOutDate) " +
+            "FROM Reservation r " +
+            "WHERE r.accommodationId = :accommodationId")
+    List<FullCalendarResponse> findBookedDates(@Param("accommodationId") Long accommodationId);
 }
