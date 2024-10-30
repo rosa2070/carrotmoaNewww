@@ -88,6 +88,7 @@ function fetchLoginUserNotifications() {
         })
         .then(data => {
             // 알림 목록을 업데이트
+            console.log(data);
             updateNotificationList(data);
         })
         .catch(error => {
@@ -103,8 +104,9 @@ function fetchLoginUserNotifications() {
             notifications.forEach(notification => {
             const notificationEntry = document.createElement("div");
             notificationEntry.className = "notification-entry";
+            const notificationClass = notification.read ? 'notification-url read' : 'notification-url';
             notificationEntry.innerHTML = `
-            <a class="notification-url" href="${notification.url}">
+            <a class="${notificationClass}" href="${notification.url}">
                 <div class="notification-user-pic" >
                     <img src="${notification.picUrl}" alt="유저 프로필 이미지">
                 </div>

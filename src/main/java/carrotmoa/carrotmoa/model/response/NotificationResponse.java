@@ -20,6 +20,7 @@ public class NotificationResponse {
     private String picUrl;
     private String message; //
     private String url;
+    private boolean isRead;
     private LocalDateTime createdAt;
 
     public NotificationResponse(Notification notification, NotificationType notificationType, UserProfile userProfile) {
@@ -28,6 +29,7 @@ public class NotificationResponse {
         this.picUrl = userProfile.getPicUrl();
         this.message = notification.getMessage();
         this.url = notification.getUrl();
+        this.isRead = notification.isRead();
         this.createdAt = notification.getCreatedAt();
     }
 }

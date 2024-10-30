@@ -23,7 +23,6 @@
     display: flex; /* 플렉스 박스 사용 */
     justify-content: space-between; /* 양쪽 끝으로 배치 */
     font-size: 18px; /* 폰트 크기 */
-    margin-bottom: 15px; /* 아래 여백 */
     align-items: flex-end;
 }
 
@@ -53,7 +52,6 @@
 
 .notification-content {
     border-top: 1px solid #ccc; /* 상단 경계선 */
-    padding-top: 10px; /* 경계선과 내용 간의 여백 */
     text-align: center;
 }
 
@@ -69,11 +67,7 @@
     background-color: transparent;
 }
 
-.notification-entry {
-    display: flex; /* 플렉스 박스 사용 */
-    align-items: flex-start; /* 세로 정렬을 시작으로 설정 */
-    margin-bottom: 15px; /* 각 알림 항목 간의 간격 */
-}
+
 
 .notification-user-pic {
     flex: 0 0 50px; /* 고정된 너비 설정 */
@@ -119,9 +113,12 @@
 }
 
 .notification-entry {
+    display: flex; /* 플렉스 박스 사용 */
+    align-items: flex-start; /* 세로 정렬을 시작으로 설정 */
     border-bottom: 1px solid #ccc;
-    padding-bottom: 10px;
 }
+
+
 
 .notification-toast {
     display: none;
@@ -144,10 +141,28 @@
     padding: 0;
     margin: 0;
     border: none;
+}
 
+.notification-entry .notification-url {
+    justify-content: space-between;
+    width: 400px;
+    height: 100px;
+    padding-top: 0;
+    padding-bottom: 0;
 
 }
 
+.notification-entry .notification-url {
+    justify-content: space-between;
+    width: 400px;
+    height: 100px;
+    padding-top: 0;
+    padding-bottom: 0;
+}
+
+.notification-entry .notification-url.read {
+    background-color: #F6F7F9; /* 읽음 상태의 배경색 */
+}
 
 
 
