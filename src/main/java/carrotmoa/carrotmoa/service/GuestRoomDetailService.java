@@ -1,14 +1,9 @@
 package carrotmoa.carrotmoa.service;
 
 import carrotmoa.carrotmoa.entity.Space;
-import carrotmoa.carrotmoa.model.response.AccommodationDetailResponse;
-import carrotmoa.carrotmoa.model.response.AmenityImageResponse;
-import carrotmoa.carrotmoa.model.response.SpaceImageResponse;
-import carrotmoa.carrotmoa.model.response.UserProfileResponse;
-import carrotmoa.carrotmoa.repository.AccommodationAmenityRepository;
-import carrotmoa.carrotmoa.repository.AccommodationDetailCustomRepository;
-import carrotmoa.carrotmoa.repository.SpaceRepository;
-import carrotmoa.carrotmoa.repository.UserRepository;
+import carrotmoa.carrotmoa.model.response.*;
+import carrotmoa.carrotmoa.repository.*;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -24,13 +19,15 @@ public class GuestRoomDetailService {
     private final AccommodationAmenityRepository accommodationAmenityRepository;
     private final AccommodationDetailCustomRepository accommodationDetailCustomRepository;
     private final SpaceRepository spaceRepository;
+    private final ReviewRepository reviewRepository;
 
     public GuestRoomDetailService(UserRepository userRepository, AccommodationAmenityRepository accommodationAmenityRepository,
-        AccommodationDetailCustomRepository accommodationDetailCustomRepository, SpaceRepository spaceRepository) {
+        AccommodationDetailCustomRepository accommodationDetailCustomRepository, SpaceRepository spaceRepository, ReviewRepository reviewRepository) {
         this.userRepository = userRepository;
         this.accommodationAmenityRepository = accommodationAmenityRepository;
         this.accommodationDetailCustomRepository = accommodationDetailCustomRepository;
         this.spaceRepository = spaceRepository;
+        this.reviewRepository = reviewRepository;
     }
 
     @Transactional
@@ -64,5 +61,13 @@ public class GuestRoomDetailService {
             }
         }
         return icons;
+    }
+
+    @Transactional(readOnly = true)
+    public List<AccommodationReviewResponse> getAllReview(Long id) {
+        List<Object[]> reviews = reviewRepository.findReviewByAccommodationId(id);
+        return reviews.stream()
+                .map(AccommodationReviewResponse::fromData)
+                .collect(Collectors.toList());
     }
 }

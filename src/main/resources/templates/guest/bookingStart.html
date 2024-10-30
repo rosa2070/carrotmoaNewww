@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="ko"
+      layout:decorate="~{layout/layout}"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+  <title th:text="'계약시작 - 단기임대 숙소 | 당근모아'"> 계약시작 - 단기임대 숙소 | 당근모아 </title>
+  <link rel="stylesheet" th:href="@{/css/booking-start.css}"/>
+</head>
+
+<main layout:fragment="main">
+  <section class="content">
+    <p class="title_left">계약 시작하기</p>
+    <div class="contract_detail" style="min-height:800px;">
+      <div class="flex">
+        <div class="detail_cont">
+          <div class="flex">
+            <div class="border_box">
+              <p class="title" th:object="${booking}">방 정보</p>
+              <ul class="info_list">
+                <li>
+                  <span>방 이름</span>
+                  <p class="ellipsis" th:text="${booking.title}">애버랜드</p>
+                </li>
+                <li>
+                  <span>소재지</span>
+                  <p class="ellipsis2" th:text="${booking.lotAddress} + ${booking.detailAddress} + ${booking.floor}">용인시 처인구 애버랜드로</p>
+                </li>
+              </ul>
+            </div>
+            <div class="border_box">
+              <p class="title">호스트 정보</p>
+              <ul class="info_list">
+                <li>
+                  <span>이름</span>
+                  <p th:text="${booking.nickname}">삼성</p>
+                </li>
+                <li>
+                  <a id="btn_chat_start" class="btn medium white">
+                    <span class="icon_send">호스트와 채팅하기</span>
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div class="contract_period_box">
+            <strong>임대기간</strong>
+            <p>2024-11-11 (입주) ~ 2024-11-17 (퇴실)</p>
+          </div>
+          <div class="contract_detail_box">
+            <div class="detail_pay">
+              <ul class="pay_list">
+                <li class="text_bold">
+                  <span>결제 금액</span>
+                </li>
+                <li class="total_pay">
+                  <span>최종 결제 금액</span>
+                  <p class="font_red"> 원</p>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="side_cont">
+          <div class="side_cont_box">
+            <div class="request_box">
+              <button type="button" class="btn_orange" id="btn_booking_request">결제하기</button>
+              <div class="notice_box">
+                <p class="title">방 입주 매너</p>
+                <ul>
+                  <li>
+                    <strong>실내에서는 흡연이 안돼요.</strong>
+                    <p class="sub_text">흡연으로 인한 냄새, 오염 혹은 민원 등은<br>손해배상의 사유가 될 수 있어요.</p>
+                  </li>
+                  <li>
+                    <strong>입주 전 반려동물 동반 여부를 알려주세요.</strong>
+                    <p class="sub_text">협의되지 않은 반려동물의 입주는 거부될 수 있습니다.</p>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+</html>
