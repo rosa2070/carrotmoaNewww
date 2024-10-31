@@ -18,12 +18,8 @@
             <div class="chat-header">
                 <h3>채팅방 제목</h3>
             </div>
-            <div class="chat-messages">
-                ㅎㅇ
-                ㅎㅇㅎㅇ
-                ㅎㅇㅎㅇㅎㅇ
-                private String nickname;
-                private String picUrl;
+            <div class="chat-messages" id="chat-messages">
+
             </div>
             <form class="chat-footer" th:object="${chatMessageRequest}" id="chat-form">
                 <input type="hidden"  th:field="*{userId}" th:value="${user.getUserProfile().getUserId()}"/>
@@ -31,7 +27,7 @@
                 <input type="hidden"  th:field="*{nickname}" th:value="${user.getUserProfile().getNickname()}"/>
                 <input type="hidden" th:if="${user.getUserProfile().getPicUrl()} != null"  th:field="*{picUrl}" th:value="${user.getUserProfile().getPicUrl()}"/>
                 <input type="text" id="input-message" th:field="*{message}"/>
-                <button id="send-message-btn" th:onclick="send-message" type="button">전송</button>
+                <button id="send-message-btn" th:onclick="sendMessage()" type="button">전송</button>
             </form>
                 <button th:onclick="findChatRoom()">호출</button>
         </div>
@@ -39,15 +35,16 @@
 
 </body>
 <script th:inline="javascript">
+
+    const chatMessage = document.getElementById('chat-messages');
     let RoomId;
     // function openChatRoom(element){
     //     let roomId = element.getAttribute();
     //     let selectChatRoomId = roomId;
     // }
-    //채팅 모달창을 눌렀을때 실행
     function sendMessage(){
         const formData = new FormData(document.getElementById('chat-form'));
-        fetch("pub/chat/send-message/",{
+        fetch("/chat/send-message/",{
             method:"POST",
             headers:{
                 'Content-Type': 'application/json'
@@ -69,6 +66,7 @@
     }
 
 
+    //채팅 모달창을 눌렀을때 실행
     function findChatRoom(){
         let chatUserId = [[${user.getUserProfile().getUserId()}]];
         fetch("/chat/all-Room/"+chatUserId, {
@@ -88,7 +86,6 @@
             chatRoomList.innerHTML = '';
 
             result.forEach(room =>{
-                debugger;
                 const roomElement = document.createElement("div");
                 const roomLinkElement = document.createElement("a")
                 const roomNameElement = document.createElement("p")
@@ -127,12 +124,23 @@
             })
             .then(result => {
                 result.forEach(message => {
+                    debugger;
+
+                    console.log(message.userId)
+                    console.log(message.chatRoomId);
+                    console.log(message.picUrl);
+                    console.log(message.nickname);
                     const chatMessageElement = document.createElement("div");
                     const chatMessageTitleElement = document.createElement("p")
                     const chatMessageContentElement = document.createElement("input");
                     chatMessageContentElement.type = 'text'; // 타입을 text로 설정
                     chatMessageContentElement.value = message.message; // 초기 값 설정
                     chatMessageContentElement.readOnly = true; // 수정 불가능하게 설정
+
+                    chatMessageTitleElement.textContent = message.nickname;
+                    chatMessageElement.appendChild(chatMessageTitleElement);
+                    chatMessageElement.appendChild(chatMessageContentElement);
+                    chatMessage.appendChild(chatMessageElement);
 
                 })
 
