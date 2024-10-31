@@ -14,9 +14,9 @@
             <div class="room_detail" th:object="${room}">
                 <div class="room_info">
                     <div class="title">
-                        <strong th:text="*{title}">애버랜드</strong>
+                        <strong id="room-info-title" th:text="*{title}">애버랜드</strong>
                     </div>
-                    <p class="add_text" th:text="*{roadAddress}">용인시 처인구 애버랜드로</p>
+                    <p class="add_text" id="room-addr-info" th:text="${room.roadAddress} + ${room.detailAddress} + ' ' + ${room.floor} + '층'">용인시 처인구 애버랜드로</p>
 
                     <div class="room_images" id="roomImages">
                         <div th:each="image, iterStat : ${room.imageUrls}" class="room-image-wrapper">
@@ -107,7 +107,7 @@
                         </dt>
                         <dd>
                             <div class="profile_name">
-                                <strong th:text="${profile.nickname}">최이재</strong>
+                                <strong id="host_name" th:text="${profile.nickname}">최이재</strong>
                             </div>
                             <p class="introduce" th:text="${profile.bio}">안녕하세요:)</p>
                         </dd>
@@ -149,7 +149,7 @@
                 </div>
                 <div class="room_pay">
                     <p>
-                        <strong th:text="${room.price}">0 </strong><em>원</em>
+                        <strong id="room_info_price" th:text="${room.price}">0 </strong><em>원</em>
                         <span>/1박</span>
                     </p>
                     <ul class="place_list">
@@ -186,7 +186,7 @@
                     <div class="line_box" id="count_nights" style>
                         <p>
                             총 숙박일
-                            <span id="nights-count">0</span>
+                            <span id="nights-count"></span>
                         </p>
                     </div>
                 </div>

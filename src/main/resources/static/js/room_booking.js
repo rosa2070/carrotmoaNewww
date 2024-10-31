@@ -79,6 +79,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
                     document.getElementById('checkin-dates').textContent = updatedCheckInDate.toISOString().split('T')[0];
                     document.getElementById('checkout-dates').textContent = checkOutDate.toISOString().split('T')[0];
+                    sessionStorage.setItem('checkin-dates', updatedCheckInDate.toISOString().split('T')[0]);
+                    sessionStorage.setItem('checkout-dates', checkOutDate.toISOString().split('T')[0]);
+
 
                     var timeDifference = checkOutDate - checkInDate;
                     var countNights = ((timeDifference) / (1000 * 60 * 60 * 24));

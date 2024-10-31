@@ -5,6 +5,7 @@
 <head>
   <title th:text="'계약시작 - 단기임대 숙소 | 당근모아'"> 계약시작 - 단기임대 숙소 | 당근모아 </title>
   <link rel="stylesheet" th:href="@{/css/booking-start.css}"/>
+  <script th:src="@{/js/booking_info_return.js}"></script>
 </head>
 
 <main layout:fragment="main">
@@ -15,15 +16,15 @@
         <div class="detail_cont">
           <div class="flex">
             <div class="border_box">
-              <p class="title" th:object="${booking}">방 정보</p>
+              <p class="title">방 정보</p>
               <ul class="info_list">
                 <li>
                   <span>방 이름</span>
-                  <p class="ellipsis" th:text="${booking.title}">애버랜드</p>
+                  <p class="ellipsis" id="room-info-title">애버랜드</p>
                 </li>
                 <li>
                   <span>소재지</span>
-                  <p class="ellipsis2" th:text="${booking.lotAddress} + ${booking.detailAddress} + ${booking.floor}">용인시 처인구 애버랜드로</p>
+                  <p class="ellipsis2" id="room-addr-info">용인시 처인구 애버랜드로</p>
                 </li>
               </ul>
             </div>
@@ -32,7 +33,7 @@
               <ul class="info_list">
                 <li>
                   <span>이름</span>
-                  <p th:text="${booking.nickname}">삼성</p>
+                  <p id="host_name">삼성</p>
                 </li>
                 <li>
                   <a id="btn_chat_start" class="btn medium white">
@@ -44,7 +45,8 @@
           </div>
           <div class="contract_period_box">
             <strong>임대기간</strong>
-            <p>2024-11-11 (입주) ~ 2024-11-17 (퇴실)</p>
+            <p id="checkin-dates">(입주)</p>
+            <p id="checkout-dates">(퇴실)</p>
           </div>
           <div class="contract_detail_box">
             <div class="detail_pay">
@@ -54,7 +56,7 @@
                 </li>
                 <li class="total_pay">
                   <span>최종 결제 금액</span>
-                  <p class="font_red"> 원</p>
+                  <p class="font_red" id="room_info_price"> 원</p>
                 </li>
               </ul>
             </div>
