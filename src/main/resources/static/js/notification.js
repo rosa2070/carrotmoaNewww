@@ -3,11 +3,14 @@ const notificationModal = document.getElementById("notificationModal");
 const notificationCloseModal = document.querySelector(".notification-close");
 const notificationList = document.getElementById("notificationList");
 const notificationToast = document.getElementById("notificationToast");
+// 알림 조회 상태를 저장하는 플래그 변수 (로컬 스토리지 활용)
+const isNotificationInitialized = localStorage.getItem("isNotificationInitialized") === "true";
 
 // 페이징 처리 관련 변수
 let notificationPage = 0;
 const notificationSize = 5;
 let hasNext = true; // Slice의 hasNext 속성을 이용해 더 가져올 알림이 있는지 확인
+
 
 document.addEventListener("DOMContentLoaded", function () {
 
@@ -52,33 +55,21 @@ document.addEventListener("DOMContentLoaded", function () {
         sse.addEventListener("connect", function (e) {
             let datatest = e.data;
             console.log("더미데이터 값을 받아서 사용이 가능할까? -> ", datatest)
-        })
+        });
+
+        // 알림 DB를 처음만 조회하는 로직.
+        if(!isNotificationInitialized) {
+            fetchLoginUserNotifications();
+            localStorage.setItem("isNotificationInitialized", "true");
+        }
     } else {
         console.log('로그인되지 않은 사용자입니다.');
+        localStorage.setItem("isNotificationInitialized", "false");
+        // 로그인을 하지 않았다면 다시 false로 설정해서 다시 로그인할 때, DB에서 알림을 조회해 오도록 세팅.
     }
-    fetchLoginUserNotifications();
 });
 
-function updateNotificationIcon() {
-    // 알림 아이콘을 변경
-    notificationIcon.querySelector("img").src = "/images/notification-dot.svg"; // 기본 아이콘으로 복원
-}
 
-function showNotificationToast() {
-    notificationToast.style.display = "block"; // 모달 보이기
-    setTimeout(() => {
-        notificationToast.style.opacity = 1; // 불투명도 설정
-        notificationToast.style.transform = "translateY(0)"; // 기본 위치로 이동
-    }, 10); // 약간의 지연 후 애니메이션 시작
-
-    // 10초 후에 자동으로 사라지게 설정
-    setTimeout(function () {
-        notificationToast.style.opacity = 0; // 사라짐 효과
-        setTimeout(function () {
-            notificationToast.style.display = "none"; // 완전히 숨기기
-        }, 500); // 사라짐 효과가 끝난 후 숨김
-    }, 5000); // 5초 후
-}
 
 
 
@@ -159,4 +150,25 @@ function addNotificationToListSse(notification) {
         </a>
     `;
     notificationList.insertBefore(notificationEntry, notificationList.firstChild); // SSE알림은 최상단에서부터 누적
+}
+
+function updateNotificationIcon() {
+    // 알림 아이콘을 변경
+    notificationIcon.querySelector("img").src = "/images/notification-dot.svg"; // 기본 아이콘으로 복원
+}
+
+function showNotificationToast() {
+    notificationToast.style.display = "block"; // 모달 보이기
+    setTimeout(() => {
+        notificationToast.style.opacity = 1; // 불투명도 설정
+        notificationToast.style.transform = "translateY(0)"; // 기본 위치로 이동
+    }, 10); // 약간의 지연 후 애니메이션 시작
+
+    // 10초 후에 자동으로 사라지게 설정
+    setTimeout(function () {
+        notificationToast.style.opacity = 0; // 사라짐 효과
+        setTimeout(function () {
+            notificationToast.style.display = "none"; // 완전히 숨기기
+        }, 500); // 사라짐 효과가 끝난 후 숨김
+    }, 5000); // 5초 후
 }
