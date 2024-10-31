@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="ko"
+      layout:decorate="~{layout/layout}"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <title th:text="'단기임대 숙소 | 당근모아'"> 단기임대 숙소 | 당근모아 </title>
+    <link rel="stylesheet" th:href="@{/css/booking-list.css}"/>
+</head>
+
+<main layout:fragment="main">
+    <section class="content">
+        <div class="room_info_box">
+            <div class=""></div>
+        </div>
+        <div class="content_box">
+            <div class="review_title">
+                <strong class="title" th:text="review: ${reviews}">
+                    숙소는 어떠셨나요?
+                </strong>
+            </div>
+        </div>
+    </section>
+</main>
+</html>

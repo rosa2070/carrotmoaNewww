@@ -39,6 +39,9 @@ public class AccommodationImageService {
         }
     }
 
+    @Transactional
+    public
+
     // 기존 이미지 삭제
     private void deleteExistingImages(List<String> existingImageUrls) throws IOException {
         if (existingImageUrls != null && !existingImageUrls.isEmpty()) {
