@@ -22,8 +22,8 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class Payment extends BaseEntity {
 
-    @Column(name = "partner_id")
-    private Long partnerId;
+//    @Column(name = "partner_id")
+//    private Long partnerId;
 
     @Column(name = "user_id")
     private Long userId;
@@ -76,23 +76,6 @@ public class Payment extends BaseEntity {
 //        updatedAt = LocalDateTime.now();
 //    }
 
-//    public static Payment of(PaymentRequest paymentRequest) {
-//        return Payment.builder()
-//                .partnerId(paymentRequest.getPartnerId())
-//                .userId(paymentRequest.getUserId())
-//                .orderId(paymentRequest.getOrderId())
-//                .impUid(paymentRequest.getImpUid())
-//                .paymentMethod(paymentRequest.getPayMethod())
-//                .merchantUid(paymentRequest.getMerchantUid())
-//                .paymentAmount(BigDecimal.valueOf(paymentRequest.getPaidAmount()))
-//                .pgProvider(paymentRequest.getPgProvider())
-//                .pgType(paymentRequest.getPgType())
-//                .pgTid(paymentRequest.getPgTid())
-//                .status(paymentRequest.getStatus())
-//                .cardName(paymentRequest.getCardName())
-//                .cardNumber(paymentRequest.getCardNumber())
-//                .build();
-//
-//    }
+
 
 }

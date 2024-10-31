@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 public class PaymentRequest {
-    private Long partnerId;
+//    private Long partnerId;
     private Long userId;
     private Long orderId;
     private LocalDate paymentDate;
@@ -50,7 +50,7 @@ public class PaymentRequest {
 
     public Payment toPaymentEntity() {
         return Payment.builder()
-                .partnerId(partnerId)
+//                .partnerId(partnerId)
                 .userId(userId)
                 .orderId(orderId)
                 .impUid(impUid)
