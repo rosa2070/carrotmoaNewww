@@ -10,6 +10,9 @@ import carrotmoa.carrotmoa.repository.NotificationRepository;
 import carrotmoa.carrotmoa.util.DateTimeUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
@@ -74,8 +77,9 @@ public class NotificationService {
     }
 
     @Transactional(readOnly = true)
-    public List<NotificationResponse> findNotificationsByReceiverId(Long receiverId) {
-        return notificationRepository.findNotificationsByReceiverId(receiverId);
+    public Slice<NotificationResponse> findNotificationsByReceiverId(Long receiverId, int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        return notificationRepository.findNotificationsByReceiverId(receiverId, pageable);
     }
 
 }

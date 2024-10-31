@@ -3,10 +3,12 @@ package carrotmoa.carrotmoa.controller.api;
 import carrotmoa.carrotmoa.model.response.NotificationResponse;
 import carrotmoa.carrotmoa.service.NotificationService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Slice;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
@@ -28,8 +30,12 @@ public class NotificationController {
     // 2. DB에서 수신자 아이디로 알림 리스트 가져오는 API
 
     @GetMapping("/api/notifications/{receiverId}")
-    public ResponseEntity<List<NotificationResponse>> findNotificationsByReceiverId(@PathVariable("receiverId") Long receiverId) {
-        return ResponseEntity.ok(notificationService.findNotificationsByReceiverId(receiverId));
+    public ResponseEntity<Slice<NotificationResponse>> findNotificationsByReceiverId(
+            @PathVariable("receiverId") Long receiverId,
+            @RequestParam("page") int page,
+            @RequestParam("size") int size) {
+        Slice<NotificationResponse> notifications = notificationService.findNotificationsByReceiverId(receiverId, page, size);
+        return ResponseEntity.ok(notifications);
     }
 
 

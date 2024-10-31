@@ -3,9 +3,17 @@ const notificationModal = document.getElementById("notificationModal");
 const notificationCloseModal = document.querySelector(".notification-close");
 const notificationList = document.getElementById("notificationList");
 const notificationToast = document.getElementById("notificationToast");
+
+// 페이징 처리 관련 변수
+let notificationPage = 0;
+const notificationSize = 5;
+let hasNext = true; // Slice의 hasNext 속성을 이용해 더 가져올 알림이 있는지 확인
+
 document.addEventListener("DOMContentLoaded", function () {
 
     notificationIcon.addEventListener("click", function () {
+        notificationPage = 0;
+        hasNext = true;
         notificationModal.style.display = "block"; // 모달 보이기
         notificationIcon.querySelector("img").src = "/images/notification.svg"; // 기본 아이콘으로 복원
     });
@@ -13,18 +21,16 @@ document.addEventListener("DOMContentLoaded", function () {
     notificationCloseModal.addEventListener("click", function () {
         notificationModal.style.display = "none"; // 모달 숨기기
     });
-
-
-
-
 });
 
 
+// sse 연결 설정
 document.addEventListener("DOMContentLoaded", function () {
 // login이 된 상태면 -> SSE 연결하기.
     if (userObject) {
         const userId = userObject.userProfile.userId;
         const sse = new EventSource(`/sse/notifications/${userId}`);
+
         sse.onopen = function () {
             console.log('SSE 연결이 성공적으로 설정되었습니다.');
         };
@@ -32,10 +38,8 @@ document.addEventListener("DOMContentLoaded", function () {
         sse.onmessage = function (event) {
             const notification = JSON.parse(event.data);
             console.log('새로운 알림:', notification);
-            console.log('새로운 알림:', notification.type);
             // 알림 UI 업데이트 로직 추가
             addNotificationToListSse(notification);
-
             updateNotificationIcon();
             showNotificationToast();
         };
@@ -49,7 +53,6 @@ document.addEventListener("DOMContentLoaded", function () {
             let datatest = e.data;
             console.log("더미데이터 값을 받아서 사용이 가능할까? -> ", datatest)
         })
-
     } else {
         console.log('로그인되지 않은 사용자입니다.');
     }
@@ -77,31 +80,44 @@ function showNotificationToast() {
     }, 5000); // 5초 후
 }
 
-// 알림 데이터를 가져오는 함수
+
+
+
+// 로그인 유저의 알림 리스트 DB에서 조회하는 함수 -> 무한 스크롤 진행
 function fetchLoginUserNotifications() {
+    if(!hasNext) return; // 알림이 더 이상 없다면 요청 중지
+
     const receiverId = userObject.userProfile.userId; // 로그인한 사용자 ID
-    fetch(`/api/notifications/${receiverId}`)
+
+    fetch(`/api/notifications/${receiverId}?page=${notificationPage}&size=${notificationSize}`)
         .then(response => {
             if (!response.ok) {
-                throw new Error('네트워크 응답이 좋지 않습니다.');
+                throw new Error('알림 리스트를 불러올 수 없습니다.');
             }
-            return response.json(); // JSON으로 변환
+            return response.json();
         })
         .then(data => {
-            // 알림 목록을 업데이트
             console.log(data);
-            updateNotificationList(data);
+            console.log(data.content);
+            updateNotificationList(data.content);
+            hasNext = !data.last; // 다음 페이지 여부 갱신
+            if(hasNext) {
+                notificationPage += 1;
+            }
         })
         .catch(error => {
             console.error('Fetch 오류:', error);
         });
 }
+// 스크롤이 하단에 도달했는지 확인하고, 도달 시 다음 페이지 로드
+notificationModal.addEventListener('scroll', () => {
+    if (notificationModal.scrollTop + notificationModal.clientHeight >= notificationModal.scrollHeight) {
+        fetchLoginUserNotifications(); // 다음 페이지 알림 가져오기
+    }
+});
 
-
-    // 알림 목록을 업데이트하는 함수
+    // 알림 목록을 동적으로 생성 html
     function updateNotificationList(notifications) {
-        notificationList.innerHTML = ""; // 기존 알림 목록 초기화
-        //
             notifications.forEach(notification => {
             const notificationEntry = document.createElement("div");
             notificationEntry.className = "notification-entry";
@@ -142,5 +158,5 @@ function addNotificationToListSse(notification) {
             </div>
         </a>
     `;
-    notificationList.appendChild(notificationEntry); // 알림 목록에 추가
+    notificationList.insertBefore(notificationEntry, notificationList.firstChild); // SSE알림은 최상단에서부터 누적
 }
