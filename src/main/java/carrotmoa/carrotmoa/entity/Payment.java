@@ -28,8 +28,8 @@ public class Payment extends BaseEntity {
     @Column(name = "user_id")
     private Long userId;
 
-    @Column(name = "order_id")
-    private Long orderId;
+    @Column(name = "reservation_id")
+    private Long reservationId;
 
     @Column(name = "payment_amount")
     private BigDecimal paymentAmount;

@@ -35,8 +35,6 @@ public class QPayment extends EntityPathBase<Payment> {
 
     public final StringPath merchantUid = createString("merchantUid");
 
-    public final NumberPath<Long> orderId = createNumber("orderId", Long.class);
-
     public final NumberPath<java.math.BigDecimal> paymentAmount = createNumber("paymentAmount", java.math.BigDecimal.class);
 
     public final DateTimePath<java.time.LocalDateTime> paymentDate = createDateTime("paymentDate", java.time.LocalDateTime.class);
@@ -48,6 +46,8 @@ public class QPayment extends EntityPathBase<Payment> {
     public final StringPath pgTid = createString("pgTid");
 
     public final StringPath pgType = createString("pgType");
+
+    public final NumberPath<Long> reservationId = createNumber("reservationId", Long.class);
 
     public final StringPath status = createString("status");
 

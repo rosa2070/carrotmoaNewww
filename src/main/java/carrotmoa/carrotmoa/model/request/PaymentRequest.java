@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
 public class PaymentRequest {
 //    private Long partnerId;
     private Long userId;
-    private Long orderId;
+    private Long reservationId;
     private LocalDate paymentDate;
 
     @JsonProperty("imp_uid")
@@ -52,7 +52,7 @@ public class PaymentRequest {
         return Payment.builder()
 //                .partnerId(partnerId)
                 .userId(userId)
-                .orderId(orderId)
+                .reservationId(reservationId)
                 .impUid(impUid)
                 .paymentMethod(payMethod)
                 .merchantUid(merchantUid)
