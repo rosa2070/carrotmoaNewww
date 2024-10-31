@@ -1,3 +1,26 @@
+window.addEventListener("load", function () {
+    const start = sessionStorage.getItem("checkin-dates");
+    const end = sessionStorage.getItem("checkout-dates");
+    const title = sessionStorage.getItem("room-info-title");
+    const addr = sessionStorage.getItem("room-addr-info");
+    const name = sessionStorage.getItem("host_name");
+    const totalPrice = sessionStorage.getItem("room_info_price");
+
+    if(start && end){
+        document.getElementById("checkin-dates").textContent = start;
+        document.getElementById("checkout-dates").textContent = end;
+    }
+    document.getElementById("room-info-title").textContent = title;
+    document.getElementById("room-addr-info").textContent = addr;
+    document.getElementById("host_name").textContent = name;
+    document.getElementById("room_info_price").textContent = `총 가격: ${totalPrice.toLocaleString()} 원`;
+
+})
+
+
+
+
+
 // 구매자 정보
 // const useremail = document.querySelector('input[name="userEmail"]').value; // user 테이블 email
 const username = document.querySelector('input[name="userEmail"]').value; // user 테이블 name
@@ -17,9 +40,7 @@ function generateMerchantUid() {
     var milliseconds = today.getMilliseconds(); // 밀리초
 
     // 시, 분, 초, 밀리초를 결합하여 고유한 문자열 생성
-    var makeMerchantUid = `${hours}${minutes}${seconds}${milliseconds}`;
-
-    return makeMerchantUid;
+    return `${hours}${minutes}${seconds}${milliseconds}`;
 }
 
 // rsp는 response

@@ -5,7 +5,6 @@
 <head>
   <title th:text="'계약시작 - 단기임대 숙소 | 당근모아'"> 계약시작 - 단기임대 숙소 | 당근모아 </title>
   <link rel="stylesheet" th:href="@{/css/booking-start.css}"/>
-  <script th:src="@{/js/booking_info_return.js}"></script>
   <!-- 포트원 결제 -->
   <script src="https://cdn.iamport.kr/v1/iamport.js"></script>
   <!-- jQuery -->
@@ -19,8 +18,8 @@
   <section class="content">
     <!--  로그인한  user Id -->
     <input type="text" name="userId" th:value="${user.userProfile.userId}">
-    <input type="text" name="userEmail" th:value="${user.username}">
-<!--    <input type="text" name="userName" th:value="${user.}"> // user이름-->
+    <input type="text" name="userEmail" th:value="${user.username}"> <!-- user email -->
+    <input type="text" name="userName" th:value="${user.userProfile.name}">
 
     <p class="title_left">계약 시작하기</p>
     <div class="contract_detail" style="min-height:800px;">
@@ -97,6 +96,8 @@
         </div>
       </div>
     </div>
+
+    <script th:src="@{/js/booking_info_return.js}"></script>
     <script type="text/javascript" th:src="@{/js/payment.js}"></script>
   </section>
 </main>
