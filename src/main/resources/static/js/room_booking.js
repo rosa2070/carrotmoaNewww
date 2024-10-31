@@ -77,9 +77,16 @@ document.addEventListener('DOMContentLoaded', function() {
                     var checkOutDate = info.end;
                     updatedCheckInDate.setDate(updatedCheckInDate.getDate() + 1);
 
-                    document.getElementById('checkin-dates').textContent = updatedCheckInDate.toISOString().split('T')[0];
-                    document.getElementById('checkout-dates').textContent = checkOutDate.toISOString().split('T')[0];
+                    if(checkInDate && checkOutDate) {
+                        document.getElementById('checkin-dates').textContent = updatedCheckInDate.toISOString().split('T')[0];
+                        document.getElementById('checkout-dates').textContent = checkOutDate.toISOString().split('T')[0];
+                        sessionStorage.setItem('checkin-dates', updatedCheckInDate.toISOString().split('T')[0]);
+                        sessionStorage.setItem('checkout-dates', checkOutDate.toISOString().split('T')[0]);
+                        // 계약 시작하기 버튼 비활성화 풀기
+                        document.getElementById("btn_start_booking_now").classList.remove('disabled');
+                        document.getElementById("btn_start_booking_now").dataset.enabled = "true";
 
+                    }
                     var timeDifference = checkOutDate - checkInDate;
                     var countNights = ((timeDifference) / (1000 * 60 * 60 * 24));
                     document.getElementById('nights-count').textContent = countNights;
@@ -96,6 +103,15 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             });
             calendar.render();
+            document.getElementById("btn_start_booking_now").classList.add('disabled');
+            document.getElementById("btn_start_booking_now").dataset.enabled = "false";
+
+            document.getElementById("btn_start_booking_now").addEventListener("click", function (event) {
+                if (this.dataset.enabled !== "true") {
+                    event.preventDefault();
+                    alert("날짜를 먼저 선택해주세요.")
+                }
+            })
         })
     .catch(error => console.error('Error fetching bookings:', error));
 });
