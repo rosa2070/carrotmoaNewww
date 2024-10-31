@@ -1,11 +1,17 @@
 package carrotmoa.carrotmoa.service;
 
+import carrotmoa.carrotmoa.entity.Notification;
+import carrotmoa.carrotmoa.enums.NotificationType;
+import carrotmoa.carrotmoa.model.request.SaveNotificationRequest;
 import carrotmoa.carrotmoa.model.response.NotificationResponse;
+import carrotmoa.carrotmoa.model.response.SseNotificationResponse;
 import carrotmoa.carrotmoa.repository.EmitterRepository;
 import carrotmoa.carrotmoa.repository.NotificationRepository;
+import carrotmoa.carrotmoa.util.DateTimeUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 import java.io.IOException;
@@ -40,24 +46,37 @@ public class NotificationService {
     }
 
 
-    // 여기에 알림 저장한느 레파ㅣ토리 작성
-    public void sendNotification(Long receiverId, String message) {
+    // 여기서는 SSE 실시간 알림 발송(1) + 알림 테이블에 DB 적재(2)를 한 번에 하는 메서드
+    @Transactional
+    public void sendNotification(Long receiverId, SaveNotificationRequest saveNotificationRequest, String senderUserNickname, String picUrl) {
+        Notification notification = saveNotification(saveNotificationRequest);
+
+        SseNotificationResponse sseNotificationResponse = new SseNotificationResponse(NotificationType.COMMENT.getTitle(), senderUserNickname, picUrl,saveNotificationRequest.getMessage(), saveNotificationRequest.getUrl(), notification.isRead(), notification.isDeleted(),DateTimeUtil.formatElapsedTime(notification.getCreatedAt()));
+        sendSseNotification(receiverId, sseNotificationResponse);
+    }
+
+    // 1. 알림 저장 메서드
+    private Notification saveNotification(SaveNotificationRequest saveNotificationRequest) {
+        return notificationRepository.save(saveNotificationRequest.toNotificationEntity());
+    }
+
+    // 2. SSE로 알림 전송하는 메서드
+    private void sendSseNotification(Long receiverId, SseNotificationResponse sseNotificationResponse) {
         SseEmitter emitter = emitterRepository.get(receiverId);
         if (emitter != null) {
             try {
-                emitter.send(SseEmitter.event().data(message));
+                // SSE 전송 로직
+                emitter.send(SseEmitter.event().data(sseNotificationResponse));
             } catch (Exception e) {
-                emitterRepository.deleteById(receiverId);
+                emitterRepository.deleteById(receiverId);  // SSE 전송 실패 시 Emitter 삭제
             }
         }
-
-        //Notification savedNotification = notificationRepository.save(notification);
     }
 
+    @Transactional(readOnly = true)
     public List<NotificationResponse> findNotificationsByReceiverId(Long receiverId) {
         return notificationRepository.findNotificationsByReceiverId(receiverId);
     }
-
 
 }
 

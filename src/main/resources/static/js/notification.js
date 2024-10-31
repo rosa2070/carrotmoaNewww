@@ -14,7 +14,7 @@ document.addEventListener("DOMContentLoaded", function () {
         notificationModal.style.display = "none"; // 모달 숨기기
     });
 
-    fetchLoginUserNotifications();
+
 
 
 });
@@ -25,16 +25,17 @@ document.addEventListener("DOMContentLoaded", function () {
     if (userObject) {
         const userId = userObject.userProfile.userId;
         const sse = new EventSource(`/sse/notifications/${userId}`);
-
-
         sse.onopen = function () {
             console.log('SSE 연결이 성공적으로 설정되었습니다.');
         };
 
         sse.onmessage = function (event) {
-            const notification = event.data;
+            const notification = JSON.parse(event.data);
             console.log('새로운 알림:', notification);
+            console.log('새로운 알림:', notification.type);
             // 알림 UI 업데이트 로직 추가
+            addNotificationToListSse(notification);
+
             updateNotificationIcon();
             showNotificationToast();
         };
@@ -52,7 +53,7 @@ document.addEventListener("DOMContentLoaded", function () {
     } else {
         console.log('로그인되지 않은 사용자입니다.');
     }
-
+    fetchLoginUserNotifications();
 });
 
 function updateNotificationIcon() {
@@ -114,10 +115,32 @@ function fetchLoginUserNotifications() {
                             <div class="notification-title">  ${notification.title} </div>
                     <div class="notification-message">
                            ${notification.userName}님: ${notification.message}</div>
-                    <div class="notification-createdAt">${new Date(notification.createdAt).toLocaleString()}</div>
+                    <div class="notification-createdAt">${notification.elapsedTime}</div>
                 </div>
             </a>
             `;
             notificationList.appendChild(notificationEntry); // 알림 목록에 추가
         });
             }
+
+
+function addNotificationToListSse(notification) {
+    const notificationEntry = document.createElement("div");
+    notificationEntry.className = "notification-entry";
+    const notificationClass = notification.read ? 'notification-url read' : 'notification-url';
+    notificationEntry.innerHTML = `
+        <a class="${notificationClass}" href="${notification.url}">
+            <div class="notification-user-pic">
+                <img src="${notification.picUrl}" alt="유저 프로필 이미지">
+            </div>
+            <div class="notification-details">
+                <div class="notification-title">${notification.title}</div>
+                <div class="notification-message">
+                    ${notification.senderNickname}님: ${notification.message}
+                </div>
+                <div class="notification-createdAt">${notification.elapsedTime}</div>
+            </div>
+        </a>
+    `;
+    notificationList.appendChild(notificationEntry); // 알림 목록에 추가
+}

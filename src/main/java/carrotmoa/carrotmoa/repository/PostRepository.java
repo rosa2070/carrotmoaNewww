@@ -28,4 +28,7 @@ public interface PostRepository extends JpaRepository<Post, Long> {
             "set p.isDeleted = true, p.updatedAt = current_timestamp " +
             "where p.id = (select cp.postId from CommunityPost cp where cp.id = :communityPostId) ")
     int deleteByCommunityPostId(@Param("communityPostId") Long communityPostId);
+
+    @Query("select p.userId from Post p where p.id = :id")
+    Long findUserIdById(@Param("id")Long id);
 }

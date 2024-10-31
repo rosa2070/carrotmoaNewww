@@ -9,6 +9,8 @@ import carrotmoa.carrotmoa.model.response.CommunityPostListResponse;
 import carrotmoa.carrotmoa.service.CommunityCategoryService;
 import carrotmoa.carrotmoa.service.CommunityPostService;
 import java.util.List;
+
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -50,7 +52,8 @@ public class CommunityController {
     }
 
     @GetMapping("/posts/{communityPostId}")
-    public ResponseEntity<CommunityPostDetailResponse> findCommunityPostByPostId(@PathVariable("communityPostId") Long id) {
+    public ResponseEntity<CommunityPostDetailResponse> findCommunityPostByPostId(@PathVariable("communityPostId") Long id, HttpServletRequest request) {
+        System.out.println(request.getRequestURI());
         CommunityPostDetailResponse communityPostByPostId = communityPostService.findCommunityPostDetail(id);
         return new ResponseEntity<>(communityPostByPostId, HttpStatus.OK);
     }

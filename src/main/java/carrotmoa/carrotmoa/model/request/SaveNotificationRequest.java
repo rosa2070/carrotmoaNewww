@@ -1,15 +1,15 @@
 package carrotmoa.carrotmoa.model.request;
 
 import carrotmoa.carrotmoa.entity.Notification;
+import carrotmoa.carrotmoa.enums.NotificationType;
 import lombok.*;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @ToString
-@AllArgsConstructor
 public class SaveNotificationRequest {
-    private Long typeId;
+    private NotificationType type;
     private Long receiverId;
     private Long senderId;
     private String message;
@@ -17,14 +17,26 @@ public class SaveNotificationRequest {
     private boolean isRead;
     private boolean isDeleted;
 
-    public SaveNotificationRequest(Notification notification, Long receiverId, Long senderId) {
-        this.typeId = notification.getTypeId();
+    public SaveNotificationRequest(NotificationType type, Long receiverId, Long senderId, String message, String url) {
+        this.type = type;
         this.receiverId = receiverId;
         this.senderId = senderId;
-        this.message = notification.getMessage();
-        this.url = notification.getUrl();
+        this.message = message;
+        this.url = url;
         this.isRead = false;
         this.isDeleted = false;
+    }
+
+    public Notification toNotificationEntity() {
+        return Notification.builder()
+                .typeId(type.getTypeId())
+                .receiverId(receiverId)
+                .senderId(senderId)
+                .message(message)
+                .url(url)
+                .isRead(isRead)
+                .isDeleted(isDeleted)
+                .build();
     }
 
 

@@ -1,13 +1,14 @@
 package carrotmoa.carrotmoa.service;
 
 import carrotmoa.carrotmoa.entity.CommunityComment;
-import carrotmoa.carrotmoa.exception.ResourceNotFoundException;
+import carrotmoa.carrotmoa.entity.CommunityPost;
+import carrotmoa.carrotmoa.entity.UserProfile;
+import carrotmoa.carrotmoa.enums.NotificationType;
 import carrotmoa.carrotmoa.model.request.SaveCommunityCommentRequest;
 import carrotmoa.carrotmoa.model.request.SaveCommunityReplyRequest;
-import carrotmoa.carrotmoa.model.response.SaveCommunityCommentResponse;
+import carrotmoa.carrotmoa.model.request.SaveNotificationRequest;
 import carrotmoa.carrotmoa.model.response.CommunityCommentResponse;
-import carrotmoa.carrotmoa.repository.CommunityCommentRepository;
-import carrotmoa.carrotmoa.repository.CommunityPostRepository;
+import carrotmoa.carrotmoa.repository.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -15,10 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -26,14 +24,24 @@ import java.util.Map;
 public class CommunityCommentService {
     private final CommunityCommentRepository communityCommentRepository;
     private final CommunityPostRepository communityPostRepository;
+    private final PostRepository postRepository;
+    private final NotificationService notificationService;
+    private final NotificationRepository notificationRepository;
+    private final UserProfileRepository userProfileRepository;
 
     @Transactional
     public Long createCommunityComment(Long communityPostId, SaveCommunityCommentRequest request) {
-        if (!communityPostRepository.existsById(communityPostId)) {
-            throw new ResourceNotFoundException("해당 게시글이 존재하지 않습니다.");
-        }
+        CommunityPost post = communityPostRepository.findById(communityPostId).orElseThrow(() -> new NoSuchElementException("해당 게시글이 존재하지 않습니다."));
         request.setCommunityPostId(communityPostId);
         CommunityComment commentEntity = communityCommentRepository.save(request.toCommunityCommentEntity());
+//         SSE 알림 보내기.
+//         게시글 작성자의 아이디 받아오기.
+        Long receiverId = postRepository.findUserIdById(post.getPostId());
+        String notificationUrl = "/community/posts/" + communityPostId;
+
+        SaveNotificationRequest saveNotificationRequest = new SaveNotificationRequest(NotificationType.COMMENT, receiverId, request.getUserId(), request.getContent(), notificationUrl);
+        UserProfile senderUser = userProfileRepository.findNicknameByUserId(commentEntity.getUserId());
+        notificationService.sendNotification(receiverId, saveNotificationRequest, senderUser.getNickname(), senderUser.getPicUrl());
         return commentEntity.getId();
     }
 
