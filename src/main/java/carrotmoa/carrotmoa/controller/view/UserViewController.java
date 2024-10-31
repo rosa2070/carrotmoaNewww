@@ -1,6 +1,7 @@
 package carrotmoa.carrotmoa.controller.view;
 
 import carrotmoa.carrotmoa.config.security.CustomUserDetails;
+import carrotmoa.carrotmoa.model.request.ChatMessageRequest;
 import carrotmoa.carrotmoa.model.request.UserJoinDto;
 import carrotmoa.carrotmoa.model.request.UserUpdateRequest;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -38,6 +39,12 @@ public class UserViewController {
         model.addAttribute("userUpdateRequestDto", new UserUpdateRequest(user));
         model.addAttribute("fragment","profile-update");
         return "/user/my-page";}
+
+    @GetMapping("test")
+    public String chatTest(Model model){
+        model.addAttribute("chatMessageRequest",new ChatMessageRequest());
+        return "/user/chat-test";
+    }
 }
 
 

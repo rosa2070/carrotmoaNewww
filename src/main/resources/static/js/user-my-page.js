@@ -6,7 +6,7 @@ document.getElementById('user-update').addEventListener('submit',function(update
     formData.forEach((value, key) => {
         data[key] = value;
     })
-    fetch("/api/user/update", {
+    fetch("/chat/find-all-room", {
         method: "POST",
         headers: {
             'Content-Type': 'application/json'

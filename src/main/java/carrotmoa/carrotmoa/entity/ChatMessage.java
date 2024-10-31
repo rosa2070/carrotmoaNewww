@@ -1,16 +1,17 @@
-package carrotmoa.carrotmoa;
+package carrotmoa.carrotmoa.entity;
 
-import carrotmoa.carrotmoa.entity.BaseEntity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 
 @Getter
 @Setter
 @Entity
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "chat_message", schema = "carrot_moa")
 public class ChatMessage extends BaseEntity {
     @NotNull
@@ -29,7 +30,15 @@ public class ChatMessage extends BaseEntity {
     @NotNull
     @ColumnDefault("1")
     @Column(name = "state", nullable = false)
-    private Integer state;
+    private int state;
+
+    @NotNull
+    @Column(name = "nickname",nullable = false)
+    private String nickname;
+
+    @Size(max = 255)
+    @Column(name = "pic_url")
+    private String picUrl;
 
 
 

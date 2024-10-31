@@ -1,10 +1,145 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
+    <meta charset="UTF-8">
+    <title>Title</title>
 </head>
 <body>
-$END$
+    <div class="chat-container">
+        <div class="chat-sidebar">
+            <div class="chat-list">
+                <div id="chat-room-list">
+                    <div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="chat-main">
+            <div class="chat-header">
+                <h3>채팅방 제목</h3>
+            </div>
+            <div class="chat-messages">
+                ㅎㅇ
+                ㅎㅇㅎㅇ
+                ㅎㅇㅎㅇㅎㅇ
+                private String nickname;
+                private String picUrl;
+            </div>
+            <form class="chat-footer" th:object="${chatMessageRequest}" id="chat-form">
+                <input type="hidden"  th:field="*{userId}" th:value="${user.getUserProfile().getUserId()}"/>
+                <input type="hidden" id="chat-room-id"  th:field="*{chatRoomId}"/>
+                <input type="hidden"  th:field="*{nickname}" th:value="${user.getUserProfile().getNickname()}"/>
+                <input type="hidden" th:if="${user.getUserProfile().getPicUrl()} != null"  th:field="*{picUrl}" th:value="${user.getUserProfile().getPicUrl()}"/>
+                <input type="text" id="input-message" th:field="*{message}"/>
+                <button id="send-message-btn" th:onclick="send-message" type="button">전송</button>
+            </form>
+                <button th:onclick="findChatRoom()">호출</button>
+        </div>
+    </div>
+
 </body>
+<script th:inline="javascript">
+    let RoomId;
+    // function openChatRoom(element){
+    //     let roomId = element.getAttribute();
+    //     let selectChatRoomId = roomId;
+    // }
+    //채팅 모달창을 눌렀을때 실행
+    function sendMessage(){
+        const formData = new FormData(document.getElementById('chat-form'));
+        fetch("pub/chat/send-message/",{
+            method:"POST",
+            headers:{
+                'Content-Type': 'application/json'
+            },
+            body:JSON.stringify(formData)
+        })
+            .then(response => {
+              if(!response){
+                  console.log('error');
+              }
+              return response.json()
+            })
+            .then(result => {
+                console.log(result.userId);
+                console.log(result.chatRoomId);
+                console.log(result.userId);
+                console.log(result.message);
+            });
+    }
+
+
+    function findChatRoom(){
+        let chatUserId = [[${user.getUserProfile().getUserId()}]];
+        fetch("/chat/all-Room/"+chatUserId, {
+            method: "GET",
+            headers: {
+                'Content-Type': 'application/json'
+            },
+        })
+        .then(response => {
+            if (!response.ok) {
+                console.log("에러")
+            }
+            return response.json()
+        })
+        .then(result => {
+            const chatRoomList = document.getElementById('chat-room-list');
+            chatRoomList.innerHTML = '';
+
+            result.forEach(room =>{
+                debugger;
+                const roomElement = document.createElement("div");
+                const roomLinkElement = document.createElement("a")
+                const roomNameElement = document.createElement("p")
+                console.log(room.roomName);
+                roomElement.classList.add('chat-room-item');
+                // roomElement.id = "chat-room-item";
+                roomLinkElement.classList.add('chat-room-item-link');
+                roomLinkElement.onclick=function(){
+                    getChatMessage(room.id);
+                }
+
+                roomElement.appendChild(roomLinkElement);
+
+                roomNameElement.classList.add('chat-room-item-title')
+                roomNameElement.textContent = room.roomName;
+                roomLinkElement.appendChild(roomNameElement);
+                chatRoomList.appendChild(roomElement);
+            });
+        });
+    }
+        function getChatMessage(chatRoomId){
+        RoomId = chatRoomId;
+        document.getElementById('chat-room-id').value = RoomId;
+
+        fetch("/chat/get-message/"+chatRoomId, {
+            method: "GET",
+            headers: {
+                'Content-Type': 'application/json'
+            },
+        })
+            .then(response => {
+                if(!response.ok){
+                    alert("에러");
+                }
+                return response.json();
+            })
+            .then(result => {
+                result.forEach(message => {
+                    const chatMessageElement = document.createElement("div");
+                    const chatMessageTitleElement = document.createElement("p")
+                    const chatMessageContentElement = document.createElement("input");
+                    chatMessageContentElement.type = 'text'; // 타입을 text로 설정
+                    chatMessageContentElement.value = message.message; // 초기 값 설정
+                    chatMessageContentElement.readOnly = true; // 수정 불가능하게 설정
+
+                })
+
+            })
+        }
+
+
+</script>
+
 </html>
