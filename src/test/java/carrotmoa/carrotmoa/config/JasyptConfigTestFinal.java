@@ -37,6 +37,10 @@
 //
 //        String kakaoMapsUrl = "";
 //
+//        // 새로운 암호화할 값들
+//        String impKey = "";
+//        String impSecret = "";
+//
 //        // 암호화
 //        String encryptDatasourceUrl = encryptor.encrypt(datasourceUrl);
 //        String encryptUsername = encryptor.encrypt(username);
@@ -54,6 +58,10 @@
 //
 //        String encryptKakaoMapsUrl = encryptor.encrypt(kakaoMapsUrl);
 //
+//        // 암호화할 새 값들 암호화
+//        String encryptImpKey = encryptor.encrypt(impKey);
+//        String encryptImpSecret = encryptor.encrypt(impSecret);
+//
 //        // 암호화 결과 출력
 //        System.out.println("Encrypted datasource.url: " + encryptDatasourceUrl);
 //        System.out.println("Encrypted spring.datasource.username: " + encryptUsername);
@@ -70,5 +78,9 @@
 //        System.out.println("Encrypted spring.data.redis.password: " + encryptRedisPassword);
 //
 //        System.out.println("Encrypted kakao.maps.sdk.url: " + encryptKakaoMapsUrl);
+//
+//        // 새 암호화된 값 출력
+//        System.out.println("Encrypted payment.imp-key: " + encryptImpKey);
+//        System.out.println("Encrypted payment.imp-secret: " + encryptImpSecret);
 //    }
 //}
