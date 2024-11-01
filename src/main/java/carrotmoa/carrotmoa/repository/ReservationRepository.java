@@ -13,17 +13,27 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ReservationRepository extends JpaRepository<Reservation, Long> {
-    @Query("SELECT new carrotmoa.carrotmoa.model.response.BookingListResponse(" +
-            "r.accommodationId, r.checkInDate, r.checkOutDate, r.status, r.totalPrice, " +
-            "p.title, a.lotAddress, a.detailAddress, a.floor, u.nickname)" +
-//            "i.imageUrl) " +
+//    @Query("SELECT new carrotmoa.carrotmoa.model.response.BookingListResponse( " +
+//            "r.accommodationId, r.checkInDate, r.checkOutDate, r.status, r.totalPrice, " +
+//            "p.title, a.lotAddress, a.detailAddress, a.floor, u.nickname) " +
+//            "FROM Reservation r " +
+//            "JOIN Accommodation a ON a.id = r.accommodationId " +
+//            "JOIN Post p ON p.userId = r.userId " +
+//            "JOIN UserProfile u ON p.userId = u.userId " +
+//            "WHERE r.userId = :userId")
+//    List<BookingListResponse> findBookingData(@Param("userId") Long userId);
+
+    @Query("SELECT r.accommodationId, r.checkInDate, r.checkOutDate, r.status, r.totalPrice, " +
+            "p.title, a.lotAddress, a.detailAddress, a.floor, u.nickname, MIN(i.imageUrl) " +
             "FROM Reservation r " +
             "JOIN Accommodation a ON a.id = r.accommodationId " +
+            "JOIN AccommodationImage i ON a.id = i.accommodationId " +
             "JOIN Post p ON p.userId = r.userId " +
             "JOIN UserProfile u ON p.userId = u.userId " +
-//            "JOIN AccommodationImage i ON i.accommodationId = r.accommodationId " +
-            "WHERE r.userId = :userId")
-    List<BookingListResponse> findBookingData(@Param("userId") Long userId);
+            "WHERE r.userId = :userId " +
+            "GROUP BY r.accommodationId, r.checkInDate, r.checkOutDate, r.status, r.totalPrice, " +
+            "p.title, a.lotAddress, a.detailAddress, a.floor, u.nickname")
+    List<Object[]> findBookingData(@Param("userId") Long userId);
 
     @Query("SELECT new carrotmoa.carrotmoa.model.response.BookingDetailResponse( " +
             "a.id, a.lotAddress, a.detailAddress, a.floor, " +

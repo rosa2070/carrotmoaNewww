@@ -15,16 +15,18 @@
             <div class="content_list" th:each="booking : ${bookings}">
             <div class="contract-item" th:if="${booking.status == 1}">
                 <div class="contract_header">
-                    <div class="flex contract_info" style="cursor:pointer;" th:onclick="@{/guest/room/detail/{id}(id=${booking.accommodationId})}">
-                        <span class="badge orange">계약 완료</span>
-                        <p class="room_title" th:text="${booking.title}">애버랜드</p>
+                    <div class="flex contract_info" style="cursor:pointer;">
+                        <a th:href="@{/room/detail/{id}(id=${booking.accommodationId})}" style="text-decoration: none; color: inherit;">
+                            <span class="badge orange">계약 완료</span>
+                            <p class="room_title" th:text="${booking.title}">애버랜드</p>
+                        </a>
                     </div>
                 </div>
                 <div class="contract_cont" style="align-items:center">
-                    <dl class="room_item" style="cursor:pointer;" th:onclick="@{/guest/room/detail/{id}(id=${booking.accommodationId})}">
-<!--                            <dt>-->
-<!--                                <img th:src="${booking.imageUrl}">-->
-<!--                            </dt>-->
+                    <dl class="room_item" style="cursor:pointer;" th:onclick="@{/room/detail/{id}(id=${booking.accommodationId})}">
+                            <dt>
+                                <img th:src="${booking.imageUrl}">
+                            </dt>
                         <dd>
                             <div class="room_address_ellipsis" th:text="${booking.lotAddress} + ${booking.detailAddress} + ${booking.floor}">용인시 처인구 애버랜드로</div>
                             <p class="room_period" th:text="${booking.checkInDate} + '~' + ${booking.checkOutDate}"></p>
@@ -39,15 +41,17 @@
             <div class="contract-item" th:if="${booking.status == 3}">
                 <div class="contract_header">
                     <div class="flex contract_info" style="cursor:pointer;" th:onclick="@{/guest/room/detail/{id}(id=${booking.accommodationId})}">
-                        <span class="badge gray">사용 완료</span>
-                        <p class="room_title" th:text="${booking.title}">애버랜드</p>
+                        <a th:href="@{/room/detail/{id}(id=${booking.accommodationId})}" style="text-decoration: none; color: inherit;">
+                            <span class="badge gray">계약 만료</span>
+                            <p class="room_title" th:text="${booking.title}">애버랜드</p>
+                        </a>
                     </div>
                 </div>
                 <div class="contract_cont" style="align-items:center">
                     <dl class="room_item" style="cursor:pointer;" th:onclick="@{/guest/room/detail/{id}(id=${booking.accommodationId})}">
-<!--                            <dt>-->
-<!--                                <img th:src="${booking.imageUrl}">-->
-<!--                            </dt>-->
+                            <dt>
+                                <img th:src="${booking.imageUrl}">
+                            </dt>
                         <dd>
                             <div class="room_address_ellipsis" th:text="${booking.lotAddress} + ${booking.detailAddress} + ${booking.floor}">용인시 처인구 애버랜드로</div>
                             <p class="room_period" th:text="${booking.checkInDate} + '~' + ${booking.checkOutDate}"></p>
@@ -62,15 +66,17 @@
                 <div class="contract-item" th:if="${booking.status == 2}">
                     <div class="contract_header">
                         <div class="flex contract_info" style="cursor:pointer;" th:onclick="@{/guest/room/detail/{id}(id=${booking.accommodationId})}">
-                            <span class="badge gray">사용 완료</span>
-                            <p class="room_title" th:text="${booking.title}">애버랜드</p>
+                            <a th:href="@{/room/detail/{id}(id=${booking.accommodationId})}" style="text-decoration: none; color: inherit;">
+                                <span class="badge orange">계약 취소</span>
+                                <p class="room_title" th:text="${booking.title}">애버랜드</p>
+                            </a>
                         </div>
                     </div>
                     <div class="contract_cont" style="align-items:center">
                         <dl class="room_item" style="cursor:pointer;" th:onclick="@{/guest/room/detail/{id}(id=${booking.accommodationId})}">
-                            <!--                            <dt>-->
-                            <!--                                <img th:src="${booking.imageUrl}">-->
-                            <!--                            </dt>-->
+                                <dt>
+                                    <img th:src="${booking.imageUrl}">
+                                </dt>
                             <dd>
                                 <div class="room_address_ellipsis" th:text="${booking.lotAddress} + ${booking.detailAddress} + ${booking.floor}">용인시 처인구 애버랜드로</div>
                                 <p class="room_period" th:text="${booking.checkInDate} + '~' + ${booking.checkOutDate}"></p>

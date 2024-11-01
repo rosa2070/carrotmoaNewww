@@ -90,10 +90,14 @@
     height: 162px;
     border-radius: 6px;
 }
-/*img {*/
-/*    overflow-clip-margin: content-box;*/
-/*    overflow: clip;*/
-/*}*/
+img {
+    overflow-clip-margin: content-box;
+    overflow: clip;
+}
+img {
+    width: 100%;
+    height: 100%;
+}
 .contract_cont .room_item dd {
     width: 328px;
 }

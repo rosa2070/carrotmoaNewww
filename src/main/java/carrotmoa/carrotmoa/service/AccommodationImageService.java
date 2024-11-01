@@ -4,6 +4,8 @@ import carrotmoa.carrotmoa.entity.AccommodationImage;
 import carrotmoa.carrotmoa.repository.AccommodationImageRepository;
 import java.io.IOException;
 import java.util.List;
+
+import carrotmoa.carrotmoa.repository.AccommodationRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,11 +16,13 @@ import org.springframework.web.multipart.MultipartFile;
 public class AccommodationImageService {
     private final AccommodationImageRepository accommodationImageRepository;
     private final AwsS3AccommodationService awsS3AccommodationService;
+    private final AccommodationRepository accommodationRepository;
 //    private final AwsS3Utils awsS3Utils;
 
-    public AccommodationImageService(AccommodationImageRepository accommodationImageRepository, AwsS3AccommodationService awsS3AccommodationService) {
+    public AccommodationImageService(AccommodationImageRepository accommodationImageRepository, AwsS3AccommodationService awsS3AccommodationService, AccommodationRepository accommodationRepository) {
         this.accommodationImageRepository = accommodationImageRepository;
         this.awsS3AccommodationService = awsS3AccommodationService;
+        this.accommodationRepository = accommodationRepository;
     }
 
     @Transactional
@@ -39,8 +43,7 @@ public class AccommodationImageService {
         }
     }
 
-    @Transactional
-    public
+
 
     // 기존 이미지 삭제
     private void deleteExistingImages(List<String> existingImageUrls) throws IOException {
