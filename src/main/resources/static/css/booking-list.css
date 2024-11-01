@@ -129,3 +129,34 @@ img {
     /*justify-content: space-between; !* 양쪽 끝으로 정렬 *!*/
     width: 100%; /* 전체 너비 사용 */
 }
+.contract_cont .orange {
+    width: 57px;
+    height: 36px;
+    font-weight: 500;
+}
+.orange {
+    border-radius: 4px;
+    border: 1px solid #DFDFDF;
+    background: #FF6F0F;
+    color: white;
+    font-weight: 500;
+    text-align: center;
+}
+.btn {
+    display: inline-block;
+    box-sizing: border-box;
+}
+.contract_cont .white {
+    width: 57px;
+    height: 36px;
+    font-weight: 500;
+}
+.white {
+    border-radius: 4px;
+    border: 1px solid #DFDFDF;
+    background: #fff;
+    color: black;
+    font-weight: 500;
+    text-align: center;
+}
+
