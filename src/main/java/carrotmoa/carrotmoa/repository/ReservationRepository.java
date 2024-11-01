@@ -4,12 +4,13 @@ import carrotmoa.carrotmoa.entity.Reservation;
 import java.util.List;
 
 import carrotmoa.carrotmoa.model.response.BookingDetailResponse;
-import carrotmoa.carrotmoa.model.response.BookingListResponse;
 import carrotmoa.carrotmoa.model.response.FullCalendarResponse;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 @Repository
 public interface ReservationRepository extends JpaRepository<Reservation, Long> {
@@ -50,4 +51,12 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
             "FROM Reservation r " +
             "WHERE r.accommodationId = :accommodationId")
     List<FullCalendarResponse> findBookedDates(@Param("accommodationId") Long accommodationId);
+
+    @Modifying
+    @Transactional
+    @Query("UPDATE Reservation r " +
+            "SET r.status = 2 " +
+            "WHERE r.id = :reservationId")
+    void cancelBooking(@Param("reservationId") Long reservationId);
+
 }
