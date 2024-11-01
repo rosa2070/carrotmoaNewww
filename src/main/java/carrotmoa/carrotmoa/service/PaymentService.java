@@ -85,7 +85,7 @@ public class PaymentService {
      * @param uid 포트원 거래고유번호
      */
     @Transactional
-    public void canclePayment(String uid) {
+    public void cancelPayment(String uid) {
         // 외부 API로 결제 취소 요청
         paymentClient. cancelPayment(uid);
 
@@ -93,8 +93,17 @@ public class PaymentService {
         Payment payment = paymentRepository.findByImpUid(uid)
                 .orElseThrow(() -> new IllegalArgumentException("Payment not found with impUid: " + uid));
 
-        // status 필드를 "cancel"로 변경
+        // Payment의 status 필드를 "cancel"로 변경
         payment.setStatus("cancel");
+
+        // 예약
+        if (payment.getReservationId() != null) {
+            Reservation reservation = reservationRepository.findById(payment.getReservationId())
+                    .orElseThrow(() -> new IllegalArgumentException("Reservation not found with id: " + payment.getReservationId()));
+
+            // 예약 상태를 변경 (예약 취소: 2)
+            reservation.setStatus(2);
+        }
 
     }
 

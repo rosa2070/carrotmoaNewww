@@ -22,7 +22,7 @@
     <th>ID</th>
 <!--    <th>Partner ID</th>-->
     <th>User ID</th>
-    <th>Order ID</th>
+    <th>Reservation ID</th>
     <th>Payment Amount</th>
     <th>Payment Date</th>
     <th>impUid</th>
@@ -100,7 +100,7 @@
   // 결제 취소 버튼 클릭 이벤트
   $(document).on('click', '.cancel-btn', async function() {
     const impUid = $(this).data('imp-uid');
-    const response = await fetch(`/api/payment/cancle/${impUid}`, {
+    const response = await fetch(`/api/payment/cancel/${impUid}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json'
