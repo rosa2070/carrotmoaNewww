@@ -35,9 +35,7 @@
 //        String redisUsername = "";
 //        String redisPassword = "";
 //
-//        String kakaoMapsUrl = "";
-//
-//        // 새로운 암호화할 값들
+//        // 새로운 결제 키 추가
 //        String impKey = "";
 //        String impSecret = "";
 //
@@ -56,9 +54,7 @@
 //        String encryptRedisUsername = encryptor.encrypt(redisUsername);
 //        String encryptRedisPassword = encryptor.encrypt(redisPassword);
 //
-//        String encryptKakaoMapsUrl = encryptor.encrypt(kakaoMapsUrl);
-//
-//        // 암호화할 새 값들 암호화
+//        // 결제 키 암호화
 //        String encryptImpKey = encryptor.encrypt(impKey);
 //        String encryptImpSecret = encryptor.encrypt(impSecret);
 //
@@ -77,9 +73,7 @@
 //        System.out.println("Encrypted spring.data.redis.username: " + encryptRedisUsername);
 //        System.out.println("Encrypted spring.data.redis.password: " + encryptRedisPassword);
 //
-//        System.out.println("Encrypted kakao.maps.sdk.url: " + encryptKakaoMapsUrl);
-//
-//        // 새 암호화된 값 출력
+//        // 암호화된 결제 키 출력
 //        System.out.println("Encrypted payment.imp-key: " + encryptImpKey);
 //        System.out.println("Encrypted payment.imp-secret: " + encryptImpSecret);
 //    }
