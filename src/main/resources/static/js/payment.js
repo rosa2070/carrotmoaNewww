@@ -1,3 +1,6 @@
+
+
+
 window.addEventListener("load", function () {
     const start = sessionStorage.getItem("checkin-dates");
     const end = sessionStorage.getItem("checkout-dates");
@@ -40,11 +43,18 @@ function paymentProcess() {
     const userEmail = document.querySelector('input[name="userEmail"]').value; // user 테이블 email
     const username = document.querySelector('input[name="userName"]').value; // user 테이블 name
     const title = sessionStorage.getItem("room-info-title"); // 함수 내에서 title을 가져옴
-    const totalPrice = sessionStorage.getItem("room_info_price");
+    const totalPrice = Number(sessionStorage.getItem("room_info_price"));
     const userId = Number(document.querySelector('input[name="userId"]').value); // 숫자로 변환
-    const accommodationId = Number(sessionStorage.getItem("room-info-title"));
+    // const accommodationId = Number(sessionStorage.getItem("room-info-title"));
     const checkInDate = sessionStorage.getItem("checkin-dates");
     const checkOutDate = sessionStorage.getItem("checkout-dates");
+
+    console.log("Total Price:", totalPrice);
+
+
+    const urlPath = window.location.pathname;
+    const parts = urlPath.split('/');
+    const accommodationId = Number(parts[parts.length - 1]);
 
 
 
@@ -95,6 +105,7 @@ function paymentProcess() {
                             }
                         })
                     });
+
 
                     const result = await response.text(); // String으로 바꾸려면 response.text()t로?
                     // const result = await response.json(); // String으로 바꾸려면 response.text()로?

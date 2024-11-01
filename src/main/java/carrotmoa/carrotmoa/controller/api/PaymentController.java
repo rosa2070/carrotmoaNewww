@@ -1,6 +1,7 @@
 package carrotmoa.carrotmoa.controller.api;
 
 import carrotmoa.carrotmoa.entity.Payment;
+import carrotmoa.carrotmoa.model.request.PaymentAndReservationRequest;
 import carrotmoa.carrotmoa.model.request.PaymentRequest;
 import carrotmoa.carrotmoa.model.response.ErrorResponse;
 import carrotmoa.carrotmoa.model.response.SuccessResponse;
@@ -33,11 +34,22 @@ public class PaymentController {
 //                    .body(new ErrorResponse("Failed to process payment.", HttpStatus.INTERNAL_SERVER_ERROR.value()));        }
 //    }
 
+//    @PostMapping("/portone")
+//    public ResponseEntity<String> savePortone(@RequestBody PaymentRequest paymentRequest) {
+//        try {
+//            paymentService.savePayment(paymentRequest.toPaymentEntity());
+//            return ResponseEntity.ok("Payment processed successfully.");
+//        } catch (Exception e) {
+//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to process payment.");
+//        }
+//    }
+
     @PostMapping("/portone")
-    public ResponseEntity<String> savePortone(@RequestBody PaymentRequest paymentRequest) {
+    public ResponseEntity<String> savePortone(@RequestBody PaymentAndReservationRequest paymentAndReservationRequest) {
         try {
-            paymentService.savePayment(paymentRequest.toPaymentEntity());
-            return ResponseEntity.ok("Payment processed successfully.");
+            // 결제 및 예약 정보 처리
+            paymentService.processPaymentAndReservation(paymentAndReservationRequest.getPaymentRequest(), paymentAndReservationRequest.getReservationRequest());
+            return ResponseEntity.ok("Payment processed successfully");
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to process payment.");
         }

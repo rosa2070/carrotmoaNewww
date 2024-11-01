@@ -1,7 +1,11 @@
 package carrotmoa.carrotmoa.service;
 
 import carrotmoa.carrotmoa.entity.Payment;
+import carrotmoa.carrotmoa.entity.Reservation;
+import carrotmoa.carrotmoa.model.request.PaymentRequest;
+import carrotmoa.carrotmoa.model.request.ReservationRequest;
 import carrotmoa.carrotmoa.repository.PaymentRepository;
+import carrotmoa.carrotmoa.repository.ReservationRepository;
 import carrotmoa.carrotmoa.util.PaymentClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,11 +18,44 @@ public class PaymentService {
 
     private final PaymentRepository paymentRepository;
     private final PaymentClient paymentClient;
+    private final ReservationRepository reservationRepository;
 
     @Autowired
-    public PaymentService(PaymentRepository paymentRepository, PaymentClient paymentClient) {
+    public PaymentService(PaymentRepository paymentRepository, PaymentClient paymentClient, ReservationRepository reservationRepository) {
         this.paymentRepository = paymentRepository;
         this.paymentClient = paymentClient;
+        this.reservationRepository = reservationRepository;
+    }
+
+    @Transactional
+    public void processPaymentAndReservation(PaymentRequest paymentRequest, ReservationRequest reservationRequest) {
+        // 결제 정보 저장
+        Payment payment = savePayment(paymentRequest);
+
+        // 상태가 "paid"인 경우에만 예약 저장
+        if ("paid".equals(payment.getStatus())) {
+            Reservation reservation = saveReservation(reservationRequest);
+            payment.setReservationId(reservation.getId());
+            paymentRepository.save(payment);
+        }
+    }
+
+    public Payment savePayment(PaymentRequest paymentRequest) {
+        Payment payment = paymentRequest.toPaymentEntity();
+        return paymentRepository.save(payment);
+    }
+
+    public Reservation saveReservation(ReservationRequest reservationRequest) {
+        Reservation reservation = Reservation.builder()
+                .accommodationId(reservationRequest.getAccommodationId())
+                .userId(reservationRequest.getUserId())
+                .checkInDate(reservationRequest.getCheckInDate())
+                .checkOutDate(reservationRequest.getCheckOutDate())
+                .totalPrice(reservationRequest.getTotalPrice())
+                .status(reservationRequest.getStatus())
+                .build();
+
+        return reservationRepository.save(reservation);
     }
 
     /**
@@ -37,10 +74,10 @@ public class PaymentService {
      * @return 저장된 Payment 엔티티
      */
 
-    @Transactional
-    public Payment savePayment(Payment payment) {
-        return paymentRepository.save(payment);
-    }
+//    @Transactional
+//    public Payment savePayment(Payment payment) {
+//        return paymentRepository.save(payment);
+//    }
 
     /**
      * 결제 내역 삭제
