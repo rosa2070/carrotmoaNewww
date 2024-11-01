@@ -1,6 +1,6 @@
 package carrotmoa.carrotmoa.controller.api;
 
-import carrotmoa.carrotmoa.model.response.AccommodationImageListResponse;
+import carrotmoa.carrotmoa.model.response.AccommodationImageResponse;
 import carrotmoa.carrotmoa.model.response.BookingListResponse;
 import carrotmoa.carrotmoa.service.ReservationService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,15 +18,18 @@ public class GetBookingListController {
     ReservationService reservationService;
 
 //    @GetMapping("/{id}") // postman test
-//    public List<AccommodationImageListResponse> getList(@PathVariable("id") Long id) {
-//        List<AccommodationImageListResponse> images = reservationService.getAccommodationImageList(id);
-//        return images;
+//    public List<BookingListResponse> getList(@PathVariable("id") Long id) {
+//        List<BookingListResponse> bookings = reservationService.getBookingList(id);;
+//        return bookings;
 //    }
 
     @GetMapping("/{id}")
     public String getBookingList(@PathVariable("id") Long id, Model model) {
-        List<BookingListResponse> bookings = reservationService.getBookingList(id);
+        List<BookingListResponse> bookings = reservationService.getBookingList(id); // userId
+//        List<AccommodationImageResponse> image  = reservationService.getAccommodationImageByUserId(id);
+
         model.addAttribute("bookings", bookings);
+//        model.addAttribute("image", image);
         return "guest/bookingList";
     }
 }
