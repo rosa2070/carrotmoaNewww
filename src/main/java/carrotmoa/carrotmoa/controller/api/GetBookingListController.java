@@ -1,5 +1,6 @@
 package carrotmoa.carrotmoa.controller.api;
 
+import carrotmoa.carrotmoa.config.security.CustomUserDetails;
 import carrotmoa.carrotmoa.model.response.AccommodationImageResponse;
 import carrotmoa.carrotmoa.model.response.BookingListResponse;
 import carrotmoa.carrotmoa.service.ReservationService;
@@ -23,11 +24,17 @@ public class GetBookingListController {
 //        return bookings;
 //    }
 
-    @GetMapping("/{id}")
-    public String getBookingList(@PathVariable("id") Long id, Model model) {
-        List<BookingListResponse> bookings = reservationService.getBookingList(id); // userId
+    @GetMapping
+    public String getBookingList(@ModelAttribute("user") CustomUserDetails user, Model model) {
+        if (user == null) {
+            return "/user/login-page";
+        }
+
+        Long userId = user.getUserProfile().getUserId();
+        List<BookingListResponse> bookings = reservationService.getBookingList(userId); // userId
 //        List<AccommodationImageResponse> image  = reservationService.getAccommodationImageByUserId(id);
 
+        model.addAttribute("user", user);
         model.addAttribute("bookings", bookings);
 //        model.addAttribute("image", image);
         return "guest/bookingList";
