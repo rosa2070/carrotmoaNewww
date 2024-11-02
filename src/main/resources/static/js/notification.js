@@ -53,6 +53,12 @@ document.addEventListener("DOMContentLoaded", async function () {
         clearNotificationsOnLogout();
         clearModifiedNotificationsOnLogout()
     }
+    const allNotificationsDeleted = localStorage.getItem("allNotificationsDeleted") === "true";
+    if (allNotificationsDeleted) {
+        displayNoNotificationsMessage();
+    }
+
+
 });
 
 
@@ -83,13 +89,7 @@ function fetchLoginUserNotifications() {
 function notificationStorageList(notifications) {
     // 알림 목록이 비어있는지 확인
     if (notifications.length === 0) {
-        const noNotificationsMessage = document.createElement("div");
-        noNotificationsMessage.className = "no-notifications-message"; // 스타일을 위한 클래스 추가
-        noNotificationsMessage.innerHTML = `
-                <p>아직 알림이 없어요!</p>
-        `;
-        notificationList.appendChild(noNotificationsMessage); // 알림 목록에 메시지 추가
-        return; // 더 이상 진행하지 않음
+        displayNoNotificationsMessage();
     }
 
 
@@ -234,6 +234,7 @@ function saveNotificationToStorage(notification) {
     notification.createdAt = notification.createdAt.toISOString();
     storedNotifications.unshift(notification); // 새로운 알림을 가장 앞에 추가
     localStorage.setItem('notifications', JSON.stringify(storedNotifications));
+    localStorage.removeItem("allNotificationsDeleted"); // 새 알림이 추가되었으므로 상태 제거
 }
 
 // 로그아웃 시 로컬 스토리지 초기화
@@ -347,15 +348,13 @@ document.addEventListener("DOMContentLoaded", function () {
             notificationEntry.style.display = "none";
             // 알림이 모두 삭제된 경우 "알림이 없습니다" 메시지 추가
             if (!storedNotifications.some(notif => !notif.deleted)) {
-                const noNotificationsMessage = document.createElement("div");
-                noNotificationsMessage.className = "no-notifications-message"; // 스타일을 위한 클래스 추가
-                noNotificationsMessage.innerHTML = `
-                    <p>아직 알림이 없어요!</p>
-                `;
-                notificationList.appendChild(noNotificationsMessage); // 알림 목록에 메시지 추가
+                // 모든 알림이 삭제된 경우
+                localStorage.setItem("allNotificationsDeleted", "true");
+                displayNoNotificationsMessage();
+                 }  else {
+                // 알림이 남아 있는 경우
+                localStorage.removeItem("allNotificationsDeleted");
             }
-
-
         }
 
         // 알림 링크 클릭 처리
@@ -382,3 +381,11 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 });
+
+// "알림이 없습니다" 메시지를 표시하는 함수
+function displayNoNotificationsMessage() {
+    const noNotificationsMessage = document.createElement("div");
+    noNotificationsMessage.className = "no-notifications-message";
+    noNotificationsMessage.innerHTML = `<p>아직 알림이 없어요!</p>`;
+    notificationList.appendChild(noNotificationsMessage);
+}
