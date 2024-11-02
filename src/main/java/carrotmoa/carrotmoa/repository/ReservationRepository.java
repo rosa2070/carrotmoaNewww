@@ -14,22 +14,12 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Repository
 public interface ReservationRepository extends JpaRepository<Reservation, Long> {
-//    @Query("SELECT new carrotmoa.carrotmoa.model.response.BookingListResponse( " +
-//            "r.accommodationId, r.checkInDate, r.checkOutDate, r.status, r.totalPrice, " +
-//            "p.title, a.lotAddress, a.detailAddress, a.floor, u.nickname) " +
-//            "FROM Reservation r " +
-//            "JOIN Accommodation a ON a.id = r.accommodationId " +
-//            "JOIN Post p ON p.userId = r.userId " +
-//            "JOIN UserProfile u ON p.userId = u.userId " +
-//            "WHERE r.userId = :userId")
-//    List<BookingListResponse> findBookingData(@Param("userId") Long userId);
-
     @Query("SELECT r.accommodationId, r.checkInDate, r.checkOutDate, r.status, r.totalPrice, " +
             "p.title, a.lotAddress, a.detailAddress, a.floor, u.nickname, MIN(i.imageUrl) " +
             "FROM Reservation r " +
             "JOIN Accommodation a ON a.id = r.accommodationId " +
+            "JOIN Post p ON a.postId = p.id " +
             "JOIN AccommodationImage i ON a.id = i.accommodationId " +
-            "JOIN Post p ON p.userId = r.userId " +
             "JOIN UserProfile u ON p.userId = u.userId " +
             "WHERE r.userId = :userId " +
             "GROUP BY r.accommodationId, r.checkInDate, r.checkOutDate, r.status, r.totalPrice, " +
@@ -52,11 +42,17 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
             "WHERE r.accommodationId = :accommodationId")
     List<FullCalendarResponse> findBookedDates(@Param("accommodationId") Long accommodationId);
 
-    @Modifying
+    @Modifying // update문에는 @Modigying 필요
     @Transactional
     @Query("UPDATE Reservation r " +
             "SET r.status = 2 " +
             "WHERE r.id = :reservationId")
     void cancelBooking(@Param("reservationId") Long reservationId);
 
+    @Modifying
+    @Transactional
+    @Query("UPDATE Reservation r " +
+            "SET r.status = 3 " +
+            "WHERE r.status = 1 AND r.checkOutDate < CURRENT_DATE ")
+    void updateBookingStatusIfTimePast();
 }
