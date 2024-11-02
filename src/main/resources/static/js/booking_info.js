@@ -8,6 +8,7 @@ document.addEventListener('click', function (event) {
     const nightsCountText = nightsCountElement.textContent.trim(); // 공백 제거
     const night = parseFloat(nightsCountText);
     const totalPrice = price * night;
+
     console.log(price);
     console.log(night);
     console.log(totalPrice);

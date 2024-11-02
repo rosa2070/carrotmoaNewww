@@ -16,3 +16,5 @@
 //     document.getElementById("room_info_price").textContent = `총 가격: ${totalPrice.toLocaleString()} 원`;
 //
 // })
+
+// redis로 옮길 예정
