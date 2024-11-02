@@ -25,9 +25,62 @@ async function cancelBooking(impUid) {
             throw new Error('결제 취소에 실패했습니다.');
         }
 
-        const result = await response.text();
-        alert('결제가 취소되었습니다.');
-        // UI 업데이트 등의 추가 작업 수행
+        const result = await response.text(); // 문자열로 응답 받기
+        alert(result); // 성공 메시지 알림
+
+
+        // UI 업데이트: 완료된 계약 항목 제거
+        const contractItem = cancelButton.closest('.contract-item'); // 취소 버튼의 부모 요소 찾기
+        if (contractItem) {
+            contractItem.remove(); // 해당 요소 제거
+        }
+
+        // UI 업데이트: 취소된 계약 항목 추가
+        // const canceledContractsSection = document.querySelector('h4 + div'); // "취소된 계약" 섹션 선택
+        //
+        // const newCanceledItem = document.createElement('div');
+        // newCanceledItem.classList.add('contract-item');
+        // newCanceledItem.setAttribute('th:each', 'booking : ${bookings}');
+        // newCanceledItem.setAttribute('th:if', "booking.status == 2");
+        // newCanceledItem.innerHTML = `
+        //     <div class="contract_header">
+        //         <div class="flex contract_info" style="cursor:pointer;" th:onclick="@{/guest/room/detail/{id}(id=${canceledBooking.accommodationId})}">
+        //             <a th:href="@{/room/detail/{id}(id=${canceledBooking.accommodationId})}" style="text-decoration: none; color: inherit;">
+        //                 <span class="badge gray">계약 취소</span>
+        //                 <p class="room_title" th:text="${canceledBooking.title}">${canceledBooking.title}</p>
+        //             </a>
+        //         </div>
+        //     </div>
+        //     <div class="contract_cont" style="align-items:center">
+        //         <dl class="room_item" style="cursor:pointer;" th:onclick="@{/guest/room/detail/{id}(id=${canceledBooking.accommodationId})}">
+        //             <dt>
+        //                 <img th:src="${canceledBooking.imageUrl}" src="${canceledBooking.imageUrl}" alt="Room Image">
+        //             </dt>
+        //             <dd>
+        //                 <div class="room_address_ellipsis" th:text="${canceledBooking.lotAddress} + ${canceledBooking.detailAddress} + ${canceledBooking.floor}">${canceledBooking.lotAddress} ${canceledBooking.detailAddress} ${canceledBooking.floor}</div>
+        //                 <p class="room_period" th:text="${canceledBooking.checkInDate} + '~' + ${canceledBooking.checkOutDate}">${canceledBooking.checkInDate} ~ ${canceledBooking.checkOutDate}</p>
+        //             </dd>
+        //         </dl>
+        //         <strong class="room.pay" th:text="${canceledBooking.totalPrice}">${canceledBooking.totalPrice}</strong>
+        //         <button type="button" class="btn orange" btn-open-review-popup>재예약</button>
+        //     </div>
+        // `;
+        //
+        // canceledContractsSection.appendChild(newCanceledItem); // 취소된 계약 섹션에 새 항목 추가
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     } catch (error) {
         console.error(error);
         alert('오류가 발생했습니다: ' + error.message);
