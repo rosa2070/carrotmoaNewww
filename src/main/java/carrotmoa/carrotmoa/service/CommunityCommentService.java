@@ -31,16 +31,21 @@ public class CommunityCommentService {
 
     @Transactional
     public Long createCommunityComment(Long communityPostId, SaveCommunityCommentRequest request) {
+        // 1. 게시글 조회
         CommunityPost post = communityPostRepository.findById(communityPostId).orElseThrow(() -> new NoSuchElementException("해당 게시글이 존재하지 않습니다."));
+        // 2. 댓글 엔티티 저장
         request.setCommunityPostId(communityPostId);
         CommunityComment commentEntity = communityCommentRepository.save(request.toCommunityCommentEntity());
 //         SSE 알림 보내기.
-//         게시글 작성자의 아이디 받아오기.
+        // 3. 게시글 작성자의 ID 받아오기
         Long receiverId = postRepository.findUserIdById(post.getPostId());
-        String notificationUrl = "/community/posts/" + communityPostId;
-        SaveNotificationRequest saveNotificationRequest = new SaveNotificationRequest(NotificationType.COMMENT, receiverId, request.getUserId(), request.getContent(), notificationUrl);
-        UserProfile senderUser = userProfileRepository.findNicknameByUserId(commentEntity.getUserId());
-        notificationService.sendNotification(receiverId, saveNotificationRequest, senderUser.getNickname(), senderUser.getPicUrl());
+
+        if (!request.getUserId().equals(receiverId)) {
+            String notificationUrl = "/community/posts/" + communityPostId;
+            SaveNotificationRequest saveNotificationRequest = new SaveNotificationRequest(NotificationType.COMMENT, receiverId, request.getUserId(), request.getContent(), notificationUrl);
+            UserProfile senderUser = userProfileRepository.findNicknameByUserId(commentEntity.getUserId());
+            notificationService.sendNotification(receiverId, saveNotificationRequest, senderUser.getNickname(), senderUser.getPicUrl());
+        }
         return commentEntity.getId();
     }
 
