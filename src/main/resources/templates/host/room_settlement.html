@@ -55,8 +55,8 @@
                     </div>
 
                 <div class="calculate_count">
-                    <span>총 <em class="font_purple">0</em>건</span>
-                    <strong>0원</strong>
+                    <span>총 <em class="font_purple" id="total_count">0</em>건</span>
+                    <strong id="total_amount">0원</strong>
                 </div>
                 <div class="border_radius">
                     <table class="tbl_style_02">
@@ -79,21 +79,22 @@
                             <!--                                <th scope="col"></th>-->
                         </tr>
                         </thead>
-                        <tbody>
-                        <tr>
-                            <td>2024-10-29</td>
-                            <td>아름다운 방</td>
-                            <td>홍길동</td>
-                            <td>2024-10-01</td>
-                            <td>500,000원</td>
-                        </tr>
-                        <tr>
-                            <td>2024-10-30</td>
-                            <td>바다 전망 방</td>
-                            <td>김유신</td>
-                            <td>2024-10-05</td>
-                            <td>600,000원</td>
-                        </tr>
+                        <tbody id="settlement_table_body">
+                        <!-- 데이터가 여기에 추가됩니다 -->
+                        <!--                        <tr>-->
+<!--                            <td>2024-10-29</td>-->
+<!--                            <td>아름다운 방</td>-->
+<!--                            <td>홍길동</td>-->
+<!--                            <td>2024-10-01</td>-->
+<!--                            <td>500,000원</td>-->
+<!--                        </tr>-->
+<!--                        <tr>-->
+<!--                            <td>2024-10-30</td>-->
+<!--                            <td>바다 전망 방</td>-->
+<!--                            <td>김유신</td>-->
+<!--                            <td>2024-10-05</td>-->
+<!--                            <td>600,000원</td>-->
+<!--                        </tr>-->
                         <!-- 더 많은 데이터 행 추가 가능 -->
                         </tbody>
                     </table>
@@ -106,14 +107,7 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-    <script>
-        flatpickr("#s_start_date", {
-            dateFormat: "Y-m-d", // 원하는 형식으로 설정 가능
-        });
-        flatpickr("#s_end_date", {
-            dateFormat: "Y-m-d", // 원하는 형식으로 설정 가능
-        });
-    </script>
+    <script src="/js/room-settlement.js"></script>
 </main>
 
 

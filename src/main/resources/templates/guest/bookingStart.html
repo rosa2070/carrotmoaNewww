@@ -17,9 +17,9 @@
 <main layout:fragment="main">
   <section class="content">
     <!--  로그인한  user Id -->
-    <input type="text" name="userId" th:value="${user.userProfile.userId}">
-    <input type="text" name="userEmail" th:value="${user.username}"> <!-- user email -->
-    <input type="text" name="userName" th:value="${user.userProfile.name}">
+    <input type="hidden" name="userId" th:value="${user.userProfile.userId}">
+    <input type="hidden" name="userEmail" th:value="${user.username}"> <!-- user email -->
+    <input type="hidden" name="userName" th:value="${user.userProfile.name}">
 
     <p class="title_left">계약 시작하기</p>
     <div class="contract_detail" style="min-height:800px;">

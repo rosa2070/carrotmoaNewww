@@ -4,8 +4,11 @@ import carrotmoa.carrotmoa.model.request.SaveAccommodationRequest;
 import carrotmoa.carrotmoa.model.request.UpdateAccommodationRequest;
 import carrotmoa.carrotmoa.model.response.AccommodationDetailResponse;
 import carrotmoa.carrotmoa.model.response.HostManagedAccommodationResponse;
+import carrotmoa.carrotmoa.model.response.PaymentDetailResponse;
 import carrotmoa.carrotmoa.service.AccommodationHostService;
 import jakarta.validation.Valid;
+
+import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -26,16 +29,20 @@ public class HostRoomApiController {
     // 기본 생성 공간 수 (방, 화장실, 거실, 주방)
     private static final int DEFAULT_SPACE_COUNT = 4;
 
-    @Autowired
-    AccommodationHostService accommodationHostService;
+    private final AccommodationHostService accommodationHostService;
 
+
+    public HostRoomApiController(AccommodationHostService accommodationHostService) {
+        this.accommodationHostService = accommodationHostService;
+
+    }
     // 방 등록 폼 제출 후 테이블에 값 들어옴
     @PostMapping("/register")
     public ResponseEntity<?> registerAccommodation(
         @Valid @ModelAttribute SaveAccommodationRequest saveAccommodationRequest,
         BindingResult bindingResult) {
 
-        // Service로 옮겨야??
+        // Service로 옮겨야?? ㄴㄴ service전 체크하는거라
         // 유효성 검사 실패 시 처리
         if (bindingResult.hasErrors()) {
             List<String> errorMessages = bindingResult.getFieldErrors()
@@ -133,14 +140,17 @@ public class HostRoomApiController {
         }
     }
 
-
-//    @PostMapping("/test-validation")
-//    public ResponseEntity<?> testValidation(@Valid @RequestBody CreateAccommodationRequest createAccommodationRequest, BindingResult bindingResult) {
-//        if (bindingResult.hasErrors()) {
-//            return ResponseEntity.badRequest().body(bindingResult.getFieldErrors());
-//        }
-//        return ResponseEntity.ok("Validation passed");
+//    @GetMapping("/settlement")
+//    public ResponseEntity<List<PaymentDetailResponse>> getSettlementList(
+//            @RequestParam String title,
+//            @RequestParam LocalDate startDate,
+//            @RequestParam LocalDate endDate) {
+//
+//        List<PaymentDetailResponse> settlements =
+//
+//
 //    }
+
 
 
 }
