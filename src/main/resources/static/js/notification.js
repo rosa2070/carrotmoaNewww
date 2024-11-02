@@ -292,17 +292,18 @@ function formatElapsedTime(createdAt) {
 }
 
 document.addEventListener("DOMContentLoaded", function () {
+    if (notificationIcon) {
+        notificationIcon.addEventListener("click", function () {
+            notificationModal.style.display = "block"; // 모달 보이기
+            notificationIcon.querySelector("img").src = "/images/notification.svg"; // 기본 아이콘으로 복원
+        });
+    }
 
-    notificationIcon.addEventListener("click", function () {
-        notificationPage = 0;
-        hasNext = true;
-        notificationModal.style.display = "block"; // 모달 보이기
-        notificationIcon.querySelector("img").src = "/images/notification.svg"; // 기본 아이콘으로 복원
-    });
-
-    notificationCloseModal.addEventListener("click", function () {
-        notificationModal.style.display = "none"; // 모달 숨기기
-    });
+    if (notificationCloseModal) {
+        notificationCloseModal.addEventListener("click", function () {
+            notificationModal.style.display = "none"; // 모달 숨기기
+        });
+    }
 });
 
 document.addEventListener("DOMContentLoaded", function () {
