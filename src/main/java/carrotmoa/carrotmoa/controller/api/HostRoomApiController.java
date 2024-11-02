@@ -140,17 +140,4 @@ public class HostRoomApiController {
         }
     }
 
-//    @GetMapping("/settlement")
-//    public ResponseEntity<List<PaymentDetailResponse>> getSettlementList(
-//            @RequestParam String title,
-//            @RequestParam LocalDate startDate,
-//            @RequestParam LocalDate endDate) {
-//
-//        List<PaymentDetailResponse> settlements =
-//
-//
-//    }
-
-
-
 }

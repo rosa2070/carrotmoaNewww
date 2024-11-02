@@ -1,0 +1,37 @@
+package carrotmoa.carrotmoa.controller.api;
+
+import carrotmoa.carrotmoa.model.response.PaymentDetailResponse;
+import carrotmoa.carrotmoa.service.SettlementService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.time.LocalDate;
+import java.util.List;
+
+@RestController
+@RequestMapping("/api/settlement")
+public class HostSettlementController {
+    private final SettlementService settlementService;
+
+    public HostSettlementController(SettlementService settlementService) {
+        this.settlementService = settlementService;
+    }
+
+    @GetMapping
+    public ResponseEntity<List<PaymentDetailResponse>> getSettlement(
+            @RequestParam("title") String title,
+            @RequestParam("startDate") LocalDate startDate,
+            @RequestParam("endDate") LocalDate endDate) {
+
+        List<PaymentDetailResponse> settlements = settlementService.getSettlementList(title, startDate, endDate);
+        return ResponseEntity.ok(settlements);
+
+    }
+
+
+
+}

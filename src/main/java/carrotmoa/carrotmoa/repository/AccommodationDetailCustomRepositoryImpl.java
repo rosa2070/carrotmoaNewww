@@ -27,6 +27,7 @@ public class AccommodationDetailCustomRepositoryImpl implements AccommodationDet
         this.jpaQueryFactory = jpaQueryFactory;
     }
 
+    @Override
     public AccommodationDetailResponse getAccommodationDetailById(Long id) {
         AccommodationDetailResponse detailResponse = jpaQueryFactory
             .select(Projections.fields(AccommodationDetailResponse.class,
@@ -75,6 +76,7 @@ public class AccommodationDetailCustomRepositoryImpl implements AccommodationDet
         return detailResponse;
     }
 
+    @Override
     public List<HostManagedAccommodationResponse> findAccommodationsByUserId(Long userId) {
         // 숙소 목록을 가져오기 위한 쿼리
         List<HostManagedAccommodationResponse> hostManagedAccommodations = jpaQueryFactory

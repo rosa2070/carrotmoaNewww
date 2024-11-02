@@ -19,6 +19,7 @@ public class PaymentDetailCustomRepositoryImpl implements PaymentDetailCustomRep
         this.jpaQueryFactory = jpaQueryFactory;
     }
 
+    @Override
     public List<PaymentDetailResponse> getSettlementList(String title, LocalDate startDate, LocalDate endDate) {
         QPayment payment = QPayment.payment;
         QReservation reservation = QReservation.reservation;
@@ -28,7 +29,7 @@ public class PaymentDetailCustomRepositoryImpl implements PaymentDetailCustomRep
 
         return jpaQueryFactory
                 .select(Projections.fields(PaymentDetailResponse.class,
-                        Expressions.dateTemplate(LocalDate.class, "DATE_ADD({0}, INTERVAL 1 DAY)", reservation.checkInDate).as("settlementDate"),
+                        reservation.checkInDate.as("settlementDate"),  // 계산 없이 바로 사용
                         post.title,
                         user.name,
                         reservation.checkInDate,
@@ -40,7 +41,8 @@ public class PaymentDetailCustomRepositoryImpl implements PaymentDetailCustomRep
                 .join(accommodation).on(reservation.accommodationId.eq(accommodation.id)) // 숙소 조인
                 .join(post).on(accommodation.postId.eq(post.id)) // 게시물 조인
                 .where(post.title.eq(title)
-                        .and(Expressions.dateTemplate(LocalDate.class, "DATE_ADD({0}, INTERVAL 1 DAY)", reservation.checkInDate).between(startDate, endDate)) // 정산 날짜 필터링
+                        .and(reservation.checkInDate.between(startDate, endDate))  // 날짜 필터링
+
                         .and(post.isDeleted.eq(false))
                         .and(payment.status.eq("paid")))
                 .fetch(); // 결과를 리스트로 반환

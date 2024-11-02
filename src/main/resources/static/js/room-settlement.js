@@ -10,7 +10,7 @@ document.getElementById('btn_search').addEventListener('click', function () {
     const endDate = document.getElementById('s_end_date').value;
     const title = document.getElementById('opt_room_id').value; // 방 이름 선택(나중에 동적구현)
 
-    fetch(`/api/host/room/settlement?title=${title}&startDate=${startDate}&endDate=${endDate}`)
+    fetch(`/api/settlement?title=${title}&startDate=${startDate}&endDate=${endDate}`)
         .then(response => {
             if (!response.ok) {
                 throw new Error("네트워크 응답이 올바르지 않습니다.");
