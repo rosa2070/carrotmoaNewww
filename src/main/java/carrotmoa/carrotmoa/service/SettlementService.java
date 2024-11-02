@@ -2,7 +2,6 @@ package carrotmoa.carrotmoa.service;
 
 import carrotmoa.carrotmoa.model.response.PaymentDetailResponse;
 import carrotmoa.carrotmoa.repository.PaymentDetailCustomRepository;
-import carrotmoa.carrotmoa.repository.PaymentDetailRepository;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
