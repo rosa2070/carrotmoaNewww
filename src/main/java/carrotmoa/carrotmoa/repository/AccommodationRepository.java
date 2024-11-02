@@ -41,18 +41,18 @@ public interface AccommodationRepository extends JpaRepository<Accommodation, Lo
 //            "a.detailAddress, a.floor, a.totalFloor, a.price, a.detail, a.transportationInfo", nativeQuery = true)
 //    List<Object[]> findAccommodationDetailsById(@Param("accommodationId") Long accommodationId);
 
-    @Query("SELECT a.id, a.lotAddress, a.detailAddress, MIN(i.imageUrl) AS imageUrl, p.title " +
-        "FROM Accommodation a " +
-        "JOIN Post p ON p.id = a.postId " +
-        "LEFT JOIN AccommodationImage i ON a.id = i.accommodationId " +
-        "WHERE a.id = :id")
-    Object[] getReservation(@Param("id") Long id);
+//    @Query("SELECT a.id, a.lotAddress, a.detailAddress, MIN(i.imageUrl) AS imageUrl, p.title " +
+//        "FROM Accommodation a " +
+//        "JOIN Post p ON p.id = a.postId " +
+//        "LEFT JOIN AccommodationImage i ON a.id = i.accommodationId " +
+//        "WHERE a.id = :id")
+//    Object[] getReservation(@Param("id") Long id);
 
-    @Query("SELECT p.title, a.lotAddress, a.detailAddress, a.floor, up.nickname " +
-            "FROM Accommodation a " +
-            "JOIN Post p ON p.id = a.postId " +
-            "JOIN UserProfile up ON up.userId = p.userId " +
-            "JOIN User u ON u.id = p.userId " +
-            "WHERE a.id = :id")
-    Object[] findContractInfo(@Param("id") Long id);
+//    @Query("SELECT p.title, a.lotAddress, a.detailAddress, a.floor, up.nickname " +
+//            "FROM Accommodation a " +
+//            "JOIN Post p ON p.id = a.postId " +
+//            "JOIN UserProfile up ON up.userId = p.userId " +
+//            "JOIN User u ON u.id = p.userId " +
+//            "WHERE a.id = :id")
+//    Object[] findContractInfo(@Param("id") Long id);
 }

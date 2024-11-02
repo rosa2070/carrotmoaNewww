@@ -123,14 +123,13 @@
                     </p>
                     <ul class="reivew_list" th:each="review : ${reviews}">
                         <li>
-                            <div class="review_info">
-                                <div class="bg_score">
-                                    <span class="score" style="width: 80%"></span>
-                                </div>
+                            <div class="review_info" th:each="review : ${review}" th:if="${review.id} == id">
+<!--                                <div class="bg_score">-->
+<!--                                    <span class="score" style="width: 80%"></span>-->
+<!--                                </div>-->
 <!--                                <span class="review-rating" data-rating="${review.rating}"></span>-->
                                 <span class="review_item" th:text="${review.nickname}">최이재</span>
-                                <span class="review_item" th:text="${review.updatedAt}">
-                                    ::before
+                                <span class="review_item" th:text="${review.checkOutDate}">
                                 </span>
                             </div>
                             <div class="review_text" th:text="${review.comment}">집이 너무 좋아요;)</div>
