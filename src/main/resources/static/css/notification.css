@@ -5,13 +5,14 @@
     z-index: 1;
     right: 80px; /* 오른쪽 정렬 */
     top: 60px; /* 상단 여백 */
-    width: 400px; /* 가로 길이 */
-    max-height: 80%; /* 최대 세로 길이 */
-    overflow-y: auto; /* 세로 스크롤 가능 */
+    width: 450px; /* 가로 길이 */
+    max-height: 70vh; /* 최대 세로 길이 */
+    overflow-y: auto;
     background-color: #fff; /* 배경색 */
     border-radius: 8px; /* 모서리 둥글게 */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* 그림자 효과 */
     padding: 20px; /* 내부 여백 */
+    box-sizing: border-box; /* 패딩 포함 */
 }
 
 .notification-modal div {
@@ -116,6 +117,7 @@
     display: flex; /* 플렉스 박스 사용 */
     align-items: flex-start; /* 세로 정렬을 시작으로 설정 */
     border-bottom: 1px solid #ccc;
+    position: relative;
 }
 
 
@@ -135,38 +137,57 @@
     transition: opacity 0.5s ease, transform 0.5s ease; /* 부드러운 애니메이션 */
 }
 
-.notification-entry .gnb-tool a {
-    width: 100%;
-    height: 100%;
-    padding: 0;
-    margin: 0;
+.notification-entry .notification-url {
+    justify-content: space-between;
+    width: 400px;
+    height: 100px;
+    padding-top: 0;
+    padding-bottom: 0;
+    padding-right: 5px;
     border: none;
-}
 
-.notification-entry .notification-url {
-    justify-content: space-between;
-    width: 400px;
-    height: 100px;
-    padding-top: 0;
-    padding-bottom: 0;
-
-}
-
-.notification-entry .notification-url {
-    justify-content: space-between;
-    width: 400px;
-    height: 100px;
-    padding-top: 0;
-    padding-bottom: 0;
 }
 
 .notification-entry .notification-url.read {
     background-color: #F6F7F9; /* 읽음 상태의 배경색 */
 }
 
+.notification-delete-container {
+    align-self: flex-start; /* 상단으로 정렬 */
+    padding-top: 30px;
+
+}
+
+.notification-delete-icon {
+    cursor: pointer;
+}
 
 
+.notification-delete-button {
+    display: none;
+    position: absolute; /* 삭제 버튼을 절대 위치로 설정 */
+    top: 40%;
+    right: 0;
+    margin-top: 5px;
+    background-color: rgba(0, 0, 0, 0.8); /* 반투명 배경 */
+    color: white; /* 글자 색상 */
+    padding: 5px 10px; /* 패딩 추가 */
+    border: none; /* 기본 버튼 스타일 제거 */
+    border-radius: 5px; /* 모서리 둥글게 */
+    font-size: 12px; /* 글자 크기 조정 */
+    cursor: pointer; /* 클릭 가능하게 표시 */
+    transition: background-color 0.3s; /* 배경색 변화 애니메이션 추가 */
+}
+.notification-delete-button:hover {
+    background-color: rgba(0, 0, 0, 0.6); /* 호버시 배경색 변화 */
+}
 
+.notification-modal .no-notifications-message {
+    text-align: center;
+    padding: 20px;
+    font-size: 16px;
+    color: #555;
+}
 
 
 

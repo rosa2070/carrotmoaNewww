@@ -3,7 +3,6 @@ package carrotmoa.carrotmoa.repository;
 import carrotmoa.carrotmoa.entity.Notification;
 import carrotmoa.carrotmoa.model.response.NotificationResponse;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Slice;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -34,7 +33,7 @@ public interface NotificationRepository extends JpaRepository<Notification, Long
             "JOIN UserProfile up ON n.senderId = up.userId " +
             "WHERE n.receiverId = :receiverId AND n.isDeleted = false " +
             "ORDER BY n.createdAt DESC")
-    Slice<NotificationResponse> findNotificationsByReceiverId(@Param("receiverId") Long receiverId, Pageable pageable);
+    List<NotificationResponse> findNotificationsByReceiverId(@Param("receiverId") Long receiverId);
 
 
 }

@@ -36,5 +36,10 @@ public class Notification extends BaseEntity {
     @Column(name = "is_deleted")
     private boolean isDeleted;
 
+    // 업데이트 메서드 추가
+    public void updateStatus(boolean isRead, boolean isDeleted) {
+        this.isRead = isRead;
+        this.isDeleted = isDeleted;
+    }
 
 }

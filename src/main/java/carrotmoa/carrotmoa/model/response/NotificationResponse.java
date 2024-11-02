@@ -16,21 +16,25 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 public class NotificationResponse {
+    private Long id;
     private String title; // notification_type 테이블의 title -> join
     private String userName;
     private String picUrl;
     private String message; //
     private String url;
     private boolean isRead;
-    private String elapsedTime ;
+    private boolean isDeleted;
+    private LocalDateTime createdAt ;
 
     public NotificationResponse(Notification notification, NotificationType notificationType, UserProfile userProfile) {
+        this.id = notification.getId();
         this.title = notificationType.getTitle();
         this.userName = userProfile.getNickname();
         this.picUrl = userProfile.getPicUrl();
         this.message = notification.getMessage();
         this.url = notification.getUrl();
         this.isRead = notification.isRead();
-        this.elapsedTime  = DateTimeUtil.formatElapsedTime(notification.getCreatedAt());
+        this.isDeleted = notification.isDeleted();
+        this.createdAt  = notification.getCreatedAt();
     }
 }

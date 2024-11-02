@@ -9,7 +9,6 @@ import lombok.ToString;
 @Getter
 @Setter
 @NoArgsConstructor
-
 @ToString
 public class SaveCommunityCommentRequest {
     private Long id;

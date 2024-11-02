@@ -38,7 +38,6 @@ public class CommunityCommentService {
 //         게시글 작성자의 아이디 받아오기.
         Long receiverId = postRepository.findUserIdById(post.getPostId());
         String notificationUrl = "/community/posts/" + communityPostId;
-
         SaveNotificationRequest saveNotificationRequest = new SaveNotificationRequest(NotificationType.COMMENT, receiverId, request.getUserId(), request.getContent(), notificationUrl);
         UserProfile senderUser = userProfileRepository.findNicknameByUserId(commentEntity.getUserId());
         notificationService.sendNotification(receiverId, saveNotificationRequest, senderUser.getNickname(), senderUser.getPicUrl());

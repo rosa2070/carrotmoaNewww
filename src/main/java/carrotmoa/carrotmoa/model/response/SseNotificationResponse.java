@@ -10,12 +10,13 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @ToString
 public class SseNotificationResponse {
+    private Long id;
     private String title;
-    private String senderNickname;
+    private String userName;
     private String picUrl;
     private String message;
     private String url;
     private boolean isRead;
     private boolean isDeleted;
-    private  String elapsedTime;
+    private LocalDateTime createdAt;
 }
