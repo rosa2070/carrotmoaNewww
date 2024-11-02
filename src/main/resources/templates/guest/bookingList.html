@@ -83,29 +83,6 @@
                     <button type="button" class="btn orange" btn-open-review-popup>재예약</button>
                 </div>
             </div>
-<!--            <h4>취소된 계약</h4>-->
-<!--            <div class="contract-item" th:each="booking : ${bookings}" th:if="${booking.status == 2}">-->
-<!--                <div class="contract_header">-->
-<!--                    <div class="flex contract_info" style="cursor:pointer;" th:onclick="@{/guest/room/detail/{id}(id=${booking.accommodationId})}">-->
-<!--                        <a th:href="@{/room/detail/{id}(id=${booking.accommodationId})}" style="text-decoration: none; color: inherit;">-->
-<!--                            <span class="badge orange">계약 취소</span>-->
-<!--                            <p class="room_title" th:text="${booking.title}">애버랜드</p>-->
-<!--                        </a>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--                <div class="contract_cont" style="align-items:center">-->
-<!--                    <dl class="room_item" style="cursor:pointer;" th:onclick="@{/guest/room/detail/{id}(id=${booking.accommodationId})}">-->
-<!--                            <dt>-->
-<!--                                <img th:src="${booking.imageUrl}">-->
-<!--                            </dt>-->
-<!--                        <dd>-->
-<!--                            <div class="room_address_ellipsis" th:text="${booking.lotAddress} + ${booking.detailAddress} + ${booking.floor}">용인시 처인구 애버랜드로</div>-->
-<!--                            <p class="room_period" th:text="${booking.checkInDate} + '~' + ${booking.checkOutDate}"></p>-->
-<!--                        </dd>-->
-<!--                    </dl>-->
-<!--                    <strong class="room.pay" th:text="${booking.totalPrice}"></strong>-->
-<!--                </div>-->
-<!--            </div>-->
         </div>
     </section>
     <script th:src="@{/js/guest_bookingList.js}"></script>
