@@ -16,8 +16,8 @@ public class SettlementService {
         this.paymentDetailCustomRepository = paymentDetailCustomRepository;
     }
 
-    public List<PaymentDetailResponse> getSettlementList(String title, LocalDate startDate, LocalDate endDate) {
-        return paymentDetailCustomRepository.getSettlementList(title, startDate, endDate);
+    public List<PaymentDetailResponse> getSettlementList(Long hostId, Long accommodationId, LocalDate startDate, LocalDate endDate) {
+        return paymentDetailCustomRepository.getSettlementList(hostId, accommodationId, startDate, endDate);
     }
 
 

@@ -1,3 +1,12 @@
+// Flatpickr 초기화
+flatpickr("#s_start_date", {
+    dateFormat: "Y-m-d", // 원하는 형식으로 설정 가능
+});
+flatpickr("#s_end_date", {
+    dateFormat: "Y-m-d", // 원하는 형식으로 설정 가능
+});
+
+
 // data-user-id 속성에서 사용자 ID를 가져오기
 const userId = document.getElementById('user-data').getAttribute('data-user-id');
 
@@ -21,28 +30,26 @@ document.addEventListener('DOMContentLoaded', async () => {
         // 방 이름을 select에 추가
         rooms.forEach(room => {
             const option = document.createElement('option');
-            option.value = room.accommodationId; // 방 ID 설정 (예: room.id)
+            option.value = room.id; // 방 ID 설정 (예: room.id)
             option.textContent = room.title; // 방 이름 설정 (예: room.name)
             roomSelect.appendChild(option);
         });
 
 
-        // Flatpickr 초기화
-        flatpickr("#s_start_date", {
-            dateFormat: "Y-m-d", // 원하는 형식으로 설정 가능
-        });
-        flatpickr("#s_end_date", {
-            dateFormat: "Y-m-d", // 원하는 형식으로 설정 가능
-        });
+
 
         // 검색 버튼 클릭 이벤트 리스너
         document.getElementById('btn_search').addEventListener('click', async function () {
             const startDate = document.getElementById('s_start_date').value;
             const endDate = document.getElementById('s_end_date').value;
-            const title = roomSelect.value; // 방 이름 선택 (나중에 동적 구현)
+            const accommodationId = Number(roomSelect.options[roomSelect.selectedIndex].value); // 방 이름 선택 (나중에 동적 구현)
+            
+
+            // 선택된 방 이름 출력 (확인용)
+            console.log(`선택된 방 아이디: ${accommodationId}`);
 
             try {
-                const response = await fetch(`/api/settlement?title=${title}&startDate=${startDate}&endDate=${endDate}`);
+                const response = await fetch(`/api/settlement?hostId=${userId}&accommodationId=${accommodationId}&startDate=${startDate}&endDate=${endDate}`);
                 if (!response.ok) {
                     throw new Error("네트워크 응답이 올바르지 않습니다.");
                 }

@@ -9,6 +9,6 @@ import java.util.List;
 @Repository
 public interface PaymentDetailCustomRepository {
 
-    List<PaymentDetailResponse> getSettlementList(String title, LocalDate startDate, LocalDate endDate);
+    List<PaymentDetailResponse> getSettlementList(Long hostId, Long accommodationId, LocalDate startDate, LocalDate endDate);
 
 }

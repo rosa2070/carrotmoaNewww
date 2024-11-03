@@ -19,7 +19,7 @@ public class PaymentDetailCustomRepositoryImpl implements PaymentDetailCustomRep
     }
 
     @Override
-    public List<PaymentDetailResponse> getSettlementList(String title, LocalDate startDate, LocalDate endDate) {
+    public List<PaymentDetailResponse> getSettlementList(Long hostId, Long accommodationId, LocalDate startDate, LocalDate endDate) {
         QPayment payment = QPayment.payment;
         QReservation reservation = QReservation.reservation;
         QUser user = QUser.user;
@@ -39,10 +39,11 @@ public class PaymentDetailCustomRepositoryImpl implements PaymentDetailCustomRep
                 .join(user).on(reservation.userId.eq(user.id))
                 .join(accommodation).on(reservation.accommodationId.eq(accommodation.id))
                 .join(post).on(accommodation.postId.eq(post.id))
-                .where(post.title.eq(title)
+                .where(reservation.accommodationId.eq(accommodationId)
                         .and(reservation.checkInDate.between(startDate, endDate))
                         .and(post.isDeleted.eq(false))
-                        .and(payment.status.eq("paid")))
+                        .and(payment.status.eq("paid"))
+                        .and(post.userId.eq(hostId)))
                 .fetch();
 
         // 결과에 1일 추가

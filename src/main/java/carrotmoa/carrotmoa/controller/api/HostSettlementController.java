@@ -23,11 +23,12 @@ public class HostSettlementController {
 
     @GetMapping
     public ResponseEntity<List<PaymentDetailResponse>> getSettlement(
-            @RequestParam("title") String title,
+            @RequestParam("hostId") Long hostId,
+            @RequestParam("accommodationId") Long accommodationId,
             @RequestParam("startDate") LocalDate startDate,
             @RequestParam("endDate") LocalDate endDate) {
 
-        List<PaymentDetailResponse> settlements = settlementService.getSettlementList(title, startDate, endDate);
+        List<PaymentDetailResponse> settlements = settlementService.getSettlementList(hostId, accommodationId, startDate, endDate);
         return ResponseEntity.ok(settlements);
 
     }
