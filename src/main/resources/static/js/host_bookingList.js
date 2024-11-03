@@ -50,7 +50,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
             const contractHeader = `
                 <div class="contract_header">
-                    <div class="flex contract_info" style="cursor:pointer;" onclick="window.location.href='/webpc/guest/booking/detail/${reservation.accommodationId}'">
+                    <div class="flex contract_info" style="cursor:pointer;" onclick="window.location.href='/room/detail/${reservation.accommodationId}'">
                         <span class="badge ${badgeClass}">${badgeText}</span>
                         <p class="room_title">${reservation.title}</p>
                     </div>
@@ -59,7 +59,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
             const contractContent = `
                 <div class="contract_cont" style="align-items:center">
-                    <dl class="room_item" style="cursor:pointer;" onclick="window.location.href='/webpc/guest/booking/detail/${reservation.accommodationId}'">
+                    <dl class="room_item" style="cursor:pointer;" onclick="window.location.href='/room/detail/${reservation.accommodationId}'">
                         <dt>
                             <img class="room_img" src="${reservation.imageUrl}" alt="">
                         </dt>
@@ -75,6 +75,12 @@ document.addEventListener('DOMContentLoaded', async () => {
 
             // 전체 계약 아이템 HTML 조합
             contractItem.innerHTML = contractHeader + contractContent;
+
+            // 클릭 시 페이지 이동
+            // contractItem.onclick = () => {
+            //     window.location.href = `/guest/room/detail/${reservation.accommodationId}`;
+            // }
+
 
             // 계약 리스트에 추가
             hostContractDiv.appendChild(contractItem);
