@@ -30,6 +30,7 @@ public class GuestRoomDetailController {
         List<SpaceImageResponse> icons = guestRoomDetailService.getSpaceImage();
         List<UserProfileResponse> profile = guestRoomDetailService.getHostProfile(id);
         List<AccommodationReviewResponse> reviews = guestRoomDetailService.getAllReview(id);
+        System.out.println(reviews);
         model.addAttribute("room", getRoomDetailById);
         model.addAttribute("amenities", amenities);
         model.addAttribute("icons", icons);

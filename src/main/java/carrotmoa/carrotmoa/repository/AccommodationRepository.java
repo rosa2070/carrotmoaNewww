@@ -18,41 +18,9 @@ public interface AccommodationRepository extends JpaRepository<Accommodation, Lo
         "JOIN Post p ON p.id = a.postId " +
         "LEFT JOIN AccommodationImage i ON a.id = i.accommodationId " +
         "LEFT JOIN AccommodationSpace s ON a.id = s.accommodationId " +
-        "WHERE a.lotAddress LIKE %:keyword% " +
+        "WHERE p.isDeleted = false AND a.lotAddress LIKE %:keyword% " +
         "GROUP BY a.id, p.title, a.roadAddress, a.price")
     List<Object[]> searchAccommodationByKeyword(@Param("keyword") String keyword);
 
-//    @Query(value = "SELECT a.id, a.userId, p.title, a.totalArea, " +
-//            "a.roadAddress, a.lotAddress, a.detailAddress, a.floor, a.totalFloor, " +
-//            "a.price, p.content, a.transportaionInfo, " +
-//            "GROUP_CONCAT(DISTINCT ai.imageUrl) AS imageUrls, " +
-//            "GROUP_CONCAT(DISTINCT am.amenityId) AS amenities, " +
-//            "MAX(CASE WHEN s.spaceId = 1 THEN s.count ELSE 0 END) AS roomCount, " +
-//            "MAX(CASE WHEN s.spaceId = 2 THEN s.count ELSE 0 END) AS bathroom, " +
-//            "MAX(CASE WHEN s.spaceId = 3 THEN s.count ELSE 0 END) As livingRoomCount, " +
-//            "MAX(CASE WHEN s.spaceId = 4 THEN s.count ELSE 0 END) As kitchenCount " +
-//            "FROM Accommodation a " +
-//            "LEFT JOIN AccommodationImage ai ON a.id = ai.accommodationId " +
-//            "LEFT JOIN AccommodationSpace s ON a.id = s.accommodationId " +
-//            "LEFT JOIN AccommodationAmenity am ON a.id = am.accommodationId " +
-//            "LEFT JOIN Post p ON p.id = a.postId " +
-//            "WHERE a.id = :accommodationId " +
-//            "GROUP BY a.id, a.userId, a.name, a.totalArea, a.roadAddress, a.lotAddress, " +
-//            "a.detailAddress, a.floor, a.totalFloor, a.price, a.detail, a.transportationInfo", nativeQuery = true)
-//    List<Object[]> findAccommodationDetailsById(@Param("accommodationId") Long accommodationId);
-
-//    @Query("SELECT a.id, a.lotAddress, a.detailAddress, MIN(i.imageUrl) AS imageUrl, p.title " +
-//        "FROM Accommodation a " +
-//        "JOIN Post p ON p.id = a.postId " +
-//        "LEFT JOIN AccommodationImage i ON a.id = i.accommodationId " +
-//        "WHERE a.id = :id")
-//    Object[] getReservation(@Param("id") Long id);
-
-//    @Query("SELECT p.title, a.lotAddress, a.detailAddress, a.floor, up.nickname " +
-//            "FROM Accommodation a " +
-//            "JOIN Post p ON p.id = a.postId " +
-//            "JOIN UserProfile up ON up.userId = p.userId " +
-//            "JOIN User u ON u.id = p.userId " +
-//            "WHERE a.id = :id")
-//    Object[] findContractInfo(@Param("id") Long id);
+    Long findPostIdById(@Param("id") Long id);
 }
