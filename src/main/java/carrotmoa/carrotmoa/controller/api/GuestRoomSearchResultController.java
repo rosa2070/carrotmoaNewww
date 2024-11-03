@@ -26,13 +26,4 @@ public class GuestRoomSearchResultController {
         model.addAttribute("keyword", keyword);
         return "guest/roomResult";
     }
-
-//    @GetMapping("/{keyword}")
-//    public ResponseEntity<List<AccommodationResultResponse>> searchRoomByKeyword(@PathVariable("keyword") String keyword) {
-//        List<AccommodationResultResponse> accommodationResultResponseList = accommodationSearchResultService.searchAccommodations(keyword);
-//        if(accommodationResultResponseList == null) {
-//            return ResponseEntity.notFound().build();
-//        }
-//        return ResponseEntity.ok(accommodationResultResponseList);
-//    }
 }

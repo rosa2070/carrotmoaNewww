@@ -30,7 +30,7 @@ public class GuestRoomDetailService {
         this.reviewRepository = reviewRepository;
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     public List<UserProfileResponse> getHostProfile(Long id) {
         List<Object[]> profile = userRepository.getUserProfile(id);
         return profile.stream()
@@ -38,7 +38,7 @@ public class GuestRoomDetailService {
             .collect(Collectors.toList());
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     public List<AmenityImageResponse> getAmenityImage(Long id) {
         List<Object[]> result = accommodationAmenityRepository.findAccommodationAmenitiesByAccommodationId(id);
         return result.stream()
@@ -46,12 +46,12 @@ public class GuestRoomDetailService {
             .collect(Collectors.toList());
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     public AccommodationDetailResponse getAccommodationDetail(Long id) {
         return accommodationDetailCustomRepository.getAccommodationDetailById(id);
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     public List<SpaceImageResponse> getSpaceImage() {
         List<SpaceImageResponse> icons = new ArrayList<>();
         for (int i = 1; i <= 4; i++) {

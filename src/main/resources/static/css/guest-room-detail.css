@@ -317,6 +317,9 @@ body {
     height: 24px;
     background: url(https://carrots-bucket.s3.ap-northeast-2.amazonaws.com/room_detail_icon/icon_heart-bfc3fcf41d729bdd59ec19dd74ea3b75.svg) 0 0 no-repeat;
 }
+.top_icon .btn_like.is_active {
+    background: url(https://carrots-bucket.s3.ap-northeast-2.amazonaws.com/room_detail_icon/icon_heart_full-c19f7565870746c2f191ff8ec54ae12c.svg) 0 0 no-repeat;
+}
 .blind {
     display: none;
 }
