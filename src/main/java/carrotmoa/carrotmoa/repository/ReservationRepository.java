@@ -39,7 +39,7 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
     @Query("SELECT new carrotmoa.carrotmoa.model.response.FullCalendarResponse( " +
             "r.checkInDate, r.checkOutDate) " +
             "FROM Reservation r " +
-            "WHERE r.accommodationId = :accommodationId")
+            "WHERE r.accommodationId = :accommodationId AND r.status = 1 ")
     List<FullCalendarResponse> findBookedDates(@Param("accommodationId") Long accommodationId);
 
     @Modifying // update문에는 @Modigying 필요
