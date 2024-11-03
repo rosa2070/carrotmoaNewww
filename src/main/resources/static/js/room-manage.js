@@ -7,13 +7,13 @@ function goToRegisterPage() {
 }
 
 document.addEventListener("DOMContentLoaded", function () {
-    // const userId = window.userId; // HTML에서 정의한 userId를 가져옴
+    console.log(`사용자 ID: ${userId}`);
 
-    console.log(`Calling API with userId: ${userId}`);
+
     fetch(`/api/host/room/manage/${userId}`) // API 호출
         .then(response => {
             if (!response.ok) {
-                throw new Error("네트워크 응답이 올바르지 않습니다.");
+                throw new Error("네트워크 응답이 올바르지 않습니다.    console.log(`Calling API with userId: ${userId}`);\n");
             }
             return response.json(); // JSON 데이터로 변환
         })

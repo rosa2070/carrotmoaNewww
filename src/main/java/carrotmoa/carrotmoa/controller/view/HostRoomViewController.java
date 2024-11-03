@@ -59,7 +59,12 @@ public class HostRoomViewController {
 
     // 정산
     @GetMapping("/settlement")
-    public String getSettlements() {
+    public String getSettlements(@ModelAttribute("user") CustomUserDetails user, Model model) {
+        if (user == null) {
+            return "/user/login-page";
+        }
+
+        model.addAttribute("user", user);
         return "host/room_settlement";
     }
 
