@@ -13,7 +13,7 @@ document.addEventListener("DOMContentLoaded", function () {
     fetch(`/api/host/room/manage/${userId}`) // API 호출
         .then(response => {
             if (!response.ok) {
-                throw new Error("네트워크 응답이 올바르지 않습니다.    console.log(`Calling API with userId: ${userId}`);\n");
+                throw new Error("네트워크 응답이 올바르지 않습니다.\n");
             }
             return response.json(); // JSON 데이터로 변환
         })

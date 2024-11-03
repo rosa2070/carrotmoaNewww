@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         // console.log(`Calling API with userId: ${userId}`);
 
         // 방 이름 목록을 가져오기 위한 API 호출
-        const response = await fetch('/api/rooms'); // 실제 API URL로 변경
+        const response = await fetch(`/api/host/room/manage/${userId}`); // 실제 API URL로 변경
         if (!response.ok) {
             throw new Error('방 이름을 가져오는 데 실패했습니다.');
         }
@@ -21,8 +21,8 @@ document.addEventListener('DOMContentLoaded', async () => {
         // 방 이름을 select에 추가
         rooms.forEach(room => {
             const option = document.createElement('option');
-            option.value = room.id; // 방 ID 설정 (예: room.id)
-            option.textContent = room.name; // 방 이름 설정 (예: room.name)
+            option.value = room.accommodationId; // 방 ID 설정 (예: room.id)
+            option.textContent = room.title; // 방 이름 설정 (예: room.name)
             roomSelect.appendChild(option);
         });
 
