@@ -30,10 +30,10 @@ async function cancelBooking(impUid) {
 
 
         // UI 업데이트: 완료된 계약 항목 제거
-        const contractItem = cancelButton.closest('.contract-item'); // 취소 버튼의 부모 요소 찾기
-        if (contractItem) {
-            contractItem.remove(); // 해당 요소 제거
-        }
+        // const contractItem = cancelButton.closest('.contract-item'); // 취소 버튼의 부모 요소 찾기
+        // if (contractItem) {
+        //     contractItem.remove(); // 해당 요소 제거
+        // }
 
         // UI 업데이트: 취소된 계약 항목 추가
         // const canceledContractsSection = document.querySelector('h4 + div'); // "취소된 계약" 섹션 선택
