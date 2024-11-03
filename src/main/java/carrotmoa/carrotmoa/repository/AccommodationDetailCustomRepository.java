@@ -2,8 +2,9 @@ package carrotmoa.carrotmoa.repository;
 
 import carrotmoa.carrotmoa.model.response.AccommodationDetailResponse;
 import carrotmoa.carrotmoa.model.response.HostManagedAccommodationResponse;
-import java.util.List;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 @Repository
 public interface AccommodationDetailCustomRepository {

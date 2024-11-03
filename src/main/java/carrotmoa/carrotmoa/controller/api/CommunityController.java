@@ -1,23 +1,21 @@
 package carrotmoa.carrotmoa.controller.api;
 
 import carrotmoa.carrotmoa.model.request.SaveCommunityPostRequest;
+import carrotmoa.carrotmoa.model.request.UpdateCommunityPostRequest;
 import carrotmoa.carrotmoa.model.response.CommunityCategoryResponse;
+import carrotmoa.carrotmoa.model.response.CommunityCategoryResponses;
 import carrotmoa.carrotmoa.model.response.CommunityPostDetailResponse;
 import carrotmoa.carrotmoa.model.response.CommunityPostListResponse;
 import carrotmoa.carrotmoa.service.CommunityCategoryService;
 import carrotmoa.carrotmoa.service.CommunityPostService;
 import java.util.List;
+
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/community")
@@ -42,22 +40,31 @@ public class CommunityController {
     }
 
     @GetMapping("/sub-categories")
-    public ResponseEntity<List<CommunityCategoryResponse>> getSubCategories() {
-        List<CommunityCategoryResponse> Categories = categoriesService.getSubCategories();
-        return new ResponseEntity<>(Categories, HttpStatus.OK);
+    public ResponseEntity<CommunityCategoryResponses> getSubCategories() {
+        CommunityCategoryResponses subCategories = categoriesService.getSubCategories();
+        return new ResponseEntity<>(subCategories, HttpStatus.OK);
     }
 
     @GetMapping("/categories")
-    public ResponseEntity<List<CommunityCategoryResponse>> getAllCategories() {
-        List<CommunityCategoryResponse> categories = categoriesService.getAllCategories();
+    public ResponseEntity<CommunityCategoryResponses> getAllCategories() {
+        CommunityCategoryResponses categories = categoriesService.getAllCategories();
         return new ResponseEntity<>(categories, HttpStatus.OK);
     }
 
     @GetMapping("/posts/{communityPostId}")
-    public ResponseEntity<CommunityPostDetailResponse> findCommunityPostByPostId(@PathVariable("communityPostId") Long id) {
+    public ResponseEntity<CommunityPostDetailResponse> findCommunityPostByPostId(@PathVariable("communityPostId") Long id, HttpServletRequest request) {
+        System.out.println(request.getRequestURI());
         CommunityPostDetailResponse communityPostByPostId = communityPostService.findCommunityPostDetail(id);
         return new ResponseEntity<>(communityPostByPostId, HttpStatus.OK);
     }
+
+    @PutMapping("/posts/{communityPostId}")
+        public ResponseEntity<Long> updateCommunityPost(@PathVariable("communityPostId") Long communityPostId, @RequestBody UpdateCommunityPostRequest request) {
+        Long updateCommunityPostId = communityPostService.updateCommunityPost(communityPostId, request);
+        return new ResponseEntity<>(updateCommunityPostId, HttpStatus.OK);
+    }
+
+
 
     @DeleteMapping("/posts/{communityPostId}")
     public ResponseEntity<Integer> deleteByCommunityPostId(@PathVariable("communityPostId") Long communityPostId) {

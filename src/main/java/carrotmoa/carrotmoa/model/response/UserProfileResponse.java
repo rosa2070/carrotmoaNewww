@@ -16,11 +16,11 @@ public class UserProfileResponse {
 
     public static UserProfileResponse fromData(Object[] data) {
         return UserProfileResponse.builder()
-            .id((Long) data[0])
-            .userId((Long) data[1])
-            .nickname((String) data[2])
-            .bio((String) data[3])
-            .picUrl((String) data[4])
-            .build();
+                .id((Long) data[0])
+                .userId((Long) data[1])
+                .nickname((String) data[2])
+                .bio((String) data[3])
+                .picUrl((String) data[4])
+                .build();
     }
 }

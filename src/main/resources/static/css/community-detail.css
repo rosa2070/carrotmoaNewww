@@ -286,7 +286,7 @@
 
 
 .community-detail-comments .detail-comment-nickname {
-  display: inline-block;
+  display: flex;
   font-size: 15px;
   font-weight: 600;
   line-height: 1.47;
@@ -295,10 +295,22 @@
   vertical-align: middle;
 }
 
+.detail-comment-nickname .post-writer {
+  width: 35px;
+  height: auto;
+}
+
+.community-detail-comments #postWriter {
+  display: inline-block;
+  vertical-align: middle; /* 이미지도 텍스트와 동일한 정렬 */
+  margin-left: 5px; /* 이미지와 텍스트 사이 간격 */
+}
+
 .detail-comment-nickname a {
   color: #212529;
   text-decoration: none;
-
+  display: inline;
+  white-space: nowrap;
 }
 
 .detail-comment-nickname:hover {
@@ -307,11 +319,12 @@
 
 
 .community-detail-comments .detail-comment-region-name {
-  display: inline-block;
+  display: flex;
   font-size: 13px;
   line-height: 1.46;
   letter-spacing: -0.5px;
   vertical-align: middle;
+  align-items: center;
 }
 
 .community-detail-comments .detail-comment-content {
@@ -327,13 +340,12 @@
   margin: 0;
 }
 
-.detail-comment-time-wrap {
+.community-detail-comments .detail-comment-time-wrap {
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding-bottom: 1px;
   padding-left: 5px;
-  padding-top: 16px;
 }
 
 
@@ -343,8 +355,6 @@
   line-height: 1.46;
   letter-spacing: -0.5px;
   color: #888;
-  margin-top: 8px;
-
 }
 
 .community-detail-comments .comment-user-info {
@@ -352,7 +362,7 @@
   flex-direction: column;
 }
 
-.detail-comment-header {
+.community-detail-container .detail-comment-header {
   display: flex;
   align-items: center;
   margin-bottom: 10px;
@@ -364,13 +374,35 @@
   background-color: #f9f9f9;
 }
 
-.community-detail-container .comment-input-section .comment-input {
+.reply-input-section {
+  display: none;
+  border-top: 1px solid #e9ecef;
+  padding: 20px;
+  background-color: #f9f9f9;
+}
+
+.reply-button-wrapper {
+  padding-bottom: 10px;
+}
+
+.child-comment {
+  width: 9px;
+  height: 9px;
+  border-bottom: 1px solid #adb5bd;
+  border-left: 1px solid #adb5bd;
+  display: inline-block;
+  margin-right: 16px;
+  vertical-align: top;
+}
+
+
+.community-detail-container .comment-input-section .comment-input, .reply-input {
   display: flex;
   flex-direction: column;
 }
 
 
-.comment-input-field {
+.comment-input-field, .reply-input-field {
   width: 96%;
   height: 60px;
   font-family: -apple-system,
@@ -389,12 +421,12 @@
   margin-bottom: 10px;
 }
 
-.comment-input-field:focus {
+.comment-input-field:focus, .reply-input-field:focus {
   border-color: #ff7e36;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
-.community-detail-container .comment-input-section .comment-submit-button {
+.community-detail-container .comment-input-section .comment-submit-button,  .reply-submit-button {
   padding: 10px 20px;
   font-size: 14px;
   font-weight: bold;

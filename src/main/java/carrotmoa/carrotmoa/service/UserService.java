@@ -7,16 +7,17 @@ import carrotmoa.carrotmoa.repository.AccountRepository;
 import carrotmoa.carrotmoa.repository.UserProfileRepository;
 import carrotmoa.carrotmoa.repository.UserRepository;
 import jakarta.transaction.Transactional;
-import java.security.NoSuchAlgorithmException;
-import java.security.SecureRandom;
-import java.util.Optional;
-import java.util.Random;
-import java.util.concurrent.CompletableFuture;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.mail.MailSendException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
+import java.util.Optional;
+import java.util.Random;
+import java.util.concurrent.CompletableFuture;
 
 @Slf4j
 @Service
@@ -52,13 +53,13 @@ public class UserService {
 
     private void checkDuplicatedEmail(String email) {
         Optional.ofNullable(userRepository.findByEmail(email))
-            .ifPresentOrElse(User ->
-            {
-                log.info("MemberService.checkDuplicatedEmail exception occur email: {}", email);
-                throw new RuntimeException("checkDuplicationEmail exception");
-            }, () -> {
-                log.info("MemberService.checkDuplicatedEmail FALSE occur email: {}", email);
-            });
+                .ifPresentOrElse(User ->
+                {
+                    log.info("MemberService.checkDuplicatedEmail exception occur email: {}", email);
+                    throw new RuntimeException("checkDuplicationEmail exception");
+                }, () -> {
+                    log.info("MemberService.checkDuplicatedEmail FALSE occur email: {}", email);
+                });
     }
 
     //랜덤 값 생성

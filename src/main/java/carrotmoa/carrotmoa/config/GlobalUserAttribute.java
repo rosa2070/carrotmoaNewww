@@ -12,4 +12,6 @@ public class GlobalUserAttribute {
     public UserDetails user(@AuthenticationPrincipal UserDetails user) {
         return user;
     }
+
+
 }

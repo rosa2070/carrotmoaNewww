@@ -28,10 +28,14 @@ public class QCommunityComment extends EntityPathBase<CommunityComment> {
     //inherited
     public final DateTimePath<java.time.LocalDateTime> createdAt = _super.createdAt;
 
+    public final NumberPath<Integer> depth = createNumber("depth", Integer.class);
+
     //inherited
     public final NumberPath<Long> id = _super.id;
 
     public final BooleanPath isDeleted = createBoolean("isDeleted");
+
+    public final NumberPath<Integer> orderInGroup = createNumber("orderInGroup", Integer.class);
 
     public final NumberPath<Long> parentId = createNumber("parentId", Long.class);
 

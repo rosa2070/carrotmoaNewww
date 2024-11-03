@@ -28,9 +28,30 @@ document.addEventListener("DOMContentLoaded", function () {
     document.getElementById("submit-btn").addEventListener('click',
         function (e) {
           e.preventDefault();
-
+          const updatePost = {
+            title: document.getElementById("community-post-title").value,
+            content: editor.getData(),
+            communityCategoryId: document.getElementById("community-post-category").value
+          };
+          fetch(`/api/community/posts/${communityPostId}`, {
+            method: 'put',
+            headers: {
+              'Content-type' : 'application/json'
+            },
+            body: JSON.stringify(updatePost)
+          })
+              .then(response => {
+                if(!response.ok) {
+                  throw new Error("게시글 수정 실패")
+                }
+                return response.json();
+              })
+              .then(data => {
+                console.log("게시글 수정 완료 : ", data);
+                window.location.href = `/community/posts/${data}`;
+              })
+              .catch(error => console.log("에러 발생: ", error));
         });
-
   } else {
     document.getElementById("page-type").textContent = "동네생활 글쓰기";
     document.getElementById("submit-btn").textContent = "작성완료";
@@ -69,14 +90,15 @@ document.addEventListener("DOMContentLoaded", function () {
   fetch("/api/community/categories")
   .then(response => response.json())
   .then(data => {
+      console.log(data);
     const categorySelect = document.getElementById("community-post-category");
-    const parentCategories = data.filter(category => !category.parentId);
+    const parentCategories = data.categories.filter(category => !category.parentId);
 
     parentCategories.forEach(parentCategory => {
       const optgroup = document.createElement("optgroup");
       optgroup.label = parentCategory.name;
 
-      const childCategories = data.filter(
+      const childCategories = data.categories.filter(
           category => category.parentId === parentCategory.id);
       childCategories.forEach(childCategory => {
         const option = document.createElement("option");
