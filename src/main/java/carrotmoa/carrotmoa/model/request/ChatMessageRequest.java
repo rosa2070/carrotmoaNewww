@@ -1,5 +1,6 @@
 package carrotmoa.carrotmoa.model.request;
 
+import carrotmoa.carrotmoa.config.security.CustomUserDetails;
 import carrotmoa.carrotmoa.entity.ChatMessage;
 import carrotmoa.carrotmoa.entity.UserProfile;
 import lombok.AllArgsConstructor;
@@ -15,22 +16,12 @@ public class ChatMessageRequest {
     private long chatRoomId;
     private String message;
     private int state;
-    private String nickname;
-    private String picUrl;
 
-    @Value("${spring.user.profile.default-image}")
-    private String defaultProfileImageUrl;
     public ChatMessageRequest(ChatMessage chatMessage) {
         this.userId = chatMessage.getUserId();
         this.chatRoomId = chatMessage.getChatRoomId();
         this.message = chatMessage.getMessage();
         this.state = chatMessage.getState();
-        this.nickname = chatMessage.getNickname();
-        if(chatMessage.getPicUrl() != null) {
-        this.picUrl = chatMessage.getPicUrl();
-        } else  {
-            this.picUrl = defaultProfileImageUrl;
-        }
     }
     public ChatMessage toEntityChatMessage() {
         return ChatMessage.builder()
@@ -38,8 +29,11 @@ public class ChatMessageRequest {
                 .chatRoomId(this.getChatRoomId())
                 .message(this.getMessage())
                 .state(this.getState())
-                .nickname(this.getNickname())
-                .picUrl(this.getPicUrl())
                 .build();
     }
-}
+    public ChatMessageRequest(CustomUserDetails user){
+        this.userId = user.getUserProfile().getUserId();
+        }
+
+    }
+

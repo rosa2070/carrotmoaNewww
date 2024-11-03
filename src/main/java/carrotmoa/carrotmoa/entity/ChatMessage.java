@@ -32,13 +32,6 @@ public class ChatMessage extends BaseEntity {
     @Column(name = "state", nullable = false)
     private int state;
 
-    @NotNull
-    @Column(name = "nickname",nullable = false)
-    private String nickname;
-
-    @Size(max = 255)
-    @Column(name = "pic_url")
-    private String picUrl;
 
 
 

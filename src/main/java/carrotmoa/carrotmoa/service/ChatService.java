@@ -3,6 +3,7 @@ package carrotmoa.carrotmoa.service;
 import carrotmoa.carrotmoa.entity.ChatMessage;
 import carrotmoa.carrotmoa.entity.ChatRoom;
 import carrotmoa.carrotmoa.model.request.ChatMessageRequest;
+import carrotmoa.carrotmoa.model.request.ChatRoomRequest;
 import carrotmoa.carrotmoa.repository.ChatMessageRepository;
 import carrotmoa.carrotmoa.repository.ChatRoomRepository;
 import carrotmoa.carrotmoa.repository.ChatRoomUserRepository;
@@ -36,13 +37,12 @@ public class ChatService {
         return message;
     }
 
-    public List<ChatRoom> getAllChatRooms(long userId){
+    public List<ChatRoomRequest> getAllChatRooms(long userId){
         System.out.println("getAllChatRooms 호출");
         return chatRoomUserRepository.findByUserId(userId)
         .stream().map(entity -> chatRoomRepository.findById(entity.getChatRoomId()))
                 .filter(Optional::isPresent)
-                .map(Optional::get)
-                .peek(room -> System.out.println(room.getRoomName()))
+                .map(room -> new ChatRoomRequest(room.get()))
                 .collect(Collectors.toList());
     }
     /*메시지를 보낸 유저의 닉네임을 messageEntity에 추가함

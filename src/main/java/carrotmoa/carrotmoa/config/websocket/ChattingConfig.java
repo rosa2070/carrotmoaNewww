@@ -12,7 +12,7 @@ import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerCo
 public class ChattingConfig implements WebSocketMessageBrokerConfigurer {
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry){
-        //접속 url http 가 아닌 carrot-chat://localhost
+        //접속 url http 가 아닌 wc://localhost
         registry.addEndpoint("chat")
                 //cors설정 나중에 url특정해서 닫을 것
                 .setAllowedOriginPatterns("*")

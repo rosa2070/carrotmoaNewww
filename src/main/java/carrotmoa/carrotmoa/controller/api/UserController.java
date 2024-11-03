@@ -2,6 +2,7 @@ package carrotmoa.carrotmoa.controller.api;
 
 import carrotmoa.carrotmoa.model.request.UserJoinDto;
 import carrotmoa.carrotmoa.model.request.UserUpdateRequest;
+import carrotmoa.carrotmoa.repository.ChatFindUserResponse;
 import carrotmoa.carrotmoa.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -40,14 +41,12 @@ public class UserController {
 
     @GetMapping("/auth-code-certified")
     public ResponseEntity<Boolean> authCodeCertified(@RequestParam("email") String email, @RequestParam("inputauthcode") String inputAuthCode) {
-        boolean result = userService.authCodeCertified(email, inputAuthCode);
-        return new ResponseEntity<Boolean>(result, HttpStatus.OK);
+        return new ResponseEntity<Boolean>( userService.authCodeCertified(email, inputAuthCode), HttpStatus.OK);
     }
 
     @PostMapping("/join")
     public ResponseEntity<Boolean> userJoinSubmit(@RequestBody UserJoinDto userJoinDto) {
-        boolean result = userService.userJoin(userJoinDto);
-        return new ResponseEntity<Boolean>(result, HttpStatus.OK);
+        return new ResponseEntity<Boolean>(userService.userJoin(userJoinDto), HttpStatus.OK);
     }
     @GetMapping("/nickname-duplication")
     public ResponseEntity<Boolean> nicknameDuplication(@RequestParam("nickname") String nickname) {
@@ -56,12 +55,13 @@ public class UserController {
 
     @PostMapping("/update")
     public ResponseEntity<Boolean> userProfileUpdate(@RequestBody UserUpdateRequest userUpdateRequestDto){
-        System.out.println("update 호출");
-        System.out.println(userUpdateRequestDto.getNickname());
-        System.out.println(userUpdateRequestDto.getBirthday());
         return new ResponseEntity<Boolean>(userService.userProfileUpdate(userUpdateRequestDto),HttpStatus.OK);
     }
 
+    @GetMapping("/find-user")
+    public ResponseEntity<ChatFindUserResponse> findUser(@RequestParam String searchType,@RequestParam("searchNickname") String searchKeyword) {
+        return new ResponseEntity<>(userService.findUser(searchType,searchKeyword),HttpStatus.OK);
+    }
 
 
 }
