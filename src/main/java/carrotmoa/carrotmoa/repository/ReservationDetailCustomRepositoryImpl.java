@@ -2,14 +2,16 @@ package carrotmoa.carrotmoa.repository;
 
 import carrotmoa.carrotmoa.entity.*;
 import carrotmoa.carrotmoa.model.response.GuestReservationResponse;
+import carrotmoa.carrotmoa.model.response.HostReservationResponse;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import org.apache.catalina.Host;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 @Repository
-public class ReservationDetailCustomRepositoryImpl implements ReservationDetailCustomRepository{
+public class ReservationDetailCustomRepositoryImpl implements ReservationDetailCustomRepository {
     private final JPAQueryFactory jpaQueryFactory;
 
     public ReservationDetailCustomRepositoryImpl(JPAQueryFactory jpaQueryFactory) {
@@ -21,6 +23,7 @@ public class ReservationDetailCustomRepositoryImpl implements ReservationDetailC
     QPost post = QPost.post;
     QAccommodationImage accommodationImage = QAccommodationImage.accommodationImage;
     QPayment payment = QPayment.payment;
+    QUser user = QUser.user;
 
     @Override
     public List<GuestReservationResponse> getGuestReservations(Long userId) {
@@ -49,18 +52,32 @@ public class ReservationDetailCustomRepositoryImpl implements ReservationDetailC
                 .fetch();
     }
 
-    //    public List<AccommodationDTO> findAccommodationsByUserId(Long userId) {
-//        QReservation reservation = QReservation.reservation;
-//        QAccommodation accommodation = QAccommodation.accommodation;
-//        QPost post = QPost.post;
-//
-//        return queryFactory.select(new QAccommodationDTO(reservation.accommodationId, post.title))
-//                .from(reservation)
-//                .join(reservation.accommodation, accommodation)
-//                .join(accommodation.post, post)
-//                .where(post.user.id.eq(userId))
-//                .fetch();
-//    }
+    @Override
+    public List<HostReservationResponse> getHostReservations(Long hostId) {
+        return jpaQueryFactory
+                .select(Projections.fields(HostReservationResponse.class,
+                        reservation.accommodationId,
+                        reservation.checkInDate,
+                        reservation.checkOutDate,
+                        reservation.status,
+                        reservation.totalPrice,
+                        post.title,
+                        accommodation.lotAddress,
+                        accommodation.detailAddress,
+                        accommodation.floor,
+                        accommodationImage.imageUrl,
+                        user.name.as("guestName")
+                ))
+                .from(reservation)
+                .join(accommodation).on(accommodation.id.eq(reservation.accommodationId))
+                .join(post).on(post.id.eq(accommodation.postId))
+                .join(accommodationImage).on(accommodationImage.accommodationId.eq(accommodation.id))
+                .join(user).on(reservation.userId.eq(user.id))
+                .where(accommodationImage.imageOrder.eq(0)
+                        .and(post.userId.eq(hostId)))
+                .orderBy(reservation.createdAt.desc())
+                .fetch();
+    }
 
 
 }

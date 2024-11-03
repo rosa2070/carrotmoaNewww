@@ -65,7 +65,12 @@ public class HostRoomViewController {
 
     // 계약
     @GetMapping("/contract")
-    public String getContracts() {
+    public String getContracts(@ModelAttribute("user") CustomUserDetails user, Model model) {
+        if (user == null) {
+            return "/user/login-page";
+        }
+
+        model.addAttribute("user", user);
         return "host/room_contract";
     }
 }

@@ -1,6 +1,6 @@
 // data-user-id 속성에서 사용자 ID를 가져오기
 const userId = document.getElementById('user-data').getAttribute('data-user-id');
-console.log(`사용자 ID: ${userId}`);
+// console.log(`사용자 ID: ${userId}`);
 
 function goToRegisterPage() {
     window.location.href = '/host/room/register';

@@ -16,52 +16,22 @@
         <div class="content">
             <div class="host_room_reg">
                 <h1 class="title_left">계약 현황</h1>
+
+                <div th:attr="data-user-id=${user.userProfile.userId}" id="user-data"></div>
+
+
                 <div class="guest_contract">
-
-                    <div class="contract_item">
-                        <div class="contract_header">
-                            <div class="flex contract_info" style="cursor:pointer;"
-                                 onclick="window.location.href='/webpc/guest/booking/detail/159307'">
-                                <span class="badge gray">계약취소</span>
-                                <p class="room_title">용산 복층 조용한우리집</p>
-                            </div>
-
-
-                        </div>
-
-                        <div class="contract_cont" style="align-items:center">
-                            <dl class="room_item" style="cursor:pointer;"
-                                onclick="window.location.href='/webpc/guest/booking/detail/159307'">
-                                <dt>
-                                    <img class="room_img" src="https://d1pviohoskiraj.cloudfront.net/room/b454a71e-bd5e-4255-b34e-546488cdcd21.jpg?b=samsamm2&amp;d=240x240" alt="">
-                                </dt>
-                                <dd>
-                                    <div class="room_address ellipsis">서울특별시 용산구 문배동 24-4 용산큐브 9층</div>
-                                    <div class="room_address ellipsis">잰잰</div>
-                                    <p class="room_period">
-                                        2024.11.20 (수) ~ 2024.11.26 (화)
-                                    </p>
-                                </dd>
-                            </dl>
-                            <strong class="room_pay">
-                                824,550 원
-                            </strong>
-                        </div>
-                    </div>
-
+                    <!-- 예약 정보가 동적으로 추가될 영역 -->
                 </div>
             </div>
         </div>
     </div>
-
-    </section>
-    </div>
-
-    </div>
-
-
+    <!--    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>-->
+    <script src="/js/host_bookingList.js"></script> <!-- JS 파일 경로 -->
 </main>
 
 <div th:replace="~{fragments/side-right::side-right}">오른쪽 사이드바</div>
+
+
 </body>
 </html>
