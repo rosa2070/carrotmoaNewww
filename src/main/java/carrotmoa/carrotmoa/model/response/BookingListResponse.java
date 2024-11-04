@@ -12,6 +12,7 @@ import java.time.LocalDate;
 @Slf4j
 public class BookingListResponse {
     // reservation table
+    private Long id;
     private Long accommodationId;
     private LocalDate checkInDate;
     private LocalDate checkOutDate;
@@ -23,24 +24,24 @@ public class BookingListResponse {
     private String lotAddress;
     private String detailAddress;
     private Integer floor;
-    // accommodationImage - 보류
     private String imageUrl;
     // userProfile
     private String nickname;
 
     public static BookingListResponse fromData(Object[] data) {
         return BookingListResponse.builder()
-                .accommodationId((Long) data[0])
-                .checkInDate((LocalDate) data[1])
-                .checkOutDate((LocalDate) data[2])
-                .status((Integer) data[3])
-                .totalPrice((BigDecimal) data[4])
-                .title((String) data[5])
-                .lotAddress((String) data[6])
-                .detailAddress((String) data[7])
-                .floor((Integer) data[8])
-                .nickname((String) data[9])
-                .imageUrl((String) data[10])
+                .id((Long) data[0])
+                .accommodationId((Long) data[1])
+                .checkInDate((LocalDate) data[2])
+                .checkOutDate((LocalDate) data[3])
+                .status((Integer) data[4])
+                .totalPrice((BigDecimal) data[5])
+                .title((String) data[6])
+                .lotAddress((String) data[7])
+                .detailAddress((String) data[8])
+                .floor((Integer) data[9])
+                .nickname((String) data[10])
+                .imageUrl((String) data[11])
                 .build();
     }
 }

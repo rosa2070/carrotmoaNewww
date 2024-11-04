@@ -19,4 +19,7 @@ public interface ReviewRepository extends JpaRepository<Review, Long> {
             "JOIN UserProfile u ON u.userId = r.userId " +
             "WHERE a.id = :accommodationId AND rs.status = 3 ")
     List<AccommodationReviewResponse> getAccommodationReviews(@Param("accommodationId") Long accommodationId);
+
+//    @Query()
+
 }

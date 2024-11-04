@@ -22,10 +22,7 @@ public class ReservationService {
     }
 
     @Transactional
-    // 게스트 예약 확인하는 페이지에서 사용
-    // guest/booking/list/{id}
     public List<BookingListResponse> getBookingList(Long id) {
-//        return reservationRepository.findBookingData(id);
         List<Object[]> bookingList = reservationRepository.findBookingData(id);
         return bookingList.stream()
                 .map(BookingListResponse::fromData)

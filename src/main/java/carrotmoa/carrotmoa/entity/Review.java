@@ -28,14 +28,14 @@ public class Review extends BaseEntity {
     @Column(name = "user_id")
     private Long userId;
 
-    @Min(1)
-    @Max(5)
-    @Column(name = "rating")
-    private Integer rating;
+//    @Min(1)
+//    @Max(5)
+//    @Column(name = "rating")
+//    private Integer rating;
 
     @Column(name = "comment")
     private String comment;
 
-    @Column(name = "star_icon")
-    private String starIcon;
+//    @Column(name = "star_icon")
+//    private String starIcon;
 }

@@ -1,6 +1,5 @@
 package carrotmoa.carrotmoa.controller.api;
 
-import carrotmoa.carrotmoa.model.response.AccommodationImageResponse;
 import carrotmoa.carrotmoa.model.response.BookingListResponse;
 import carrotmoa.carrotmoa.service.ReservationService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,10 +25,8 @@ public class GetBookingListController {
     @GetMapping("/{id}")
     public String getBookingList(@PathVariable("id") Long id, Model model) {
         List<BookingListResponse> bookings = reservationService.getBookingList(id); // userId
-//        List<AccommodationImageResponse> image  = reservationService.getAccommodationImageByUserId(id);
 
         model.addAttribute("bookings", bookings);
-//        model.addAttribute("image", image);
         return "guest/bookingList";
     }
 }
