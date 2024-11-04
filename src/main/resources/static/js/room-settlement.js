@@ -53,7 +53,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         const roomSelect = document.getElementById('opt_room_id');
 
         // 기존 옵션 제거
-        roomSelect.innerHTML = '<option value="0">방 이름 - 전체</option>';
+        roomSelect.innerHTML = '<option value="-1">방 이름 - 전체</option>';
 
         // 방 이름을 select에 추가
         rooms.forEach(room => {
@@ -70,7 +70,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         document.getElementById('btn_search').addEventListener('click', async function () {
             const startDate = document.getElementById('s_start_date').value;
             const endDate = document.getElementById('s_end_date').value;
-            const accommodationId = Number(roomSelect.options[roomSelect.selectedIndex].value); // 방 이름 선택 (나중에 동적 구현)
+            const accommodationId = Number(roomSelect.options[roomSelect.selectedIndex].value);
 
 
             // 선택된 방 이름 출력 (확인용)

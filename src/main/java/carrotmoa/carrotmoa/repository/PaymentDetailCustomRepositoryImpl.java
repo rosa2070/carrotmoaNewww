@@ -2,6 +2,7 @@ package carrotmoa.carrotmoa.repository;
 
 import carrotmoa.carrotmoa.entity.*;
 import carrotmoa.carrotmoa.model.response.PaymentDetailResponse;
+import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -26,9 +27,20 @@ public class PaymentDetailCustomRepositoryImpl implements PaymentDetailCustomRep
         QAccommodation accommodation = QAccommodation.accommodation;
         QPost post = QPost.post;
 
+        BooleanBuilder whereClause = new BooleanBuilder();
+        whereClause.and(reservation.checkOutDate.between(startDate, endDate))
+                .and(post.isDeleted.eq(false))
+                .and(payment.status.eq("paid"))
+                .and(post.userId.eq(hostId));
+
+        // accommodationId가 null이 아닐 경우에만 조건 추가
+        if (accommodationId != -1) {
+            whereClause.and(reservation.accommodationId.eq(accommodationId));
+        }
+
         List<PaymentDetailResponse> results = jpaQueryFactory
                 .select(Projections.fields(PaymentDetailResponse.class,
-                        reservation.checkInDate.as("settlementDate"), // 정산 일자
+                        reservation.checkOutDate.as("settlementDate"), // 정산 일자
                         post.title,
                         user.name,
                         reservation.checkInDate,
@@ -39,15 +51,11 @@ public class PaymentDetailCustomRepositoryImpl implements PaymentDetailCustomRep
                 .join(user).on(reservation.userId.eq(user.id))
                 .join(accommodation).on(reservation.accommodationId.eq(accommodation.id))
                 .join(post).on(accommodation.postId.eq(post.id))
-                .where(reservation.accommodationId.eq(accommodationId)
-                        .and(reservation.checkInDate.between(startDate, endDate))
-                        .and(post.isDeleted.eq(false))
-                        .and(payment.status.eq("paid"))
-                        .and(post.userId.eq(hostId)))
+                .where(whereClause)
                 .fetch();
 
         // 결과에 1일 추가
-        results.forEach(result -> result.setSettlementDate(result.getSettlementDate().plusDays(1)));
+//        results.forEach(result -> result.setSettlementDate(result.getSettlementDate().plusDays(1)));
 
         return results;
 
