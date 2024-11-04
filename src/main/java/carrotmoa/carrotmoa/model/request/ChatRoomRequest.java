@@ -8,6 +8,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.ColumnDefault;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -15,6 +18,7 @@ public class ChatRoomRequest {
     private long roomId;
     private String roomName;
     private int state;
+    private LocalDateTime createdAt;
 
 
     public ChatRoom toEntityChatRoom() {
@@ -24,9 +28,14 @@ public class ChatRoomRequest {
                 .build();
     }
 
-    public ChatRoomRequest(ChatRoom chatRoom) {
+    public ChatRoomRequest(ChatRoom chatRoom,String findRelativeUserNickname) {
         this.roomId = chatRoom.getId();
-        this.roomName = chatRoom.getRoomName();
         this.state = chatRoom.getState();
+        if(chatRoom.getRoomName() != null) {
+            this.roomName = chatRoom.getRoomName();
+        } else {
+            this.roomName = findRelativeUserNickname;
+        }
+        this.createdAt = chatRoom.getCreatedAt();
     }
 }

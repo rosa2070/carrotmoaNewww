@@ -6,7 +6,7 @@ import carrotmoa.carrotmoa.enums.AuthorityCode;
 import carrotmoa.carrotmoa.model.request.UserJoinDto;
 import carrotmoa.carrotmoa.model.request.UserUpdateRequest;
 import carrotmoa.carrotmoa.repository.AccountRepository;
-import carrotmoa.carrotmoa.repository.ChatFindUserResponse;
+import carrotmoa.carrotmoa.model.response.ChatFindUserResponse;
 import carrotmoa.carrotmoa.repository.UserProfileRepository;
 import carrotmoa.carrotmoa.repository.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -134,13 +134,14 @@ public class UserService {
         }
     }
     //유저가 없을 경우 추가해야함
-    public ChatFindUserResponse findUser(String searchType,String searchKeyword){
+    public ChatFindUserResponse findUser(String searchType,String searchKeyword) throws EntityNotFoundException{
         UserProfile profile = null;
         if(searchType.equals("userId")) {
             profile = userProfileRepository.findByUserId(Integer.parseInt(searchKeyword));
         } else if(searchType.equals("nickname")) {
             profile = userProfileRepository.findByNickname(searchKeyword);
         }
+
         return new ChatFindUserResponse(profile);
     }
 

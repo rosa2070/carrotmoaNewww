@@ -40,11 +40,12 @@ public class UserViewController {
         model.addAttribute("fragment","profile-update");
         return "/user/my-page";}
 
-    @GetMapping("/test")
+    @GetMapping("/modal-content")
     public String chatTest(@AuthenticationPrincipal CustomUserDetails user,Model model){
         model.addAttribute("chatMessageRequest",new ChatMessageRequest(user));
-        return "/user/chat-test";
+        return "/user/chat";
     }
+
 }
 
 

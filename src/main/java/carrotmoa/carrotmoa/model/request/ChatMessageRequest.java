@@ -8,6 +8,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 
+import java.time.LocalDateTime;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -16,12 +18,13 @@ public class ChatMessageRequest {
     private long chatRoomId;
     private String message;
     private int state;
-
+    private LocalDateTime createdAt;
     public ChatMessageRequest(ChatMessage chatMessage) {
         this.userId = chatMessage.getUserId();
         this.chatRoomId = chatMessage.getChatRoomId();
         this.message = chatMessage.getMessage();
         this.state = chatMessage.getState();
+        this.createdAt = chatMessage.getCreatedAt();
     }
     public ChatMessage toEntityChatMessage() {
         return ChatMessage.builder()

@@ -10,14 +10,12 @@ import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.handler.annotation.SendTo;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
+@RequestMapping("/api/chat")
 public class ChatController {
         ChatService chatService;
         public ChatController(ChatService chatService) {
@@ -26,13 +24,14 @@ public class ChatController {
 
 
     //사용자가 사용중인 모든 채팅방 검색
-    @GetMapping("/chat/all-Room/{userId}")
+    @GetMapping("/all-Room/{userId}")
     public ResponseEntity<List<ChatRoomRequest>> getChatMessages(@PathVariable long userId){
+            chatService.test();
         System.out.println("ChatController 호출");
         return new ResponseEntity<>(chatService.getAllChatRooms(userId), HttpStatus.OK);
     }
 
-    @GetMapping("/chat/get-message/{chatRoomId}")
+    @GetMapping("/get-message/{chatRoomId}")
     public ResponseEntity<List<ChatMessageRequest>> getChatMessage(@PathVariable long chatRoomId){
         return new ResponseEntity<>(chatService.getChatMessage(chatRoomId), HttpStatus.OK);
     }
@@ -42,5 +41,11 @@ public class ChatController {
         System.out.println("send-message 호출 : " + chatRoomId);
             return chatService.sendMessage(chatMessageRequest);
     }
+    @GetMapping("/create-room")
+    public ResponseEntity<Long> createChatRoom(@RequestParam long myUserId, @RequestParam long joinTargetUserId){
+            return new ResponseEntity<>(chatService.createChatRoom(myUserId,joinTargetUserId), HttpStatus.OK);
+    }
+
+
 
 }

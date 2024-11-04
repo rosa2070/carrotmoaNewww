@@ -2,13 +2,15 @@ package carrotmoa.carrotmoa.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 
 @Getter
 @Setter
 @Entity
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "chat_room_user", schema = "carrot_moa")
 public class ChatRoomUser extends BaseEntity {
     @NotNull

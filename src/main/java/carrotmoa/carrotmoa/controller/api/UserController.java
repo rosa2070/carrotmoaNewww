@@ -2,7 +2,7 @@ package carrotmoa.carrotmoa.controller.api;
 
 import carrotmoa.carrotmoa.model.request.UserJoinDto;
 import carrotmoa.carrotmoa.model.request.UserUpdateRequest;
-import carrotmoa.carrotmoa.repository.ChatFindUserResponse;
+import carrotmoa.carrotmoa.model.response.ChatFindUserResponse;
 import carrotmoa.carrotmoa.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -59,7 +59,7 @@ public class UserController {
     }
 
     @GetMapping("/find-user")
-    public ResponseEntity<ChatFindUserResponse> findUser(@RequestParam String searchType,@RequestParam("searchNickname") String searchKeyword) {
+    public ResponseEntity<ChatFindUserResponse> findUser(@RequestParam String searchType,@RequestParam("searchKeyword") String searchKeyword) {
         return new ResponseEntity<>(userService.findUser(searchType,searchKeyword),HttpStatus.OK);
     }
 

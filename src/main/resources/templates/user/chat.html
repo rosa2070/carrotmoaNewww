@@ -1,0 +1,36 @@
+<div class="chat-container">
+
+    <div class="chat-sidebar">
+        <div class="chat-list">
+            <div id="chat-room-list">
+                <div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="chat-main">
+        <div class="chat-header">
+        </div>
+        <div class="chat-messages" id="chat-messages">
+
+        </div>
+
+        <form class="chat-footer" th:object="${chatMessageRequest}" id="chat-form">
+            <input type="hidden" id="userId"  th:field="*{userId}" th:value="${user.getUserProfile().getUserId()}"/>
+            <input type="hidden" id="chat-room-id"  th:field="*{chatRoomId}"/>
+            <input type="text" id="input-message" th:field="*{message}"/>
+            <button id="send-message-btn" type="button">전송</button>
+        </form>
+    </div>
+
+    <div class="chat-find-user">
+        <input type="text" id="chat-find-user-search" placeholder="유저 찾기" minlength="2">
+        <input type="button" id="chat-find-user" value="찾기">
+        <input type="text" id="chat-find-result-nickname">
+        <input type="hidden" id="chat-find-result-id">
+        <button id="chat-room-create" type="button">채팅시작</button>
+        <button id="chat-close-modal" type="button">닫기</button>
+    </div>
+
+</div>

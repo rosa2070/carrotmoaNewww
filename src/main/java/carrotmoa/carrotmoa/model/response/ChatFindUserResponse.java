@@ -1,6 +1,5 @@
-package carrotmoa.carrotmoa.repository;
+package carrotmoa.carrotmoa.model.response;
 
-import carrotmoa.carrotmoa.entity.User;
 import carrotmoa.carrotmoa.entity.UserProfile;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -11,11 +10,11 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class ChatFindUserResponse {
     private long userId;
-    private String nickName;
+    private String nickname;
 
 public ChatFindUserResponse(UserProfile profile){
     this.userId = profile.getUserId();
-    this.nickName = profile.getNickname();
+    this.nickname = profile.getNickname();
 }
 
 }
