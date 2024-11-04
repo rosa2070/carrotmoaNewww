@@ -426,3 +426,37 @@ function renderCommentHtml(data) {
 
     return commentHtml;
 }
+
+document.getElementById('likeButton').addEventListener('click', function() {
+    const likeIcon = document.getElementById('likeIcon');
+    const likeCount = document.getElementById('likeCount');
+    const heartEffectContainer = document.getElementById('heartEffectContainer');
+    // 하트 이모지 여러 개 생성
+    for (let i = 0; i < 5; i++) {
+        const heart = document.createElement('div');
+        heart.classList.add('heart');
+        heart.textContent = '❤️';
+
+        // 랜덤한 위치와 크기 지정
+        heart.style.left = `${Math.random() * 110-40}px`;  // 컨테이너 내에서 x 위치 랜덤 설정
+        heart.style.top = `${Math.random() * 110-40}px`;   // 컨테이너 내에서 y 위치 랜덤 설정
+        heart.style.fontSize = `${Math.random() * 10 + 20}px`;  // 크기를 약간 다르게
+
+        // 하트 이펙트 컨테이너에 추가
+        heartEffectContainer.appendChild(heart);
+
+        // 일정 시간 후에 하트 제거
+        setTimeout(() => {
+            heart.remove();
+        }, 1000);
+    }
+
+    // 좋아요 아이콘 및 텍스트 토글
+    if (likeIcon.src.includes('unlike.svg')) {
+        likeIcon.src = '/images/community/like.svg';
+        likeCount.textContent = 1;
+    } else {
+        likeIcon.src = '/images/community/unlike.svg';
+        likeCount.textContent = '공감하기';
+    }
+});

@@ -26,7 +26,6 @@ public class CommunityCommentService {
     private final CommunityPostRepository communityPostRepository;
     private final PostRepository postRepository;
     private final NotificationService notificationService;
-    private final NotificationRepository notificationRepository;
     private final UserProfileRepository userProfileRepository;
 
     @Transactional

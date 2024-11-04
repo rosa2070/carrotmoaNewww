@@ -198,4 +198,8 @@
 }
 
 
-/* 위에 커뮤니티 css */
+.no-more-posts-message {
+  text-align: center; /* 중앙 정렬 */
+  color: #999; /* 연한 회색 */
+  margin-top: 20px; /* 위쪽 여백 */
+}

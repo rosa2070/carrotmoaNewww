@@ -14,6 +14,9 @@ import carrotmoa.carrotmoa.repository.PostRepository;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -56,15 +59,31 @@ public class CommunityPostService {
     }
 
     @Transactional(readOnly = true)
-    public List<CommunityPostListResponse> getAllCommunityPosts() {
+    public Slice<CommunityPostListResponse> getAllCommunityPosts(int page, int size) {
         Long serviceId = 4L;
-        List<CommunityPostListResponse> posts = postRepository.getAllCommunityPosts(serviceId);
-        for (CommunityPostListResponse post : posts) {
+        Pageable pageable = PageRequest.of(page, size);
+        Slice<CommunityPostListResponse> posts = postRepository.getAllCommunityPosts(serviceId, pageable);
+        posts.forEach(post -> {
             int commentCount = communityCommentRepository.countByCommunityPostId(post.getCommunityPostId());
             post.setCommentCount(commentCount);
-        }
+        });
         return posts;
     }
+
+    @Transactional(readOnly = true)
+    public Slice<CommunityPostListResponse> getPostsBySubCategory(Long subcategoryId, int page, int size) {
+        Long serviceId = 4L;
+        Pageable pageable = PageRequest.of(page, size);
+        Slice<CommunityPostListResponse> posts = postRepository.getPostsBySubCategory(serviceId, subcategoryId, pageable);
+        posts.forEach(post -> {
+            int commentCount = communityCommentRepository.countByCommunityPostId(post.getCommunityPostId());
+            post.setCommentCount(commentCount);
+        });
+        return posts;
+    }
+
+
+
 
     @Transactional
     public int deleteByCommunityPostId(Long communityPostId) {

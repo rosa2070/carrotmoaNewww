@@ -13,6 +13,7 @@ import java.util.List;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Slice;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -27,10 +28,22 @@ public class CommunityController {
     final private CommunityCategoryService categoriesService;
 
     @GetMapping("/posts")
-    public ResponseEntity<List<CommunityPostListResponse>> getAllCommunityPosts() {
-        List<CommunityPostListResponse> allCommunityPosts = communityPostService.getAllCommunityPosts();
+    public ResponseEntity<Slice<CommunityPostListResponse>> getAllCommunityPosts(
+            @RequestParam(name = "page", defaultValue = "0") int page,
+            @RequestParam(name = "size", defaultValue = "10") int size) {
+        Slice<CommunityPostListResponse> allCommunityPosts = communityPostService.getAllCommunityPosts(page, size);
         return new ResponseEntity<>(allCommunityPosts, HttpStatus.OK);
     }
+
+     @GetMapping("/posts/subCategories/{subcategoryId}")
+    public ResponseEntity<Slice<CommunityPostListResponse>> getPostsBySubCategory(
+            @RequestParam(name = "page", defaultValue = "0") int page,
+            @RequestParam(name = "size", defaultValue = "10") int size,
+            @PathVariable(name = "subcategoryId") Long subcategoryId) {
+         Slice<CommunityPostListResponse> postsBySubCategory = communityPostService.getPostsBySubCategory(subcategoryId, page, size);
+         return new ResponseEntity<>(postsBySubCategory, HttpStatus.OK);
+    }
+
 
     @PostMapping("/posts")
     public ResponseEntity<Long> createCommunityPost(@RequestBody SaveCommunityPostRequest saveCommunityPostRequest) {
