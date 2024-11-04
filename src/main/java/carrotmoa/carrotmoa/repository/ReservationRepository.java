@@ -23,7 +23,8 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
             "JOIN UserProfile u ON p.userId = u.userId " +
             "WHERE r.userId = :userId " +
             "GROUP BY r.accommodationId, r.checkInDate, r.checkOutDate, r.status, r.totalPrice, " +
-            "p.title, a.lotAddress, a.detailAddress, a.floor, u.nickname")
+            "p.title, a.lotAddress, a.detailAddress, a.floor, u.nickname " +
+            "ORDER BY r.createdAt DESC")
     List<Object[]> findBookingData(@Param("userId") Long userId);
 
     @Query("SELECT new carrotmoa.carrotmoa.model.response.BookingDetailResponse( " +
