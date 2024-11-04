@@ -14,8 +14,6 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @Slf4j
 public class AccommodationReviewResponse {
-    private Long id;
-    private Long userId;
     private String comment;
     private LocalDate checkOutDate;
     private String nickname;
