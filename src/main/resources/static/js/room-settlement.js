@@ -1,11 +1,39 @@
+// 오늘 날짜에서 6개월 전의 날짜를 YYYY-MM-DD 형식으로 가져오는 함수
+function getSixMonthsAgoDate() {
+    const today = new Date();
+    today.setMonth(today.getMonth() - 6); // 6개월 전으로 설정
+    const year = today.getFullYear();
+    const month = String(today.getMonth() + 1).padStart(2, '0'); // 월은 0부터 시작하므로 1을 더함
+    const day = String(today.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+}
+
+// 오늘 날짜를 YYYY-MM-DD 형식으로 가져오는 함수
+function getTodayDate() {
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = String(today.getMonth() + 1).padStart(2, '0'); // 월은 0부터 시작하므로 1을 더함
+    const day = String(today.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+}
+
 // Flatpickr 초기화
 flatpickr("#s_start_date", {
     dateFormat: "Y-m-d", // 원하는 형식으로 설정 가능
-});
-flatpickr("#s_end_date", {
-    dateFormat: "Y-m-d", // 원하는 형식으로 설정 가능
+    defaultDate: getSixMonthsAgoDate(), // 초기값을 오늘 날짜로부터 6개월 전으로 설정
+    onReady: function(selectedDates, dateStr, instance) {
+        instance.setDate(getSixMonthsAgoDate(), false); // 6개월 전 날짜로 설정
+    }
 });
 
+flatpickr("#s_end_date", {
+    dateFormat: "Y-m-d", // 원하는 형식으로 설정 가능
+    maxDate: "today", // 오늘 날짜까지만 선택 가능
+    defaultDate: getTodayDate(), // 초기값을 오늘 날짜로 설정
+    onReady: function(selectedDates, dateStr, instance) {
+        instance.setDate(getTodayDate(), false); // 오늘 날짜로 설정
+    }
+});
 
 // data-user-id 속성에서 사용자 ID를 가져오기
 const userId = document.getElementById('user-data').getAttribute('data-user-id');
@@ -43,7 +71,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             const startDate = document.getElementById('s_start_date').value;
             const endDate = document.getElementById('s_end_date').value;
             const accommodationId = Number(roomSelect.options[roomSelect.selectedIndex].value); // 방 이름 선택 (나중에 동적 구현)
-            
+
 
             // 선택된 방 이름 출력 (확인용)
             console.log(`선택된 방 아이디: ${accommodationId}`);

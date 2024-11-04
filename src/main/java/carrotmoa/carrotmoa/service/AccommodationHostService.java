@@ -11,7 +11,6 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
-import carrotmoa.carrotmoa.repository.AccommodationLocationRepository;
 import carrotmoa.carrotmoa.repository.AccommodationRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

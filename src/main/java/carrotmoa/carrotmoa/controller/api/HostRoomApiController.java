@@ -4,7 +4,6 @@ import carrotmoa.carrotmoa.model.request.SaveAccommodationRequest;
 import carrotmoa.carrotmoa.model.request.UpdateAccommodationRequest;
 import carrotmoa.carrotmoa.model.response.AccommodationDetailResponse;
 import carrotmoa.carrotmoa.model.response.HostManagedAccommodationResponse;
-import carrotmoa.carrotmoa.model.response.PaymentDetailResponse;
 import carrotmoa.carrotmoa.service.AccommodationHostService;
 import jakarta.validation.Valid;
 
