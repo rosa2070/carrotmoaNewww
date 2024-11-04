@@ -64,24 +64,21 @@ public class ChatService {
                 .stream().map(ChatMessageRequest::new).toList();
     }
 
-    public long createChatRoom( long myUserId,long joinTargetUserId){
+    public long createChatRoom( long myUserId,long joinTargetUserId) {
+        if(duplicatedChatRoom(myUserId,joinTargetUserId) == null){
         long roomId = chatRoomRepository.save(new ChatRoomRequest().toEntityChatRoom()).getId();
         chatRoomUserRepository.save(new ChatRoomUserRequest(myUserId, roomId).toEntityChatRoomUser());
         chatRoomUserRepository.save(new ChatRoomUserRequest(joinTargetUserId, roomId).toEntityChatRoomUser());
         System.out.println(roomId);
         return roomId;
-
+        } else {
+            return duplicatedChatRoom(myUserId,joinTargetUserId).getChatRoomId();
+        }
     }
-    public void test(){
-        long userId = 54L;
-        long room = chatRoomUserRepository.findByUserId(54L).get(0).getId();
-        System.out.println("roomId = " + room);
-                chatRoomUserRepository.findRelativeUserId(userId,room);
-                long test = chatRoomUserRepository.findRelativeUserId(userId,room);
-        System.out.println("TestQuery  = "+test);
-        System.out.println("nickname : " +userProfileRepository.findByUserId(test).getNickname());
-
+    public ChatRoomUser duplicatedChatRoom(long userId , long joinUserId){
+        return chatRoomUserRepository.duplicateChatRoomId(userId , joinUserId);
     }
+
 
 
 

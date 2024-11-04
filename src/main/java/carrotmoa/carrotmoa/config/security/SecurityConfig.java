@@ -28,11 +28,14 @@ public class SecurityConfig {
                 .requestMatchers("/service/**").authenticated()
                 .requestMatchers("/admin/**").hasRole(AuthorityCode.ADMIN.name())
                 .anyRequest().permitAll()
+
             )
 
             .sessionManagement(session -> session
                 .maximumSessions(1)
-                .maxSessionsPreventsLogin(false)
+                .maxSessionsPreventsLogin(true)
+
+
             )
 
             .formLogin(formLogin -> formLogin

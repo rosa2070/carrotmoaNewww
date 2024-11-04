@@ -3,6 +3,7 @@ package carrotmoa.carrotmoa.controller.api;
 import carrotmoa.carrotmoa.entity.ChatRoom;
 import carrotmoa.carrotmoa.model.request.ChatMessageRequest;
 import carrotmoa.carrotmoa.model.request.ChatRoomRequest;
+import carrotmoa.carrotmoa.repository.ChatRoomUserRepository;
 import carrotmoa.carrotmoa.service.ChatService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,17 +18,17 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/chat")
 public class ChatController {
-        ChatService chatService;
-        public ChatController(ChatService chatService) {
+    private final ChatRoomUserRepository chatRoomUserRepository;
+    ChatService chatService;
+        public ChatController(ChatService chatService, ChatRoomUserRepository chatRoomUserRepository) {
             this.chatService = chatService;
+            this.chatRoomUserRepository = chatRoomUserRepository;
         }
 
 
     //사용자가 사용중인 모든 채팅방 검색
     @GetMapping("/all-Room/{userId}")
     public ResponseEntity<List<ChatRoomRequest>> getChatMessages(@PathVariable long userId){
-            chatService.test();
-        System.out.println("ChatController 호출");
         return new ResponseEntity<>(chatService.getAllChatRooms(userId), HttpStatus.OK);
     }
 
@@ -38,14 +39,11 @@ public class ChatController {
     @MessageMapping("/chat/{chatRoomId}")
     @SendTo("/sub/chat/{chatRoomId}")
     public ChatMessageRequest sendMessage(@DestinationVariable long chatRoomId,@Payload ChatMessageRequest chatMessageRequest){
-        System.out.println("send-message 호출 : " + chatRoomId);
             return chatService.sendMessage(chatMessageRequest);
     }
+    //채팅방 생성
     @GetMapping("/create-room")
     public ResponseEntity<Long> createChatRoom(@RequestParam long myUserId, @RequestParam long joinTargetUserId){
             return new ResponseEntity<>(chatService.createChatRoom(myUserId,joinTargetUserId), HttpStatus.OK);
     }
-
-
-
 }

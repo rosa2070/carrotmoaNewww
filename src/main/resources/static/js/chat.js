@@ -209,7 +209,7 @@ window.onload = function () {
                     function createChatRoom(myUserId, joinTargetUserId) {
                         console.log(myUserId);
                         console.log(joinTargetUserId);
-                        if (stompClient.connected) {
+                        if(stompClient && stompClient.connected) {
                             stompClient.disconnect(function () {
                                 console.log('Disconnected from WebSocket.');
                             });

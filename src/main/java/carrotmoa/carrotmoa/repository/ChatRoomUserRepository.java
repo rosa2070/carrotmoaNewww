@@ -11,4 +11,7 @@ public interface ChatRoomUserRepository extends JpaRepository<ChatRoomUser, Long
     List<ChatRoomUser> findByUserId(long userId);
     @Query("SELECT a.userId FROM ChatRoomUser a WHERE a.userId != :userId AND a.chatRoomId = :chatRoomId")
     Long findRelativeUserId(@Param("userId") long userId, @Param("chatRoomId")long chatRoomId);
+
+    @Query("SELECT a.id,a.userId ,a.chatRoomId,a.state,a.createdAt,a.updatedAt  FROM ChatRoomUser a WHERE a.chatRoomId IN (SELECT b.chatRoomId FROM ChatRoomUser b WHERE b.userId = :userId) AND a.userId = :joinUserId")
+    ChatRoomUser duplicateChatRoomId(@Param("userId") long userId ,@Param("joinUserId")long joinUserId);
 }
