@@ -88,6 +88,12 @@ function fetchLoginUserNotifications() {
 // DB 알림 목록 -> 동적으로 html 생성
 function notificationStorageList(notifications) {
     // 알림 목록이 비어있는지 확인
+    // 기존 메시지 제거
+    const existingMessage = document.querySelector(".no-notifications-message");
+    if (existingMessage) {
+        existingMessage.remove(); // 메시지가 존재하면 제거
+    }
+
     if (notifications.length === 0) {
         displayNoNotificationsMessage();
     }
@@ -384,6 +390,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
 // "알림이 없습니다" 메시지를 표시하는 함수
 function displayNoNotificationsMessage() {
+    const existingMessage = document.querySelector(".no-notifications-message");
+    if (existingMessage) return; // 이미 메시지가 존재하면 함수 종료
+
     const noNotificationsMessage = document.createElement("div");
     noNotificationsMessage.className = "no-notifications-message";
     noNotificationsMessage.innerHTML = `<p>아직 알림이 없어요!</p>`;
