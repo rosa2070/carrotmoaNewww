@@ -22,4 +22,5 @@ public class GuestReservationResponse {
     private Integer floor;
     private String imageUrl;
     private String impUid;
+    private Long reservationId; // 추가
 }

@@ -39,7 +39,8 @@ public class ReservationDetailCustomRepositoryImpl implements ReservationDetailC
                         accommodation.detailAddress,
                         accommodation.floor,
                         accommodationImage.imageUrl,
-                        payment.impUid
+                        payment.impUid,
+                        reservation.id.as("reservationId")
                 ))
                 .from(reservation)
                 .join(accommodation).on(accommodation.id.eq(reservation.accommodationId))
