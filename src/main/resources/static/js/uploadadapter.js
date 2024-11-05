@@ -9,10 +9,6 @@ class UploadAdapter {
   upload() {
     // 업로드된 파일 수가 최대 수를 초과하면 reject
     // TODO: 이미지 3개 초과 시, 에러메시지 알림창이 나오지만 매끄럽지 못함. 추후 개선할 방법 고민하기.
-    if (uploadFilesCount >= maxFiles) {
-      return Promise.reject('최대 3개의 이미지만 업로드할 수 있습니다.');
-    }
-
     return this.loader.file.then(file => new Promise(((resolve, reject) => {
       this._initRequest();
       this._initListeners(resolve, reject, file);
@@ -21,10 +17,7 @@ class UploadAdapter {
   }
 
   delete() {
-    if (uploadFilesCount > 0) {
-      uploadFilesCount--;
-      console.log(`업로드 되는 파일 수 실시간 체크: ${uploadFilesCount}`);
-    }
+
   }
 
   _initRequest() {
@@ -64,7 +57,7 @@ class UploadAdapter {
 }
 
 // 이미지 목록을 관리하는 배열
-const uploadedImages = [];
+
 
 // 이미지 업로드 및 삭제를 처리하는 함수
 function handleImageUpload(adapter, file) {
@@ -76,14 +69,6 @@ function handleImageUpload(adapter, file) {
   });
 }
 
-function handleImageDelete(adapter, index) {
-  // 배열에서 이미지 삭제
-  if (index >= 0 && index < uploadedImages.length) {
-    uploadedImages.splice(index, 1);
-    adapter.delete(); // 카운트 줄이기
-    renderUploadedImages(); // UI 업데이트
-  }
-}
 
 // 업로드된 이미지를 렌더링하는 함수
 function renderUploadedImages() {

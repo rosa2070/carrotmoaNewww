@@ -19,27 +19,27 @@ public class UserJoinDto {
 
     public User toUserEntity() {
         return User.builder()
-            .email(this.getEmail())
-            .password(this.getPassword())
-            .authorityId(this.getAuthorityId())
-            .isWithdrawal(this.getIsWithdrawal())
-            .build();
+                .email(this.getEmail())
+                .password(this.getPassword())
+                .authorityId(this.getAuthorityId())
+                .isWithdrawal(this.getIsWithdrawal())
+                .build();
     }
 
     public UserProfile toUserProfileEntity(long userId) {
         return UserProfile.builder()
-            .userId(userId)
-            .nickname(this.getNickname())
-            .build();
+                .userId(userId)
+                .nickname(this.getNickname())
+                .build();
     }
 
     public Account toHostAdditionalFormEntity(long userId) {
         return carrotmoa.carrotmoa.entity.Account.builder()
-            .userId(userId)
-            .bankName(this.getBankName())
-            .accountNumber(this.getAccountNumber())
-            .accountHolder(this.getAccountHolder())
-            .build();
+                .userId(userId)
+                .bankName(this.getBankName())
+                .accountNumber(this.getAccountNumber())
+                .accountHolder(this.getAccountHolder())
+                .build();
     }
 }
 

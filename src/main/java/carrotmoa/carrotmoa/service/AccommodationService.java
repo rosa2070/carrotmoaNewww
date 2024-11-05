@@ -38,17 +38,17 @@ public class AccommodationService {
     @Transactional
     public void updateAccommodation(Long accommodationId, UpdateAccommodationRequest updateRequest) {
         Accommodation accommodation = accommodationRepository.findById(accommodationId)
-            .orElseThrow(() -> new IllegalArgumentException("숙소를 찾을 수 없습니다."));
+                .orElseThrow(() -> new IllegalArgumentException("숙소를 찾을 수 없습니다."));
 
         accommodation.updateAccommodation(
-            updateRequest.getTotalArea(),
-            updateRequest.getRoadAddress(),
-            updateRequest.getLotAddress(),
-            updateRequest.getDetailAddress(),
-            updateRequest.getFloor(),
-            updateRequest.getTotalFloor(),
-            updateRequest.getPrice(),
-            updateRequest.getTransportationInfo()
+                updateRequest.getTotalArea(),
+                updateRequest.getRoadAddress(),
+                updateRequest.getLotAddress(),
+                updateRequest.getDetailAddress(),
+                updateRequest.getFloor(),
+                updateRequest.getTotalFloor(),
+                updateRequest.getPrice(),
+                updateRequest.getTransportationInfo()
         );
 
     }

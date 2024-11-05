@@ -34,10 +34,10 @@ public class PostService {
 
     public void updatePost(Long accommodationId, UpdateAccommodationRequest updateAccommodationRequest) {
         Accommodation accommodation = accommodationRepository.findById(accommodationId)
-            .orElseThrow(() -> new IllegalArgumentException("숙소를 찾을 수 없습니다."));
+                .orElseThrow(() -> new IllegalArgumentException("숙소를 찾을 수 없습니다."));
 
         Post post = postRepository.findById(accommodation.getPostId())
-            .orElseThrow(() -> new IllegalArgumentException("포스트를 찾을 수 없습니다."));
+                .orElseThrow(() -> new IllegalArgumentException("포스트를 찾을 수 없습니다."));
 
         log.info("방 이름 및 설명 변경 전: 제목: {}, 내용: {}", post.getTitle(), post.getContent());
 

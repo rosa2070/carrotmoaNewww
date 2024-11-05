@@ -1,11 +1,12 @@
 package carrotmoa.carrotmoa.model.response;
 
-import java.math.BigDecimal;
-import java.util.Arrays;
-import java.util.List;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.math.BigDecimal;
+import java.util.Arrays;
+import java.util.List;
 
 @Getter
 @Setter
@@ -20,19 +21,19 @@ public class AccommodationResultResponse {
 
     public static AccommodationResultResponse fromData(Object[] data) {
         List<Integer> roomTypeCounts = Arrays.asList(
-            (Integer) data[5],
-            (Integer) data[6],
-            (Integer) data[7],
-            (Integer) data[8]
+                (Integer) data[5],
+                (Integer) data[6],
+                (Integer) data[7],
+                (Integer) data[8]
         );
 
         return AccommodationResultResponse.builder()
-            .id((Long) data[0])
-            .title((String) data[1])
-            .roadAddress((String) data[2])
-            .price((BigDecimal) data[3])
-            .imageUrl((String) data[4])
-            .roomTypeCount(roomTypeCounts)
-            .build();
+                .id((Long) data[0])
+                .title((String) data[1])
+                .roadAddress((String) data[2])
+                .price((BigDecimal) data[3])
+                .imageUrl((String) data[4])
+                .roomTypeCount(roomTypeCounts)
+                .build();
     }
 }

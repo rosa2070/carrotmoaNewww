@@ -11,15 +11,21 @@ import carrotmoa.carrotmoa.repository.CommunityCommentRepository;
 import carrotmoa.carrotmoa.repository.CommunityPostRepository;
 import carrotmoa.carrotmoa.repository.PostImageRepository;
 import carrotmoa.carrotmoa.repository.PostRepository;
+import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
+import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.server.ResponseStatusException;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import lombok.RequiredArgsConstructor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -53,15 +59,31 @@ public class CommunityPostService {
     }
 
     @Transactional(readOnly = true)
-    public List<CommunityPostListResponse> getAllCommunityPosts() {
+    public Slice<CommunityPostListResponse> getAllCommunityPosts(int page, int size) {
         Long serviceId = 4L;
-        List<CommunityPostListResponse> posts = postRepository.getAllCommunityPosts(serviceId);
-        for (CommunityPostListResponse post : posts) {
+        Pageable pageable = PageRequest.of(page, size);
+        Slice<CommunityPostListResponse> posts = postRepository.getAllCommunityPosts(serviceId, pageable);
+        posts.forEach(post -> {
             int commentCount = communityCommentRepository.countByCommunityPostId(post.getCommunityPostId());
             post.setCommentCount(commentCount);
-        }
+        });
         return posts;
     }
+
+    @Transactional(readOnly = true)
+    public Slice<CommunityPostListResponse> getPostsBySubCategory(Long subcategoryId, int page, int size) {
+        Long serviceId = 4L;
+        Pageable pageable = PageRequest.of(page, size);
+        Slice<CommunityPostListResponse> posts = postRepository.getPostsBySubCategory(serviceId, subcategoryId, pageable);
+        posts.forEach(post -> {
+            int commentCount = communityCommentRepository.countByCommunityPostId(post.getCommunityPostId());
+            post.setCommentCount(commentCount);
+        });
+        return posts;
+    }
+
+
+
 
     @Transactional
     public int deleteByCommunityPostId(Long communityPostId) {
@@ -75,25 +97,13 @@ public class CommunityPostService {
     }
 
     @Transactional
-    public int updateCommunityPost(Long communityPostId, UpdateCommunityPostRequest request) {
-        CommunityPost communityPost = communityPostRepository.findById(communityPostId).orElseThrow(RuntimeException::new);
-        Post post = postRepository.findById(communityPost.getPostId()).orElseThrow(RuntimeException::new);
-        // 방법 1
-        /* // request에서 가져온 값으로 수정하기 (entity에 setter 사용)
-            post.setTitle(request.getTitle());
-            post.setContent(request.getContent());
-            communityPost.setCommunityCategoryId(request.getCommunityCategoryId());
-
-        * 방법2
-        * // 엔티티에 수정 메서드를 생성 -> 호출해서 값 수정(setter처럼 실수할 일이 없음)
-            post.updatePost(request.getTitle(), request.getContent());
-            communityPost.updateCategory(request.getCommunityCategoryId());
-        * */
-
+    public Long updateCommunityPost(Long communityPostId, UpdateCommunityPostRequest request) {
+        CommunityPost communityPost = communityPostRepository.findById(communityPostId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "게시글을 찾을 수 없습니다."));
+        Post post = postRepository.findById(communityPost.getPostId()).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "게시글의 내용이 없습니다."));
         post.updatePost(request.getTitle(), request.getContent());
-        communityPost.updateCategory(request.getCommunityCategoryId());
 
-        return 0;
+        communityPost.updateCategory(request.getCommunityCategoryId());
+        return communityPostId;
     }
 
 

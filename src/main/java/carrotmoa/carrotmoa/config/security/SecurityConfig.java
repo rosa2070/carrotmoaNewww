@@ -23,33 +23,33 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-            .csrf(AbstractHttpConfigurer::disable)
-            .authorizeHttpRequests(authz -> authz
-                .requestMatchers("/service/**").authenticated()
-                .requestMatchers("/admin/**").hasRole(AuthorityCode.ADMIN.name())
-                .anyRequest().permitAll()
-            )
+                .csrf(AbstractHttpConfigurer::disable)
+                .authorizeHttpRequests(authz -> authz
+                        .requestMatchers("/service/**").authenticated()
+                        .requestMatchers("/admin/**").hasRole(AuthorityCode.ADMIN.name())
+                        .anyRequest().permitAll()
+                )
 
-            .sessionManagement(session -> session
-                .maximumSessions(1)
-                .maxSessionsPreventsLogin(false)
-            )
+                .sessionManagement(session -> session
+                        .maximumSessions(1)
+                        .maxSessionsPreventsLogin(false)
+                )
 
-            .formLogin(formLogin -> formLogin
-                .usernameParameter("login-email")
-                .passwordParameter("login-password")
-                .loginPage("/user/login-page")
-                .loginProcessingUrl("/user/login")
-                .defaultSuccessUrl("/")
-                .permitAll()
-            )
+                .formLogin(formLogin -> formLogin
+                        .usernameParameter("login-email")
+                        .passwordParameter("login-password")
+                        .loginPage("/user/login-page")
+                        .loginProcessingUrl("/user/login")
+                        .defaultSuccessUrl("/")
+                        .permitAll()
+                )
 
-            .logout((logoutConfig) -> logoutConfig
-                .logoutUrl("/user/logout")
-                .logoutSuccessUrl("/user/login-page")
-                .invalidateHttpSession(true)
-            )
-            .userDetailsService(detailService);
+                .logout((logoutConfig) -> logoutConfig
+                        .logoutUrl("/user/logout")
+                        .logoutSuccessUrl("/user/login-page")
+                        .invalidateHttpSession(true)
+                )
+                .userDetailsService(detailService);
         return http.build();
     }
 }

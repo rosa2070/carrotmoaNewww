@@ -1,10 +1,11 @@
 package carrotmoa.carrotmoa.model.response;
 
 import carrotmoa.carrotmoa.enums.ProductStatus;
-import java.time.LocalDateTime;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -23,16 +24,16 @@ public class FleaMarketPostResponse {
     private LocalDateTime createdAt;
 
     public FleaMarketPostResponse(
-        Long postId,
-        Long userId,
-        String postTitle,
-        String content,
-        Long productId,
-        Integer price,
-        boolean isPriceOffer,
-        boolean isFree,
-        ProductStatus productStatus,
-        LocalDateTime createdAt) {
+            Long postId,
+            Long userId,
+            String postTitle,
+            String content,
+            Long productId,
+            Integer price,
+            boolean isPriceOffer,
+            boolean isFree,
+            ProductStatus productStatus,
+            LocalDateTime createdAt) {
         this.postId = postId;
         this.userId = userId;
         this.title = postTitle;
