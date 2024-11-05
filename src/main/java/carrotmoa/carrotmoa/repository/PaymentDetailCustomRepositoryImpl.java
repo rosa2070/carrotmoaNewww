@@ -53,6 +53,7 @@ public class PaymentDetailCustomRepositoryImpl implements PaymentDetailCustomRep
                 .join(post).on(accommodation.postId.eq(post.id))
                 .where(whereClause)
                 .fetch();
+        // 만료된 계약으로 해주어야 하나...
 
         // 결과에 1일 추가
 //        results.forEach(result -> result.setSettlementDate(result.getSettlementDate().plusDays(1)));
