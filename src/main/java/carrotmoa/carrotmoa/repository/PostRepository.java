@@ -2,6 +2,7 @@ package carrotmoa.carrotmoa.repository;
 
 import carrotmoa.carrotmoa.entity.Post;
 import carrotmoa.carrotmoa.model.response.CommunityPostListResponse;
+import carrotmoa.carrotmoa.model.response.CommunityPostSearchResponse;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -41,4 +42,17 @@ public interface PostRepository extends JpaRepository<Post, Long> {
 
     @Query("select p.userId from Post p where p.id = :id")
     Long findUserIdById(@Param("id")Long id);
+
+
+    @Query(value = "SELECT cp.id AS postId, ua.address_name AS addressName, p.content AS content, pi.image_url AS postImageUrl " +
+            "FROM post p " +
+            "JOIN community_post cp ON p.id = cp.post_id " +
+            "JOIN user_address ua ON p.user_id = ua.user_id " +
+            "LEFT JOIN post_image pi ON p.id = pi.post_id " +
+            "WHERE MATCH(p.content) AGAINST(:keyword  IN BOOLEAN MODE) AND p.service_id = :serviceId and p.is_deleted = 0 " +
+            "ORDER BY p.created_at DESC",
+            nativeQuery = true)
+    Slice<CommunityPostSearchResponse> integratedSearchCommunityPost(@Param("keyword") String keyword, @Param("serviceId") Long serviceId, Pageable pageable);
+
+
 }
