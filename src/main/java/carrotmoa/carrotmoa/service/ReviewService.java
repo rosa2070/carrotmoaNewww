@@ -27,4 +27,9 @@ public class ReviewService {
 
         reviewRepository.save(reviewEntity);
     }
+
+    @Transactional(readOnly = true)
+    public Long getReservationId(Long reservationId) {
+        return reviewRepository.getReviewId(reservationId);
+    }
 }
