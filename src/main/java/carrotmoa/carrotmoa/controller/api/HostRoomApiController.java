@@ -8,6 +8,7 @@ import carrotmoa.carrotmoa.service.AccommodationHostService;
 import jakarta.validation.Valid;
 
 import java.time.LocalDate;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -119,7 +120,7 @@ public class HostRoomApiController {
         List<HostManagedAccommodationResponse> accommodations = accommodationHostService.getAccommodationsByUserId(userId);
 
         if (accommodations == null || accommodations.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null); // 404 Not Found
+            return ResponseEntity.ok(Collections.emptyList()); // 200 OK와 빈 배열 반환
         }
 
         return ResponseEntity.ok(accommodations);
