@@ -1,6 +1,5 @@
 package carrotmoa.carrotmoa.service;
 
-import carrotmoa.carrotmoa.entity.WishList;
 import carrotmoa.carrotmoa.repository.AccommodationRepository;
 import carrotmoa.carrotmoa.repository.WishListRepository;
 import org.springframework.beans.factory.annotation.Autowired;

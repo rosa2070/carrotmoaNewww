@@ -20,8 +20,8 @@
                     <p class="add_text" id="room-addr-info" th:text="${room.roadAddress} + ${room.detailAddress} + ' ' + ${room.floor} + '층'">용인시 처인구 애버랜드로</p>
 
                     <div class="room_images" id="roomImages">
-                        <div th:each="image, iterStat : ${room.imageUrls}" class="room-image-wrapper">
-                            <img th:src="${image}" class="room-image"  th:if="${iterStat.index == 0}" />
+                        <div th:each="image, iterStat : ${room.imageUrls}" class="room-image-wrapper" style="display: none;">
+                            <img th:src="${image}" class="room-image" />
                         </div>
                         <div class="image_controls">
                             <button class="slider-button prev" onclick="prevImage()">&#10094;</button>
@@ -119,18 +119,13 @@
                 </div>
                 <div class="room_info">
                     <p class="title">이용 후기
-                        <span class="font_orange">10</span>
+                        <span class="font_orange" th:text="${reviewCount}">10</span>
                     </p>
                     <ul class="reivew_list" th:each="review : ${reviews}">
                         <li>
                             <div class="review_info" th:each="review : ${review}">
-<!--                                <div class="bg_score">-->
-<!--                                    <span class="score" style="width: 80%"></span>-->
-<!--                                </div>-->
-<!--                                <span class="review-rating" data-rating="${review.rating}"></span>-->
                                 <span class="review_item" th:text="${review.nickname}">최이재</span>
-                                <span class="review_item" th:text="${review.checkOutDate}">
-                                </span>
+                                <span class="review_item" th:text="${review.checkOutDate}"></span>
                             </div>
                             <div class="review_text" th:text="${review.comment}">집이 너무 좋아요;)</div>
                         </li>

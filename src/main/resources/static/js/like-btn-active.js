@@ -17,16 +17,12 @@ document.getElementById("likeButton").addEventListener("click", function() {
     })
         .then(response => {
             if (!response.ok) {
-                throw new Error('error');
+                throw new Error('Network response was not ok');
             }
-            return response.json();
+            // 성공적으로 완료된 경우
+            console.log('Success: Wishlist updated');
         })
-        .then(data => {
-            console.log('Success:', data);
-            // 필요하다면 추가 처리
-        })
-        .catch((error) => {
+        .catch(error => {
             console.error('Error:', error);
-            // 에러 처리
         });
 });

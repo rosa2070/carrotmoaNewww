@@ -30,12 +30,14 @@ public class GuestRoomDetailController {
         List<SpaceImageResponse> icons = guestRoomDetailService.getSpaceImage();
         List<UserProfileResponse> profile = guestRoomDetailService.getHostProfile(id);
         List<AccommodationReviewResponse> reviews = guestRoomDetailService.getAllReview(id);
+        int reviewCount = reviews.size();
         System.out.println(reviews);
         model.addAttribute("room", getRoomDetailById);
         model.addAttribute("amenities", amenities);
         model.addAttribute("icons", icons);
         model.addAttribute("profile", profile);
         model.addAttribute("reviews", reviews);
+        model.addAttribute("reviewCount", reviewCount);
 
         // 링크 복사를 위해서 model에 담아주기
         String copyLinkUrl = "http://localhost:8080/room/detail/" + id;

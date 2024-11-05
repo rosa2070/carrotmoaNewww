@@ -14,7 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Repository
 public interface ReservationRepository extends JpaRepository<Reservation, Long> {
-    @Query("SELECT r.accommodationId, r.checkInDate, r.checkOutDate, r.status, r.totalPrice, " +
+    @Query("SELECT r.id, r.accommodationId, r.checkInDate, r.checkOutDate, r.status, r.totalPrice, " +
             "p.title, a.lotAddress, a.detailAddress, a.floor, u.nickname, MIN(i.imageUrl) " +
             "FROM Reservation r " +
             "JOIN Accommodation a ON a.id = r.accommodationId " +
@@ -23,7 +23,8 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
             "JOIN UserProfile u ON p.userId = u.userId " +
             "WHERE r.userId = :userId " +
             "GROUP BY r.accommodationId, r.checkInDate, r.checkOutDate, r.status, r.totalPrice, " +
-            "p.title, a.lotAddress, a.detailAddress, a.floor, u.nickname")
+            "p.title, a.lotAddress, a.detailAddress, a.floor, u.nickname " +
+            "ORDER BY r.createdAt DESC")
     List<Object[]> findBookingData(@Param("userId") Long userId);
 
     @Query("SELECT new carrotmoa.carrotmoa.model.response.BookingDetailResponse( " +
@@ -55,4 +56,11 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
             "SET r.status = 3 " +
             "WHERE r.status = 1 AND r.checkOutDate < CURRENT_DATE ")
     void updateBookingStatusIfTimePast();
+
+    @Query("SELECT p.id " +
+            "FROM Post p " +
+            "JOIN Accommodation a ON a.postId = p.id " +
+            "JOIN Reservation r ON r.accommodationId = a.id " +
+            "WHERE r.id = :reservationId")
+    Long findPostIdByReservationId(@Param("reservationId") Long reservationId);
 }
