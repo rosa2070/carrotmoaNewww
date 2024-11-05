@@ -29,16 +29,21 @@
     <div class="search-bar-container">
       <h2 class="main-text">당근 숙소, 색다른 숙소 특별한 여행</h2>
       <div class="keyword-input">
-                <span>
+                <span style="display: flex; justify-content: center; align-items: center;">
 <!--                    th:href="@{/room/detail/{id}(id=${room.id})}" 써보기, controller에서는 @PathVariable-->
                     <form method="get" th:action="@{/guest/search}">
                     <input id="keyword" name="keyword" placeholder="주소, 지역, 이름 등 키워드를 입력하세요." type="text">
                     <button type="submit">검색</button>
                 </form>
                 </span>
+          <div class="map_search">
+              <a th:href="@{/search/map}">지도로 검색</a><br>
+          </div>
+          <div class="host_menu">
+              <a th:href="@{/host/room/manage}">호스트세요?</a>
+          </div>
       </div>
     </div>
   </div>
-
 </main>
 </html>
