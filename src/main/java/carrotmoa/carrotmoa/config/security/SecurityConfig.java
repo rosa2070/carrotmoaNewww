@@ -27,6 +27,10 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authz -> authz
                         .requestMatchers("/service/**").authenticated()
                         .requestMatchers("/admin/**").hasRole(AuthorityCode.ADMIN.name())
+                        .requestMatchers("/guest/booking/list","/guest/booking/start","/guest/review").authenticated()
+                        .requestMatchers("/community/write").authenticated()
+                        .requestMatchers("/host/room/**").hasAuthority(AuthorityCode.HOST.name())
+                        //                            //.requestMatchers("/**").hasAnyRole(AuthorityCode.SUPER_ADMIN.name())
                         .anyRequest().permitAll()
                 )
 
