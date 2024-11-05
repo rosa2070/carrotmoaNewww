@@ -56,7 +56,7 @@
                         </dd>
                     </dl>
                     <strong class="room.pay" th:text="${booking.totalPrice}"></strong>
-                    <a class="btn orange" th:href="@{/guest/review/{reservationId}(reservationId=${booking.id})}">리뷰</a>
+                    <a class="btn orange" th:href="@{/guest/review/{reservationId}(reservationId=${booking.reservationId})}">리뷰</a>
                 </div>
             </div>
             <h4>취소된 계약</h4>
