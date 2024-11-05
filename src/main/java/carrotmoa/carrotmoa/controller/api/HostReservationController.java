@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Collections;
 import java.util.List;
 
 @RestController
@@ -27,7 +28,7 @@ public class HostReservationController {
         List<HostReservationResponse> hostReservations = hostReservationService.getHostReservations(userId);
 
         if (hostReservations.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+            return ResponseEntity.ok(Collections.emptyList()); // 200 OK와 빈 배열 반환
         }
 
         return ResponseEntity.ok(hostReservations);
