@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class SearchMapController {
     @GetMapping("/search/map")
     public String gotoSearchMap() {
-        return "kakaomap/kakaomap-accommodation";
+//        return "kakaomap/kakaomap-accommodation";
+        return "guest/roomMap";
     }
 }
