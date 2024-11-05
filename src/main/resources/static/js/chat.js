@@ -1,5 +1,6 @@
 //userId 안들어감
 window.onload = function () {
+
     if (document.getElementById('chat-modal-open')) {
         document.getElementById('chat-modal-open').addEventListener('click', function () {
             const modal = document.getElementById("chat-modal-content");
@@ -19,28 +20,22 @@ window.onload = function () {
                     closeModalButton.onclick = function () {
                         modal.style.display = "none"; // 모달 닫기
                     }
-
-
-
                     let stompClient = null;
                     let chatRoomId = 0;
 
                     function connect(chatRoomId) {
-                        console.log(chatRoomId)
                         const socket = new SockJS('/chat');
                         stompClient = Stomp.over(socket);
                         stompClient.connect({}, function (frame) {
                             console.log('Connected: ' + frame);
                             stompClient.subscribe('/sub/chat/' + chatRoomId, function (message) {
                                 messageDiv(JSON.parse(message.body));
-                                // showMessage(JSON.parse(message.body));
                             });
                         });
                     }
 
 
                     const chatMessage = document.getElementById('chat-messages');
-
                     //사용자가 들어가있는 채팅방 목록 호출
                     // document.getElementById("get-chat-room-list").addEventListener('click', function () {
                     //     findChatRoom(userId);
@@ -52,7 +47,6 @@ window.onload = function () {
 
                     function sendMessage() {
                         document.getElementById('chat-room-id').value = chatRoomId;
-                        console.log(document.getElementById('chat-room-id').value);
                         const formData = new FormData(document.getElementById('chat-form'));
 
                         const data = {};
@@ -66,7 +60,11 @@ window.onload = function () {
                     //선택한 채팅방 입장   -> websocket 구독 , db에서 채팅 목록 가져오기
                     function getChatMessage(roomId) {
                         chatRoomId = roomId;
-                        console.log(chatRoomId);
+                        if (stompClient && stompClient.connected) {
+                            stompClient.disconnect(function () {
+                                console.log('Disconnected from WebSocket.');
+                            });
+                        }
                         connect(chatRoomId);
 
                         fetch("/api/chat/get-message/" + roomId, {
@@ -81,23 +79,27 @@ window.onload = function () {
                                 }
                                 return response.json();
                             })
-                            .then(result => {
+                            .then(message => {
                                 chatMessage.innerHTML = '';
-                                // document.getElementById('chat-room-id').value = result[0].chatRoomId;
-                                console.log(result[0].chatRoomId);
-                                result.forEach(message => {
+                                document.getElementById('chat-room-id').value = message[0].chatRoomId;
+                                //메시지에 넣어줄 닉네임 추가
 
-                                    messageDiv(message);
-
-                                })
+                                    let myNickname;
+                                    let joinNickname;
+                                    simpleFetch(`/api/chat/find-chat-nickname/${userId}/${chatRoomId}`, "GET", {'Content-Type': 'application/json'})
+                                        .then(userNicknameMap => {
+                                            message.forEach(m => {
+                                    messageDiv(message,userNicknameMap);
+                                    })
+                                        })
                                 const chatMessages = document.getElementById('chat-messages');
                                 chatMessages.scrollTop = chatMessages.scrollHeight;
 
                             })
+
                     }
 
                     function findChatRoom(userId) {
-                        console.log("메서드 호출")
                         fetch("/api/chat/all-Room/" + userId, {
                             method: "GET",
                             headers: {
@@ -122,6 +124,7 @@ window.onload = function () {
                                     // roomElement.id = "chat-room-item";
                                     roomLinkElement.classList.add('chat-room-item-link');
                                     roomLinkElement.onclick = function () {
+
                                         getChatMessage(room.roomId);
                                     }
 
@@ -135,16 +138,22 @@ window.onload = function () {
                             });
                     }
 
-                    function messageDiv(message) {
+                    function messageDiv(message,userNicknameMap) {
+                        debugger;
+                        console.log(message);
+                        console.log(userNicknameMap);
+
                         const chatMessageElement = document.createElement("div");
-                        const chatMessageTitleElement = document.createElement("p")
+                        const chatMessageTitleElement = document.createElement("p");
                         const chatMessageContentElement = document.createElement("input");
-                        const ChatMessageSendTimeElement = document.createElement('div')
+                        const ChatMessageSendTimeElement = document.createElement('div');
                         chatMessageContentElement.type = 'text'; // 타입을 text로 설정
                         chatMessageContentElement.readOnly = true; // 수정 불가능하게 설정
                         chatMessageContentElement.value = message.message; // 초기 값 설정
-
-                        chatMessageTitleElement.textContent = message.nickname;
+                        userNicknameMap.myNickname.userId === userId ?
+                            chatMessageTitleElement.textContent = userNicknameMap.myNickname.nickname :
+                            chatMessageTitleElement.textContent = userNicknameMap.joinNickname.nickname;
+                        chatMessageTitleElement.textContent = nickname;
                         let createdAt = message.createdAt.split('T');
                         let createdAtDate = createdAt[0];
                         let createdAtTime = createdAt[1].split(':');
@@ -175,8 +184,8 @@ window.onload = function () {
                     });
 
                     function chatFindUser(searchKeyword) {
-                        console.log(searchKeyword);
-                        fetch(`/api/user/find-user?searchType=nickname&searchKeyword=${encodeURIComponent(searchKeyword)}`, {
+                        //userId  , nickname
+                        fetch(`/api/user/find-user/nickname/${encodeURIComponent(searchKeyword)}`, {
                             method: "GET",
                             headers: {
                                 'Content-Type': 'application/json'
@@ -184,7 +193,6 @@ window.onload = function () {
                         })
                             .then(response => {
                                 if (!response.ok) {
-
                                     console.log("찾을 수 없음")
                                 }
                                 return response.json()
@@ -193,11 +201,8 @@ window.onload = function () {
                                 if (result.userId == null) {
                                     alert('해당 유저 없음');
                                 }
-                                console.log("회원번호 : " + result.userId);
-                                console.log("닉네임 : " + result.nickname);
                                 document.getElementById('chat-find-result-id').value = result.userId;
                                 document.getElementById('chat-find-result-nickname').value = result.nickname;
-
                             });
                     }
 
@@ -206,41 +211,75 @@ window.onload = function () {
                         createChatRoom(userId, joinTargetUserId);
                     })
 
+                    //내 userId와 상대 userId를 보내서 채팅방 생성 중복시 이미 있는 채팅방 번호를 반환
                     function createChatRoom(myUserId, joinTargetUserId) {
-                        console.log(myUserId);
-                        console.log(joinTargetUserId);
-                        if(stompClient && stompClient.connected) {
-                            stompClient.disconnect(function () {
-                                console.log('Disconnected from WebSocket.');
-                            });
-                            fetch(`/api/chat/create-room?myUserId=${encodeURIComponent(myUserId)}&joinTargetUserId=${encodeURIComponent(joinTargetUserId)}`, {
-                                method: 'GET',
-                                headers: {
-                                    'Content-Type': 'application/json'
-                                },
+                        fetch(`/api/chat/create-room?myUserId=${encodeURIComponent(myUserId)}&joinTargetUserId=${encodeURIComponent(joinTargetUserId)}`, {
+                            method: 'GET',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                        })
+                            .then(response => {
+                                if (!response.ok) {
+                                    console.log("채팅방 생성 실패")
+                                }
+                                return response.json()
                             })
-                                .then(response => {
-                                    if (!response.ok) {
-                                        console.log("채팅방 생성 실패")
+                            .then(result => {
+                                console.log('채팅방 생성 , 입장');
+                                if (chatRoomId === result) {
+                                    getChatMessage(chatRoomId);
+                                } else {
+                                    if (stompClient && stompClient.connected) {
+                                        stompClient.disconnect(function () {
+                                            console.log('Disconnected from WebSocket.');
+                                        });
                                     }
-                                    return response.json()
-                                })
-                                .then(result => {
-                                    console.log('채팅방 생성 , 입장');
                                     chatRoomId = result;
                                     connect(result);
+                                    findChatRoom(userId);
                                     getChatMessage(chatRoomId);
-                                });
-                        }
-
+                                }
+                            })
+                            .catch(error => {
+                                console.error('채팅방 생성 에러:', error);
+                            });
                     }
-                })
-                .catch(error => {
-                    console.error('모달 내용을 가져오는 데 오류가 발생했습니다:', error);
-                });
+
+
+                }).catch(error => {
+                console.error('모달 내용을 가져오는 데 오류가 발생했습니다:', error);
+            });
 
         })
     }
 
+
+    function simpleFetch(url,method,headers,errorMessage) {
+        return fetch(url, {
+            method: method,
+            headers: headers,
+        }).then(response => {
+            if (!response.ok) {
+                console.log("호출 실패 : " + url)
+            }
+            return response.json()
+        }).then(result => {
+            return result;
+        }).catch(error => {
+            if(errorMessage ===undefined){
+                errorMessage = "simpleFetchError"
+            }
+            console.error(errorMessage + ":" , error);
+            throw error;
+        });
+    }
+
+
+
 }
+
+
+
+
 

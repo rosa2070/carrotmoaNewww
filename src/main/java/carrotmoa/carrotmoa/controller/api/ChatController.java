@@ -3,8 +3,10 @@ package carrotmoa.carrotmoa.controller.api;
 import carrotmoa.carrotmoa.entity.ChatRoom;
 import carrotmoa.carrotmoa.model.request.ChatMessageRequest;
 import carrotmoa.carrotmoa.model.request.ChatRoomRequest;
+import carrotmoa.carrotmoa.model.response.FindUserResponse;
 import carrotmoa.carrotmoa.repository.ChatRoomUserRepository;
 import carrotmoa.carrotmoa.service.ChatService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
@@ -13,19 +15,14 @@ import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.web.bind.annotation.*;
 
+import java.nio.file.Path;
+import java.util.HashMap;
 import java.util.List;
-
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/api/chat")
 public class ChatController {
-    private final ChatRoomUserRepository chatRoomUserRepository;
-    ChatService chatService;
-        public ChatController(ChatService chatService, ChatRoomUserRepository chatRoomUserRepository) {
-            this.chatService = chatService;
-            this.chatRoomUserRepository = chatRoomUserRepository;
-        }
-
-
+    private final ChatService chatService;
     //사용자가 사용중인 모든 채팅방 검색
     @GetMapping("/all-Room/{userId}")
     public ResponseEntity<List<ChatRoomRequest>> getChatMessages(@PathVariable long userId){
@@ -45,5 +42,9 @@ public class ChatController {
     @GetMapping("/create-room")
     public ResponseEntity<Long> createChatRoom(@RequestParam long myUserId, @RequestParam long joinTargetUserId){
             return new ResponseEntity<>(chatService.createChatRoom(myUserId,joinTargetUserId), HttpStatus.OK);
+    }
+    @GetMapping("/find-chat-nickname/{myUserId}/{chatRoomId}")
+    public ResponseEntity<HashMap<String,FindUserResponse>> findChatUserNickName(@PathVariable long myUserId, @PathVariable long chatRoomId){
+        return new ResponseEntity<>(chatService.findChatUserNickname(myUserId,chatRoomId), HttpStatus.OK);
     }
 }

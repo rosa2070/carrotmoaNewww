@@ -15,7 +15,6 @@
         <div class="chat-messages" id="chat-messages">
 
         </div>
-
         <form class="chat-footer" th:object="${chatMessageRequest}" id="chat-form">
             <input type="hidden" id="userId"  th:field="*{userId}" th:value="${user.getUserProfile().getUserId()}"/>
             <input type="hidden" id="chat-room-id"  th:field="*{chatRoomId}"/>
@@ -25,12 +24,11 @@
     </div>
 
     <div class="chat-find-user">
-        <input type="text" id="chat-find-user-search" placeholder="유저 찾기" minlength="2">
+        <input type="text" id="chat-find-user-search" placeholder="닉네임을 검색해주세요" minlength="2">
         <input type="button" id="chat-find-user" value="찾기">
         <input type="text" id="chat-find-result-nickname">
         <input type="hidden" id="chat-find-result-id">
         <button id="chat-room-create" type="button">채팅시작</button>
         <button id="chat-close-modal" type="button">닫기</button>
     </div>
-
 </div>

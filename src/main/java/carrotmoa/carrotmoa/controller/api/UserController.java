@@ -2,18 +2,13 @@ package carrotmoa.carrotmoa.controller.api;
 
 import carrotmoa.carrotmoa.model.request.UserJoinDto;
 import carrotmoa.carrotmoa.model.request.UserUpdateRequest;
-import carrotmoa.carrotmoa.model.response.ChatFindUserResponse;
+import carrotmoa.carrotmoa.model.response.FindUserResponse;
 import carrotmoa.carrotmoa.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mail.MailSendException;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RequestMapping("/api/user")
 @RestController
@@ -58,11 +53,10 @@ public class UserController {
         return new ResponseEntity<Boolean>(userService.userProfileUpdate(userUpdateRequestDto),HttpStatus.OK);
     }
 
-    @GetMapping("/find-user")
-    public ResponseEntity<ChatFindUserResponse> findUser(@RequestParam String searchType,@RequestParam("searchKeyword") String searchKeyword) {
-        return new ResponseEntity<>(userService.findUser(searchType,searchKeyword),HttpStatus.OK);
+    @GetMapping("/find-user/{searchType}/{searchKeyword}")
+    public ResponseEntity<FindUserResponse> findUser(@PathVariable String searchType, @PathVariable String searchKeyword) {
+        return new ResponseEntity<>(userService.findUserNickname(searchType,searchKeyword),HttpStatus.OK);
     }
-
 
 }
 

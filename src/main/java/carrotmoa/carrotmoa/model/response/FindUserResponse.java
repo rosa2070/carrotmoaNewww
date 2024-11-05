@@ -8,11 +8,11 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ChatFindUserResponse {
+public class FindUserResponse {
     private long userId;
     private String nickname;
 
-public ChatFindUserResponse(UserProfile profile){
+public FindUserResponse(UserProfile profile){
     this.userId = profile.getUserId();
     this.nickname = profile.getNickname();
 }
