@@ -70,6 +70,6 @@ public class PaymentController {
     @GetMapping("/cancel/{uid}")
     public ResponseEntity<String> cancelPayment(@PathVariable("uid") String uid) {
         paymentService.cancelPayment(uid);
-        return ResponseEntity.ok("Payment cancel processed successfully.");
+        return ResponseEntity.ok("결제가 성공적으로 완료되었습니다.");
     }
 }
