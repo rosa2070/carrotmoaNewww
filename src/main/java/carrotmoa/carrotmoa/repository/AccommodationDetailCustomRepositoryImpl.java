@@ -7,12 +7,14 @@ import carrotmoa.carrotmoa.entity.QAccommodationSpace;
 import carrotmoa.carrotmoa.entity.QPost;
 import carrotmoa.carrotmoa.model.response.AccommodationDetailResponse;
 import carrotmoa.carrotmoa.model.response.HostManagedAccommodationResponse;
+import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
 import java.util.List;
 
 import org.springframework.stereotype.Repository;
+import software.amazon.awssdk.services.s3.endpoints.internal.Value;
 
 @Repository
 public class AccommodationDetailCustomRepositoryImpl implements AccommodationDetailCustomRepository {
@@ -79,8 +81,19 @@ public class AccommodationDetailCustomRepositoryImpl implements AccommodationDet
     }
 
     @Override
-    public List<HostManagedAccommodationResponse> findAccommodationsByUserId(Long userId) {
-        // 숙소 목록을 가져오기 위한 쿼리
+    public List<HostManagedAccommodationResponse> findAccommodationsByUserId(Long userId, Long lastId, int limit) {
+        // 첫 요청 시 lastId가 0이면, ID가 가장 큰 값을 기준으로 시작
+        BooleanBuilder builder = new BooleanBuilder();
+        builder.and(post.userId.eq(userId))  // userId 필터링
+                .and(post.isDeleted.eq(false)) // 삭제되지 않은 포스트 필터링
+                .and(accommodationImage.imageOrder.eq(0)); // 대표 이미지 필터링
+
+        // `lastId`가 0이 아니면 그 이후의 ID를 가져오는 조건 추가
+        if (lastId > 0) {
+            builder.and(accommodation.id.lt(lastId)); // 이전 데이터보다 작은 ID 기준으로
+        }
+
+        // 최신순 (내림차순) 정렬
         return jpaQueryFactory
                 .select(Projections.fields(HostManagedAccommodationResponse.class,
                         accommodation.id,
@@ -93,13 +106,25 @@ public class AccommodationDetailCustomRepositoryImpl implements AccommodationDet
                 .from(accommodation)
                 .join(post).on(accommodation.postId.eq(post.id))
                 .join(accommodationImage).on(accommodationImage.accommodationId.eq(accommodation.id))
-                .where(post.userId.eq(userId) // userId 필터링
-                        .and(post.isDeleted.eq(false)) // 삭제되지 않은 포스트 필터링
-                        .and(accommodationImage.imageOrder.eq(0)))
-                .orderBy(accommodation.createdAt.desc())
+                .where(builder)
+                .orderBy(accommodation.id.desc())  // 최신순 (id 내림차순)
+                .limit(limit) // 최대 limit 개수의 데이터만 반환
                 .fetch();
+    }
 
-
+    @Override
+    public List<HostManagedAccommodationResponse> getAllHostRooms(Long userId) {
+        return jpaQueryFactory
+                .select(Projections.fields(HostManagedAccommodationResponse.class,
+                        accommodation.id,  // accommodation.id 가져오기
+                        post.title          // post.title 가져오기
+                ))
+                .from(accommodation)
+                .join(post).on(accommodation.postId.eq(post.id))  // accommodation.postId = post.id
+                .where(post.userId.eq(userId)
+                        .and(post.isDeleted.eq(false)))  // userId로 필터링// 삭제되지 않은 포스트만 필터링
+                .orderBy(accommodation.id.desc())  // 최신 순으로 정렬
+                .fetch();  // 결과를 List로 반환
     }
 
 

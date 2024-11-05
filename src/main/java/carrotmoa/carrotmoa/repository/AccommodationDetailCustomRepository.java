@@ -9,5 +9,6 @@ import java.util.List;
 @Repository
 public interface AccommodationDetailCustomRepository {
     AccommodationDetailResponse getAccommodationDetailById(Long id);
-    List<HostManagedAccommodationResponse> findAccommodationsByUserId(Long userId);
+    List<HostManagedAccommodationResponse> findAccommodationsByUserId(Long userId, Long lastId, int limit);
+    List<HostManagedAccommodationResponse> getAllHostRooms(Long userId);
 }

@@ -42,7 +42,7 @@ const userId = document.getElementById('user-data').getAttribute('data-user-id')
 document.addEventListener('DOMContentLoaded', async () => {
     try {
         // 방 이름 목록을 가져오기 위한 API 호출
-        const response = await fetch(`/api/host/room/manage/${userId}`); // 실제 API URL로 변경
+        const response = await fetch(`/api/host/room/all/${userId}`); // 실제 API URL로 변경
         if (!response.ok) {
             throw new Error('방 이름을 가져오는 데 실패했습니다.');
         }
