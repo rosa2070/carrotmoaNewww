@@ -3,8 +3,8 @@
       layout:decorate="~{layout/layout}"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <head>
-  <title th:text="'단기임대 숙소 | 당근모아'"> 단기임대 숙소 | 당근모아 </title>
-  <link rel="stylesheet" th:href="@{/css/booking-list.css}"/>
+    <title th:text="'단기임대 숙소 | 당근모아'"> 단기임대 숙소 | 당근모아 </title>
+    <link rel="stylesheet" th:href="@{/css/booking-list.css}"/>
 </head>
 
 <main layout:fragment="main">
@@ -23,9 +23,9 @@
                 </div>
                 <div class="contract_cont" style="align-items:center">
                     <dl class="room_item" style="cursor:pointer;" th:onclick="@{/room/detail/{id}(id=${booking.accommodationId})}">
-                            <dt>
-                                <img th:src="${booking.imageUrl}">
-                            </dt>
+                        <dt>
+                            <img th:src="${booking.imageUrl}">
+                        </dt>
                         <dd>
                             <div class="room_address_ellipsis" th:text="${booking.lotAddress} + ${booking.detailAddress} + ${booking.floor}">용인시 처인구 애버랜드로</div>
                             <p class="room_period" th:text="${booking.checkInDate} + ' ~ ' + ${booking.checkOutDate}"></p>
@@ -47,9 +47,9 @@
                 </div>
                 <div class="contract_cont" style="align-items:center">
                     <dl class="room_item" style="cursor:pointer;" th:onclick="@{/guest/room/detail/{id}(id=${booking.accommodationId})}">
-                            <dt>
-                                <img th:src="${booking.imageUrl}">
-                            </dt>
+                        <dt>
+                            <img th:src="${booking.imageUrl}">
+                        </dt>
                         <dd>
                             <div class="room_address_ellipsis" th:text="${booking.lotAddress} + ${booking.detailAddress} + ${booking.floor}">용인시 처인구 애버랜드로</div>
                             <p class="room_period" th:text="${booking.checkInDate} + '~' + ${booking.checkOutDate}"></p>
@@ -86,5 +86,6 @@
         </div>
     </section>
     <script th:src="@{/js/guest_bookingList.js}"></script>
+    <script th:src="@{/js/show-alert.js}"></script>
 </main>
 </html>

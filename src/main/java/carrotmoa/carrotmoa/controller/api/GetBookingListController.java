@@ -1,8 +1,6 @@
 package carrotmoa.carrotmoa.controller.api;
 
 import carrotmoa.carrotmoa.config.security.CustomUserDetails;
-import carrotmoa.carrotmoa.model.response.AccommodationImageResponse;
-import carrotmoa.carrotmoa.model.response.BookingListResponse;
 import carrotmoa.carrotmoa.model.response.GuestReservationResponse;
 import carrotmoa.carrotmoa.service.ReservationService;
 import org.springframework.beans.factory.annotation.Autowired;
