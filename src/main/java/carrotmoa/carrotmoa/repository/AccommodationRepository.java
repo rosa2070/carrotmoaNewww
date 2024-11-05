@@ -2,6 +2,8 @@ package carrotmoa.carrotmoa.repository;
 
 import carrotmoa.carrotmoa.entity.Accommodation;
 import java.util.List;
+
+import carrotmoa.carrotmoa.model.response.AccommodationAvailableResponse;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -27,4 +29,12 @@ public interface AccommodationRepository extends JpaRepository<Accommodation, Lo
             "JOIN Accommodation a ON a.postId = p.id " +
             "WHERE p.id = :id")
     Long findPostIdById(@Param("id") Long id);
+
+    @Query("SELECT a.id, p.title, l.latitude, l.longitude, a.lotAddress, MIN(i.imageUrl) AS imageUrl " +
+            "FROM Accommodation a " +
+            "JOIN AccommodationImage i ON i.accommodationId = a.id " +
+            "JOIN Post p ON p.id = a.postId " +
+            "JOIN AccommodationLocation l ON a.id = l.accommodationId " +
+            "GROUP BY a.id, p.title, l.latitude, l.longitude, a.lotAddress ")
+    List<Object[]> findAllAvailableAccommodations();
 }

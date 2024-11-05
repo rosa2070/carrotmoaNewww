@@ -17,20 +17,12 @@ var mapContainer = document.getElementById('map'),
     };
 var map = new kakao.maps.Map(mapContainer, mapOption);
 
-// 전시장 클러스터러
-var exhibitionClusterer = new kakao.maps.MarkerClusterer({
+// 숙소 클러스터러
+var accommodationClusterer = new kakao.maps.MarkerClusterer({
     map: map,
     averageCenter: true,
-    minLevel: 2, // 전시장은 줌 레벨 5 이상에서 클러스터링
-    gridSize: 80 // 클러스터가 형성되는 영역의 크기 (기본값 60에서 증가)
-});
-
-// 공연장 클러스터러
-var performanceClusterer = new kakao.maps.MarkerClusterer({
-    map: map,
-    averageCenter: true,
-    minLevel: 2, // 공연장은 줌 레벨 5 이상에서 클러스터링
-    gridSize: 200 // 클러스터가 형성되는 영역의 크기 (기본값 60에서 증가)
+    minLevel: 2,
+    gridSize: 80
 });
 
 // 현재 내위치
@@ -88,7 +80,7 @@ function createContent(type, data) {
     const imgDiv = document.createElement('div');
     imgDiv.className = 'img';
     const img = document.createElement('img');
-    img.src = type === 'exhibition' ? "/images/accommdation-smaple.png" : "/images/accommdation-smaple.png"; // 이미지 URL 설정
+    img.src = type === 'accommodation' ? "/images/accommdation-smaple.png" : "/images/accommdation-smaple.png"; // 이미지 URL 설정
     img.width = 73;
     img.height = 70;
     imgDiv.appendChild(img);
@@ -97,11 +89,11 @@ function createContent(type, data) {
     desc.className = 'desc';
     const ellipsis = document.createElement('div');
     ellipsis.className = 'ellipsis';
-    ellipsis.innerText = type === 'exhibition' ? data.location : data.venue;
+    ellipsis.innerText = type === 'accommodation' ? data.location : data.venue;
 
     const performanceInfo = document.createElement('div');
-    performanceInfo.className = 'performance-info';
-    performanceInfo.innerText = type === 'exhibition' ? data.theme : data.date;
+    performanceInfo.className = 'accommodation-info';
+    performanceInfo.innerText = type === 'accommodation' ? data.theme : data.date;
 
     const ticketLinkDiv = document.createElement('div');
     const ticketLink = document.createElement('a');
@@ -122,14 +114,17 @@ function createContent(type, data) {
     return wrap; // DOM 요소 반환
 }
 
-// 전시회 콘텐츠 생성
-function createExhibitionContent(exhibition) {
-    return createContent('exhibition', exhibition);
-}
-
-// 공연 콘텐츠 생성
-function createPerformanceContent(performance) {
-    return createContent('performance', performance);
+// 숙소 콘텐츠 생성
+// function createAccommodationContent(accommodation) {
+//     return createContent('accommodation', accommodation);
+// }
+function createAccommodationContent(accommodation) {
+    return createContent('accommodation', {
+        name: accommodation.title,
+        imageUrl: accommodation.imageUrl, // responentity에서 이미지 URL 가져오기
+        location: accommodation.lotAddress, // 숙소 위치
+        theme: accommodation.theme, // 테마
+    });
 }
 
 // 오버레이 생성 함수
@@ -150,7 +145,7 @@ function createOverlay(content, map, position) {
 }
 
 // 마커 생성 함수
-function createTicketMarker(position, imageScrUrl, map, overlay) {
+function createAccommodationMarker(position, imageScrUrl, map, overlay) {
     markerImage = new kakao.maps.MarkerImage(imageScrUrl, imageSize, imageOption);
     var marker = new kakao.maps.Marker({
         position: position,
@@ -173,76 +168,42 @@ function closeOverlay(overlay) {
     }
 }
 
-var exhibitionMarkers = []; // 전시회 마커 저장
-var performanceMarkers = []; // 공연장 마커 저장
+var accommodationMarkers = []; // 숙소 마커 저장
 
 // 데이터 가져오기
-fetch("/test/accommodation-data")
+fetch("/api/accommodation-data")
     .then(response => response.json())
     .then(data => {
-        data.exhibitions.forEach(exhibition => {
-            const position = new kakao.maps.LatLng(exhibition.latitude, exhibition.longitude);
-            const overlayContent = createExhibitionContent(exhibition);
+        data.accommodations.forEach(accommodation => {
+            const position = new kakao.maps.LatLng(accommodation.latitude, accommodation.longitude);
+            const overlayContent = createAccommodationContent(accommodation);
             const overlay = createOverlay(overlayContent, map, position);
-            const marker = createTicketMarker(position, "/images/icons/exh.svg", map, overlay); // 오버레이를 전달
+            const marker = createAccommodationMarker(position, "/images/icons/exh.svg", map, overlay); // 오버레이를 전달
 
             // 마커 클릭 시 오버레이 표시
             kakao.maps.event.addListener(marker, 'click', function () {
                 overlay.setMap(map);
             });
 
-            exhibitionMarkers.push(marker); // 전시회 마커 저장
-            exhibitionClusterer.addMarker(marker); // 클러스터러에 마커 추가
-        });
-
-        data.performances.forEach(performance => {
-            const position = new kakao.maps.LatLng(performance.latitude, performance.longitude);
-            const overlayContent = createPerformanceContent(performance);
-            const overlay = createOverlay(overlayContent, map, position);
-            const marker = createTicketMarker(position, "/images/icons/marker.svg", map, overlay); // 오버레이를 전달
-
-            // 마커 클릭 시 오버레이 표시
-            kakao.maps.event.addListener(marker, 'click', function () {
-                overlay.setMap(map);
-            });
-
-            performanceMarkers.push(marker); // 공연장 마커 저장
-            performanceClusterer.addMarker(marker); // 클러스터러에 마커 추가
+            accommodationMarkers.push(marker); // 전시회 마커 저장
+            accommodationClusterer.addMarker(marker); // 클러스터러에 마커 추가
         });
     })
-    .catch(error => console.error('Error fetching ticket data:', error));
-
+    .catch(error => console.error('Error fetching accommodation data:', error));
 // 마커 필터링 함수
-function filterMarkers() {
-    const filterValue = document.getElementById('markerFilter').value;
-
-    // 클러스터러 초기화
-    exhibitionClusterer.clear();
-    performanceClusterer.clear();
-
-    // 모든 오버레이를 닫습니다.
-    exhibitionMarkers.forEach(marker => {
-        if (marker.kakaoOverlay) {
-            marker.kakaoOverlay.setMap(null); // 오버레이를 지도에서 제거합니다.
-        }
-    });
-
-    performanceMarkers.forEach(marker => {
-        if (marker.kakaoOverlay) {
-            marker.kakaoOverlay.setMap(null); // 오버레이를 지도에서 제거합니다.
-        }
-    });
-
-    // 마커를 필터링하여 클러스터러에 추가합니다.
-    if (filterValue === 'exhibitions') {
-        exhibitionClusterer.addMarkers(exhibitionMarkers); // 전시회 마커만 표시
-    } else if (filterValue === 'performances') {
-        performanceClusterer.addMarkers(performanceMarkers); // 공연장 마커만 표시
-    } else {
-        exhibitionClusterer.addMarkers(exhibitionMarkers); // 모든 마커 표시
-        performanceClusterer.addMarkers(performanceMarkers);
-    }
-}
+// function filterMarkers() {
+//     const filterValue = document.getElementById('markerFilter').value;
+//
+//     // 클러스터러 초기화
+//     accommodationClusterer.clear();
+//
+//     // 모든 오버레이를 닫습니다.
+//     accommodationMarkers.forEach(marker => {
+//         if (marker.kakaoOverlay) {
+//             marker.kakaoOverlay.setMap(null); // 오버레이를 지도에서 제거합니다.
+//         }
+//     });
+// }
 
 // 이벤트 리스너 추가
-document.getElementById('markerFilter').addEventListener('change', filterMarkers);
+// document.getElementById('markerFilter').addEventListener('change', filterMarkers);
