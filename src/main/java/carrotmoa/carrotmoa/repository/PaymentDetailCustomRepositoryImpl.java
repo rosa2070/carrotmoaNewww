@@ -8,7 +8,6 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Repository
@@ -19,31 +18,39 @@ public class PaymentDetailCustomRepositoryImpl implements PaymentDetailCustomRep
         this.jpaQueryFactory = jpaQueryFactory;
     }
 
-    public List<PaymentDetailResponse> getSettlementList(String title, LocalDate startDate, LocalDate endDate) {
+    @Override
+    public List<PaymentDetailResponse> getSettlementList(Long hostId, Long accommodationId, LocalDate startDate, LocalDate endDate) {
         QPayment payment = QPayment.payment;
         QReservation reservation = QReservation.reservation;
         QUser user = QUser.user;
         QAccommodation accommodation = QAccommodation.accommodation;
         QPost post = QPost.post;
 
-        return jpaQueryFactory
+        List<PaymentDetailResponse> results = jpaQueryFactory
                 .select(Projections.fields(PaymentDetailResponse.class,
-                        Expressions.dateTemplate(LocalDate.class, "DATE_ADD({0}, INTERVAL 1 DAY)", reservation.checkInDate).as("settlementDate"),
+                        reservation.checkInDate.as("settlementDate"), // 정산 일자
                         post.title,
                         user.name,
                         reservation.checkInDate,
                         payment.paymentAmount
                 ))
                 .from(payment)
-                .join(reservation).on(payment.reservationId.eq(reservation.id)) // 외래 키 없이 조인
-                .join(user).on(reservation.userId.eq(user.id)) // 사용자 조인
-                .join(accommodation).on(reservation.accommodationId.eq(accommodation.id)) // 숙소 조인
-                .join(post).on(accommodation.postId.eq(post.id)) // 게시물 조인
-                .where(post.title.eq(title)
-                        .and(Expressions.dateTemplate(LocalDate.class, "DATE_ADD({0}, INTERVAL 1 DAY)", reservation.checkInDate).between(startDate, endDate)) // 정산 날짜 필터링
+                .join(reservation).on(payment.reservationId.eq(reservation.id))
+                .join(user).on(reservation.userId.eq(user.id))
+                .join(accommodation).on(reservation.accommodationId.eq(accommodation.id))
+                .join(post).on(accommodation.postId.eq(post.id))
+                .where(reservation.accommodationId.eq(accommodationId)
+                        .and(reservation.checkInDate.between(startDate, endDate))
                         .and(post.isDeleted.eq(false))
-                        .and(payment.status.eq("paid")))
-                .fetch(); // 결과를 리스트로 반환
+                        .and(payment.status.eq("paid"))
+                        .and(post.userId.eq(hostId)))
+                .fetch();
+
+        // 결과에 1일 추가
+        results.forEach(result -> result.setSettlementDate(result.getSettlementDate().plusDays(1)));
+
+        return results;
+
     }
 
 

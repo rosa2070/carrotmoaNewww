@@ -2,6 +2,7 @@ package carrotmoa.carrotmoa.service;
 
 import carrotmoa.carrotmoa.model.response.*;
 import carrotmoa.carrotmoa.repository.AccommodationImageRepository;
+import carrotmoa.carrotmoa.repository.ReservationDetailCustomRepository;
 import carrotmoa.carrotmoa.repository.ReservationRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -15,18 +16,27 @@ import java.util.stream.Collectors;
 public class ReservationService {
     private final ReservationRepository reservationRepository;
     private final AccommodationImageRepository accommodationImageRepository;
+    private final ReservationDetailCustomRepository reservationDetailCustomRepository;
 
-    public ReservationService(ReservationRepository reservationRepository, AccommodationImageRepository accommodationImageRepository) {
+    public ReservationService(ReservationRepository reservationRepository,
+                              AccommodationImageRepository accommodationImageRepository,
+                              ReservationDetailCustomRepository reservationDetailCustomRepository) {
         this.reservationRepository = reservationRepository;
         this.accommodationImageRepository = accommodationImageRepository;
+        this.reservationDetailCustomRepository = reservationDetailCustomRepository;
     }
 
     @Transactional
-    public List<BookingListResponse> getBookingList(Long id) {
-        List<Object[]> bookingList = reservationRepository.findBookingData(id);
-        return bookingList.stream()
-                .map(BookingListResponse::fromData)
-                .collect(Collectors.toList());
+    // 게스트 예약 확인하는 페이지에서 사용
+    // guest/booking/list/{id}
+    public List<GuestReservationResponse> getBookingList(Long id) {
+//        return reservationRepository.findBookingData(id);
+//        List<Object[]> bookingList = reservationRepository.findBookingData(id);
+//        return bookingList.stream()
+//                .map(BookingListResponse::fromData)
+//                .collect(Collectors.toList());
+
+        return reservationDetailCustomRepository.getGuestReservations(id);
     }
 
     @Transactional

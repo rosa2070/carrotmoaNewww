@@ -4,7 +4,6 @@ import carrotmoa.carrotmoa.model.request.SaveAccommodationRequest;
 import carrotmoa.carrotmoa.model.request.UpdateAccommodationRequest;
 import carrotmoa.carrotmoa.model.response.AccommodationDetailResponse;
 import carrotmoa.carrotmoa.model.response.HostManagedAccommodationResponse;
-import carrotmoa.carrotmoa.model.response.PaymentDetailResponse;
 import carrotmoa.carrotmoa.service.AccommodationHostService;
 import jakarta.validation.Valid;
 
@@ -139,18 +138,5 @@ public class HostRoomApiController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("삭제 중 오류가 발생했습니다.");
         }
     }
-
-//    @GetMapping("/settlement")
-//    public ResponseEntity<List<PaymentDetailResponse>> getSettlementList(
-//            @RequestParam String title,
-//            @RequestParam LocalDate startDate,
-//            @RequestParam LocalDate endDate) {
-//
-//        List<PaymentDetailResponse> settlements =
-//
-//
-//    }
-
-
 
 }

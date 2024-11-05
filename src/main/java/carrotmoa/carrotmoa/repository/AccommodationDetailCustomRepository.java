@@ -8,6 +8,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface AccommodationDetailCustomRepository {
     AccommodationDetailResponse getAccommodationDetailById(Long id);
-
     List<HostManagedAccommodationResponse> findAccommodationsByUserId(Long userId);
 }
