@@ -7,6 +7,7 @@ import carrotmoa.carrotmoa.model.request.SavePostImageRequest;
 import carrotmoa.carrotmoa.model.request.UpdateCommunityPostRequest;
 import carrotmoa.carrotmoa.model.response.CommunityPostDetailResponse;
 import carrotmoa.carrotmoa.model.response.CommunityPostListResponse;
+import carrotmoa.carrotmoa.model.response.CommunityPostSearchResponse;
 import carrotmoa.carrotmoa.repository.CommunityCommentRepository;
 import carrotmoa.carrotmoa.repository.CommunityPostRepository;
 import carrotmoa.carrotmoa.repository.PostImageRepository;
@@ -105,6 +106,9 @@ public class CommunityPostService {
         communityPost.updateCategory(request.getCommunityCategoryId());
         return communityPostId;
     }
+
+
+
 
 
     private List<String> extractImageUrls(String content) {
