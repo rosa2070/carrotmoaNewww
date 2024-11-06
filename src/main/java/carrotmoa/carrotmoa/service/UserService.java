@@ -140,7 +140,9 @@ public class UserService {
         } else if(searchType.equals("nickname")) {
             profile = userProfileRepository.findByNickname(searchKeyword);
         }
-
+        if(profile == null) {
+            throw new EntityNotFoundException();
+        }
         return new FindUserResponse(profile);
     }
 

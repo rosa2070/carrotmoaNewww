@@ -61,17 +61,17 @@ public class ChatService {
     }
     //채팅방 생성 메서드 (이미 상대와의 채팅방이 있다면 해당 채팅방의 id를 반환 , 없다면 채팅방을 만들고 만든 채팅방id를 반환)
     public long createChatRoom(long myUserId, long joinTargetUserId) {
-        if(duplicatedChatRoom(myUserId,joinTargetUserId) == null){
+        if(duplicatedChatRoom(myUserId,joinTargetUserId).isEmpty()){
         long roomId = chatRoomRepository.save(new ChatRoomRequest().toEntityChatRoom()).getId();
         chatRoomUserRepository.save(new ChatRoomUserRequest(myUserId, roomId).toEntityChatRoomUser());
         chatRoomUserRepository.save(new ChatRoomUserRequest(joinTargetUserId, roomId).toEntityChatRoomUser());
         return roomId;
         } else {
-            return duplicatedChatRoom(myUserId,joinTargetUserId).getChatRoomId();
+            return duplicatedChatRoom(myUserId,joinTargetUserId).get().getChatRoomId();
         }
     }
     //두 유저사이에 채팅방이 있는지 검사 있다면 객체로 반환
-    public ChatRoomUser duplicatedChatRoom(long userId , long joinUserId){
+    public Optional<ChatRoomUser> duplicatedChatRoom(long userId , long joinUserId){
         return chatRoomUserRepository.duplicateChatRoomId(userId , joinUserId);
     }
     public HashMap<String,FindUserResponse> findChatUserNickname(long myUserId, long chatRoomId){

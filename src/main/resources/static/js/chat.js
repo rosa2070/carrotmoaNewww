@@ -1,18 +1,20 @@
 //userId 안들어감
 window.onload = function () {
+    let userNicknameMap = null;
+    let stompClient = null;
+    let chatRoomId = 0;
 
     if (document.getElementById('chat-modal-open')) {
         document.getElementById('chat-modal-open').addEventListener('click', function () {
             const modal = document.getElementById("chat-modal-content");
             const closeModalButtonId = 'chat-close-modal';
-
             fetch('/user/modal-content')
                 .then(response => response.text())
                 .then(data => {
                     modal.innerHTML = data; // 받아온 내용을 모달에 추가
                     modal.style.display = "flex"; // 모달 열기
                     const userId = document.getElementById('userId').value;
-                    const inputMessage = document.getElementById('input-message');
+                    const inputMessage = document.getElementById('message');
                     findChatRoom(userId);
 
                     // 닫기 버튼 이벤트 추가
@@ -20,16 +22,15 @@ window.onload = function () {
                     closeModalButton.onclick = function () {
                         modal.style.display = "none"; // 모달 닫기
                     }
-                    let stompClient = null;
-                    let chatRoomId = 0;
 
                     function connect(chatRoomId) {
                         const socket = new SockJS('/chat');
                         stompClient = Stomp.over(socket);
                         stompClient.connect({}, function (frame) {
                             console.log('Connected: ' + frame);
-                            stompClient.subscribe('/sub/chat/' + chatRoomId, function (message) {
-                                messageDiv(JSON.parse(message.body));
+                            stompClient.subscribe('/sub/chat/' + chatRoomId, async function (message) {
+                                userNicknameMap = await getNickname(userId, chatRoomId);
+                                messageDiv(JSON.parse(message.body), userNicknameMap);
                             });
                         });
                     }
@@ -44,9 +45,17 @@ window.onload = function () {
                     document.getElementById('send-message-btn').addEventListener('click', function () {
                         sendMessage();
                     });
+                    document.getElementById('send-message-btn').addEventListener('keydown', function (event) {
+                        if (event.key === 'Enter') {  // Enter 키인지 확인
+                            event.preventDefault(); // Enter 키로 기본 동작을 막기 (줄바꿈 방지)
+                            sendMessage();
+                        }
+                    });
 
                     function sendMessage() {
+                        debugger;
                         document.getElementById('chat-room-id').value = chatRoomId;
+                        inputMessage.value = document.getElementById('input-message').value;
                         const formData = new FormData(document.getElementById('chat-form'));
 
                         const data = {};
@@ -58,8 +67,9 @@ window.onload = function () {
                     }
 
                     //선택한 채팅방 입장   -> websocket 구독 , db에서 채팅 목록 가져오기
-                    function getChatMessage(roomId) {
+                    async function getChatMessage(roomId) {
                         chatRoomId = roomId;
+                        userNicknameMap = await getNickname(userId, chatRoomId);
                         if (stompClient && stompClient.connected) {
                             stompClient.disconnect(function () {
                                 console.log('Disconnected from WebSocket.');
@@ -79,19 +89,14 @@ window.onload = function () {
                                 }
                                 return response.json();
                             })
-                            .then(message => {
+                            .then(async message => {
                                 chatMessage.innerHTML = '';
                                 document.getElementById('chat-room-id').value = message[0].chatRoomId;
                                 //메시지에 넣어줄 닉네임 추가
-
-                                    let myNickname;
-                                    let joinNickname;
-                                    simpleFetch(`/api/chat/find-chat-nickname/${userId}/${chatRoomId}`, "GET", {'Content-Type': 'application/json'})
-                                        .then(userNicknameMap => {
-                                            message.forEach(m => {
-                                    messageDiv(message,userNicknameMap);
-                                    })
-                                        })
+                                userNicknameMap = await getNickname(userId, chatRoomId);
+                                message.forEach(m => {
+                                messageDiv(m, userNicknameMap);
+                                })
                                 const chatMessages = document.getElementById('chat-messages');
                                 chatMessages.scrollTop = chatMessages.scrollHeight;
 
@@ -138,22 +143,34 @@ window.onload = function () {
                             });
                     }
 
-                    function messageDiv(message,userNicknameMap) {
-                        debugger;
+                    function messageDiv(message, userNicknameMap) {
                         console.log(message);
                         console.log(userNicknameMap);
 
                         const chatMessageElement = document.createElement("div");
                         const chatMessageTitleElement = document.createElement("p");
-                        const chatMessageContentElement = document.createElement("input");
-                        const ChatMessageSendTimeElement = document.createElement('div');
-                        chatMessageContentElement.type = 'text'; // 타입을 text로 설정
-                        chatMessageContentElement.readOnly = true; // 수정 불가능하게 설정
-                        chatMessageContentElement.value = message.message; // 초기 값 설정
-                        userNicknameMap.myNickname.userId === userId ?
-                            chatMessageTitleElement.textContent = userNicknameMap.myNickname.nickname :
-                            chatMessageTitleElement.textContent = userNicknameMap.joinNickname.nickname;
-                        chatMessageTitleElement.textContent = nickname;
+                        chatMessageTitleElement.className = 'chat-message-title';
+                        const chatMessageContentElement = document.createElement("p");
+                        chatMessageContentElement.className = 'chat-message-content';
+                        const ChatMessageSendTimeElement = document.createElement('span');
+                        ChatMessageSendTimeElement.className = 'chat-message-time';
+                        // chatMessageContentElement.type = 'text'; // 타입을 text로 설정
+                        // chatMessageContentElement.readOnly = true; // 수정 불가능하게 설정
+                        chatMessageContentElement.textContent = message.message; // 초기 값 설정
+                        console.log(userNicknameMap.myNickname.userId);
+                        console.log(userNicknameMap.joinNickname.userId);
+                        console.log(userId);
+                        console.log(userNicknameMap.myNickname.userId === message.userId);
+                        if(userNicknameMap.myNickname.userId === message.userId){
+                            chatMessageElement.className = 'chat-message-my';
+                            chatMessageTitleElement.textContent = userNicknameMap.myNickname.nickname;
+                        } else {
+                            chatMessageElement.className = 'chat-message-opponent';
+                            chatMessageTitleElement.textContent = userNicknameMap.joinNickname.nickname
+                        }
+                        // userNicknameMap.myNickname.userId === userId ?
+                        //     chatMessageTitleElement.textContent = userNicknameMap.joinNickname.nickname :
+                        //     chatMessageTitleElement.textContent = userNicknameMap.myNickname.nickname;
                         let createdAt = message.createdAt.split('T');
                         let createdAtDate = createdAt[0];
                         let createdAtTime = createdAt[1].split(':');
@@ -202,7 +219,7 @@ window.onload = function () {
                                     alert('해당 유저 없음');
                                 }
                                 document.getElementById('chat-find-result-id').value = result.userId;
-                                document.getElementById('chat-find-result-nickname').value = result.nickname;
+                                document.getElementById('chat-find-result-nickname').textContent = result.nickname;
                             });
                     }
 
@@ -225,20 +242,21 @@ window.onload = function () {
                                 }
                                 return response.json()
                             })
-                            .then(result => {
+                            .then(async result => {
                                 console.log('채팅방 생성 , 입장');
                                 if (chatRoomId === result) {
-                                    getChatMessage(chatRoomId);
+                                    await getChatMessage(chatRoomId);
                                 } else {
                                     if (stompClient && stompClient.connected) {
                                         stompClient.disconnect(function () {
+                                        chatMessage.innerHTML = '';
                                             console.log('Disconnected from WebSocket.');
                                         });
                                     }
                                     chatRoomId = result;
+                                    userNicknameMap = await getNickname(userId, chatRoomId);
                                     connect(result);
                                     findChatRoom(userId);
-                                    getChatMessage(chatRoomId);
                                 }
                             })
                             .catch(error => {
@@ -255,7 +273,7 @@ window.onload = function () {
     }
 
 
-    function simpleFetch(url,method,headers,errorMessage) {
+    function simpleFetch(url, method, headers, errorMessage) {
         return fetch(url, {
             method: method,
             headers: headers,
@@ -267,12 +285,21 @@ window.onload = function () {
         }).then(result => {
             return result;
         }).catch(error => {
-            if(errorMessage ===undefined){
+            if (errorMessage === undefined) {
                 errorMessage = "simpleFetchError"
             }
-            console.error(errorMessage + ":" , error);
+            console.error(errorMessage + ":", error);
             throw error;
         });
+    }
+
+    async function getNickname(userId, chatRoomId) {
+        try{
+            return await simpleFetch(`/api/chat/find-chat-nickname/${userId}/${chatRoomId}`, "GET", {'Content-Type': 'application/json'});
+        }catch(error){
+                console.error("Error fetching nickname:", error);
+                return null;
+            }
     }
 
 
