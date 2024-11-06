@@ -103,7 +103,7 @@ document.getElementById('btn_search').addEventListener('click', async function (
             row.innerHTML = `
                 <td>${item.settlementDate}</td>
                 <td>${item.title}</td>
-                <td>${item.name}</td>
+                <td>${item.nickname}</td>
                 <td>${item.checkInDate}</td>
                 <td>${item.paymentAmount}원</td>
             `;
