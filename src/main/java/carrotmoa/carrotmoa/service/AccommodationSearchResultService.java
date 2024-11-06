@@ -19,11 +19,13 @@ public class AccommodationSearchResultService {
         this.accommodationRepository = accommodationRepository;
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     public List<AccommodationResultResponse> searchAccommodations(String keyword) {
         List<Object[]> results = accommodationRepository.searchAccommodationByKeyword(keyword);
         return results.stream()
                 .map(AccommodationResultResponse::fromData)
                 .collect(Collectors.toList());
     }
+
+
 }

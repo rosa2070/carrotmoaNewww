@@ -24,7 +24,9 @@ public class AccommodationSpace extends BaseEntity {
     @Column(name = "count")
     private Integer count;
 
-    public void updateAccommodationSpace(Integer newCount) {
-        this.count = newCount;
+    public void updateAccommodationSpace(Integer count) {
+        if (count != null) {
+            this.count = count;
+        }
     }
 }

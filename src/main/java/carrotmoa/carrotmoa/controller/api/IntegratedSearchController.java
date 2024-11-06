@@ -1,5 +1,6 @@
 package carrotmoa.carrotmoa.controller.api;
 
+import carrotmoa.carrotmoa.model.response.AccommodationSearchResponse;
 import carrotmoa.carrotmoa.model.response.CommunityPostSearchResponse;
 import carrotmoa.carrotmoa.service.PostService;
 import lombok.RequiredArgsConstructor;
@@ -31,12 +32,12 @@ public class IntegratedSearchController {
 //        return ResponseEntity.ok(postService.integratedSearchfleMarketPost(keyword, page, size));
 //    }
 
-    // 3. 숙소정보 검색 api 제작
-//    @GetMapping("/Accommodation")
-//    public  ResponseEntity<Slice<CommunityPostSearchResponse>> AccommodationSearch(
-//            @RequestParam(name = "keyword") String keyword,
-//            @RequestParam(name = "page", defaultValue = "0") int page,
-//            @RequestParam(name = "size", defaultValue = "6") int size) {
-//        return ResponseEntity.ok(postService.integratedSearchAccommodationPost(keyword, page, size));
-//    }
+//     3. 숙소정보 검색 api 제작
+    @GetMapping("/accommodation")
+    public  ResponseEntity<Slice<AccommodationSearchResponse>> AccommodationSearch(
+            @RequestParam(name = "keyword") String keyword,
+            @RequestParam(name = "page", defaultValue = "0") int page,
+            @RequestParam(name = "size", defaultValue = "6") int size) {
+        return ResponseEntity.ok(postService.integratedSearchAccommodationPost(keyword, page, size));
+    }
 }

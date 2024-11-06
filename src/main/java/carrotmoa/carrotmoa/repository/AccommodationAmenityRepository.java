@@ -20,4 +20,5 @@ public interface AccommodationAmenityRepository extends JpaRepository<Accommodat
             "JOIN Amenity am ON aa.amenityId = am.id " +
             "WHERE aa.accommodationId = :accommodationId")
     List<Object[]> findAccommodationAmenitiesByAccommodationId(@Param("accommodationId") Long accommodationId);
+
 }

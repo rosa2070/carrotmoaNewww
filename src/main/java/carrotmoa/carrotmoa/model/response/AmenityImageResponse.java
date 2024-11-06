@@ -8,7 +8,7 @@ import lombok.Setter;
 @Setter
 @Builder
 public class AmenityImageResponse {
-    private long amenityId;
+    private Long amenityId;
     private String name;
     private String iconUrl;
 

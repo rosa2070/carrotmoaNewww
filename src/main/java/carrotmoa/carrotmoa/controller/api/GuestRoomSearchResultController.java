@@ -9,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
@@ -28,12 +29,4 @@ public class GuestRoomSearchResultController {
         return "guest/roomResult";
     }
 
-//    @GetMapping("/{keyword}")
-//    public ResponseEntity<List<AccommodationResultResponse>> searchRoomByKeyword(@PathVariable("keyword") String keyword) {
-//        List<AccommodationResultResponse> accommodationResultResponseList = accommodationSearchResultService.searchAccommodations(keyword);
-//        if(accommodationResultResponseList == null) {
-//            return ResponseEntity.notFound().build();
-//        }
-//        return ResponseEntity.ok(accommodationResultResponseList);
-//    }
 }

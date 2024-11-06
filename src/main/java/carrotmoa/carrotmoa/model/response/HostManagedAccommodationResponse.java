@@ -18,12 +18,5 @@ public class HostManagedAccommodationResponse {
     private BigDecimal price;
     private String imageUrl;
 
-    @QueryProjection
-    public HostManagedAccommodationResponse(Long id, String title, String lotAddress, String detailAddress, BigDecimal price) {
-        this.id = id;
-        this.lotAddress = lotAddress;
-        this.detailAddress = detailAddress;
-        this.price = price;
 
-    }
 }

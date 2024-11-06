@@ -8,12 +8,14 @@
   <link rel="stylesheet" th:href="@{/css/guest_search_main.css}"/>
 </head>
 
+<body>
+<div th:replace="~{fragments/side-left::side-left}">왼쪽 사이드바</div>
 <main class="main-container" layout:fragment="main">
   <div class="cover cover-color2">
     <div class="cover-content">
       <h1 class="cover-title">
         숙숙숙 <br>
-        소소소
+        소소
       </h1>
       <span>
                 숙소숙소 <br>
@@ -25,20 +27,62 @@
     </div>
   </div>
   <div class="test001div">
-    <!-- 지역 키워드로 검색 -->
-    <div class="search-bar-container">
-      <h2 class="main-text">당근 숙소, 색다른 숙소 특별한 여행</h2>
-      <div class="keyword-input">
-                <span>
-<!--                    th:href="@{/room/detail/{id}(id=${room.id})}" 써보기, controller에서는 @PathVariable-->
-                    <form method="get" th:action="@{/guest/search}">
-                    <input id="keyword" name="keyword" placeholder="주소, 지역, 이름 등 키워드를 입력하세요." type="text">
-                    <button type="submit">검색</button>
-                </form>
-                </span>
+      <div class="search_area">
+          <p class="main_text">당근 숙소, 색다른 숙소 특별한 여행</p>
+          <div class="search_link">
+              <a th:href="@{/search/map}" style="text-decoration: underline">지도로 검색</a>
+          </div>
+          <div class="search-input">
+              <div class="keyword-input" id="div_search_keyword">
+                  <span>
+                      <input type="text" placeholder="지역 이름으로 검색해주세요 (E) 종로" title="지역 이름으로 검색해주세요 (E) 종로" id="txt_search_keyword">
+                  </span>
+              </div>
+              <button type="button" class="btn large orage" id="btn_search" style="box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.25);">검색</button>
+          </div>
       </div>
-    </div>
+<!--      <div class="main_group mt_100">-->
+<!--          <strong class="title">내가 찜한 방</strong>-->
+<!--          <p class="sub_text">당근모아에서 살고 싶은 방을 모아보세요</p>-->
+<!--          <div class="result_room">-->
+<!--              <a th:href="" target="_blank">-->
+<!--                  <dl class="room_item">-->
+<!--                      <dt>-->
+<!--                          <img th:src="">-->
+<!--                      </dt>-->
+<!--                      <dd class="room_name">리버뷰 고층 풀옵션</dd>-->
+<!--                      <dd class="room_address">서울특별시 성동구 용답동</dd>-->
+<!--                      <dd class="room_pay">-->
+<!--                          <p>-->
+<!--                              <strong> </strong>-->
+<!--                              <em>원</em>-->
+<!--                              <span>/1주</span>-->
+<!--                          </p>-->
+<!--                  </dl>-->
+<!--              </a>-->
+<!--          </div>-->
+<!--      </div>-->
+<!--    &lt;!&ndash; 지역 키워드로 검색 &ndash;&gt;-->
+<!--    <div class="search-bar-container">-->
+<!--      <h2 class="main-text"></h2>-->
+<!--      <div class="keyword-input">-->
+<!--                <span style="display: flex; justify-content: center; align-items: center;">-->
+<!--&lt;!&ndash;                    th:href="@{/room/detail/{id}(id=${room.id})}" 써보기, controller에서는 @PathVariable&ndash;&gt;-->
+<!--                    <form method="get" th:action="@{/guest/search}">-->
+<!--                        <input id="keyword" name="keyword" placeholder="주소, 지역, 이름 등 키워드를 입력하세요." type="text">-->
+<!--                        <button type="submit">검색</button>-->
+<!--                    </form>-->
+<!--                </span>-->
+<!--          <div class="map_search">-->
+<!--              <a th:href="@{/search/map}">지도로 검색</a><br>-->
+<!--          </div>-->
+<!--          <div class="host_menu">-->
+<!--              <a th:href="@{/host/room/manage}">호스트세요?</a>-->
+<!--          </div>-->
+<!--      </div>-->
+<!--    </div>-->
   </div>
-
 </main>
+<div th:replace="~{fragments/side-right::side-right}">오른쪽 사이드바</div>
+</body>
 </html>

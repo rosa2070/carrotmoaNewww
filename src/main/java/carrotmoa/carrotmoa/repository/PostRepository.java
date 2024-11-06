@@ -40,6 +40,12 @@ public interface PostRepository extends JpaRepository<Post, Long> {
         "where p.id = (select cp.postId from CommunityPost cp where cp.id = :communityPostId) ")
     int deleteByCommunityPostId(@Param("communityPostId") Long communityPostId);
 
+    @Modifying(clearAutomatically = true)
+    @Query("UPDATE Post p SET p.isDeleted = true WHERE p.id = :postId")
+    void markAsDeleted(@Param("postId") Long postId);
+
+
+
     @Query("select p.userId from Post p where p.id = :id")
     Long findUserIdById(@Param("id")Long id);
 

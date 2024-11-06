@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="ko"
+      layout:decorate="~{layout/layout}"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <title>계약 현황</title>
+    <link rel="stylesheet" th:href="@{/css/room_contract.css}"/>
+    <link rel="stylesheet" th:href="@{/css/small-gnb.css}"/>
+</head>
+<body>
+<div th:replace="~{fragments/side-left::side-left}">왼쪽 사이드바</div>
+
+<main layout:fragment="main">
+    <div th:replace="~{fragments/small-gnb}"></div>
+    <div class="wrap">
+        <div class="content">
+            <div class="host_room_reg">
+                <h1 class="title_left">계약 현황</h1>
+
+                <div th:attr="data-user-id=${user.userProfile.userId}" id="user-data"></div>
+
+
+                <div class="guest_contract">
+                    <!-- 예약 정보가 동적으로 추가될 영역 -->
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>-->
+    <script src="/js/host_bookingList.js"></script> <!-- JS 파일 경로 -->
+</main>
+
+<div th:replace="~{fragments/side-right::side-right}">오른쪽 사이드바</div>
+
+
+</body>
+</html>

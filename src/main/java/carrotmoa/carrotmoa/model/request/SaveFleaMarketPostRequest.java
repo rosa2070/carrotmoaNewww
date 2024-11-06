@@ -40,4 +40,6 @@ public class SaveFleaMarketPostRequest {
                 .status(ProductStatus.ON_SALE)
                 .build();
     }
+
+
 }
