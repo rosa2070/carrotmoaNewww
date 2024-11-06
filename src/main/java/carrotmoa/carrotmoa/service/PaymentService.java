@@ -1,12 +1,13 @@
 package carrotmoa.carrotmoa.service;
 
-import carrotmoa.carrotmoa.entity.Payment;
-import carrotmoa.carrotmoa.entity.Reservation;
+import carrotmoa.carrotmoa.entity.*;
+import carrotmoa.carrotmoa.enums.NotificationType;
 import carrotmoa.carrotmoa.model.request.PaymentRequest;
 import carrotmoa.carrotmoa.model.request.ReservationRequest;
-import carrotmoa.carrotmoa.repository.PaymentRepository;
-import carrotmoa.carrotmoa.repository.ReservationRepository;
+import carrotmoa.carrotmoa.model.request.SaveNotificationRequest;
+import carrotmoa.carrotmoa.repository.*;
 import carrotmoa.carrotmoa.util.PaymentClient;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,12 +20,26 @@ public class PaymentService {
     private final PaymentRepository paymentRepository;
     private final PaymentClient paymentClient;
     private final ReservationRepository reservationRepository;
+    private final NotificationService notificationService; // NotificationService 추가
+    private final AccommodationRepository accommodationRepository;
+    private final PostRepository postRepository;
+    private final UserProfileRepository userProfileRepository;
 
     @Autowired
-    public PaymentService(PaymentRepository paymentRepository, PaymentClient paymentClient, ReservationRepository reservationRepository) {
+    public PaymentService(PaymentRepository paymentRepository,
+                          PaymentClient paymentClient,
+                          ReservationRepository reservationRepository,
+                          NotificationService notificationService,
+                          AccommodationRepository accommodationRepository,
+                          PostRepository postRepository,
+                          UserProfileRepository userProfileRepository) {
         this.paymentRepository = paymentRepository;
         this.paymentClient = paymentClient;
         this.reservationRepository = reservationRepository;
+        this.notificationService = notificationService;
+        this.accommodationRepository = accommodationRepository;
+        this.postRepository = postRepository;
+        this.userProfileRepository = userProfileRepository;
     }
 
     @Transactional
@@ -37,7 +52,30 @@ public class PaymentService {
             Reservation reservation = saveReservation(reservationRequest);
             payment.setReservationId(reservation.getId());
             paymentRepository.save(payment);
+
+            // 계약하려는 방 호스트의 ID 받아오기
+            Accommodation accommodation = accommodationRepository.findById(reservation.getAccommodationId())
+                    .orElseThrow(() -> new EntityNotFoundException("Accommodation not found"));
+
+            Post post = postRepository.findById(accommodation.getPostId())
+                    .orElseThrow(() -> new EntityNotFoundException("Post not found"));
+
+            Long receiverId = post.getUserId();
+            String roomName = post.getTitle();
+
+            if (!reservationRequest.getUserId().equals(receiverId)) {
+                String notificationUrl = "/host/room/contract";
+                SaveNotificationRequest saveNotificationRequest = new SaveNotificationRequest(NotificationType.RESERVATION_CONFIRM, receiverId, reservationRequest.getUserId(), roomName + " 방을 예약했어요", notificationUrl);
+                UserProfile senderUser = userProfileRepository.findNicknameByUserId(reservationRequest.getUserId());
+                notificationService.sendNotification(receiverId,saveNotificationRequest, senderUser.getNickname(), senderUser.getPicUrl());
+            }
+
         }
+
+
+
+
+
     }
 
     public Payment savePayment(PaymentRequest paymentRequest) {
