@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="ko"
+      layout:decorate="~{layout/layout}"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <title>테스트</title>
+</head>
+
+<main layout:fragment="main">
+    <section id ="integrated-search-result">
+        <div class="result-container">
+            <div id="flea-market-wrap" class="articles-wrap">
+                <p class="article-kind">중고거래</p>
+                <article class="flea-market-article flat-card">
+                    <a class="flea-market-article-link" href="api/fleamarket">
+                        <div class="card-photo">
+                            <img alt ="홀란드" src="/images/sample.png">
+                        </div>
+                        <div class="article-info">
+                            <div class="article-title-content"> 홀란드 사세요. </div>
+                            <p class="article-region-name">경남 양산시 평산동</p>
+                            <p class="article-price">10,000원</p>
+                            <section class="article-sub-info">
+                            </section>
+                        </div>
+                    </a>
+                </article>
+            </div>
+            <div onclick="moreResult()" class="more-btn">
+                <span class="more-text">더보기</span>
+                <div class="more-loading">
+                    <div class="loader">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="result-container">
+            <div id="accommodation-wrap" class="articles-wrap">
+                <p class="article-kind">숙소정보</p>
+                <article class="flea-market-article flat-card">
+                    <a class="flea-market-article-link" href="api/accommodation">
+                        <div class="card-photo">
+                            <img alt ="홀란드" src="/images/sample.png">
+                        </div>
+                        <div class="article-info">
+                            <div class="article-title-content"> 해변 리조트 </div>
+                            <p class="article-region-name">서울특별시 강남구 해변로 123</p>
+                            <p class="article-price"> 150,000 원 / 1박</p>
+                            <section class="article-sub-info">
+                            </section>
+                        </div>
+                    </a>
+                </article>
+                <article class="flea-market-article flat-card">
+                    <a class="flea-market-article-link" href="api/accommodation">
+                        <div class="card-photo">
+                            <img alt ="홀란드" src="/images/sample.png">
+                        </div>
+                        <div class="article-info">
+                            <div class="article-title-content"> 산속 게스트하우스 </div>
+                            <p class="article-region-name">강원도 평창군 산속길 456</p>
+                            <p class="article-price">80,000 원 / 1박</p>
+                            <section class="article-sub-info">
+                            </section>
+                        </div>
+                    </a>
+                </article>
+                <article class="flea-market-article flat-card">
+                    <a class="flea-market-article-link" href="api/accommodation">
+                        <div class="card-photo">
+                            <img alt ="홀란드" src="/images/sample.png">
+                        </div>
+                        <div class="article-info">
+                            <div class="article-title-content"> 도심 호텔 </div>
+                            <p class="article-region-name">부산광역시 해운대구 도심로 789</p>
+                            <p class="article-price"> 120,000 원 / 1박</p>
+                            <section class="article-sub-info">
+                            </section>
+                        </div>
+                    </a>
+                </article>
+            </div>
+            <div onclick="moreResult()" class="more-btn">
+                <span class="more-text">더보기</span>
+                <div class="more-loading">
+                    <div class="loader">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="result-container">
+            <div id="community-wrap" class="community-articles-wrap">
+                <p class="article-kind">동네생활</p>
+                <div class="community-article">
+
+                </div>
+
+            </div>
+            <div onclick="moreResult()" class="more-btn">
+                <span class="more-text">더보기</span>
+                <div class="more-loading">
+                    <div class="loader">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </section>
+
+</main>
+</html>
