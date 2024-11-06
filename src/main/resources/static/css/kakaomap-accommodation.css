@@ -1,9 +1,8 @@
-body {
-    display: flex; /* Flexbox로 전체 화면을 중앙 정렬 */
-    justify-content: center; /* 수평 중앙 정렬 */
-    align-items: center; /* 수직 중앙 정렬 */
-    height: 100vh; /* 화면 높이에 맞게 설정 */
-    margin: 0; /* 기본 여백 제거 */
+main {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* 전체 화면 높이로 설정 */
 }
 .map_wrap {
     position: relative;
@@ -74,3 +73,10 @@ body {
 .info .img {position: absolute;top: 6px;left: 5px;width: 73px;height: 71px;border: 1px solid #ddd;color: #888;overflow: hidden;}
 .info:after {content: '';position: absolute;margin-left: -12px;left: 50%;bottom: 0;width: 22px;height: 12px;background: url('https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/vertex_white.png')}
 .info .link {color: #5085BB;}
+
+
+
+
+
+
+
