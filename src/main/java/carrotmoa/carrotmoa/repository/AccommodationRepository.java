@@ -3,9 +3,7 @@ package carrotmoa.carrotmoa.repository;
 import carrotmoa.carrotmoa.entity.Accommodation;
 import java.util.List;
 
-import carrotmoa.carrotmoa.model.response.AccommodationAvailableResponse;
 import carrotmoa.carrotmoa.model.response.AccommodationSearchResponse;
-import carrotmoa.carrotmoa.model.response.CommunityPostSearchResponse;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -34,11 +32,16 @@ public interface AccommodationRepository extends JpaRepository<Accommodation, Lo
             "WHERE p.id = :id")
     Long findPostIdById(@Param("id") Long id);
 
-    @Query("SELECT a.id, p.title, l.latitude, l.longitude, a.lotAddress, MIN(i.imageUrl) AS imageUrl " +
+    @Query("SELECT a.id, p.title, l.latitude, l.longitude, a.lotAddress, MIN(i.imageUrl) AS imageUrl, " +
+            "MAX(CASE WHEN s.spaceId = 1 THEN s.count ELSE 0 END) AS roomCount, " +  // 방 개수
+            "MAX(CASE WHEN s.spaceId = 2 THEN s.count ELSE 0 END) AS bathroomCount, " +  // 화장실 개수
+            "MAX(CASE WHEN s.spaceId = 3 THEN s.count ELSE 0 END) AS livingRoomCount, " + // 거실 개수
+            "MAX(CASE WHEN s.spaceId = 4 THEN s.count ELSE 0 END) AS kitchenCount " +  // 주방 개수
             "FROM Accommodation a " +
             "JOIN AccommodationImage i ON i.accommodationId = a.id " +
             "JOIN Post p ON p.id = a.postId " +
             "JOIN AccommodationLocation l ON a.id = l.accommodationId " +
+            "LEFT JOIN AccommodationSpace s ON a.id = s.accommodationId " +
             "GROUP BY a.id, p.title, l.latitude, l.longitude, a.lotAddress ")
     List<Object[]> findAllAvailableAccommodations();
 
