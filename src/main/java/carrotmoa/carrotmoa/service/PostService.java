@@ -4,6 +4,8 @@ import carrotmoa.carrotmoa.entity.Accommodation;
 import carrotmoa.carrotmoa.entity.Post;
 import carrotmoa.carrotmoa.model.request.SaveAccommodationRequest;
 import carrotmoa.carrotmoa.model.request.UpdateAccommodationRequest;
+import carrotmoa.carrotmoa.model.response.AccommodationSearchResponse;
+import carrotmoa.carrotmoa.model.response.AccommodationSearchResponseImpl;
 import carrotmoa.carrotmoa.model.response.CommunityPostSearchResponse;
 import carrotmoa.carrotmoa.model.response.CommunityPostSearchResponseImpl;
 import carrotmoa.carrotmoa.repository.AccommodationRepository;
@@ -86,9 +88,27 @@ public class PostService {
 
 
 
-//    public Slice<CommunityPostSearchResponse> integratedSearchAccommodationPost(String keyword, int page, int size) {
-//
-//
-//
-//    }
+    public Slice<AccommodationSearchResponse> integratedSearchAccommodationPost(String keyword, int page, int size) {
+        Long serviceId = 8L;
+        Pageable pageable = PageRequest.of(page, size);
+
+        // 네이티브 쿼리 호출 후 결과를 Slice 형태로 가져옴
+        Slice<AccommodationSearchResponse> searchResults = accommodationRepository.integratedSearchAccommodation(keyword, serviceId, pageable);
+
+        List<AccommodationSearchResponse> transformedResults = searchResults.getContent().stream()
+                .map(result -> new AccommodationSearchResponseImpl(
+                        result.getAccommodationId(),
+                        result.getTitle(),
+                        result.getRoadAddress(),
+                        result.getPrice(),
+                        result.getImageUrl(),
+                        result.getRoomCount(),
+                        result.getBathRoomCount(),
+                        result.getLivingRoomCount(),
+                        result.getKitchenCount()
+                ))
+                .collect(Collectors.toList());
+
+        return new SliceImpl<>(transformedResults, pageable, searchResults.hasNext());
+    }
 }
