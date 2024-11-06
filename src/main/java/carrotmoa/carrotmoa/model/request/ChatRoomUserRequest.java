@@ -24,7 +24,7 @@ public class ChatRoomUserRequest {
     public ChatRoomUserRequest(long userId,long chatRoomId){
         this.userId = userId;
         this.chatRoomId = chatRoomId;
-        this.state = 1;
+        this.state = 0;
     }
 
 }

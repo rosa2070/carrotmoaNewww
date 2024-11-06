@@ -22,7 +22,7 @@ public class ChatRoomUser extends BaseEntity {
     private Long chatRoomId;
 
     @NotNull
-    @ColumnDefault("1")
+    @ColumnDefault("0")
     @Column(name = "state", nullable = false)
     private Integer state;
 

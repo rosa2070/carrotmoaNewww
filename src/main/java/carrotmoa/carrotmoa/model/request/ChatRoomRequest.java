@@ -24,7 +24,7 @@ public class ChatRoomRequest {
     public ChatRoom toEntityChatRoom() {
         return ChatRoom.builder()
                 .roomName(this.roomName)
-                .state(1)
+                .state(0)
                 .build();
     }
 

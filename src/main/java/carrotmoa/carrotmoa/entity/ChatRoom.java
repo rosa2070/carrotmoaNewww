@@ -19,7 +19,7 @@ public class ChatRoom extends BaseEntity {
     private String roomName;
 
     @NotNull
-    @ColumnDefault("1")
+    @ColumnDefault("0")
     @Column(name = "state", nullable = false)
     private int state;
 
