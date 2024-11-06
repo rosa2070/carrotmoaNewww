@@ -96,9 +96,16 @@ public class AccommodationHostService {
 
 
     @Transactional(readOnly = true)
-    public List<HostManagedAccommodationResponse> getAccommodationsByUserId(Long userId) {
-        return accommodationDetailCustomRepository.findAccommodationsByUserId(userId);
+    public List<HostManagedAccommodationResponse> getAccommodationsByUserId(Long userId, Long lastId, int limit) {
+        return accommodationDetailCustomRepository.findAccommodationsByUserId(userId, lastId, limit);
     }
+
+    @Transactional(readOnly = true)
+    public List<HostManagedAccommodationResponse> getAllHostRooms(Long userId) {
+        return accommodationDetailCustomRepository.getAllHostRooms(userId);
+    }
+
+
 
 
 }

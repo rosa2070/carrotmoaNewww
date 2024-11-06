@@ -19,6 +19,21 @@
 
                 <div th:attr="data-user-id=${user.userProfile.userId}" id="user-data"></div>
 
+                <!-- 계약 상태 드롭다운 메뉴 -->
+                <div class="list_search" style="display: flex; justify-content: flex-end; align-items: center; margin-bottom: 20px;">
+                    <select title="공개/비공개 선택" id="search_status" style="width:135px; border: 1px solid #DFDFDF; padding: 10px 5px; border-radius: 4px;">
+<!--                        <option value="">계약 상태</option>-->
+                        <option value="using_before">계약 완료 </option>
+                        <option value="using_after">계약 만료</option>
+                    </select>
+
+<!--                    <div class="keyword_input">-->
+<!--                        <span><input type="text" id="search_keyword"></span>-->
+<!--                    </div>-->
+
+<!--                    <button type="button" class="btn small line_black" id="btn_search_booking" pagenumber="1">검색</button>-->
+                </div>
+
 
                 <div class="guest_contract">
                     <!-- 예약 정보가 동적으로 추가될 영역 -->

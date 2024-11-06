@@ -30,6 +30,7 @@
 .contract_item {
     border: 1px solid #DFDFDF;
     border-radius: 6px;
+    margin-bottom: 20px;
 }
 
 .guest_contract .contract_header {
@@ -170,4 +171,11 @@
     border-radius: 4px;
     background: #FE6F0F;
     color: #fff;
+}
+
+/* 계약 목록 필터 */
+.host_contract_list .list_search {
+    display: flex;
+    justify-content: right;
+    margin-bottom: 48px;
 }

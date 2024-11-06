@@ -15,7 +15,7 @@ import java.time.LocalDate;
 public class PaymentDetailResponse {
     private LocalDate settlementDate; // 체크인 날짜 + 1
     private String title;
-    private String name; // 유저 이름
+    private String nickname; // 유저 이름
     private LocalDate checkInDate;
     private BigDecimal paymentAmount;
 }

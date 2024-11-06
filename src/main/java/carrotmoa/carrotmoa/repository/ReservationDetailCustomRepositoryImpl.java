@@ -10,6 +10,8 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+import static carrotmoa.carrotmoa.entity.QUserProfile.userProfile;
+
 @Repository
 public class ReservationDetailCustomRepositoryImpl implements ReservationDetailCustomRepository {
     private final JPAQueryFactory jpaQueryFactory;
@@ -24,6 +26,7 @@ public class ReservationDetailCustomRepositoryImpl implements ReservationDetailC
     QAccommodationImage accommodationImage = QAccommodationImage.accommodationImage;
     QPayment payment = QPayment.payment;
     QUser user = QUser.user;
+    QUserProfile qUserProfile = userProfile;
 
     @Override
     public List<GuestReservationResponse> getGuestReservations(Long userId) {
@@ -67,13 +70,15 @@ public class ReservationDetailCustomRepositoryImpl implements ReservationDetailC
                         accommodation.detailAddress,
                         accommodation.floor,
                         accommodationImage.imageUrl,
-                        user.name.as("guestName")
+                        userProfile.nickname.as("guestName")
+//                        user.name.as("guestName")
                 ))
                 .from(reservation)
                 .join(accommodation).on(accommodation.id.eq(reservation.accommodationId))
                 .join(post).on(post.id.eq(accommodation.postId))
                 .join(accommodationImage).on(accommodationImage.accommodationId.eq(accommodation.id))
-                .join(user).on(reservation.userId.eq(user.id))
+//                .join(user).on(reservation.userId.eq(user.id))
+                .join(userProfile).on(reservation.userId.eq(userProfile.userId))
                 .where(accommodationImage.imageOrder.eq(0)
                         .and(post.userId.eq(hostId)))
                 .orderBy(reservation.createdAt.desc())

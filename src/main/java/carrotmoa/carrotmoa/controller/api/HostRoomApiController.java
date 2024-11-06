@@ -116,8 +116,11 @@ public class HostRoomApiController {
 
     // 호스트가 등록한 방 리스트 보이기(방 관리)
     @GetMapping("/manage/{userId}")
-    public ResponseEntity<List<HostManagedAccommodationResponse>> getAccommodationsByUserId(@PathVariable("userId") Long userId) {
-        List<HostManagedAccommodationResponse> accommodations = accommodationHostService.getAccommodationsByUserId(userId);
+    public ResponseEntity<List<HostManagedAccommodationResponse>> getAccommodationsByUserId(
+            @PathVariable("userId") Long userId,
+            @RequestParam(value = "lastId", defaultValue = "0") Long lastId, // 초기 값은 0
+            @RequestParam(value = "limit", defaultValue = "10") int limit) { // 한 번에 불러올 항목 수
+        List<HostManagedAccommodationResponse> accommodations = accommodationHostService.getAccommodationsByUserId(userId, lastId, limit);
 
         if (accommodations == null || accommodations.isEmpty()) {
             return ResponseEntity.ok(Collections.emptyList()); // 200 OK와 빈 배열 반환
@@ -125,6 +128,19 @@ public class HostRoomApiController {
 
         return ResponseEntity.ok(accommodations);
     }
+
+    @GetMapping("/all/{userId}")
+    public ResponseEntity<List<HostManagedAccommodationResponse>> getAllHostRooms(@PathVariable("userId") Long userId ) {
+        List<HostManagedAccommodationResponse> accommodations = accommodationHostService.getAllHostRooms(userId);
+
+        if (accommodations == null || accommodations.isEmpty()) {
+            return ResponseEntity.ok(Collections.emptyList()); // 빈 리스트 반환
+        }
+
+        return ResponseEntity.ok(accommodations); // 200 OK와 함께 숙소 리스트 반환
+
+    }
+
 
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<String> deleteAccommodation(@PathVariable("id") Long id) {
