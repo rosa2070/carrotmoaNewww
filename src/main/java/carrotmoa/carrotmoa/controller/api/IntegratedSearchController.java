@@ -26,7 +26,7 @@ public class IntegratedSearchController {
         return ResponseEntity.ok(postService.integratedSearchCommunityPost(keyword, page, size));
     }
 
-    // 2. 중고거래 검색 api 제작
+//     2. 중고거래 검색 api 제작
 //    @GetMapping("/fle-market")
 //    public ResponseEntity<Slice<CommunityPostSearchResponse>> fleMarketSearch(
 //            @RequestParam(name = "keyword") String keyword,

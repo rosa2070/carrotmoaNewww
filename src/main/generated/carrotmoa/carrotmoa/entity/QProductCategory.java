@@ -10,48 +10,38 @@ import com.querydsl.core.types.Path;
 
 
 /**
- * QUser is a Querydsl query type for User
+ * QProductCategory is a Querydsl query type for ProductCategory
  */
 @Generated("com.querydsl.codegen.DefaultEntitySerializer")
-public class QUser extends EntityPathBase<User> {
+public class QProductCategory extends EntityPathBase<ProductCategory> {
 
-    private static final long serialVersionUID = -1347979022L;
+    private static final long serialVersionUID = 1517818758L;
 
-    public static final QUser user = new QUser("user");
+    public static final QProductCategory productCategory = new QProductCategory("productCategory");
 
     public final QBaseEntity _super = new QBaseEntity(this);
-
-    public final NumberPath<Long> authorityId = createNumber("authorityId", Long.class);
 
     //inherited
     public final DateTimePath<java.time.LocalDateTime> createdAt = _super.createdAt;
 
-    public final StringPath email = createString("email");
-
     //inherited
     public final NumberPath<Long> id = _super.id;
 
-    public final BooleanPath isWithdrawal = createBoolean("isWithdrawal");
-
     public final StringPath name = createString("name");
-
-    public final StringPath password = createString("password");
-
-    public final NumberPath<Integer> state = createNumber("state", Integer.class);
 
     //inherited
     public final DateTimePath<java.time.LocalDateTime> updatedAt = _super.updatedAt;
 
-    public QUser(String variable) {
-        super(User.class, forVariable(variable));
+    public QProductCategory(String variable) {
+        super(ProductCategory.class, forVariable(variable));
     }
 
-    public QUser(Path<? extends User> path) {
+    public QProductCategory(Path<? extends ProductCategory> path) {
         super(path.getType(), path.getMetadata());
     }
 
-    public QUser(PathMetadata metadata) {
-        super(User.class, metadata);
+    public QProductCategory(PathMetadata metadata) {
+        super(ProductCategory.class, metadata);
     }
 
 }

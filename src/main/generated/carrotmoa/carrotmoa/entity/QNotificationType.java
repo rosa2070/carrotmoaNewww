@@ -10,48 +10,40 @@ import com.querydsl.core.types.Path;
 
 
 /**
- * QUser is a Querydsl query type for User
+ * QNotificationType is a Querydsl query type for NotificationType
  */
 @Generated("com.querydsl.codegen.DefaultEntitySerializer")
-public class QUser extends EntityPathBase<User> {
+public class QNotificationType extends EntityPathBase<NotificationType> {
 
-    private static final long serialVersionUID = -1347979022L;
+    private static final long serialVersionUID = -402052756L;
 
-    public static final QUser user = new QUser("user");
+    public static final QNotificationType notificationType = new QNotificationType("notificationType");
 
     public final QBaseEntity _super = new QBaseEntity(this);
-
-    public final NumberPath<Long> authorityId = createNumber("authorityId", Long.class);
 
     //inherited
     public final DateTimePath<java.time.LocalDateTime> createdAt = _super.createdAt;
 
-    public final StringPath email = createString("email");
-
     //inherited
     public final NumberPath<Long> id = _super.id;
 
-    public final BooleanPath isWithdrawal = createBoolean("isWithdrawal");
-
     public final StringPath name = createString("name");
 
-    public final StringPath password = createString("password");
-
-    public final NumberPath<Integer> state = createNumber("state", Integer.class);
+    public final StringPath title = createString("title");
 
     //inherited
     public final DateTimePath<java.time.LocalDateTime> updatedAt = _super.updatedAt;
 
-    public QUser(String variable) {
-        super(User.class, forVariable(variable));
+    public QNotificationType(String variable) {
+        super(NotificationType.class, forVariable(variable));
     }
 
-    public QUser(Path<? extends User> path) {
+    public QNotificationType(Path<? extends NotificationType> path) {
         super(path.getType(), path.getMetadata());
     }
 
-    public QUser(PathMetadata metadata) {
-        super(User.class, metadata);
+    public QNotificationType(PathMetadata metadata) {
+        super(NotificationType.class, metadata);
     }
 
 }

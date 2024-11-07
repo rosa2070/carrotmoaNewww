@@ -10,18 +10,16 @@ import com.querydsl.core.types.Path;
 
 
 /**
- * QChatRoomUser is a Querydsl query type for ChatRoomUser
+ * QHit is a Querydsl query type for Hit
  */
 @Generated("com.querydsl.codegen.DefaultEntitySerializer")
-public class QChatRoomUser extends EntityPathBase<ChatRoomUser> {
+public class QHit extends EntityPathBase<Hit> {
 
-    private static final long serialVersionUID = -1242001179L;
+    private static final long serialVersionUID = 2034713996L;
 
-    public static final QChatRoomUser chatRoomUser = new QChatRoomUser("chatRoomUser");
+    public static final QHit hit = new QHit("hit");
 
     public final QBaseEntity _super = new QBaseEntity(this);
-
-    public final NumberPath<Long> chatRoomId = createNumber("chatRoomId", Long.class);
 
     //inherited
     public final DateTimePath<java.time.LocalDateTime> createdAt = _super.createdAt;
@@ -29,23 +27,23 @@ public class QChatRoomUser extends EntityPathBase<ChatRoomUser> {
     //inherited
     public final NumberPath<Long> id = _super.id;
 
-    public final NumberPath<Integer> state = createNumber("state", Integer.class);
+    public final NumberPath<Long> postId = createNumber("postId", Long.class);
 
     //inherited
     public final DateTimePath<java.time.LocalDateTime> updatedAt = _super.updatedAt;
 
     public final NumberPath<Long> userId = createNumber("userId", Long.class);
 
-    public QChatRoomUser(String variable) {
-        super(ChatRoomUser.class, forVariable(variable));
+    public QHit(String variable) {
+        super(Hit.class, forVariable(variable));
     }
 
-    public QChatRoomUser(Path<? extends ChatRoomUser> path) {
+    public QHit(Path<? extends Hit> path) {
         super(path.getType(), path.getMetadata());
     }
 
-    public QChatRoomUser(PathMetadata metadata) {
-        super(ChatRoomUser.class, metadata);
+    public QHit(PathMetadata metadata) {
+        super(Hit.class, metadata);
     }
 
 }

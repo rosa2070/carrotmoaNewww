@@ -10,14 +10,14 @@ import com.querydsl.core.types.Path;
 
 
 /**
- * QUser is a Querydsl query type for User
+ * QAuthorityService is a Querydsl query type for AuthorityService
  */
 @Generated("com.querydsl.codegen.DefaultEntitySerializer")
-public class QUser extends EntityPathBase<User> {
+public class QAuthorityService extends EntityPathBase<AuthorityService> {
 
-    private static final long serialVersionUID = -1347979022L;
+    private static final long serialVersionUID = 1194082457L;
 
-    public static final QUser user = new QUser("user");
+    public static final QAuthorityService authorityService = new QAuthorityService("authorityService");
 
     public final QBaseEntity _super = new QBaseEntity(this);
 
@@ -26,32 +26,24 @@ public class QUser extends EntityPathBase<User> {
     //inherited
     public final DateTimePath<java.time.LocalDateTime> createdAt = _super.createdAt;
 
-    public final StringPath email = createString("email");
-
     //inherited
     public final NumberPath<Long> id = _super.id;
 
-    public final BooleanPath isWithdrawal = createBoolean("isWithdrawal");
-
-    public final StringPath name = createString("name");
-
-    public final StringPath password = createString("password");
-
-    public final NumberPath<Integer> state = createNumber("state", Integer.class);
+    public final NumberPath<Long> serviceId = createNumber("serviceId", Long.class);
 
     //inherited
     public final DateTimePath<java.time.LocalDateTime> updatedAt = _super.updatedAt;
 
-    public QUser(String variable) {
-        super(User.class, forVariable(variable));
+    public QAuthorityService(String variable) {
+        super(AuthorityService.class, forVariable(variable));
     }
 
-    public QUser(Path<? extends User> path) {
+    public QAuthorityService(Path<? extends AuthorityService> path) {
         super(path.getType(), path.getMetadata());
     }
 
-    public QUser(PathMetadata metadata) {
-        super(User.class, metadata);
+    public QAuthorityService(PathMetadata metadata) {
+        super(AuthorityService.class, metadata);
     }
 
 }

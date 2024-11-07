@@ -50,7 +50,6 @@ public class PostLikeService {
         updateDatabaseLikeStatus(communityPostId, userId, newStatus);
         // 좋아요 개수 업데이트
         updateLikeCount(communityPostId, newStatus);
-
         return !newStatus; // UI에서는 좋아요 상태가 false일 때 활성화되므로 반전된 값을 반환
     }
 

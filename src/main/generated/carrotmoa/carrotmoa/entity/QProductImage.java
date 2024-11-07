@@ -10,18 +10,16 @@ import com.querydsl.core.types.Path;
 
 
 /**
- * QReview is a Querydsl query type for Review
+ * QProductImage is a Querydsl query type for ProductImage
  */
 @Generated("com.querydsl.codegen.DefaultEntitySerializer")
-public class QReview extends EntityPathBase<Review> {
+public class QProductImage extends EntityPathBase<ProductImage> {
 
-    private static final long serialVersionUID = 1573967551L;
+    private static final long serialVersionUID = -1035984941L;
 
-    public static final QReview review = new QReview("review");
+    public static final QProductImage productImage = new QProductImage("productImage");
 
     public final QBaseEntity _super = new QBaseEntity(this);
-
-    public final StringPath comment = createString("comment");
 
     //inherited
     public final DateTimePath<java.time.LocalDateTime> createdAt = _super.createdAt;
@@ -29,23 +27,23 @@ public class QReview extends EntityPathBase<Review> {
     //inherited
     public final NumberPath<Long> id = _super.id;
 
-    public final NumberPath<Long> postId = createNumber("postId", Long.class);
+    public final NumberPath<Long> productId = createNumber("productId", Long.class);
 
     //inherited
     public final DateTimePath<java.time.LocalDateTime> updatedAt = _super.updatedAt;
 
-    public final NumberPath<Long> userId = createNumber("userId", Long.class);
+    public final StringPath url = createString("url");
 
-    public QReview(String variable) {
-        super(Review.class, forVariable(variable));
+    public QProductImage(String variable) {
+        super(ProductImage.class, forVariable(variable));
     }
 
-    public QReview(Path<? extends Review> path) {
+    public QProductImage(Path<? extends ProductImage> path) {
         super(path.getType(), path.getMetadata());
     }
 
-    public QReview(PathMetadata metadata) {
-        super(Review.class, metadata);
+    public QProductImage(PathMetadata metadata) {
+        super(ProductImage.class, metadata);
     }
 
 }

@@ -15,8 +15,10 @@ import com.querydsl.core.types.Path;
 @Generated("com.querydsl.codegen.DefaultEntitySerializer")
 public class QPayment extends EntityPathBase<Payment> {
 
-    public static final QPayment payment = new QPayment("payment");
     private static final long serialVersionUID = -338280577L;
+
+    public static final QPayment payment = new QPayment("payment");
+
     public final QBaseEntity _super = new QBaseEntity(this);
 
     public final StringPath cardName = createString("cardName");

@@ -10,48 +10,38 @@ import com.querydsl.core.types.Path;
 
 
 /**
- * QUser is a Querydsl query type for User
+ * QAuthority is a Querydsl query type for Authority
  */
 @Generated("com.querydsl.codegen.DefaultEntitySerializer")
-public class QUser extends EntityPathBase<User> {
+public class QAuthority extends EntityPathBase<Authority> {
 
-    private static final long serialVersionUID = -1347979022L;
+    private static final long serialVersionUID = -1402955140L;
 
-    public static final QUser user = new QUser("user");
+    public static final QAuthority authority = new QAuthority("authority");
 
     public final QBaseEntity _super = new QBaseEntity(this);
-
-    public final NumberPath<Long> authorityId = createNumber("authorityId", Long.class);
 
     //inherited
     public final DateTimePath<java.time.LocalDateTime> createdAt = _super.createdAt;
 
-    public final StringPath email = createString("email");
-
     //inherited
     public final NumberPath<Long> id = _super.id;
 
-    public final BooleanPath isWithdrawal = createBoolean("isWithdrawal");
-
     public final StringPath name = createString("name");
-
-    public final StringPath password = createString("password");
-
-    public final NumberPath<Integer> state = createNumber("state", Integer.class);
 
     //inherited
     public final DateTimePath<java.time.LocalDateTime> updatedAt = _super.updatedAt;
 
-    public QUser(String variable) {
-        super(User.class, forVariable(variable));
+    public QAuthority(String variable) {
+        super(Authority.class, forVariable(variable));
     }
 
-    public QUser(Path<? extends User> path) {
+    public QAuthority(Path<? extends Authority> path) {
         super(path.getType(), path.getMetadata());
     }
 
-    public QUser(PathMetadata metadata) {
-        super(User.class, metadata);
+    public QAuthority(PathMetadata metadata) {
+        super(Authority.class, metadata);
     }
 
 }

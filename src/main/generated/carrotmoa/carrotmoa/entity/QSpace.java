@@ -10,42 +10,40 @@ import com.querydsl.core.types.Path;
 
 
 /**
- * QReview is a Querydsl query type for Review
+ * QSpace is a Querydsl query type for Space
  */
 @Generated("com.querydsl.codegen.DefaultEntitySerializer")
-public class QReview extends EntityPathBase<Review> {
+public class QSpace extends EntityPathBase<Space> {
 
-    private static final long serialVersionUID = 1573967551L;
+    private static final long serialVersionUID = 1160382655L;
 
-    public static final QReview review = new QReview("review");
+    public static final QSpace space = new QSpace("space");
 
     public final QBaseEntity _super = new QBaseEntity(this);
-
-    public final StringPath comment = createString("comment");
 
     //inherited
     public final DateTimePath<java.time.LocalDateTime> createdAt = _super.createdAt;
 
+    public final StringPath icon = createString("icon");
+
     //inherited
     public final NumberPath<Long> id = _super.id;
 
-    public final NumberPath<Long> postId = createNumber("postId", Long.class);
+    public final StringPath type = createString("type");
 
     //inherited
     public final DateTimePath<java.time.LocalDateTime> updatedAt = _super.updatedAt;
 
-    public final NumberPath<Long> userId = createNumber("userId", Long.class);
-
-    public QReview(String variable) {
-        super(Review.class, forVariable(variable));
+    public QSpace(String variable) {
+        super(Space.class, forVariable(variable));
     }
 
-    public QReview(Path<? extends Review> path) {
+    public QSpace(Path<? extends Space> path) {
         super(path.getType(), path.getMetadata());
     }
 
-    public QReview(PathMetadata metadata) {
-        super(Review.class, metadata);
+    public QSpace(PathMetadata metadata) {
+        super(Space.class, metadata);
     }
 
 }

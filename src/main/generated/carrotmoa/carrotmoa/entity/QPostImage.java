@@ -10,18 +10,16 @@ import com.querydsl.core.types.Path;
 
 
 /**
- * QReview is a Querydsl query type for Review
+ * QPostImage is a Querydsl query type for PostImage
  */
 @Generated("com.querydsl.codegen.DefaultEntitySerializer")
-public class QReview extends EntityPathBase<Review> {
+public class QPostImage extends EntityPathBase<PostImage> {
 
-    private static final long serialVersionUID = 1573967551L;
+    private static final long serialVersionUID = -896133164L;
 
-    public static final QReview review = new QReview("review");
+    public static final QPostImage postImage = new QPostImage("postImage");
 
     public final QBaseEntity _super = new QBaseEntity(this);
-
-    public final StringPath comment = createString("comment");
 
     //inherited
     public final DateTimePath<java.time.LocalDateTime> createdAt = _super.createdAt;
@@ -29,23 +27,23 @@ public class QReview extends EntityPathBase<Review> {
     //inherited
     public final NumberPath<Long> id = _super.id;
 
+    public final StringPath imageUrl = createString("imageUrl");
+
     public final NumberPath<Long> postId = createNumber("postId", Long.class);
 
     //inherited
     public final DateTimePath<java.time.LocalDateTime> updatedAt = _super.updatedAt;
 
-    public final NumberPath<Long> userId = createNumber("userId", Long.class);
-
-    public QReview(String variable) {
-        super(Review.class, forVariable(variable));
+    public QPostImage(String variable) {
+        super(PostImage.class, forVariable(variable));
     }
 
-    public QReview(Path<? extends Review> path) {
+    public QPostImage(Path<? extends PostImage> path) {
         super(path.getType(), path.getMetadata());
     }
 
-    public QReview(PathMetadata metadata) {
-        super(Review.class, metadata);
+    public QPostImage(PathMetadata metadata) {
+        super(PostImage.class, metadata);
     }
 
 }

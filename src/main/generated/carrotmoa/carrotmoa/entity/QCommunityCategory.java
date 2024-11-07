@@ -10,48 +10,40 @@ import com.querydsl.core.types.Path;
 
 
 /**
- * QUser is a Querydsl query type for User
+ * QCommunityCategory is a Querydsl query type for CommunityCategory
  */
 @Generated("com.querydsl.codegen.DefaultEntitySerializer")
-public class QUser extends EntityPathBase<User> {
+public class QCommunityCategory extends EntityPathBase<CommunityCategory> {
 
-    private static final long serialVersionUID = -1347979022L;
+    private static final long serialVersionUID = 330474048L;
 
-    public static final QUser user = new QUser("user");
+    public static final QCommunityCategory communityCategory = new QCommunityCategory("communityCategory");
 
     public final QBaseEntity _super = new QBaseEntity(this);
-
-    public final NumberPath<Long> authorityId = createNumber("authorityId", Long.class);
 
     //inherited
     public final DateTimePath<java.time.LocalDateTime> createdAt = _super.createdAt;
 
-    public final StringPath email = createString("email");
-
     //inherited
     public final NumberPath<Long> id = _super.id;
 
-    public final BooleanPath isWithdrawal = createBoolean("isWithdrawal");
-
     public final StringPath name = createString("name");
 
-    public final StringPath password = createString("password");
-
-    public final NumberPath<Integer> state = createNumber("state", Integer.class);
+    public final NumberPath<Long> parentId = createNumber("parentId", Long.class);
 
     //inherited
     public final DateTimePath<java.time.LocalDateTime> updatedAt = _super.updatedAt;
 
-    public QUser(String variable) {
-        super(User.class, forVariable(variable));
+    public QCommunityCategory(String variable) {
+        super(CommunityCategory.class, forVariable(variable));
     }
 
-    public QUser(Path<? extends User> path) {
+    public QCommunityCategory(Path<? extends CommunityCategory> path) {
         super(path.getType(), path.getMetadata());
     }
 
-    public QUser(PathMetadata metadata) {
-        super(User.class, metadata);
+    public QCommunityCategory(PathMetadata metadata) {
+        super(CommunityCategory.class, metadata);
     }
 
 }
