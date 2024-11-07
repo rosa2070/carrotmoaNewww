@@ -17,110 +17,80 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 });
 
-function showToast(message) {
-    const toast = document.getElementById("integrated-search-toast");
-    toast.textContent = message;
-    toast.style.display = "block";
-
-    // 3초 후에 자동으로 숨김
-    setTimeout(() => {
-        toast.style.display = "none";
-    }, 3000);
-}
-
-// 예시: 검색어가 두 글자 미만일 때 호출
-function validateSearchInput(keyword) {
-    if (keyword.length < 2) {
-        showToast("두 글자 이상 입력해주세요.");
-        return false;
-    }
-    return true;
-}
-
-
-// 검색 요청을 처리하는 함수 추가
+// 검색 api 호출
 function searchIntegratedResults(keyword, page, size) {
-    fetch(`/api/integrated-search/community?keyword=${keyword}&page=${page}&size=${size}`)
-        .then(response => response.json())
-        .then(data => {
-            if (data) {
+    // . 동네생활 API 호출
+    const communityFetch = fetch(`/api/integrated-search/community?keyword=${keyword}&page=${page}&size=${size}`)
+        .then(response => response.json());
+
+    // 2. 숙소 API 호출
+    const accommodationFetch = fetch(`/api/integrated-search/accommodation?keyword=${keyword}&page=${page}&size=${size}`)
+        .then(response => response.json());
+
+    // 3. 중고거래 API 호출 예정
+
+    Promise.all([communityFetch, accommodationFetch])
+        .then(([communityData, accommodationData]) => {
+            console.log("동네생활 검색 결과: ", communityData)
+            console.log("숙소정보 검색 결과: ", accommodationData)
                 if (page === 0) {
                     clearPreviousResults(); // 첫 페이지일 경우 기존 결과를 지움
                 }
-                renderSearchResults(data);
-            }
-        })
+            renderCommunityResults(communityData);  // 동네생활 데이터 렌더링
+            renderAccommodationResults(accommodationData);  // 숙소 데이터 렌더링
+            })
         .catch(error => console.error('Error fetching search results:', error));
 }
 
-// 검색 결과를 렌더링하는 함수
-function renderSearchResults(data) {
-    const mainContainer = document.querySelector('main'); // 첫 번째 main 태그 선택
+// 커뮤니티 게시판 렌더링 함수
+function renderCommunityResults(data) {
+    if (data.content.length === 0) return; // 검색 결과가 없으면 종료
 
-    // 섹션 태그가 없으면 처음 호출된 상황이므로 생성
-    let section = mainContainer.querySelector('#integrated-search-result');
-    if (!section) {
-        section = document.createElement('section');
-        section.id = 'integrated-search-result';
+    createSearchResultSection(); // 통합 섹션 생성
+    const resultContainer = createResultContainer('community', '동네생활', 'community-wrap'); // 커뮤니티용 컨테이너 생성
 
-        // resultContainer와 community-wrap, 더보기 버튼도 처음 섹션 생성 시 함께 생성
-        const resultContainer = document.createElement('div');
-        resultContainer.className = 'result-container';
+    // community-wrap에 데이터 추가
+    const articlesWrap = resultContainer.querySelector('#community-wrap');
+    articlesWrap.appendChild(createCommunityArticles(data.content, document.getElementById("integrated-search-input").value.trim()));
 
-        const articlesWrap = document.createElement('div');
-        articlesWrap.id = 'community-wrap';
-        articlesWrap.className = 'community-articles-wrap';
-
-        const articleKind = document.createElement('p');
-        articleKind.className = 'article-kind';
-        articleKind.textContent = '동네생활';
-        articlesWrap.appendChild(articleKind);
-
-        // resultContainer에 community-wrap 추가
-        resultContainer.appendChild(articlesWrap);
-        section.appendChild(resultContainer);
-
-        // 섹션을 메인 컨테이너에 추가
-        mainContainer.appendChild(section);
-    }
-
-    // community-wrap 요소 선택
-    const articlesWrap = section.querySelector('#community-wrap');
-    articlesWrap.appendChild(createCommunityArticles(data.content,  document.getElementById("integrated-search-input").value.trim()));
-
-    // 더보기 버튼 관리
-    let moreButton = section.querySelector('.more-btn');
-    if (!data.last) { // 다음 페이지가 있는 경우
-        if (!moreButton) {
-            moreButton = document.createElement('div');
-            moreButton.className = 'more-btn';
-            moreButton.innerHTML = `
-                <span class="more-text">더보기</span>
-                <div class="more-loading">
-                    <div class="loader"></div>
-                </div>`;
-
-            // 클릭 이벤트 추가
-            moreButton.addEventListener('click', () => loadMoreResults());
-            section.querySelector('.result-container').appendChild(moreButton);
-        }
-    } else if (moreButton) { // 마지막 페이지면 더보기 버튼 제거
-        moreButton.remove();
-    }
+    manageMoreButton(data, resultContainer); // "더보기" 버튼 처리
 }
 
-// 더보기 버튼 클릭 시 호출되는 함수
-function loadMoreResults() {
-    searchCurrentPage++; // 페이지 번호 증가
-    const keyword = document.getElementById("integrated-search-input").value.trim(); // 현재 검색어 가져오기
-    searchIntegratedResults(keyword, searchCurrentPage, searchPageSize); // 다음 페이지 데이터 요청
+function renderAccommodationResults(data) {
+    if (data.content.length === 0) return; // 검색 결과가 없으면 종료
+
+    createSearchResultSection(); // 통합 섹션 생성
+    const resultContainer = createResultContainer('accommodation', '숙소 정보', 'accommodation-wrap'); // 숙소용 컨테이너 생성
+
+    // accommodation-wrap에 데이터 추가
+    const articlesWrap = resultContainer.querySelector('#accommodation-wrap');
+    data.content.forEach(item => {
+        const article = document.createElement('article');
+        article.className = 'accommodation-article flat-card';
+
+        article.innerHTML = `
+            <a class="accommodation-article-link" href="${item.accommodationUrl}">
+                <div class="card-photo">
+                    <img alt="${item.title}" src="${item.imageUrl}">
+                </div>
+                <div class="article-info">
+                    <div class="article-title-content">${item.title}</div>
+                    <p class="article-region-name">${item.roadAddress}</p>
+                    <p class="article-price">${item.price.toLocaleString()} 원 / 1박</p>
+                    <section class="article-sub-info">
+                        <span>방 ${item.roomCount}</span>
+                        <span>화장실 ${item.bathRoomCount}</span>
+                        <span>거실 ${item.livingRoomCount}</span>
+                        <span>주방 ${item.kitchenCount}</span>
+                    </section>
+                </div>
+            </a>`;
+        articlesWrap.appendChild(article);
+    });
+
+    manageMoreButton(data, resultContainer); // "더보기" 버튼 처리
 }
 
-// 기존 검색 결과를 지우는 함수
-function clearPreviousResults() {
-    const mainContainer = document.querySelector('main');
-    mainContainer.innerHTML = ''; // 모든 내용을 지우기
-}
 
 // 커뮤니티 게시글 생성 함수
 function createCommunityArticles(communityResults, keyword) {
@@ -173,6 +143,112 @@ function createCommunityArticles(communityResults, keyword) {
     return fragment;
 }
 
+
+
+
+// 통합검색을 담을 섹션 태그 생성
+function createSearchResultSection() {
+    const mainContainer = document.querySelector('main'); // 메인 컨테이너 선택
+    let section = mainContainer.querySelector('#integrated-search-result');
+
+    // 섹션이 이미 생성되어 있지 않으면 새로 생성
+    if (!section) {
+        section = document.createElement('section');
+        section.id = 'integrated-search-result';
+        mainContainer.appendChild(section);
+    }
+}
+
+function createResultContainer(featureName, displayName, wrapId) {
+    const section = document.querySelector('#integrated-search-result');
+    let resultContainer = section.querySelector(`.${featureName}-container`);
+
+    // 해당 기능의 result-container가 없으면 생성
+    if (!resultContainer) {
+        resultContainer = document.createElement('div');
+        resultContainer.className = 'result-container ' + featureName + '-container';
+
+        // 기능 이름을 담은 p.article-kind 추가
+        const articleKind = document.createElement('p');
+        articleKind.className = 'article-kind';
+        articleKind.textContent = displayName; // 예: 동네생활, 숙소 정보
+        resultContainer.appendChild(articleKind);
+
+        const articlesWrap = document.createElement('div');
+        articlesWrap.id = wrapId;  // 기능명-articles-wrap 형식
+        articlesWrap.className = featureName + '-articles-wrap';
+
+
+
+        resultContainer.appendChild(articlesWrap);
+        section.appendChild(resultContainer);
+    }
+
+    return resultContainer;
+}
+
+
+function manageMoreButton(data, resultContainer) {
+    let moreButton = resultContainer.querySelector('.more-btn');
+
+    if (!data.last) { // 다음 페이지가 있는 경우
+        if (!moreButton) {
+            moreButton = document.createElement('div');
+            moreButton.className = 'more-btn';
+            moreButton.innerHTML = `
+                <span class="more-text">더보기</span>
+                <div class="more-loading">
+                    <div class="loader"></div>
+                </div>`;
+
+            // 클릭 이벤트 추가
+            moreButton.addEventListener('click', () => loadMoreResults());
+            resultContainer.appendChild(moreButton);
+        }
+    } else if (moreButton) { // 마지막 페이지면 더보기 버튼 제거
+        moreButton.remove();
+    }
+}
+
+
+
+
+
+// ---------------------------------
+
+// 더보기 버튼 클릭 시 호출되는 함수
+function loadMoreResults() {
+    searchCurrentPage++; // 페이지 번호 증가
+    const keyword = document.getElementById("integrated-search-input").value.trim(); // 현재 검색어 가져오기
+    searchIntegratedResults(keyword, searchCurrentPage, searchPageSize); // 다음 페이지 데이터 요청
+}
+
+// 기존 검색 결과를 지우는 함수
+function clearPreviousResults() {
+    const mainContainer = document.querySelector('main');
+    mainContainer.innerHTML = ''; // 모든 내용을 지우기
+}
+
+
+function showToast(message) {
+    const toast = document.getElementById("integrated-search-toast");
+    toast.textContent = message;
+    toast.style.display = "block";
+
+    // 3초 후에 자동으로 숨김
+    setTimeout(() => {
+        toast.style.display = "none";
+    }, 3000);
+}
+
+// 예시: 검색어가 두 글자 미만일 때 호출
+function validateSearchInput(keyword) {
+    if (keyword.length < 2) {
+        showToast("두 글자 이상 입력해주세요.");
+        return false;
+    }
+    return true;
+}
 
 
 
