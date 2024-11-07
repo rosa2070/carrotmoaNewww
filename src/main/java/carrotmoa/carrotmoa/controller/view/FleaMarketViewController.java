@@ -23,4 +23,9 @@ public class FleaMarketViewController {
     public String savePost() {
         return "fleamarket/flea-market-write";
     }
+
+    @GetMapping("/update/{postId}")
+    public String updatePost(@PathVariable Long postId) {
+        return "fleamarket/flea-market-update";
+    }
 }

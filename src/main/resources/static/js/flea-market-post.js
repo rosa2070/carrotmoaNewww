@@ -62,6 +62,8 @@ function renderPost(data) {
     console.error("게시글 데이터가 없습니다!!!");
     return;
   }
+  getPosts2(data.userId);
+
 
   document.querySelector(
       ".flea-market-product-category").textContent = data.productCategoryName
@@ -83,6 +85,17 @@ function renderPost(data) {
   const postContent = filterImagesFromContent(data.content);
   document.querySelector(".flea-market-product-text").innerHTML = postContent
       || '내용 없음';
+
+  const loggedInUserId = document.querySelector("#logged-in-user").getAttribute(
+      "data-user-id");
+  console.log(loggedInUserId)
+  if (loggedInUserId === String(data.userId)) {
+    document.querySelector(".update-button").style.display = "block";
+    document.querySelector(".delete-button").style.display = "block";
+  } else {
+    document.querySelector(".update-button").style.display = "none";
+    document.querySelector(".delete-button").style.display = "none";
+  }
 }
 
 function getRelativeTime(createdAt) {
@@ -138,10 +151,14 @@ function getImages(id) {
     if (images.length > 0) {
       displayImage(currentImageIndex);
     } else {
+      document.getElementById('flea-market-image').src = '/images/sample.png';
       console.log('이미지가 없습니다!!!');
     }
   })
-  .catch(error => console.error('이미지 로드 실패!!!', error));
+  .catch(error => {
+    console.error('이미지 로드 실패!!!', error);
+    document.getElementById('flea-market-image').src = '/images/sample.png';
+  });
 }
 
 function displayImage(index) {
@@ -149,6 +166,8 @@ function displayImage(index) {
   if (images.length > 0 && index >= 0 && index < images.length) {
     imageElement.src = images[index];
   } else {
+    imageElement.src = '/images/sample.png';
+
     console.error('유효하지 않은 이미지 인덱스');
   }
 }
@@ -168,3 +187,124 @@ function changeImage(direction) {
 
   displayImage(currentImageIndex);
 }
+
+document.addEventListener("DOMContentLoaded", function () {
+  setMannerTemperature();
+  const id = getPostIdFromUrl();
+  getPost(id);
+  getImages(id);
+
+  const updateButton = document.getElementById('update-post-btn');
+  if (updateButton) {
+    updateButton.addEventListener('click', function () {
+      window.location.href = `/fleamarket/update/${id}`;
+    });
+  }
+
+  const deleteButton = document.getElementById('delete-post-btn');
+  if (deleteButton) {
+    deleteButton.addEventListener('click', function () {
+      if (confirm("게시글을 삭제하시겠습니까?")) {
+        deletePost(id);
+      }
+    });
+  }
+});
+
+
+function deletePost(id) {
+  fetch(`/api/fleamarket/posts/${id}`, {
+    method: 'DELETE'
+  })
+  .then(response => {
+    if (response.ok) {
+      alert("게시글이 삭제되었습니다.");
+      window.location.href = '/fleamarket';
+    } else {
+      alert("삭제에 실패했습니다.");
+    }
+  })
+  .catch(error => {
+    console.error("삭제 오류 발생", error);
+    alert("삭제 중 오류가 발생했습니다.");
+  });
+}
+
+
+let currentPage = 0;
+const pageSize = 3;
+
+document.addEventListener("DOMContentLoaded", function () {
+  getPosts();
+
+  const loadMoreButton = document.getElementById("load-more");
+  loadMoreButton.addEventListener("click", function () {
+    currentPage++;
+  });
+});
+
+function getPosts2(id) {
+
+  fetch(`/api/fleamarket/other-product?page=${currentPage}&size=${pageSize}?userId=${id}`)
+  .then(response => {
+    if (!response.ok) {
+      throw new Error('에러 발생!!!');
+    }
+    return response.json();
+  })
+  .then(data => {
+    if (data.content.length > 0) {
+      renderPosts2(data.content);
+    } else {
+      document.getElementById("load-more").style.display = 'none';
+    }
+  })
+  .catch(error => console.error('에러 발생!!!', error));
+}
+
+function renderPosts2(data) {
+  const tableBody = document.querySelector("#product-list");
+  const template = document.getElementById('article-template');
+
+  data.forEach(post => {
+    const clone = document.importNode(template.content, true);
+    clone.querySelector(".title").textContent = post.title;
+    clone.querySelector(".price").textContent = `${Number(
+        post.price).toLocaleString()}원`;
+    clone.querySelector(
+        ".address").textContent = `${post.region1DepthName} ${post.region2DepthName} ${post.region3DepthName}`;
+    const postLink = clone.querySelector(".post-link");
+
+    postLink.href = `/fleamarket/posts/${post.id}`;
+
+    fetch(`/api/fleamarket/images/${post.id}`)
+    .then(response => response.json())
+    .then(images => {
+      const imgElement = clone.querySelector(".article-image img");
+
+      if (images.length > 0) {
+        imgElement.src = images[0].imageUrl;
+      } else {
+        imgElement.src = '/images/sample.png';
+      }
+
+      tableBody.appendChild(clone);
+    })
+    .catch(error => {
+      console.error('이미지 로드 실패!!!', error);
+      const imgElement = clone.querySelector(".article-image img");
+      imgElement.src = '/images/sample.png';
+      tableBody.appendChild(clone);
+    });
+  });
+}
+
+document.addEventListener("DOMContentLoaded", function() {
+  const chatBtn = document.querySelector('.chat-btn');
+
+  if (chatBtn) {
+    chatBtn.addEventListener('click', function() {
+      alert('현중님 제발 채팅 만들어주세요');
+    });
+  }
+});

@@ -2,9 +2,11 @@ package carrotmoa.carrotmoa.service;
 
 import carrotmoa.carrotmoa.entity.Post;
 import carrotmoa.carrotmoa.entity.PostImage;
+import carrotmoa.carrotmoa.entity.Product;
 import carrotmoa.carrotmoa.entity.ProductCategory;
 import carrotmoa.carrotmoa.model.request.SaveFleaMarketPostRequest;
 import carrotmoa.carrotmoa.model.request.SavePostImageRequest;
+import carrotmoa.carrotmoa.model.request.UpdateFleaMarketPostRequest;
 import carrotmoa.carrotmoa.model.request.UpdatePostRequest;
 import carrotmoa.carrotmoa.model.response.FleaMarketPostDetailResponse;
 import carrotmoa.carrotmoa.model.response.FleaMarketPostImageResponse;
@@ -79,7 +81,8 @@ public class FleaMarketService {
 
     @Transactional
     public Long deletePost(Long id) {
-        return null;
+        postRepository.markAsDeleted(id);
+        return id;
     }
 
     @Transactional
@@ -122,5 +125,38 @@ public class FleaMarketService {
         return postImages.stream()
             .map(FleaMarketPostImageResponse::toFleaMarketPostImageResponse)
             .collect(Collectors.toList());
+    }
+
+    @Transactional
+    public Long updatePost(UpdateFleaMarketPostRequest updateFleaMarketPostRequest, Long id) {
+        Post post = postRepository.findOneById(id);
+        Product product = productRepository.findOneByPostId(id);
+
+        if (product == null) {
+            throw new IllegalArgumentException("해당 제품이 존재하지 않습니다.");
+        }
+
+        post.setTitle(updateFleaMarketPostRequest.getTitle());
+        post.setContent(updateFleaMarketPostRequest.getContent());
+
+        // 가격을 업데이트 할 때, 가격이 null이 아니고 0 이상의 값인지 확인
+        if (updateFleaMarketPostRequest.getPrice() != null && updateFleaMarketPostRequest.getPrice() >= 0) {
+            product.setPrice(updateFleaMarketPostRequest.getPrice());
+        } else {
+            throw new IllegalArgumentException("가격은 0 이상이어야 합니다.");
+        }
+
+        product.setProductCategoryId(updateFleaMarketPostRequest.getProductCategoryId());
+
+        postRepository.save(post);
+        productRepository.save(product);
+
+        return id;
+    }
+
+
+    @Transactional(readOnly = true)
+    public Slice<FleaMarketPostResponse> getPostListByUserId(Pageable pageable, Long userId) {
+        return fleaMarketPostRepository.findByUserId(pageable, userId);
     }
 }

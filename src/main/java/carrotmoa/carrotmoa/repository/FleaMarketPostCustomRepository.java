@@ -14,4 +14,8 @@ public interface FleaMarketPostCustomRepository {
     FleaMarketPostProductResponse findPostProductById(Long id);
 
     FleaMarketPostUserResponse findPostUserById(Long id);
+
+    Slice<FleaMarketPostResponse> findByKeyword(String keyword, Pageable pageable);
+
+    Slice<FleaMarketPostResponse> findByUserId(Pageable pageable, Long id);
 }

@@ -1,6 +1,7 @@
 package carrotmoa.carrotmoa.repository;
 
 import static carrotmoa.carrotmoa.entity.QUserProfile.userProfile;
+
 import carrotmoa.carrotmoa.entity.QAccommodation;
 import carrotmoa.carrotmoa.entity.QAccommodationImage;
 import carrotmoa.carrotmoa.entity.QPayment;
@@ -25,6 +26,7 @@ public class ReservationDetailCustomRepositoryImpl implements ReservationDetailC
     QPayment payment = QPayment.payment;
     QUser user = QUser.user;
     QUserProfile qUserProfile = userProfile;
+
     public ReservationDetailCustomRepositoryImpl(JPAQueryFactory jpaQueryFactory) {
         this.jpaQueryFactory = jpaQueryFactory;
     }

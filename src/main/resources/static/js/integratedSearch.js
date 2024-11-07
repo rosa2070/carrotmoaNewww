@@ -1,5 +1,6 @@
 let communitySearchCurrentPage = 0; // 커뮤니티 페이지 번호
 let accommodationSearchCurrentPage = 0; // 숙소 페이지 번호
+let fleamarketSearchCurrentPage = 0;
 let searchCurrentPage = 0; // 현재 페이지 번호
 const searchPageSize = 6; // 페이지당 항목 수
 
@@ -33,18 +34,90 @@ function searchIntegratedResults(keyword, page, size) {
         .then(response => response.json());
 
     // 3. 중고거래 API 호출 예정
+    const fleamarketFetch = fetch(
+        `/api/integrated-search/fleamarket?keyword=${keyword}&page=${page}&size=${size}`)
+    .then(response => response.json());
 
-    Promise.all([communityFetch, accommodationFetch])
-        .then(([communityData, accommodationData]) => {
+    Promise.all([communityFetch, accommodationFetch, fleamarketFetch])
+        .then(([communityData, accommodationData, fleamarketData]) => {
             console.log("동네생활 검색 결과: ", communityData)
             console.log("숙소정보 검색 결과: ", accommodationData)
+            console.log("숙소정보 검색 결과: ", fleamarketData)
             if (page === 0) {
                 clearPreviousResults(); // 첫 페이지일 경우 기존 결과를 지움
             }
             renderCommunityResults(communityData);  // 동네생활 데이터 렌더링
             renderAccommodationResults(accommodationData);  // 숙소 데이터 렌더링
+            renderFleamarketResults(fleamarketData);  // 동네생활 데이터 렌더링
         })
         .catch(error => console.error('Error fetching search results:', error));
+}
+
+function renderFleamarketResults(data) {
+    if (data.content.length === 0) return;
+
+    createSearchResultSection();
+    const resultContainer = createResultContainer('fleamarket', '중고거래', 'product-list');
+    const articlesWrap = resultContainer.querySelector('#product-list');
+
+    data.content.forEach(item => {
+        const article = document.createElement('article');
+        article.className = 'flea-market-article';
+
+        const postLink = `/fleamarket/posts/${item.id}`;
+
+        // 기본 이미지 설정
+        let imageUrl = '/images/sample.png';
+
+        // 이미지 가져오기 API 호출
+        fetch(`/api/fleamarket/images/${item.id}`)
+        .then(response => response.json())
+        .then(images => {
+            if (images.length > 0) {
+                imageUrl = images[0].imageUrl;  // 첫 번째 이미지 URL 사용
+            }
+            // 이미지와 게시물 내용 설정
+            article.innerHTML = `
+                    <a class="post-link" href="${postLink}">
+                        <div class="article-image">
+                            <img alt="${item.title}" src="${imageUrl}" onerror="this.src='/images/sample.png'">
+                        </div>
+                        <div class="article-info">
+                            <div class="title article-title">${item.title}</div>
+                            <div class="price article-price">${Number(item.price).toLocaleString()} 원</div>
+                            <div class="address article-address">${item.region1DepthName} ${item.region2DepthName}</div>
+                            <div>
+                                <span class="article-like">관심 10</span>
+                                <span>ㅤ</span>
+                                <span class="article-chat">채팅 10</span>
+                            </div>
+                        </div>
+                    </a>`;
+            articlesWrap.appendChild(article);
+        })
+        .catch(error => {
+            console.error('이미지 로드 실패:', error);
+            article.innerHTML = `
+                    <a class="post-link" href="${postLink}">
+                        <div class="article-image">
+                            <img alt="${item.title}" src="${imageUrl}">
+                        </div>
+                        <div class="article-info">
+                            <div class="title article-title">${item.title}</div>
+                            <div class="price article-price">${Number(item.price).toLocaleString()} 원</div>
+                            <div class="address article-address">${item.region1DepthName} ${item.region2DepthName}</div>
+                            <div>
+                                <span class="article-like">관심 10</span>
+                                <span>ㅤ</span>
+                                <span class="article-chat">채팅 10</span>
+                            </div>
+                        </div>
+                    </a>`;
+            articlesWrap.appendChild(article);
+        });
+    });
+
+    manageMoreButton(data, resultContainer); // "더보기" 버튼 처리
 }
 
 // 커뮤니티 게시판 렌더링 함수

@@ -2,6 +2,7 @@ package carrotmoa.carrotmoa.controller.api;
 
 import carrotmoa.carrotmoa.model.response.AccommodationSearchResponse;
 import carrotmoa.carrotmoa.model.response.CommunityPostSearchResponse;
+import carrotmoa.carrotmoa.model.response.FleaMarketPostResponse;
 import carrotmoa.carrotmoa.service.PostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Slice;
@@ -26,14 +27,13 @@ public class IntegratedSearchController {
         return ResponseEntity.ok(postService.integratedSearchCommunityPost(keyword, page, size));
     }
 
-//     2. 중고거래 검색 api 제작
-//    @GetMapping("/fle-market")
-//    public ResponseEntity<Slice<CommunityPostSearchResponse>> fleMarketSearch(
-//            @RequestParam(name = "keyword") String keyword,
-//            @RequestParam(name = "page", defaultValue = "0") int page,
-//            @RequestParam(name = "size", defaultValue = "6") int size) {
-//        return ResponseEntity.ok(postService.integratedSearchfleMarketPost(keyword, page, size));
-//    }
+    @GetMapping("/fleamarket")
+    public ResponseEntity<Slice<FleaMarketPostResponse>> fleMarketSearch(
+            @RequestParam(name = "keyword") String keyword,
+            @RequestParam(name = "page", defaultValue = "0") int page,
+            @RequestParam(name = "size", defaultValue = "6") int size) {
+        return ResponseEntity.ok(postService.integratedSearchFleaMarketPost(keyword, page, size));
+    }
 
     //     3. 숙소정보 검색 api 제작
     @GetMapping("/accommodation")

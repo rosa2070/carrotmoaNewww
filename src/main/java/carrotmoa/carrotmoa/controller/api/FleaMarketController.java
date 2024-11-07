@@ -1,6 +1,7 @@
 package carrotmoa.carrotmoa.controller.api;
 
 import carrotmoa.carrotmoa.model.request.SaveFleaMarketPostRequest;
+import carrotmoa.carrotmoa.model.request.UpdateFleaMarketPostRequest;
 import carrotmoa.carrotmoa.model.request.UpdatePostRequest;
 import carrotmoa.carrotmoa.model.response.FleaMarketPostDetailResponse;
 import carrotmoa.carrotmoa.model.response.FleaMarketPostImageResponse;
@@ -40,6 +41,11 @@ public class FleaMarketController {
         return fleaMarketService.getPostList(pageable);
     }
 
+    @GetMapping("/other-product")
+    public Slice<FleaMarketPostResponse> getPostListByUserId(@PageableDefault(size = 3) Pageable pageable, Long userId) {
+        return fleaMarketService.getPostListByUserId(pageable, userId);
+    }
+
     @GetMapping("/posts/{id}")
     public FleaMarketPostDetailResponse getPost(@PathVariable Long id) {
         return fleaMarketService.getPost(id);
@@ -50,18 +56,20 @@ public class FleaMarketController {
         return fleaMarketService.getCategoryList();
     }
 
-    @DeleteMapping("/{postId}")
+    @DeleteMapping("/posts/{postId}")
     public Long deletePost(@PathVariable Long postId) {
         return fleaMarketService.deletePost(postId);
     }
 
-    @PutMapping
-    public Long updatePost(@RequestBody UpdatePostRequest updatePostRequest) {
-        return fleaMarketService.updatePost(updatePostRequest);
+    @PutMapping("/posts/{id}")
+    public Long updatePost(@RequestBody UpdateFleaMarketPostRequest updateFleaMarketPostRequest, @PathVariable Long id) {
+        return fleaMarketService.updatePost(updateFleaMarketPostRequest,id);
     }
 
     @GetMapping("/images/{id}")
     public List<FleaMarketPostImageResponse> getPostImage(@PathVariable Long id) {
         return fleaMarketService.getPostImages(id);
     }
+
+
 }

@@ -8,7 +8,9 @@ import carrotmoa.carrotmoa.model.response.AccommodationSearchResponse;
 import carrotmoa.carrotmoa.model.response.AccommodationSearchResponseImpl;
 import carrotmoa.carrotmoa.model.response.CommunityPostSearchResponse;
 import carrotmoa.carrotmoa.model.response.CommunityPostSearchResponseImpl;
+import carrotmoa.carrotmoa.model.response.FleaMarketPostResponse;
 import carrotmoa.carrotmoa.repository.AccommodationRepository;
+import carrotmoa.carrotmoa.repository.FleaMarketPostRepository;
 import carrotmoa.carrotmoa.repository.PostRepository;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -27,10 +29,12 @@ public class PostService {
 
     private final PostRepository postRepository;
     private final AccommodationRepository accommodationRepository;
+    private final FleaMarketPostRepository fleaMarketPostRepository;
 
-    public PostService(PostRepository postRepository, AccommodationRepository accommodationRepository) {
+    public PostService(PostRepository postRepository, AccommodationRepository accommodationRepository, FleaMarketPostRepository fleaMarketPostRepository) {
         this.postRepository = postRepository;
         this.accommodationRepository = accommodationRepository;
+        this.fleaMarketPostRepository = fleaMarketPostRepository;
     }
 
     public Post savePost(SaveAccommodationRequest saveAccommodationRequest) {
@@ -86,6 +90,11 @@ public class PostService {
         postRepository.markAsDeleted(postId);
     }
 
+    @Transactional(readOnly = true)
+    public Slice<FleaMarketPostResponse> integratedSearchFleaMarketPost(String keyword, int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        return fleaMarketPostRepository.findByKeyword(keyword, pageable);
+    }
 
     public Slice<AccommodationSearchResponse> integratedSearchAccommodationPost(String keyword, int page, int size) {
         Long serviceId = 8L;

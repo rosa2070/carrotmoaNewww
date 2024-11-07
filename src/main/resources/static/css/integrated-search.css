@@ -97,7 +97,7 @@ p {
 
 
 #integrated-search-result .flea-market-article {
-  flex: 0 1 calc(33.333% - 16px); /* 3열 배치 */
+  /*flex: 0 1 calc(33.333% - 16px); !* 3열 배치 *!*/
   box-sizing: border-box;
   background: #fff;
   border-radius: 8px;
@@ -290,4 +290,78 @@ mark {
   font-weight: normal;
   background-color: #FFFAEE;
   color: #ff8a3d;
+}
+
+.product-list {
+  display: flex;
+  justify-content: space-between;
+  /*width: 760px;*/
+  gap: 10px;
+  margin: 40px 156px 0 156px;
+  flex-wrap: wrap;
+}
+
+.product-list article {
+  width: 223px;
+  height: 344px;
+  margin-bottom: 50px;
+  box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+}
+
+.product-list article a {
+  display: flex;
+  text-decoration: none;
+  color: #212529;
+  flex-direction: column;
+}
+
+.product-list article a div {
+  display: flex;
+}
+
+
+.article-title {
+  font-size: 16px;
+  letter-spacing: -0.02px;
+  color: #212529;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  margin-bottom: 4px;
+  line-height: 1.5;
+  font-weight: normal;
+}
+
+.article-price {
+  color: #212529;
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 1.5;
+  margin-bottom: 4px;
+}
+
+.article-address {
+  font-size: 13px;
+  color: #212529;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  margin-bottom: 2px;
+  line-height: 1.5;
+}
+
+.article-like,
+.article-chat {
+  color: #868e96;
+  font-size: 13px;
+}
+
+.fleamarket-articles-wrap {
+  display: flex;
+  flex-direction: column; /* 각 항목을 가로로 나열 */
+  align-items: center; /* 항목 중앙 정렬 */
+  gap: 15px; /* 항목 간 간격 설정 */
+  margin-bottom: 20px; /* 각 항목 간 마진 설정 */
+  width: 100%;
 }

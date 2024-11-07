@@ -60,4 +60,7 @@ public interface PostRepository extends JpaRepository<Post, Long> {
         nativeQuery = true)
     Slice<CommunityPostSearchResponse> integratedSearchCommunityPost(@Param("keyword") String keyword, @Param("serviceId") Long serviceId,
         Pageable pageable);
+
+
+    Post findOneById(Long id);
 }

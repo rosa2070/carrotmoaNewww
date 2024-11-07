@@ -37,9 +37,11 @@
 }
 
 .product-list article {
-  width: 225px;
-  height: 330px;
+  width: 223px;
+  height: 344px;
   margin-bottom: 50px;
+  box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
 }
 
 .product-list article a {
@@ -67,11 +69,12 @@
   display: flex;
   flex-direction: column;
   margin-top: 12px;
+  padding-left: 10px;
 }
 
 .article-info div {
   display: flex;
-  margin-bottom: 4px;
+  margin-bottom: 2px;
 }
 
 .article-title {
@@ -100,7 +103,7 @@
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
-  margin-bottom: 4px;
+  margin-bottom: 2px;
   line-height: 1.5;
 }
 
