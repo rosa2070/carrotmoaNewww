@@ -14,6 +14,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+import static carrotmoa.carrotmoa.entity.QPost.post;
+
 @Service
 public class PaymentService {
 
@@ -141,6 +143,23 @@ public class PaymentService {
 
             // 예약 상태를 변경 (예약 취소: 2)
             reservation.setStatus(2);
+
+            // 게스트 예약 취소시 알림보내는 영역
+//            Accommodation accommodation = accommodationRepository.findById(reservation.getAccommodationId())
+//                    .orElseThrow(() -> new EntityNotFoundException("Accommodation not found"));
+//
+//            Post post = postRepository.findById(accommodation.getPostId())
+//                    .orElseThrow(() -> new EntityNotFoundException("Post not found"));
+//
+//            Long receiverId = post.getUserId();
+//            String roomName = post.getTitle();
+
+//            if (!reservationRequest.getUserId().equals(receiverId)) {
+//                String notificationUrl = "/host/room/contract";
+//                SaveNotificationRequest saveNotificationRequest = new SaveNotificationRequest(NotificationType.RESERVATION_CONFIRM, receiverId, reservationRequest.getUserId(), roomName + " 방을 예약했어요", notificationUrl);
+//                UserProfile senderUser = userProfileRepository.findNicknameByUserId(reservationRequest.getUserId());
+//                notificationService.sendNotification(receiverId,saveNotificationRequest, senderUser.getNickname(), senderUser.getPicUrl());
+//            }
         }
 
     }

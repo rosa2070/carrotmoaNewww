@@ -26,7 +26,6 @@ public interface AccommodationRepository extends JpaRepository<Accommodation, Lo
         "GROUP BY a.id, p.title, a.roadAddress, a.price")
     List<Object[]> searchAccommodationByKeyword(@Param("keyword") String keyword);
 
-//    Long findPostIdById(@Param("id") Long id);
     @Query("SELECT p.id FROM Post p " +
             "JOIN Accommodation a ON a.postId = p.id " +
             "WHERE p.id = :id")
