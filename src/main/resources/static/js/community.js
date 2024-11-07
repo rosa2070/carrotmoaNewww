@@ -13,46 +13,46 @@ const SCROLL_THRESHOLD = 600;  // 스크롤 트리거 임계값
 
 
 document.addEventListener("DOMContentLoaded", function () {
-  fetch("/api/community/sub-categories")
-  .then(response => {
-    if (!response.ok) {
-      throw new Error("에러!!")
-    }
-    return response.json();
-  })
-  .then(data => {
-    const categoryList = document.getElementById("community-category-list");
-    console.log(data);
-    data.categories.forEach(data => {
-      const li = document.createElement('li');
-      const link = document.createElement('a');
-        link.href = "#"; // 기본 링크는 없애고
-        link.innerText = data.name;
-        link.dataset.id = data.id; // 서브 카테고리 ID를 데이터 속성으로 추가
+    fetch("/api/community/sub-categories")
+        .then(response => {
+            if (!response.ok) {
+                throw new Error("에러!!")
+            }
+            return response.json();
+        })
+        .then(data => {
+            const categoryList = document.getElementById("community-category-list");
+            console.log(data);
+            data.categories.forEach(data => {
+                const li = document.createElement('li');
+                const link = document.createElement('a');
+                link.href = "#"; // 기본 링크는 없애고
+                link.innerText = data.name;
+                link.dataset.id = data.id; // 서브 카테고리 ID를 데이터 속성으로 추가
 
-        // 클릭 이벤트 추가
-        link.addEventListener('click', function (event) {
-            event.preventDefault(); // 기본 링크 클릭 이벤트 방지
-            const subcategoryId = this.dataset.id; // 클릭한 링크의 서브 카테고리 ID 가져오기
-            selectedSubcategoryId = subcategoryId;
-            subcategoryCurrentPage = 0;            // 서브 카테고리 전용 페이지 초기화
-            subcategoryIsLastPage = false;         // 마지막 페이지 상태 초기화
-            fetchPostsBySubCategory(subcategoryId); // 게시글 가져오기
-        });
-        li.appendChild(link);
-        categoryList.appendChild(li);
-    });
-  })
-  .catch(error => console.error('에러가 있어요', error));
+                // 클릭 이벤트 추가
+                link.addEventListener('click', function (event) {
+                    event.preventDefault(); // 기본 링크 클릭 이벤트 방지
+                    const subcategoryId = this.dataset.id; // 클릭한 링크의 서브 카테고리 ID 가져오기
+                    selectedSubcategoryId = subcategoryId;
+                    subcategoryCurrentPage = 0;            // 서브 카테고리 전용 페이지 초기화
+                    subcategoryIsLastPage = false;         // 마지막 페이지 상태 초기화
+                    fetchPostsBySubCategory(subcategoryId); // 게시글 가져오기
+                });
+                li.appendChild(link);
+                categoryList.appendChild(li);
+            });
+        })
+        .catch(error => console.error('에러가 있어요', error));
 })
 
 
 // 게시글을 서브 카테고리 ID에 따라 가져오는 함수
 async function fetchPostsBySubCategory(subcategoryId) {
-    if(subcategoryIsLastPage || isLoading) return; // 마지막 페이지거나 로딩 중이면 중복 호출 방지
+    if (subcategoryIsLastPage || isLoading) return; // 마지막 페이지거나 로딩 중이면 중복 호출 방지
     isLoading = true;
     const postListContainer = document.getElementById('community-post-list');
-    if(subcategoryCurrentPage === 0) {
+    if (subcategoryCurrentPage === 0) {
         postListContainer.innerHTML = ''; // 새로운 서브 카테고리일 경우 기존 게시글 초기화
     }
 
@@ -97,34 +97,32 @@ async function fetchPostsBySubCategory(subcategoryId) {
 
 // 게시글 HTML을 생성하는 함수
 function createPostHTML(post) {
-  const tempDiv = document.createElement('div');
-  tempDiv.innerHTML = post.content;
-  const plainText = tempDiv.textContent || tempDiv.innerText || '';
-  const previewText = plainText.length > 30 ? plainText.substring(0, 30) + "..."
-      : plainText;
-  return `
+    const tempDiv = document.createElement('div');
+    tempDiv.innerHTML = post.content;
+    const plainText = tempDiv.textContent || tempDiv.innerText || '';
+    const previewText = plainText.length > 30 ? plainText.substring(0, 30) + "..."
+        : plainText;
+
+
+    const postHTML = `
         <div class="community-post-body">
-            <div class="community-post-content">
+            <div class="community-post-content" >
                 <div class="community-post-category">${post.categoryName}</div>
                 <div class="community-post-title">${post.title}</div>
                 <div class="community-post-content">${previewText}</div>
             </div>
             <div class="community-post-thumbnail">
                 ${post.imageUrl ? `<img src="${post.imageUrl}" alt="썸네일 이미지"/>`
-      : ''}
+        : ''}
             </div>
         </div>
         <div class="community-post-footer">
             <div class="community-post-info">
-                ${post.region3DepthName} · ${post.createdAt}  
+                ${post.region3DepthName} · ${post.formattedCreatedAt}  
             </div>
             <div class="community-post-stats">
-                <div class="community-post-like">
-                        <span>
-                            <img src="/images/community/like.svg" alt="좋아요 아이콘">
-                            <span class="community-post-like-count">10</span>
-                        </span>
-                </div>
+                 <div class="community-post-like" data-post-id="${post.communityPostId}">
+                 </div>
                 <div class="community-post-comment">
                     <span>
                         <img src="/images/community/comment.svg" alt="댓글 아이콘">
@@ -134,6 +132,17 @@ function createPostHTML(post) {
             </div>
         </div>
     `;
+    return postHTML;
+}
+
+// 게시글 로드 후 좋아요 개수 표시 업데이트
+async function updateLikeCountsForPosts(posts) {
+    posts.forEach(post => {
+        const likeCountElement = document.querySelector(`.community-post-like[data-post-id="${post.communityPostId}"]`);
+        if (likeCountElement) {
+            fetchLikeCount(post.communityPostId, likeCountElement);
+        }
+    });
 }
 
 document.addEventListener("DOMContentLoaded", function () {
@@ -181,6 +190,9 @@ async function fetchPosts() {
         });
         // 현재 페이지 증가
         currentPage++;
+        // 각 게시글의 좋아요 개수 업데이트
+        updateLikeCountsForPosts(posts);
+        console.log(updateLikeCountsForPosts(posts));
         if (isLastPage) {
             if (!document.getElementById('no-more-posts')) {
                 const noMorePostsMessage = document.createElement('div');
@@ -204,12 +216,36 @@ async function fetchPosts() {
     }
 }
 
+// 좋아요 개수를 불러와 표시하는 함수
+async function fetchLikeCount(postId, element) {
+    try {
+        const response = await fetch(`/api/community/posts/${postId}/likes`);
+        if (response.ok) {
+            const likeCount = await response.json();
+            if (likeCount > 0) {
+                element.innerHTML = `
+                        <span>
+                        <img src="/images/community/like.svg" alt="좋아요 아이콘">
+                        <span class="community-post-like-count" >${likeCount}</span>
+                        </span>
+                    `
+            }
+        } else {
+            console.error(`Error fetching like count for post ID: ${postId}`);
+        }
+    } catch (error) {
+        console.error('좋아요 개수를 불러오는 중 오류가 발생했습니다:', error);
+    }
+}
+
+
+
 
 // throttle 함수 정의 (시간 간격 동안 여러 번 호출 방지)
 function throttle(func, limit) {
     let lastFunc;
     let lastRan;
-    return function() {
+    return function () {
         const context = this;
         const args = arguments;
         if (!lastRan) {
@@ -217,7 +253,7 @@ function throttle(func, limit) {
             lastRan = Date.now();
         } else {
             clearTimeout(lastFunc);
-            lastFunc = setTimeout(function() {
+            lastFunc = setTimeout(function () {
                 if (Date.now() - lastRan >= limit) {
                     func.apply(context, args);
                     lastRan = Date.now();

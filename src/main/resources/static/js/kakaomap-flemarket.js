@@ -1,4 +1,3 @@
-
 // 중고거래 장소 선정에 쓸 마커임. 이걸 전역변수로 선언해줘야. 거래장소 등록할 때 드래그를 금지시킬 수 있음.
 var marker;
 var locPosition;
@@ -21,7 +20,7 @@ var map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니
 // HTML5의 geolocation으로 사용할 수 있는지 확인 -> 만약 사용할 수 있다면 현재 위치와 메세지 변수를 저장해서 displayMarker 함수 실행.
 if (navigator.geolocation) {
     // GeoLocation을 이용해서 접속 위치를 얻어옵니다
-    navigator.geolocation.getCurrentPosition(function(position) {
+    navigator.geolocation.getCurrentPosition(function (position) {
         lat = position.coords.latitude; // 위도
         lon = position.coords.longitude; // 경도
         var locPosition = new kakao.maps.LatLng(lat, lon); // 마커가 표시될 위치를 geolocation으로 얻어온 좌표로 생성
@@ -32,7 +31,7 @@ if (navigator.geolocation) {
         createTradeMarker(map.getCenter());
 
 
-    // 지도 이동 시 중앙에 마커를 유지하는 이벤트 리스너 추가
+        // 지도 이동 시 중앙에 마커를 유지하는 이벤트 리스너 추가
         kakao.maps.event.addListener(map, 'center_changed', updateMarkerPosition);
     });
 } else { // HTML5의 GeoLocation을 사용할 수 없을때 설정.
@@ -56,13 +55,13 @@ function updateMarkerPosition() {
     // 위치 정보 좌표를 얻은 후 행정 구역 반환하기
     var addressDisplay = document.getElementById('addressDisplay');
     var centerAddr = document.getElementById('centerAddr');
-    var callback = function(result, status) {
+    var callback = function (result, status) {
         if (status === kakao.maps.services.Status.OK) {
             for (var i = 0; i < result.length; i++) {
                 // console.log(result); // 값이 행정동 값과 법정동 값 두개 들어오는데, 그 중 h로 행정동의 값만 출력함.
                 if (result[i].region_type === 'H') { // 행정동일 경우
                     // console.log("행정동 이름: " + result[i].address_name); // 전체 주소 출력
-                    addressDisplay.innerHTML = "현재 마커의 위치는 '" + result[i].region_3depth_name +"' 입니다."
+                    addressDisplay.innerHTML = "현재 마커의 위치는 '" + result[i].region_3depth_name + "' 입니다."
                     centerAddr.innerHTML = result[i].address_name;
                     // 행정동 이름 출력
                     break; // 첫 번째 행정동 이름만 출력
@@ -135,10 +134,10 @@ function handleRegistration() {
             iwPosition = new kakao.maps.LatLng(lat, lon); //인포윈도우 표시 위치입니다
         // 인포윈도우를 생성합니다
         var infowindow = new kakao.maps.InfoWindow({
-            position : iwPosition,
-            content : iwContent
+            position: iwPosition,
+            content: iwContent
         });
-    // 마커 위에 인포윈도우를 표시.
+        // 마커 위에 인포윈도우를 표시.
         infowindow.open(map, marker);
 
         confirmButton.style.display = 'none'; // 버튼 숨기기
@@ -152,7 +151,7 @@ function handleRegistration() {
 
         var geocoder = new kakao.maps.services.Geocoder();
 
-        var callback = function(result, status) {
+        var callback = function (result, status) {
             if (status === kakao.maps.services.Status.OK) {
                 for (let i = 0; i < result.length; i++) {
                     console.log(result); // 객체 2개 반환

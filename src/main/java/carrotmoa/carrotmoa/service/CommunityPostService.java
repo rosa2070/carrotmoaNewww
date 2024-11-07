@@ -12,6 +12,7 @@ import carrotmoa.carrotmoa.repository.CommunityCommentRepository;
 import carrotmoa.carrotmoa.repository.CommunityPostRepository;
 import carrotmoa.carrotmoa.repository.PostImageRepository;
 import carrotmoa.carrotmoa.repository.PostRepository;
+import carrotmoa.carrotmoa.util.DateTimeUtil;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -56,7 +57,10 @@ public class CommunityPostService {
 
     @Transactional(readOnly = true)
     public CommunityPostDetailResponse findCommunityPostDetail(Long id) {
-        return communityPostRepository.findCommunityPostDetail(id);
+        CommunityPostDetailResponse response = communityPostRepository.findCommunityPostDetail(id);
+        response.setFormattedCreatedAt(DateTimeUtil.formatElapsedTime(response.getCreatedAt()));
+        response.setFormattedUpdatedAt(DateTimeUtil.formatElapsedTime(response.getUpdatedAt()));
+        return response;
     }
 
     @Transactional(readOnly = true)
@@ -65,6 +69,8 @@ public class CommunityPostService {
         Pageable pageable = PageRequest.of(page, size);
         Slice<CommunityPostListResponse> posts = postRepository.getAllCommunityPosts(serviceId, pageable);
         posts.forEach(post -> {
+            post.setFormattedCreatedAt(DateTimeUtil.formatElapsedTime(post.getCreatedAt()));
+            post.setFormattedUpdatedAt(DateTimeUtil.formatElapsedTime(post.getUpdatedAt()));
             int commentCount = communityCommentRepository.countByCommunityPostId(post.getCommunityPostId());
             post.setCommentCount(commentCount);
         });
@@ -77,13 +83,13 @@ public class CommunityPostService {
         Pageable pageable = PageRequest.of(page, size);
         Slice<CommunityPostListResponse> posts = postRepository.getPostsBySubCategory(serviceId, subcategoryId, pageable);
         posts.forEach(post -> {
+            post.setFormattedCreatedAt(DateTimeUtil.formatElapsedTime(post.getCreatedAt()));
+            post.setFormattedUpdatedAt(DateTimeUtil.formatElapsedTime(post.getUpdatedAt()));
             int commentCount = communityCommentRepository.countByCommunityPostId(post.getCommunityPostId());
             post.setCommentCount(commentCount);
         });
         return posts;
     }
-
-
 
 
     @Transactional

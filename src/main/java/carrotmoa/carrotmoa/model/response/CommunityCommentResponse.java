@@ -1,17 +1,14 @@
 package carrotmoa.carrotmoa.model.response;
 
-import carrotmoa.carrotmoa.entity.CommunityComment;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-
-import carrotmoa.carrotmoa.entity.UserAddress;
-import carrotmoa.carrotmoa.entity.UserProfile;
 import com.querydsl.core.annotations.QueryProjection;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
@@ -34,6 +31,10 @@ public class CommunityCommentResponse {
     private List<CommunityCommentResponse> replies = new ArrayList<>(); // 답글을 저장할 리스트
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
+
+    private String formattedCreatedAt;
+    private String formattedUpdatedAt;
+
 
 //    public CommunityCommentResponse(CommunityComment comment, UserProfile userProfile, UserAddress userAddress) {
 //        this.id = comment.getId();
@@ -77,7 +78,6 @@ public class CommunityCommentResponse {
     public void addReply(CommunityCommentResponse reply) {
         replies.add(reply); // replies 리스트에 답글 추가
     }
-
 
 
 }

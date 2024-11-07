@@ -3,7 +3,6 @@ package carrotmoa.carrotmoa.model.response;
 import carrotmoa.carrotmoa.entity.Notification;
 import carrotmoa.carrotmoa.entity.NotificationType;
 import carrotmoa.carrotmoa.entity.UserProfile;
-import carrotmoa.carrotmoa.util.DateTimeUtil;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -24,7 +23,7 @@ public class NotificationResponse {
     private String url;
     private boolean isRead;
     private boolean isDeleted;
-    private LocalDateTime createdAt ;
+    private LocalDateTime createdAt;
 
     public NotificationResponse(Notification notification, NotificationType notificationType, UserProfile userProfile) {
         this.id = notification.getId();
@@ -35,6 +34,6 @@ public class NotificationResponse {
         this.url = notification.getUrl();
         this.isRead = notification.isRead();
         this.isDeleted = notification.isDeleted();
-        this.createdAt  = notification.getCreatedAt();
+        this.createdAt = notification.getCreatedAt();
     }
 }

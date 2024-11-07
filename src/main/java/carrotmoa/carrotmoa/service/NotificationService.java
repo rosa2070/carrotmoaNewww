@@ -10,13 +10,11 @@ import carrotmoa.carrotmoa.repository.EmitterRepository;
 import carrotmoa.carrotmoa.repository.NotificationRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -58,7 +56,7 @@ public class NotificationService {
                 notification.getId(),
                 NotificationType.COMMENT.getTitle(),
                 userName,
-                picUrl,saveNotificationRequest.getMessage(),
+                picUrl, saveNotificationRequest.getMessage(),
                 saveNotificationRequest.getUrl(),
                 notification.isRead(),
                 notification.isDeleted(),

@@ -2,7 +2,10 @@ package carrotmoa.carrotmoa.model.request;
 
 import carrotmoa.carrotmoa.entity.Notification;
 import carrotmoa.carrotmoa.enums.NotificationType;
-import lombok.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
 @Getter
 @Setter

@@ -25,7 +25,7 @@ document.addEventListener("DOMContentLoaded", async function () {
             storedNotifications = await fetchLoginUserNotifications(); // 데이터를 비동기로 가져오기
             localStorage.setItem("isNotificationInitialized", "true");
         }
-            notificationStorageList(storedNotifications);
+        notificationStorageList(storedNotifications);
         sse.onmessage = function (event) {
             const notification = JSON.parse(event.data);
             console.log('새로운 알림:', notification);
@@ -357,7 +357,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 // 모든 알림이 삭제된 경우
                 localStorage.setItem("allNotificationsDeleted", "true");
                 displayNoNotificationsMessage();
-                 }  else {
+            } else {
                 // 알림이 남아 있는 경우
                 localStorage.removeItem("allNotificationsDeleted");
             }

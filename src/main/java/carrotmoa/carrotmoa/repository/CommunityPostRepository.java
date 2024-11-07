@@ -20,5 +20,8 @@ public interface CommunityPostRepository extends JpaRepository<CommunityPost, Lo
                     "JOIN UserAddress ua ON p.userId = ua.userId " + // UserAddress 조인
                     "WHERE cp.id = :id AND p.isDeleted = false")
     CommunityPostDetailResponse findCommunityPostDetail(@Param("id") Long id);
+    @Query("SELECT cp.postId FROM CommunityPost cp WHERE cp.id = :id")
+    Long findPostIdById(@Param("id") Long id);
+
 }
 

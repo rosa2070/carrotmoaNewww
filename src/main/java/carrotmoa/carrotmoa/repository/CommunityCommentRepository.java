@@ -1,13 +1,12 @@
 package carrotmoa.carrotmoa.repository;
 
 import carrotmoa.carrotmoa.entity.CommunityComment;
-import java.util.List;
-import java.util.Optional;
-
-import carrotmoa.carrotmoa.model.response.CommunityCommentResponse;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+
+import java.util.List;
+import java.util.Optional;
 
 public interface CommunityCommentRepository extends JpaRepository<CommunityComment, Long>, CommunityCommentCustomRepository {
 //    @Query("SELECT new carrotmoa.carrotmoa.model.response.CommunityCommentResponse(c, up, ua) " +

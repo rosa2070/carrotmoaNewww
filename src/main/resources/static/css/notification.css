@@ -56,7 +56,7 @@
     text-align: center;
 }
 
-.notification-menu div a{
+.notification-menu div a {
     margin: 0;
     padding: 0;
     border: none;
@@ -64,10 +64,9 @@
     color: black;
 }
 
-.notification-menu div a:hover{
+.notification-menu div a:hover {
     background-color: transparent;
 }
-
 
 
 .notification-user-pic {
@@ -119,7 +118,6 @@
     border-bottom: 1px solid #ccc;
     position: relative;
 }
-
 
 
 .notification-toast {
@@ -178,6 +176,7 @@
     cursor: pointer; /* 클릭 가능하게 표시 */
     transition: background-color 0.3s; /* 배경색 변화 애니메이션 추가 */
 }
+
 .notification-delete-button:hover {
     background-color: rgba(0, 0, 0, 0.6); /* 호버시 배경색 변화 */
 }

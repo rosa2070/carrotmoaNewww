@@ -7,7 +7,7 @@ var lat, lon; // 사용자 현 위치
 // 마커 이미지 생성
 var imageSrc = "/images/icons/marker.svg";
 var imageSize = new kakao.maps.Size(34, 39);
-var imageOption = { offset: new kakao.maps.Point(17, 39) };
+var imageOption = {offset: new kakao.maps.Point(17, 39)};
 var markerImage;
 
 var mapContainer = document.getElementById('map'),

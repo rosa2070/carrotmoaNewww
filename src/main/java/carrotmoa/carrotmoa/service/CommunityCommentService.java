@@ -8,7 +8,11 @@ import carrotmoa.carrotmoa.model.request.SaveCommunityCommentRequest;
 import carrotmoa.carrotmoa.model.request.SaveCommunityReplyRequest;
 import carrotmoa.carrotmoa.model.request.SaveNotificationRequest;
 import carrotmoa.carrotmoa.model.response.CommunityCommentResponse;
-import carrotmoa.carrotmoa.repository.*;
+import carrotmoa.carrotmoa.repository.CommunityCommentRepository;
+import carrotmoa.carrotmoa.repository.CommunityPostRepository;
+import carrotmoa.carrotmoa.repository.PostRepository;
+import carrotmoa.carrotmoa.repository.UserProfileRepository;
+import carrotmoa.carrotmoa.util.DateTimeUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -56,6 +60,9 @@ public class CommunityCommentService {
         List<CommunityCommentResponse> topLevelComments = new ArrayList<>();
 
         for (CommunityCommentResponse comment : commentResponseList) {
+            comment.setFormattedCreatedAt(DateTimeUtil.formatElapsedTime(comment.getCreatedAt()));
+            comment.setFormattedUpdatedAt(DateTimeUtil.formatElapsedTime(comment.getUpdatedAt()));
+
             if (comment.getParentId() == null) {
                 topLevelComments.add(comment);
             } else {
@@ -86,10 +93,6 @@ public class CommunityCommentService {
             }
         }
     }
-
-
-
-
 
 
 //    @Transactional(readOnly = true)
@@ -143,8 +146,6 @@ public class CommunityCommentService {
 //            }
 //        }
 //    }
-
-
 
 
     @Transactional

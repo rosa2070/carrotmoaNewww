@@ -14,7 +14,7 @@ public class SaveCommunityReplyRequest {
     private Long userId;
     private String content;
 
-    public CommunityComment toCommunityCommentEntity(){
+    public CommunityComment toCommunityCommentEntity() {
         return CommunityComment.builder()
                 .userId(userId)
                 .content(content)
