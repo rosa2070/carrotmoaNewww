@@ -1,11 +1,15 @@
 package carrotmoa.carrotmoa.service;
 
 import carrotmoa.carrotmoa.entity.User;
+import carrotmoa.carrotmoa.entity.UserProfile;
 import carrotmoa.carrotmoa.enums.AuthorityCode;
 import carrotmoa.carrotmoa.model.request.UserJoinDto;
+import carrotmoa.carrotmoa.model.request.UserUpdateRequest;
 import carrotmoa.carrotmoa.repository.AccountRepository;
+import carrotmoa.carrotmoa.model.response.FindUserResponse;
 import carrotmoa.carrotmoa.repository.UserProfileRepository;
 import carrotmoa.carrotmoa.repository.UserRepository;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -31,9 +35,12 @@ public class UserService {
     private final BCryptPasswordEncoder passwordEncoder;
     private final AccountRepository accountRepository;
 
-    //해당 이메일이 이미 존재하는지 체크
+    //이미 존재하는지 체크
     public boolean emailCheck(String email) {
         return Optional.ofNullable(userRepository.findByEmail(email)).isPresent();
+    }
+    public boolean nicknameCheck(String nickname) {
+        return Optional.ofNullable(userProfileRepository.findByNickname(nickname)).isPresent();
     }
 
     public void sendCodeToEmail(String toEmail) {
@@ -113,6 +120,31 @@ public class UserService {
             System.out.println(e.getMessage());
             return false;
         }
+    }
+    @Transactional
+    public boolean userProfileUpdate(UserUpdateRequest request){
+        try{
+          request.updateUser(
+                  userRepository.findById(request.getUserId()).orElseThrow(() -> new EntityNotFoundException("해당 유저가 존재하지않음")),
+                  userProfileRepository.findByUserId(request.getUserId()));
+          return true;
+        } catch(Exception updateException){
+            System.out.println("UserUpdateException");
+            System.out.println(updateException.getMessage());
+          return false;
+        }
+    }
+    public FindUserResponse findUserNickname(String searchType, String searchKeyword) throws EntityNotFoundException{
+        UserProfile profile = null;
+        if(searchType.equals("userId")) {
+            profile = userProfileRepository.findByUserId(Integer.parseInt(searchKeyword));
+        } else if(searchType.equals("nickname")) {
+            profile = userProfileRepository.findByNickname(searchKeyword);
+        }
+        if(profile == null) {
+            throw new EntityNotFoundException();
+        }
+        return new FindUserResponse(profile);
     }
 
 

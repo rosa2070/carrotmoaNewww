@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<div layout:fragment name="profile-update">
+    <form class="user-form" id="user-update" name="user-update" th:object="${userUpdateRequestDto}">
+
+        <input type="hidden" name="userId" id="userId"  th:field="*{userId}">
+        <label for="nickname">별명</label>
+        <input id="nickname" name="nickname" th:field="*{nickname}" maxlength="10" required type="text"><span id="nickname-duplication"></span><br>
+        <label for="name">이름</label>
+        <input id="name" name="name"  th:field="*{name}" required type="text"><br>
+        <label for="phone">전화번호</label>
+        <input id="phone" name="phoneNumber"  th:field="*{phoneNumber}" required type="text"><br>
+        <label for="birthday">생일</label>
+        <input id="birthday" class="my-page-profile-birthday" name="addressId" th:field="*{birthday}" th:value ="${user.getUserProfile.getBirthday()}" required type="date"><br>
+        <label for="bio"> 한줄 소개</label>
+        <textarea id="bio" name="bio" class="my-page-profile-update-bio" th:field="*{bio}"></textarea>
+        <br>
+        <input type="submit" value="수정하기">
+    </form>
+
+</div>
+</html>
+

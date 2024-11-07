@@ -16,14 +16,16 @@ public class UserJoinDto {
     private Integer accountNumber;
     private String accountHolder;
     private long userId;
+    private int state = 0;
 
     public User toUserEntity() {
         return User.builder()
-                .email(this.getEmail())
-                .password(this.getPassword())
-                .authorityId(this.getAuthorityId())
-                .isWithdrawal(this.getIsWithdrawal())
-                .build();
+            .email(this.getEmail())
+            .password(this.getPassword())
+            .authorityId(this.getAuthorityId())
+            .isWithdrawal(this.getIsWithdrawal())
+            .state(this.getState())
+            .build();
     }
 
     public UserProfile toUserProfileEntity(long userId) {
