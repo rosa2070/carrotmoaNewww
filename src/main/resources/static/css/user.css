@@ -44,8 +44,9 @@
   border-radius: 10px;
 
 }
-.user-form input:focus{
-  border-color : #FE6F0F;
+
+.user-form input:focus {
+  border-color: #FE6F0F;
 }
 
 .user-form input[type="submit"] {
@@ -157,6 +158,7 @@
   color: #212124;
   font-weight: bold;
 }
+
 .user-form input:focus {
   border: 2px solid #FE6F0F; /* 포커스 시 보더 색상 변경 */
   outline: none; /* 기본 outline 제거 (선택 사항) */

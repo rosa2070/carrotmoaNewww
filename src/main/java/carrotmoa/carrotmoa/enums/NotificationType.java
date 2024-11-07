@@ -14,5 +14,4 @@ public enum NotificationType {
 
     private final Long typeId;
     private final String title;
-
 }

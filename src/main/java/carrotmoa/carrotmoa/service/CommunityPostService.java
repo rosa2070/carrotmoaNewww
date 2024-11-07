@@ -7,12 +7,15 @@ import carrotmoa.carrotmoa.model.request.SavePostImageRequest;
 import carrotmoa.carrotmoa.model.request.UpdateCommunityPostRequest;
 import carrotmoa.carrotmoa.model.response.CommunityPostDetailResponse;
 import carrotmoa.carrotmoa.model.response.CommunityPostListResponse;
-import carrotmoa.carrotmoa.model.response.CommunityPostSearchResponse;
 import carrotmoa.carrotmoa.repository.CommunityCommentRepository;
 import carrotmoa.carrotmoa.repository.CommunityPostRepository;
 import carrotmoa.carrotmoa.repository.PostImageRepository;
 import carrotmoa.carrotmoa.repository.PostRepository;
 import carrotmoa.carrotmoa.util.DateTimeUtil;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,11 +26,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 @Service
 @RequiredArgsConstructor
@@ -105,16 +103,15 @@ public class CommunityPostService {
 
     @Transactional
     public Long updateCommunityPost(Long communityPostId, UpdateCommunityPostRequest request) {
-        CommunityPost communityPost = communityPostRepository.findById(communityPostId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "게시글을 찾을 수 없습니다."));
-        Post post = postRepository.findById(communityPost.getPostId()).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "게시글의 내용이 없습니다."));
+        CommunityPost communityPost = communityPostRepository.findById(communityPostId)
+            .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "게시글을 찾을 수 없습니다."));
+        Post post = postRepository.findById(communityPost.getPostId())
+            .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "게시글의 내용이 없습니다."));
         post.updatePost(request.getTitle(), request.getContent());
 
         communityPost.updateCategory(request.getCommunityCategoryId());
         return communityPostId;
     }
-
-
-
 
 
     private List<String> extractImageUrls(String content) {

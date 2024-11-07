@@ -13,7 +13,7 @@ public interface WishListRepository extends JpaRepository<WishList, Long> {
     @Modifying
     @Transactional
     @Query(value = "INSERT INTO wishlist (user_id, post_id, is_canceled, created_at, updated_at) " +
-            "VALUES (:userId, :postId, 0, NOW(), NOW()) " +
-            "ON DUPLICATE KEY UPDATE is_canceled = IF(is_canceled = 0, 1, 0), updated_at = NOW()", nativeQuery = true)
+        "VALUES (:userId, :postId, 0, NOW(), NOW()) " +
+        "ON DUPLICATE KEY UPDATE is_canceled = IF(is_canceled = 0, 1, 0), updated_at = NOW()", nativeQuery = true)
     void updateWishListByUserIdAndPostId(@Param("userId") Long userId, @Param("postId") Long postId);
 }

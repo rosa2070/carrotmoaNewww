@@ -1,7 +1,9 @@
 package carrotmoa.carrotmoa.model.request;
 
 import carrotmoa.carrotmoa.entity.Review;
-import lombok.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Getter
 @Setter
@@ -13,9 +15,9 @@ public class SaveReviewRequest {
 
     public Review toEntity() {
         return Review.builder()
-                .postId(postId)
-                .userId(userId)
-                .comment(comment)
-                .build();
+            .postId(postId)
+            .userId(userId)
+            .comment(comment)
+            .build();
     }
 }

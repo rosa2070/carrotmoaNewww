@@ -14,7 +14,8 @@ public class SaveReviewController {
     private ReviewService reviewService;
 
     @PostMapping("/guest/review/save")
-    public String saveReview(@RequestParam("reservationId") Long reservationId, @AuthenticationPrincipal CustomUserDetails user, @RequestParam("comment")String comment) {
+    public String saveReview(@RequestParam("reservationId") Long reservationId, @AuthenticationPrincipal CustomUserDetails user,
+        @RequestParam("comment") String comment) {
         Long userId = user.getUserProfile().getUserId();
         reviewService.saveReview(reservationId, userId, comment);
         return "redirect:/guest/booking/list";

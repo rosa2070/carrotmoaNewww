@@ -1,15 +1,17 @@
 package carrotmoa.carrotmoa.entity;
-import carrotmoa.carrotmoa.model.request.PaymentRequest;
-import jakarta.persistence.*;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.PrePersist;
+import jakarta.persistence.Table;
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
-
-import java.math.BigDecimal;
-import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "payment")
@@ -74,7 +76,6 @@ public class Payment extends BaseEntity {
 //    protected void onUpdate() {
 //        updatedAt = LocalDateTime.now();
 //    }
-
 
 
 }

@@ -10,5 +10,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 public class GlobalUserAttribute {
 
     @ModelAttribute("user")
-    public UserDetails user(@AuthenticationPrincipal CustomUserDetails user) {return user;}
+    public UserDetails user(@AuthenticationPrincipal CustomUserDetails user) {
+        return user;
+    }
 }

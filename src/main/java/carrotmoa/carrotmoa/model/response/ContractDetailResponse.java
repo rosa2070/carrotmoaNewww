@@ -18,11 +18,11 @@ public class ContractDetailResponse {
 
     public static ContractDetailResponse fromData(Object[] data) {
         return ContractDetailResponse.builder()
-                .title((String) data[0])
-                .lotAddress((String) data[1])
-                .detailAddress((String) data[2])
-                .floor((int) data[3])
-                .nickname((String) data[4])
-                .build();
+            .title((String) data[0])
+            .lotAddress((String) data[1])
+            .detailAddress((String) data[2])
+            .floor((int) data[3])
+            .nickname((String) data[4])
+            .build();
     }
 }

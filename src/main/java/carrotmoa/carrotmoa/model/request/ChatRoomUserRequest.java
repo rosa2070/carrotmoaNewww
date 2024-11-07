@@ -14,17 +14,18 @@ public class ChatRoomUserRequest {
     private long chatRoomId;
     private int state;
 
-    public ChatRoomUser toEntityChatRoomUser(){
-        return ChatRoomUser.builder()
-                .userId(this.userId)
-                .chatRoomId(this.chatRoomId)
-                .state(this.state)
-                .build();
-    }
-    public ChatRoomUserRequest(long userId,long chatRoomId){
+    public ChatRoomUserRequest(long userId, long chatRoomId) {
         this.userId = userId;
         this.chatRoomId = chatRoomId;
         this.state = 0;
+    }
+
+    public ChatRoomUser toEntityChatRoomUser() {
+        return ChatRoomUser.builder()
+            .userId(this.userId)
+            .chatRoomId(this.chatRoomId)
+            .state(this.state)
+            .build();
     }
 
 }

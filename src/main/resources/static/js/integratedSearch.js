@@ -2,73 +2,83 @@ let searchCurrentPage = 0; // 현재 페이지 번호
 const searchPageSize = 6; // 페이지당 항목 수
 
 document.addEventListener("DOMContentLoaded", function () {
-    const integratedSearchInput = document.getElementById("integrated-search-input");
+  const integratedSearchInput = document.getElementById(
+      "integrated-search-input");
 
-    // 엔터 키 감지 이벤트 추가
-    integratedSearchInput.addEventListener("keypress", function (event) {
-        if (event.key === 'Enter') {
-            event.preventDefault(); // 기본 폼 제출 방지
-            const keyword = event.target.value.trim(); // 검색어 가져오기
-            if (validateSearchInput(keyword)) {
-                searchCurrentPage = 0; // 페이지를 초기화
-                searchIntegratedResults(keyword, searchCurrentPage, searchPageSize);
-            }
-        }
-    });
+  // 엔터 키 감지 이벤트 추가
+  integratedSearchInput.addEventListener("keypress", function (event) {
+    if (event.key === 'Enter') {
+      event.preventDefault(); // 기본 폼 제출 방지
+      const keyword = event.target.value.trim(); // 검색어 가져오기
+      if (validateSearchInput(keyword)) {
+        searchCurrentPage = 0; // 페이지를 초기화
+        searchIntegratedResults(keyword, searchCurrentPage, searchPageSize);
+      }
+    }
+  });
 });
 
 // 검색 api 호출
 function searchIntegratedResults(keyword, page, size) {
-    // . 동네생활 API 호출
-    const communityFetch = fetch(`/api/integrated-search/community?keyword=${keyword}&page=${page}&size=${size}`)
-        .then(response => response.json());
+  // . 동네생활 API 호출
+  const communityFetch = fetch(
+      `/api/integrated-search/community?keyword=${keyword}&page=${page}&size=${size}`)
+  .then(response => response.json());
 
-    // 2. 숙소 API 호출
-    const accommodationFetch = fetch(`/api/integrated-search/accommodation?keyword=${keyword}&page=${page}&size=${size}`)
-        .then(response => response.json());
+  // 2. 숙소 API 호출
+  const accommodationFetch = fetch(
+      `/api/integrated-search/accommodation?keyword=${keyword}&page=${page}&size=${size}`)
+  .then(response => response.json());
 
-    // 3. 중고거래 API 호출 예정
+  // 3. 중고거래 API 호출 예정
 
-    Promise.all([communityFetch, accommodationFetch])
-        .then(([communityData, accommodationData]) => {
-            console.log("동네생활 검색 결과: ", communityData)
-            console.log("숙소정보 검색 결과: ", accommodationData)
-                if (page === 0) {
-                    clearPreviousResults(); // 첫 페이지일 경우 기존 결과를 지움
-                }
-            renderCommunityResults(communityData);  // 동네생활 데이터 렌더링
-            renderAccommodationResults(accommodationData);  // 숙소 데이터 렌더링
-            })
-        .catch(error => console.error('Error fetching search results:', error));
+  Promise.all([communityFetch, accommodationFetch])
+  .then(([communityData, accommodationData]) => {
+    console.log("동네생활 검색 결과: ", communityData)
+    console.log("숙소정보 검색 결과: ", accommodationData)
+    if (page === 0) {
+      clearPreviousResults(); // 첫 페이지일 경우 기존 결과를 지움
+    }
+    renderCommunityResults(communityData);  // 동네생활 데이터 렌더링
+    renderAccommodationResults(accommodationData);  // 숙소 데이터 렌더링
+  })
+  .catch(error => console.error('Error fetching search results:', error));
 }
 
 // 커뮤니티 게시판 렌더링 함수
 function renderCommunityResults(data) {
-    if (data.content.length === 0) return; // 검색 결과가 없으면 종료
+  if (data.content.length === 0) {
+    return;
+  } // 검색 결과가 없으면 종료
 
-    createSearchResultSection(); // 통합 섹션 생성
-    const resultContainer = createResultContainer('community', '동네생활', 'community-wrap'); // 커뮤니티용 컨테이너 생성
+  createSearchResultSection(); // 통합 섹션 생성
+  const resultContainer = createResultContainer('community', '동네생활',
+      'community-wrap'); // 커뮤니티용 컨테이너 생성
 
-    // community-wrap에 데이터 추가
-    const articlesWrap = resultContainer.querySelector('#community-wrap');
-    articlesWrap.appendChild(createCommunityArticles(data.content, document.getElementById("integrated-search-input").value.trim()));
+  // community-wrap에 데이터 추가
+  const articlesWrap = resultContainer.querySelector('#community-wrap');
+  articlesWrap.appendChild(createCommunityArticles(data.content,
+      document.getElementById("integrated-search-input").value.trim()));
 
-    manageMoreButton(data, resultContainer); // "더보기" 버튼 처리
+  manageMoreButton(data, resultContainer); // "더보기" 버튼 처리
 }
 
 function renderAccommodationResults(data) {
-    if (data.content.length === 0) return; // 검색 결과가 없으면 종료
+  if (data.content.length === 0) {
+    return;
+  } // 검색 결과가 없으면 종료
 
-    createSearchResultSection(); // 통합 섹션 생성
-    const resultContainer = createResultContainer('accommodation', '숙소 정보', 'accommodation-wrap'); // 숙소용 컨테이너 생성
+  createSearchResultSection(); // 통합 섹션 생성
+  const resultContainer = createResultContainer('accommodation', '숙소 정보',
+      'accommodation-wrap'); // 숙소용 컨테이너 생성
 
-    // accommodation-wrap에 데이터 추가
-    const articlesWrap = resultContainer.querySelector('#accommodation-wrap');
-    data.content.forEach(item => {
-        const article = document.createElement('article');
-        article.className = 'accommodation-article flat-card';
+  // accommodation-wrap에 데이터 추가
+  const articlesWrap = resultContainer.querySelector('#accommodation-wrap');
+  data.content.forEach(item => {
+    const article = document.createElement('article');
+    article.className = 'accommodation-article flat-card';
 
-        article.innerHTML = `
+    article.innerHTML = `
             <a class="accommodation-article-link" href="${item.accommodationUrl}">
                 <div class="card-photo">
                     <img alt="${item.title}" src="${item.imageUrl}">
@@ -85,51 +95,51 @@ function renderAccommodationResults(data) {
                     </section>
                 </div>
             </a>`;
-        articlesWrap.appendChild(article);
-    });
+    articlesWrap.appendChild(article);
+  });
 
-    manageMoreButton(data, resultContainer); // "더보기" 버튼 처리
+  manageMoreButton(data, resultContainer); // "더보기" 버튼 처리
 }
-
 
 // 커뮤니티 게시글 생성 함수
 function createCommunityArticles(communityResults, keyword) {
-    const fragment = document.createDocumentFragment();
-    const regex = new RegExp(`(${keyword})`, 'gi');
+  const fragment = document.createDocumentFragment();
+  const regex = new RegExp(`(${keyword})`, 'gi');
 
-    communityResults.forEach(result => {
-        const article = document.createElement('div');
-        article.className = 'community-article';
+  communityResults.forEach(result => {
+    const article = document.createElement('div');
+    article.className = 'community-article';
 
-        // 이미지가 있는 경우에만 이미지 태그 추가
-        let imageHtml = '';
-        if (result.postImageUrl) {
-            imageHtml = `
+    // 이미지가 있는 경우에만 이미지 태그 추가
+    let imageHtml = '';
+    if (result.postImageUrl) {
+      imageHtml = `
                 <div class="community-article-image">
                     <img alt="더미데이터" src="${result.postImageUrl}">
                 </div>`;
-        }
+    }
 
-        // HTML에서 순수 텍스트만 추출하는 함수
-        const extractPlainText = (html) => {
-            const parser = new DOMParser();
-            const doc = parser.parseFromString(html, 'text/html');
-            return doc.body.textContent || "";
-        };
+    // HTML에서 순수 텍스트만 추출하는 함수
+    const extractPlainText = (html) => {
+      const parser = new DOMParser();
+      const doc = parser.parseFromString(html, 'text/html');
+      return doc.body.textContent || "";
+    };
 
-        // 순수 텍스트 추출
-        const plainTextContent = extractPlainText(result.content);
+    // 순수 텍스트 추출
+    const plainTextContent = extractPlainText(result.content);
 
-        // 내용 길이 제한 (예: 100자)
-        const MAX_LENGTH = 100;
-        const truncatedContent = plainTextContent.length > MAX_LENGTH ?
-            plainTextContent.substring(0, MAX_LENGTH) + '...' :
-            plainTextContent;
+    // 내용 길이 제한 (예: 100자)
+    const MAX_LENGTH = 100;
+    const truncatedContent = plainTextContent.length > MAX_LENGTH ?
+        plainTextContent.substring(0, MAX_LENGTH) + '...' :
+        plainTextContent;
 
-        // 검색어 강조 처리
-        const highlightedContent = truncatedContent.replace(regex, '<mark>$1</mark>');
+    // 검색어 강조 처리
+    const highlightedContent = truncatedContent.replace(regex,
+        '<mark>$1</mark>');
 
-        article.innerHTML = `
+    article.innerHTML = `
             <a href="${result.postUrl}" class="article-link">
                 ${imageHtml} <!-- 이미지 HTML 추가 -->
                 <div class="community-article-text">
@@ -137,117 +147,108 @@ function createCommunityArticles(communityResults, keyword) {
                     <p class="community-region-name">${result.addressName}</p>
                 </div>
             </a>`;
-        fragment.appendChild(article);
-    });
+    fragment.appendChild(article);
+  });
 
-    return fragment;
+  return fragment;
 }
-
-
-
 
 // 통합검색을 담을 섹션 태그 생성
 function createSearchResultSection() {
-    const mainContainer = document.querySelector('main'); // 메인 컨테이너 선택
-    let section = mainContainer.querySelector('#integrated-search-result');
+  const mainContainer = document.querySelector('main'); // 메인 컨테이너 선택
+  let section = mainContainer.querySelector('#integrated-search-result');
 
-    // 섹션이 이미 생성되어 있지 않으면 새로 생성
-    if (!section) {
-        section = document.createElement('section');
-        section.id = 'integrated-search-result';
-        mainContainer.appendChild(section);
-    }
+  // 섹션이 이미 생성되어 있지 않으면 새로 생성
+  if (!section) {
+    section = document.createElement('section');
+    section.id = 'integrated-search-result';
+    mainContainer.appendChild(section);
+  }
 }
 
 function createResultContainer(featureName, displayName, wrapId) {
-    const section = document.querySelector('#integrated-search-result');
-    let resultContainer = section.querySelector(`.${featureName}-container`);
+  const section = document.querySelector('#integrated-search-result');
+  let resultContainer = section.querySelector(`.${featureName}-container`);
 
-    // 해당 기능의 result-container가 없으면 생성
-    if (!resultContainer) {
-        resultContainer = document.createElement('div');
-        resultContainer.className = 'result-container ' + featureName + '-container';
+  // 해당 기능의 result-container가 없으면 생성
+  if (!resultContainer) {
+    resultContainer = document.createElement('div');
+    resultContainer.className = 'result-container ' + featureName
+        + '-container';
 
-        // 기능 이름을 담은 p.article-kind 추가
-        const articleKind = document.createElement('p');
-        articleKind.className = 'article-kind';
-        articleKind.textContent = displayName; // 예: 동네생활, 숙소 정보
-        resultContainer.appendChild(articleKind);
+    // 기능 이름을 담은 p.article-kind 추가
+    const articleKind = document.createElement('p');
+    articleKind.className = 'article-kind';
+    articleKind.textContent = displayName; // 예: 동네생활, 숙소 정보
+    resultContainer.appendChild(articleKind);
 
-        const articlesWrap = document.createElement('div');
-        articlesWrap.id = wrapId;  // 기능명-articles-wrap 형식
-        articlesWrap.className = featureName + '-articles-wrap';
+    const articlesWrap = document.createElement('div');
+    articlesWrap.id = wrapId;  // 기능명-articles-wrap 형식
+    articlesWrap.className = featureName + '-articles-wrap';
 
+    resultContainer.appendChild(articlesWrap);
+    section.appendChild(resultContainer);
+  }
 
-
-        resultContainer.appendChild(articlesWrap);
-        section.appendChild(resultContainer);
-    }
-
-    return resultContainer;
+  return resultContainer;
 }
 
-
 function manageMoreButton(data, resultContainer) {
-    let moreButton = resultContainer.querySelector('.more-btn');
+  let moreButton = resultContainer.querySelector('.more-btn');
 
-    if (!data.last) { // 다음 페이지가 있는 경우
-        if (!moreButton) {
-            moreButton = document.createElement('div');
-            moreButton.className = 'more-btn';
-            moreButton.innerHTML = `
+  if (!data.last) { // 다음 페이지가 있는 경우
+    if (!moreButton) {
+      moreButton = document.createElement('div');
+      moreButton.className = 'more-btn';
+      moreButton.innerHTML = `
                 <span class="more-text">더보기</span>
                 <div class="more-loading">
                     <div class="loader"></div>
                 </div>`;
 
-            // 클릭 이벤트 추가
-            moreButton.addEventListener('click', () => loadMoreResults());
-            resultContainer.appendChild(moreButton);
-        }
-    } else if (moreButton) { // 마지막 페이지면 더보기 버튼 제거
-        moreButton.remove();
+      // 클릭 이벤트 추가
+      moreButton.addEventListener('click', () => loadMoreResults());
+      resultContainer.appendChild(moreButton);
     }
+  } else if (moreButton) { // 마지막 페이지면 더보기 버튼 제거
+    moreButton.remove();
+  }
 }
-
-
-
-
 
 // ---------------------------------
 
 // 더보기 버튼 클릭 시 호출되는 함수
 function loadMoreResults() {
-    searchCurrentPage++; // 페이지 번호 증가
-    const keyword = document.getElementById("integrated-search-input").value.trim(); // 현재 검색어 가져오기
-    searchIntegratedResults(keyword, searchCurrentPage, searchPageSize); // 다음 페이지 데이터 요청
+  searchCurrentPage++; // 페이지 번호 증가
+  const keyword = document.getElementById(
+      "integrated-search-input").value.trim(); // 현재 검색어 가져오기
+  searchIntegratedResults(keyword, searchCurrentPage, searchPageSize); // 다음 페이지 데이터 요청
 }
 
 // 기존 검색 결과를 지우는 함수
 function clearPreviousResults() {
-    const mainContainer = document.querySelector('main');
-    mainContainer.innerHTML = ''; // 모든 내용을 지우기
+  const mainContainer = document.querySelector('main');
+  mainContainer.innerHTML = ''; // 모든 내용을 지우기
 }
 
-
 function showToast(message) {
-    const toast = document.getElementById("integrated-search-toast");
-    toast.textContent = message;
-    toast.style.display = "block";
+  const toast = document.getElementById("integrated-search-toast");
+  toast.textContent = message;
+  toast.style.display = "block";
 
-    // 3초 후에 자동으로 숨김
-    setTimeout(() => {
-        toast.style.display = "none";
-    }, 3000);
+  // 3초 후에 자동으로 숨김
+  setTimeout(() => {
+    toast.style.display = "none";
+  }, 3000);
 }
 
 // 예시: 검색어가 두 글자 미만일 때 호출
 function validateSearchInput(keyword) {
-    if (keyword.length < 2) {
-        showToast("두 글자 이상 입력해주세요.");
-        return false;
-    }
-    return true;
+  if (keyword.length < 2) {
+    showToast("두 글자 이상 입력해주세요.");
+    return false;
+  }
+  return true;
 }
 
 

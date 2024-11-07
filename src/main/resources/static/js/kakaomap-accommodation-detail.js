@@ -7,13 +7,13 @@ var lat, lon; // 사용자 현 위치
 // 마커 이미지 생성
 var imageSrc = "/images/icons/marker.svg";
 var imageSize = new kakao.maps.Size(34, 39);
-var imageOption = { offset: new kakao.maps.Point(17, 39) };
+var imageOption = {offset: new kakao.maps.Point(17, 39)};
 var markerImage;
 
 var mapContainer = document.getElementById('map'),
     mapOption = {
-        center: new kakao.maps.LatLng(jhtaLat, jhtaLon),
-        level: 4
+      center: new kakao.maps.LatLng(jhtaLat, jhtaLon),
+      level: 4
     };
 var map = new kakao.maps.Map(mapContainer, mapOption);
 
@@ -150,47 +150,49 @@ var map = new kakao.maps.Map(mapContainer, mapOption);
 
 // 마커 생성 함수
 function createAccommodationMarker(position, imageScrUrl, map, overlay) {
-    markerImage = new kakao.maps.MarkerImage(imageScrUrl, imageSize, imageOption);
-    var marker = new kakao.maps.Marker({
-        position: position,
-        image: markerImage,
-        map: map
-    });
+  markerImage = new kakao.maps.MarkerImage(imageScrUrl, imageSize, imageOption);
+  var marker = new kakao.maps.Marker({
+    position: position,
+    image: markerImage,
+    map: map
+  });
 
-    // 오버레이를 마커에 연결
-    marker.kakaoOverlay = overlay;
+  // 오버레이를 마커에 연결
+  marker.kakaoOverlay = overlay;
 
-    return marker;
+  return marker;
 }
 
 // 오버레이 닫기 함수
 function closeOverlay(overlay) {
-    if (overlay) {
-        overlay.setMap(null); // 오버레이를 지도에서 제거
-    } else {
-        console.error("오버레이가 존재하지 않습니다.");
-    }
+  if (overlay) {
+    overlay.setMap(null); // 오버레이를 지도에서 제거
+  } else {
+    console.error("오버레이가 존재하지 않습니다.");
+  }
 }
 
 var accommodationMarkers = []; // 숙소 마커 저장
 
 // 데이터 가져오기
 fetch("/api/accommodation-data")
-    .then(response => response.json())
-    .then(data => {
-        data.accommodations.forEach(accommodation => {
-            const position = new kakao.maps.LatLng(accommodation.latitude, accommodation.longitude);
-            const overlayContent = createAccommodationContent(accommodation);
-            const overlay = createOverlay(overlayContent, map, position);
-            const marker = createAccommodationMarker(position, "/images/icons/exh.svg", map, overlay); // 오버레이를 전달
+.then(response => response.json())
+.then(data => {
+  data.accommodations.forEach(accommodation => {
+    const position = new kakao.maps.LatLng(accommodation.latitude,
+        accommodation.longitude);
+    const overlayContent = createAccommodationContent(accommodation);
+    const overlay = createOverlay(overlayContent, map, position);
+    const marker = createAccommodationMarker(position, "/images/icons/exh.svg",
+        map, overlay); // 오버레이를 전달
 
-            // 마커 클릭 시 오버레이 표시
-            kakao.maps.event.addListener(marker, 'click', function () {
-                overlay.setMap(map);
-            });
+    // 마커 클릭 시 오버레이 표시
+    kakao.maps.event.addListener(marker, 'click', function () {
+      overlay.setMap(map);
+    });
 
-            accommodationMarkers.push(marker); // 전시회 마커 저장
-            accommodationClusterer.addMarker(marker); // 클러스터러에 마커 추가
-        });
-    })
-    .catch(error => console.error('Error fetching accommodation data:', error));
+    accommodationMarkers.push(marker); // 전시회 마커 저장
+    accommodationClusterer.addMarker(marker); // 클러스터러에 마커 추가
+  });
+})
+.catch(error => console.error('Error fetching accommodation data:', error));

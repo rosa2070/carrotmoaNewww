@@ -8,23 +8,22 @@ import carrotmoa.carrotmoa.model.response.NotificationResponse;
 import carrotmoa.carrotmoa.model.response.SseNotificationResponse;
 import carrotmoa.carrotmoa.repository.EmitterRepository;
 import carrotmoa.carrotmoa.repository.NotificationRepository;
+import java.io.IOException;
+import java.util.List;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
-import java.io.IOException;
-import java.util.List;
-import java.util.stream.Collectors;
-
 @Service
 @RequiredArgsConstructor
 @Slf4j
 public class NotificationService {
+    private static final Long DEFAULT_TIMEOUT = 600L * 1000 * 60; // 연결 시간 10분
     private final EmitterRepository emitterRepository;
     private final NotificationRepository notificationRepository;
-    private static final Long DEFAULT_TIMEOUT = 600L * 1000 * 60; // 연결 시간 10분
 
     // 계속 생성안되게 검증 로직 추가하기.
     public SseEmitter subscribe(Long userId) {
@@ -36,8 +35,8 @@ public class NotificationService {
         emitter.onTimeout(() -> emitterRepository.deleteById(userId));
         try {
             emitter.send(SseEmitter.event()
-                    .name("connect") // 이벤트 이름 지정
-                    .data("connected!")); // 503에러 방지를 위한 더미 데이터
+                .name("connect") // 이벤트 이름 지정
+                .data("connected!")); // 503에러 방지를 위한 더미 데이터
             emitterRepository.save(userId, emitter);
             log.info("SSE 객체가 Map에 잘 저장되었을까요? -> {}", emitterRepository.get(userId));
         } catch (IOException e) {
@@ -53,14 +52,14 @@ public class NotificationService {
         Notification notification = saveNotification(saveNotificationRequest);
 
         SseNotificationResponse sseNotificationResponse = new SseNotificationResponse(
-                notification.getId(),
-                NotificationType.COMMENT.getTitle(),
-                userName,
-                picUrl, saveNotificationRequest.getMessage(),
-                saveNotificationRequest.getUrl(),
-                notification.isRead(),
-                notification.isDeleted(),
-                notification.getCreatedAt());
+            notification.getId(),
+            NotificationType.COMMENT.getTitle(),
+            userName,
+            picUrl, saveNotificationRequest.getMessage(),
+            saveNotificationRequest.getUrl(),
+            notification.isRead(),
+            notification.isDeleted(),
+            notification.getCreatedAt());
         sendSseNotification(receiverId, sseNotificationResponse);
     }
 
@@ -92,22 +91,22 @@ public class NotificationService {
     public List<Long> updateNotifications(List<NotificationUpdateRequest> updateRequests) {
         // 요청에 따라 알림을 업데이트
         List<Long> updatedNotificationIds = updateRequests.stream()
-                .map(request -> {
-                    // 알림을 ID로 조회
-                    Notification notification = notificationRepository.findById(request.getId())
-                            .orElseThrow(() -> new RuntimeException("해당 알림의 아이디를 찾을 수 없습니다: " + request.getId()));
+            .map(request -> {
+                // 알림을 ID로 조회
+                Notification notification = notificationRepository.findById(request.getId())
+                    .orElseThrow(() -> new RuntimeException("해당 알림의 아이디를 찾을 수 없습니다: " + request.getId()));
 
-                    // 상태 업데이트
-                    notification.updateStatus(request.isRead(), request.isDeleted());
+                // 상태 업데이트
+                notification.updateStatus(request.isRead(), request.isDeleted());
 
-                    return notification.getId(); // 업데이트된 알림 ID 반환
-                })
-                .collect(Collectors.toList());
+                return notification.getId(); // 업데이트된 알림 ID 반환
+            })
+            .collect(Collectors.toList());
 
         // saveAll을 사용하여 일괄 업데이트 (JPA는 변경 감지를 기반으로 함)
         notificationRepository.saveAll(updatedNotificationIds.stream()
-                .map(id -> notificationRepository.getById(id))
-                .collect(Collectors.toList()));
+            .map(id -> notificationRepository.getById(id))
+            .collect(Collectors.toList()));
 
         return updatedNotificationIds;
     }

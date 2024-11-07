@@ -1,21 +1,15 @@
 package carrotmoa.carrotmoa.util;
 
 import carrotmoa.carrotmoa.model.request.RequestDTO;
-import carrotmoa.carrotmoa.model.request.SaveAccommodationRequest;
+import java.util.Arrays;
+import java.util.List;
 import org.aspectj.lang.JoinPoint;
-import org.aspectj.lang.annotation.After;
-import org.aspectj.lang.annotation.AfterThrowing;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
-import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.lang.reflect.Field;
-import java.util.Arrays;
-import java.util.List;
 
 @Aspect
 @Component
@@ -36,28 +30,28 @@ public class LoggingAspect {
     private void logFields(RequestDTO requestDTO) {
         // RequestDTO의 모든 필드를 순회하며 로그 기록
         Arrays.stream(requestDTO.getClass().getDeclaredFields())
-                .forEach(field -> {
-                    field.setAccessible(true); // private 필드 접근 허용
-                    try {
-                        Object value = field.get(requestDTO);  // 필드의 값을 가져옴
-                        if (value instanceof MultipartFile) {
-                            logMultipartFileField((MultipartFile) value);
-                        } else if (value instanceof List) {
-                            logListField((List<?>) value, field.getName());
-                        } else {
-                            log.info("{} ({}): {}", field.getName(), field.getType().getSimpleName(), value);
-                        }
-                    } catch (IllegalAccessException e) {
-                        log.warn("필드 값을 읽는 중 오류 발생: {}", field.getName());
+            .forEach(field -> {
+                field.setAccessible(true); // private 필드 접근 허용
+                try {
+                    Object value = field.get(requestDTO);  // 필드의 값을 가져옴
+                    if (value instanceof MultipartFile) {
+                        logMultipartFileField((MultipartFile) value);
+                    } else if (value instanceof List) {
+                        logListField((List<?>) value, field.getName());
+                    } else {
+                        log.info("{} ({}): {}", field.getName(), field.getType().getSimpleName(), value);
                     }
-                });
+                } catch (IllegalAccessException e) {
+                    log.warn("필드 값을 읽는 중 오류 발생: {}", field.getName());
+                }
+            });
     }
 
     private void logMultipartFileField(MultipartFile file) {
         if (file != null) {
             String anonymizedFileName = "file_" + System.currentTimeMillis() + ".jpg"; // 파일명 익명화
             log.info("Uploaded File - Name: {}, Size: {}, ContentType: {}",
-                    anonymizedFileName, file.getSize(), file.getContentType());
+                anonymizedFileName, file.getSize(), file.getContentType());
         }
     }
 

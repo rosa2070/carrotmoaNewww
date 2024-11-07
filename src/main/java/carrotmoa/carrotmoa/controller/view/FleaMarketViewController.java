@@ -2,6 +2,7 @@ package carrotmoa.carrotmoa.controller.view;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @RequestMapping("/fleamarket")
@@ -10,11 +11,16 @@ public class FleaMarketViewController {
 
     @GetMapping
     public String getFleaMarket() {
-        return "flea-market";
+        return "fleamarket/flea-market";
     }
 
-    @GetMapping("/posts")
-    public String getPost() {
-        return "flea-market-post";
+    @GetMapping("/posts/{postId}")
+    public String getPost(@PathVariable Long postId) {
+        return "fleamarket/flea-market-post";
+    }
+
+    @GetMapping("/write")
+    public String savePost() {
+        return "fleamarket/flea-market-write";
     }
 }

@@ -1,13 +1,11 @@
 package carrotmoa.carrotmoa.service;
 
 import carrotmoa.carrotmoa.entity.AccommodationImage;
-import carrotmoa.carrotmoa.model.request.SaveAccommodationRequest;
 import carrotmoa.carrotmoa.repository.AccommodationImageRepository;
+import carrotmoa.carrotmoa.util.AwsS3Utils;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
-import carrotmoa.carrotmoa.util.AwsS3Utils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -64,7 +62,7 @@ public class AccommodationImageService {
         if (images != null && !images.isEmpty()) {
             List<AccommodationImage> accommodationImages = new ArrayList<>();
 
-            for (int i=0; i<images.size(); i++) {
+            for (int i = 0; i < images.size(); i++) {
                 String imageUrl = uploadImageToS3(accommodationId, images.get(i));
                 AccommodationImage accommodationImage = createAccommodationImage(accommodationId, imageUrl, i);
                 accommodationImages.add(accommodationImage);
@@ -82,12 +80,11 @@ public class AccommodationImageService {
     // 메타데이터 생성
     private AccommodationImage createAccommodationImage(Long accommodationId, String imageUrl, int order) {
         return AccommodationImage.builder()
-                .accommodationId(accommodationId)
-                .imageUrl(imageUrl)
-                .imageOrder(order)
-                .build();
+            .accommodationId(accommodationId)
+            .imageUrl(imageUrl)
+            .imageOrder(order)
+            .build();
     }
-
 
 
 }

@@ -1,10 +1,9 @@
 package carrotmoa.carrotmoa.repository;
 
 import carrotmoa.carrotmoa.model.response.PaymentDetailResponse;
-import org.springframework.stereotype.Repository;
-
 import java.time.LocalDate;
 import java.util.List;
+import org.springframework.stereotype.Repository;
 
 @Repository
 public interface PaymentDetailCustomRepository {

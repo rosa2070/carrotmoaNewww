@@ -12,7 +12,7 @@ public class UpdateBookingStatusService {
 
     // 날짜 바뀌는 자정에 실행
     @Scheduled(cron = "0 0 0 * * *")
-    public void updateStatusIfTimePast(){
+    public void updateStatusIfTimePast() {
         reservationRepository.updateBookingStatusIfTimePast();
     }
 }

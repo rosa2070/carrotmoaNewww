@@ -8,19 +8,22 @@ import carrotmoa.carrotmoa.model.response.CommunityPostListResponse;
 import carrotmoa.carrotmoa.service.CommunityCategoryService;
 import carrotmoa.carrotmoa.service.CommunityPostService;
 import carrotmoa.carrotmoa.service.PostLikeService;
-import carrotmoa.carrotmoa.service.PostService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Slice;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.Optional;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/community")
@@ -34,17 +37,17 @@ public class CommunityController {
 
     @GetMapping("/posts")
     public ResponseEntity<Slice<CommunityPostListResponse>> getAllCommunityPosts(
-            @RequestParam(name = "page", defaultValue = "0") int page,
-            @RequestParam(name = "size", defaultValue = "10") int size) {
+        @RequestParam(name = "page", defaultValue = "0") int page,
+        @RequestParam(name = "size", defaultValue = "10") int size) {
         Slice<CommunityPostListResponse> allCommunityPosts = communityPostService.getAllCommunityPosts(page, size);
         return new ResponseEntity<>(allCommunityPosts, HttpStatus.OK);
     }
 
     @GetMapping("/posts/subCategories/{subcategoryId}")
     public ResponseEntity<Slice<CommunityPostListResponse>> getPostsBySubCategory(
-            @RequestParam(name = "page", defaultValue = "0") int page,
-            @RequestParam(name = "size", defaultValue = "10") int size,
-            @PathVariable(name = "subcategoryId") Long subcategoryId) {
+        @RequestParam(name = "page", defaultValue = "0") int page,
+        @RequestParam(name = "size", defaultValue = "10") int size,
+        @PathVariable(name = "subcategoryId") Long subcategoryId) {
         Slice<CommunityPostListResponse> postsBySubCategory = communityPostService.getPostsBySubCategory(subcategoryId, page, size);
         return new ResponseEntity<>(postsBySubCategory, HttpStatus.OK);
     }
@@ -70,14 +73,16 @@ public class CommunityController {
     }
 
     @GetMapping("/posts/{communityPostId}")
-    public ResponseEntity<CommunityPostDetailResponse> findCommunityPostByPostId(@PathVariable("communityPostId") Long id, HttpServletRequest request) {
+    public ResponseEntity<CommunityPostDetailResponse> findCommunityPostByPostId(@PathVariable("communityPostId") Long id,
+        HttpServletRequest request) {
         System.out.println(request.getRequestURI());
         CommunityPostDetailResponse communityPostByPostId = communityPostService.findCommunityPostDetail(id);
         return new ResponseEntity<>(communityPostByPostId, HttpStatus.OK);
     }
 
     @PutMapping("/posts/{communityPostId}")
-    public ResponseEntity<Long> updateCommunityPost(@PathVariable("communityPostId") Long communityPostId, @RequestBody UpdateCommunityPostRequest request) {
+    public ResponseEntity<Long> updateCommunityPost(@PathVariable("communityPostId") Long communityPostId,
+        @RequestBody UpdateCommunityPostRequest request) {
         Long updateCommunityPostId = communityPostService.updateCommunityPost(communityPostId, request);
         return new ResponseEntity<>(updateCommunityPostId, HttpStatus.OK);
     }

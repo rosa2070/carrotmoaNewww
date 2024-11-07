@@ -1,12 +1,11 @@
 package carrotmoa.carrotmoa.model.response;
 
 import com.querydsl.core.annotations.QueryProjection;
+import java.math.BigDecimal;
+import java.util.List;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-import java.math.BigDecimal;
-import java.util.List;
 
 @Getter
 @Setter
@@ -30,7 +29,7 @@ public class AccommodationDetailResponse {
 
     @QueryProjection
     public AccommodationDetailResponse(Long id, String title, int totalArea, String roadAddress, String lotAddress, String detailAddress,
-                                       Integer floor, Integer totalFloor, BigDecimal price, String content, String transportationInfo) {
+        Integer floor, Integer totalFloor, BigDecimal price, String content, String transportationInfo) {
         this.id = id;
         this.title = title;
         this.totalArea = totalArea;

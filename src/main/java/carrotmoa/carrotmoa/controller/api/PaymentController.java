@@ -2,16 +2,17 @@ package carrotmoa.carrotmoa.controller.api;
 
 import carrotmoa.carrotmoa.entity.Payment;
 import carrotmoa.carrotmoa.model.request.PaymentAndReservationRequest;
-import carrotmoa.carrotmoa.model.request.PaymentRequest;
-import carrotmoa.carrotmoa.model.response.ErrorResponse;
-import carrotmoa.carrotmoa.model.response.SuccessResponse;
 import carrotmoa.carrotmoa.service.PaymentService;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/payment")
@@ -48,7 +49,8 @@ public class PaymentController {
     public ResponseEntity<String> savePortone(@RequestBody PaymentAndReservationRequest paymentAndReservationRequest) {
         try {
             // 결제 및 예약 정보 처리
-            paymentService.processPaymentAndReservation(paymentAndReservationRequest.getPaymentRequest(), paymentAndReservationRequest.getReservationRequest());
+            paymentService.processPaymentAndReservation(paymentAndReservationRequest.getPaymentRequest(),
+                paymentAndReservationRequest.getReservationRequest());
             return ResponseEntity.ok("Payment processed successfully");
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to process payment.");

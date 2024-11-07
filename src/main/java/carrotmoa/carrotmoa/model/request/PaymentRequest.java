@@ -2,19 +2,17 @@ package carrotmoa.carrotmoa.model.request;
 
 import carrotmoa.carrotmoa.entity.Payment;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.math.BigDecimal;
+import java.time.LocalDate;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.math.BigDecimal;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class PaymentRequest {
-//    private Long partnerId;
+    //    private Long partnerId;
     private Long userId;
     private Long reservationId;
     private LocalDate paymentDate;
@@ -51,23 +49,21 @@ public class PaymentRequest {
     public Payment toPaymentEntity() {
         return Payment.builder()
 //                .partnerId(partnerId)
-                .userId(userId)
-                .reservationId(reservationId)
-                .impUid(impUid)
-                .paymentMethod(payMethod)
-                .merchantUid(merchantUid)
-                .paymentAmount(BigDecimal.valueOf(paidAmount))
-                .pgProvider(pgProvider)
-                .pgType(pgType)
-                .pgTid(pgTid)
-                .status(status)
-                .cardName(cardName)
-                .cardNumber(cardNumber)
+            .userId(userId)
+            .reservationId(reservationId)
+            .impUid(impUid)
+            .paymentMethod(payMethod)
+            .merchantUid(merchantUid)
+            .paymentAmount(BigDecimal.valueOf(paidAmount))
+            .pgProvider(pgProvider)
+            .pgType(pgType)
+            .pgTid(pgTid)
+            .status(status)
+            .cardName(cardName)
+            .cardNumber(cardNumber)
 //                .paymentDate(LocalDateTime.now()) // 필요에 따라 현재 시간을 설정
-                .build();
+            .build();
     }
-
-
 
 
 }

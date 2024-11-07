@@ -3,7 +3,6 @@ package carrotmoa.carrotmoa.util;
 
 import java.io.IOException;
 import java.util.UUID;
-
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -84,9 +83,9 @@ public class AwsS3Utils {
 
         // S3에서 객체 삭제 요청 생성
         DeleteObjectRequest deleteObjectRequest = DeleteObjectRequest.builder()
-                .bucket(bucketName) // 버킷 이름
-                .key(filePath) // 파일 경로
-                .build();
+            .bucket(bucketName) // 버킷 이름
+            .key(filePath) // 파일 경로
+            .build();
 
         try {
             s3Client.deleteObject(deleteObjectRequest); // S3에서 객체 삭제

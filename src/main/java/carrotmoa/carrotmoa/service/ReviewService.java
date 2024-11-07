@@ -11,10 +11,10 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class ReviewService {
     @Autowired
-    private ReviewRepository reviewRepository;
-    @Autowired
     //postId
     ReservationRepository reservationRepository;
+    @Autowired
+    private ReviewRepository reviewRepository;
 
     @Transactional
     public void saveReview(Long reservationId, Long userId, String comment) {

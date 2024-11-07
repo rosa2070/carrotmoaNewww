@@ -1,20 +1,25 @@
 package carrotmoa.carrotmoa.service;
 
-import carrotmoa.carrotmoa.entity.*;
+import carrotmoa.carrotmoa.entity.Accommodation;
+import carrotmoa.carrotmoa.entity.Payment;
+import carrotmoa.carrotmoa.entity.Post;
+import carrotmoa.carrotmoa.entity.Reservation;
+import carrotmoa.carrotmoa.entity.UserProfile;
 import carrotmoa.carrotmoa.enums.NotificationType;
 import carrotmoa.carrotmoa.model.request.PaymentRequest;
 import carrotmoa.carrotmoa.model.request.ReservationRequest;
 import carrotmoa.carrotmoa.model.request.SaveNotificationRequest;
-import carrotmoa.carrotmoa.repository.*;
+import carrotmoa.carrotmoa.repository.AccommodationRepository;
+import carrotmoa.carrotmoa.repository.PaymentRepository;
+import carrotmoa.carrotmoa.repository.PostRepository;
+import carrotmoa.carrotmoa.repository.ReservationRepository;
+import carrotmoa.carrotmoa.repository.UserProfileRepository;
 import carrotmoa.carrotmoa.util.PaymentClient;
 import jakarta.persistence.EntityNotFoundException;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
-
-import static carrotmoa.carrotmoa.entity.QPost.post;
 
 @Service
 public class PaymentService {
@@ -29,12 +34,12 @@ public class PaymentService {
 
     @Autowired
     public PaymentService(PaymentRepository paymentRepository,
-                          PaymentClient paymentClient,
-                          ReservationRepository reservationRepository,
-                          NotificationService notificationService,
-                          AccommodationRepository accommodationRepository,
-                          PostRepository postRepository,
-                          UserProfileRepository userProfileRepository) {
+        PaymentClient paymentClient,
+        ReservationRepository reservationRepository,
+        NotificationService notificationService,
+        AccommodationRepository accommodationRepository,
+        PostRepository postRepository,
+        UserProfileRepository userProfileRepository) {
         this.paymentRepository = paymentRepository;
         this.paymentClient = paymentClient;
         this.reservationRepository = reservationRepository;
@@ -57,25 +62,23 @@ public class PaymentService {
 
             // 계약하려는 방 호스트의 ID 받아오기
             Accommodation accommodation = accommodationRepository.findById(reservation.getAccommodationId())
-                    .orElseThrow(() -> new EntityNotFoundException("Accommodation not found"));
+                .orElseThrow(() -> new EntityNotFoundException("Accommodation not found"));
 
             Post post = postRepository.findById(accommodation.getPostId())
-                    .orElseThrow(() -> new EntityNotFoundException("Post not found"));
+                .orElseThrow(() -> new EntityNotFoundException("Post not found"));
 
             Long receiverId = post.getUserId();
             String roomName = post.getTitle();
 
             if (!reservationRequest.getUserId().equals(receiverId)) {
                 String notificationUrl = "/host/room/contract";
-                SaveNotificationRequest saveNotificationRequest = new SaveNotificationRequest(NotificationType.RESERVATION_CONFIRM, receiverId, reservationRequest.getUserId(), roomName + " 방을 예약했어요", notificationUrl);
+                SaveNotificationRequest saveNotificationRequest = new SaveNotificationRequest(NotificationType.RESERVATION_CONFIRM, receiverId,
+                    reservationRequest.getUserId(), roomName + " 방을 예약했어요", notificationUrl);
                 UserProfile senderUser = userProfileRepository.findNicknameByUserId(reservationRequest.getUserId());
-                notificationService.sendNotification(receiverId,saveNotificationRequest, senderUser.getNickname(), senderUser.getPicUrl());
+                notificationService.sendNotification(receiverId, saveNotificationRequest, senderUser.getNickname(), senderUser.getPicUrl());
             }
 
         }
-
-
-
 
 
     }
@@ -87,13 +90,13 @@ public class PaymentService {
 
     public Reservation saveReservation(ReservationRequest reservationRequest) {
         Reservation reservation = Reservation.builder()
-                .accommodationId(reservationRequest.getAccommodationId())
-                .userId(reservationRequest.getUserId())
-                .checkInDate(reservationRequest.getCheckInDate())
-                .checkOutDate(reservationRequest.getCheckOutDate())
-                .totalPrice(reservationRequest.getTotalPrice())
-                .status(reservationRequest.getStatus())
-                .build();
+            .accommodationId(reservationRequest.getAccommodationId())
+            .userId(reservationRequest.getUserId())
+            .checkInDate(reservationRequest.getCheckInDate())
+            .checkOutDate(reservationRequest.getCheckOutDate())
+            .totalPrice(reservationRequest.getTotalPrice())
+            .status(reservationRequest.getStatus())
+            .build();
 
         return reservationRepository.save(reservation);
     }
@@ -127,11 +130,11 @@ public class PaymentService {
     @Transactional
     public void cancelPayment(String uid) {
         // 외부 API로 결제 취소 요청
-        paymentClient. cancelPayment(uid);
+        paymentClient.cancelPayment(uid);
 
         //impUid로 Payment 엔티티 조회
         Payment payment = paymentRepository.findByImpUid(uid)
-                .orElseThrow(() -> new IllegalArgumentException("Payment not found with impUid: " + uid));
+            .orElseThrow(() -> new IllegalArgumentException("Payment not found with impUid: " + uid));
 
         // Payment의 status 필드를 "cancel"로 변경
         payment.setStatus("cancel");
@@ -139,7 +142,7 @@ public class PaymentService {
         // 예약
         if (payment.getReservationId() != null) {
             Reservation reservation = reservationRepository.findById(payment.getReservationId())
-                    .orElseThrow(() -> new IllegalArgumentException("Reservation not found with id: " + payment.getReservationId()));
+                .orElseThrow(() -> new IllegalArgumentException("Reservation not found with id: " + payment.getReservationId()));
 
             // 예약 상태를 변경 (예약 취소: 2)
             reservation.setStatus(2);
@@ -163,7 +166,6 @@ public class PaymentService {
         }
 
     }
-
 
 
 }

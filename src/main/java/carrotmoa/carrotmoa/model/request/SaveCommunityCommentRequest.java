@@ -23,14 +23,14 @@ public class SaveCommunityCommentRequest {
 
     public CommunityComment toCommunityCommentEntity() {
         return CommunityComment.builder()
-                .communityPostId(communityPostId)
-                .parentId(parentId)
-                .userId(userId)
-                .content(content)
-                .depth(depth)
-                .orderInGroup(orderInGroup)
-                .isDeleted(false)
-                .build();
+            .communityPostId(communityPostId)
+            .parentId(parentId)
+            .userId(userId)
+            .content(content)
+            .depth(depth)
+            .orderInGroup(orderInGroup)
+            .isDeleted(false)
+            .build();
     }
 
 

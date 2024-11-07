@@ -5,23 +5,22 @@ import carrotmoa.carrotmoa.entity.UserProfile;
 import carrotmoa.carrotmoa.enums.AuthorityCode;
 import carrotmoa.carrotmoa.model.request.UserJoinDto;
 import carrotmoa.carrotmoa.model.request.UserUpdateRequest;
-import carrotmoa.carrotmoa.repository.AccountRepository;
 import carrotmoa.carrotmoa.model.response.FindUserResponse;
+import carrotmoa.carrotmoa.repository.AccountRepository;
 import carrotmoa.carrotmoa.repository.UserProfileRepository;
 import carrotmoa.carrotmoa.repository.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.mail.MailSendException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.stereotype.Service;
-
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.util.Optional;
 import java.util.Random;
 import java.util.concurrent.CompletableFuture;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.mail.MailSendException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.stereotype.Service;
 
 @Slf4j
 @Service
@@ -39,6 +38,7 @@ public class UserService {
     public boolean emailCheck(String email) {
         return Optional.ofNullable(userRepository.findByEmail(email)).isPresent();
     }
+
     public boolean nicknameCheck(String nickname) {
         return Optional.ofNullable(userProfileRepository.findByNickname(nickname)).isPresent();
     }
@@ -60,13 +60,13 @@ public class UserService {
 
     private void checkDuplicatedEmail(String email) {
         Optional.ofNullable(userRepository.findByEmail(email))
-                .ifPresentOrElse(User ->
-                {
-                    log.info("MemberService.checkDuplicatedEmail exception occur email: {}", email);
-                    throw new RuntimeException("checkDuplicationEmail exception");
-                }, () -> {
-                    log.info("MemberService.checkDuplicatedEmail FALSE occur email: {}", email);
-                });
+            .ifPresentOrElse(User ->
+            {
+                log.info("MemberService.checkDuplicatedEmail exception occur email: {}", email);
+                throw new RuntimeException("checkDuplicationEmail exception");
+            }, () -> {
+                log.info("MemberService.checkDuplicatedEmail FALSE occur email: {}", email);
+            });
     }
 
     //랜덤 값 생성
@@ -121,27 +121,29 @@ public class UserService {
             return false;
         }
     }
+
     @Transactional
-    public boolean userProfileUpdate(UserUpdateRequest request){
-        try{
-          request.updateUser(
-                  userRepository.findById(request.getUserId()).orElseThrow(() -> new EntityNotFoundException("해당 유저가 존재하지않음")),
-                  userProfileRepository.findByUserId(request.getUserId()));
-          return true;
-        } catch(Exception updateException){
+    public boolean userProfileUpdate(UserUpdateRequest request) {
+        try {
+            request.updateUser(
+                userRepository.findById(request.getUserId()).orElseThrow(() -> new EntityNotFoundException("해당 유저가 존재하지않음")),
+                userProfileRepository.findByUserId(request.getUserId()));
+            return true;
+        } catch (Exception updateException) {
             System.out.println("UserUpdateException");
             System.out.println(updateException.getMessage());
-          return false;
+            return false;
         }
     }
-    public FindUserResponse findUserNickname(String searchType, String searchKeyword) throws EntityNotFoundException{
+
+    public FindUserResponse findUserNickname(String searchType, String searchKeyword) throws EntityNotFoundException {
         UserProfile profile = null;
-        if(searchType.equals("userId")) {
+        if (searchType.equals("userId")) {
             profile = userProfileRepository.findByUserId(Integer.parseInt(searchKeyword));
-        } else if(searchType.equals("nickname")) {
+        } else if (searchType.equals("nickname")) {
             profile = userProfileRepository.findByNickname(searchKeyword);
         }
-        if(profile == null) {
+        if (profile == null) {
             throw new EntityNotFoundException();
         }
         return new FindUserResponse(profile);

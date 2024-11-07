@@ -3,9 +3,13 @@ package carrotmoa.carrotmoa.entity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
-import lombok.*;
-
 import java.math.BigDecimal;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
 @Entity
 @Table(name = "accommodation")
@@ -45,8 +49,8 @@ public class Accommodation extends BaseEntity {
     private String transportationInfo;
 
     public void updateAccommodation(Integer totalArea, String roadAddress, String lotAddress,
-                                    String detailAddress, Integer floor, Integer totalFloor,
-                                    BigDecimal price, String transportationInfo) {
+        String detailAddress, Integer floor, Integer totalFloor,
+        BigDecimal price, String transportationInfo) {
         if (totalArea != null) {
             this.totalArea = totalArea;
         }

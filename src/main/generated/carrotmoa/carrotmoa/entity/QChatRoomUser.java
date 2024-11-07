@@ -15,10 +15,8 @@ import com.querydsl.core.types.Path;
 @Generated("com.querydsl.codegen.DefaultEntitySerializer")
 public class QChatRoomUser extends EntityPathBase<ChatRoomUser> {
 
-    private static final long serialVersionUID = -1242001179L;
-
     public static final QChatRoomUser chatRoomUser = new QChatRoomUser("chatRoomUser");
-
+    private static final long serialVersionUID = -1242001179L;
     public final QBaseEntity _super = new QBaseEntity(this);
 
     public final NumberPath<Long> chatRoomId = createNumber("chatRoomId", Long.class);

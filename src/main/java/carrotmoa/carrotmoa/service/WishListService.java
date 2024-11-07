@@ -13,7 +13,7 @@ public class WishListService {
 
     public void updateWishList(Long userId, Long id) { // 두번째는 accommodationId
         Long postId = accommodationRepository.findPostIdById(id);
-        if(postId != null) {
+        if (postId != null) {
             wishListRepository.updateWishListByUserIdAndPostId(userId, postId);
         }
     }

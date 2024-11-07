@@ -7,11 +7,10 @@ import carrotmoa.carrotmoa.model.request.UpdateAccommodationRequest;
 import carrotmoa.carrotmoa.model.response.AccommodationDetailResponse;
 import carrotmoa.carrotmoa.model.response.HostManagedAccommodationResponse;
 import carrotmoa.carrotmoa.repository.AccommodationDetailCustomRepository;
+import carrotmoa.carrotmoa.repository.AccommodationRepository;
 import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
-
-import carrotmoa.carrotmoa.repository.AccommodationRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,13 +28,13 @@ public class AccommodationHostService {
     private final AccommodationLocationService accommodationLocationService;
 
     public AccommodationHostService(PostService postService,
-                                    AccommodationService accommodationService,
-                                    AccommodationSpaceService accommodationSpaceService,
-                                    AccommodationAmenityService accommodationAmenityService,
-                                    AccommodationImageService accommodationImageService,
-                                    AccommodationDetailCustomRepository accommodationDetailCustomRepository,
-                                    AccommodationRepository accommodationRepository,
-                                    AccommodationLocationService accommodationLocationService) {
+        AccommodationService accommodationService,
+        AccommodationSpaceService accommodationSpaceService,
+        AccommodationAmenityService accommodationAmenityService,
+        AccommodationImageService accommodationImageService,
+        AccommodationDetailCustomRepository accommodationDetailCustomRepository,
+        AccommodationRepository accommodationRepository,
+        AccommodationLocationService accommodationLocationService) {
         this.postService = postService;
         this.accommodationService = accommodationService;
         this.accommodationSpaceService = accommodationSpaceService;
@@ -104,8 +103,6 @@ public class AccommodationHostService {
     public List<HostManagedAccommodationResponse> getAllHostRooms(Long userId) {
         return accommodationDetailCustomRepository.getAllHostRooms(userId);
     }
-
-
 
 
 }

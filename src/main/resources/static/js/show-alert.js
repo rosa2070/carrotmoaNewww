@@ -1,3 +1,3 @@
-document.addEventListener("DOMContentLoaded", function() {
-    showAlert([[${msg}]]);
+document.addEventListener("DOMContentLoaded", function () {
+  showAlert([[${msg}]]);
 });

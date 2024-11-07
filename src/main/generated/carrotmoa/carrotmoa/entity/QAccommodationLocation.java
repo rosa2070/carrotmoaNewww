@@ -15,10 +15,8 @@ import com.querydsl.core.types.Path;
 @Generated("com.querydsl.codegen.DefaultEntitySerializer")
 public class QAccommodationLocation extends EntityPathBase<AccommodationLocation> {
 
-    private static final long serialVersionUID = 546609120L;
-
     public static final QAccommodationLocation accommodationLocation = new QAccommodationLocation("accommodationLocation");
-
+    private static final long serialVersionUID = 546609120L;
     public final QBaseEntity _super = new QBaseEntity(this);
 
     public final NumberPath<Long> accommodationId = createNumber("accommodationId", Long.class);

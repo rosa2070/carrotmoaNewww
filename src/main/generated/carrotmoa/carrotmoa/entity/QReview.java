@@ -15,10 +15,8 @@ import com.querydsl.core.types.Path;
 @Generated("com.querydsl.codegen.DefaultEntitySerializer")
 public class QReview extends EntityPathBase<Review> {
 
-    private static final long serialVersionUID = 1573967551L;
-
     public static final QReview review = new QReview("review");
-
+    private static final long serialVersionUID = 1573967551L;
     public final QBaseEntity _super = new QBaseEntity(this);
 
     public final StringPath comment = createString("comment");

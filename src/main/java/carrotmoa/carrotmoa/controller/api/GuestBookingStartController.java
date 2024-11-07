@@ -4,7 +4,6 @@ import carrotmoa.carrotmoa.config.security.CustomUserDetails;
 import carrotmoa.carrotmoa.model.response.BookingDetailResponse;
 import carrotmoa.carrotmoa.service.ReservationService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,7 +23,6 @@ public class GuestBookingStartController {
 //        BookingDetailResponse bookingDetail = reservationService.getBookingDetail(id);
 //        return bookingDetail;
 //    }
-
 
 //    @GetMapping("/{id}")
 //    public String getBookingDetail(@PathVariable("id") Long id, Model model) {

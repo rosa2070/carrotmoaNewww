@@ -1,12 +1,15 @@
 package carrotmoa.carrotmoa.model.response;
 
-import carrotmoa.carrotmoa.entity.*;
+import carrotmoa.carrotmoa.entity.CommunityCategory;
+import carrotmoa.carrotmoa.entity.CommunityPost;
+import carrotmoa.carrotmoa.entity.Post;
+import carrotmoa.carrotmoa.entity.PostImage;
+import carrotmoa.carrotmoa.entity.UserAddress;
+import java.time.LocalDateTime;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
-
-import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -28,7 +31,7 @@ public class CommunityPostListResponse {
 
 
     public CommunityPostListResponse(Post post, CommunityPost communityPost, CommunityCategory communityCategory, UserAddress userAddress,
-                                     PostImage postImage, int commentCount) {
+        PostImage postImage, int commentCount) {
         this.communityPostId = communityPost.getId();
         this.categoryName = communityCategory.getName();
         this.region3DepthName = userAddress.getRegion3DepthName();

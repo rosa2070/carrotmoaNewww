@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="ko"
+      layout:decorate="~{layout/layout}"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+  <title>중고거래</title>
+</head>
+<main class="main-container" layout:fragment="main">
+  <div class="flea-market-article">
+    <div class="flea-market-article-image">
+      <button class="prev" onclick="changeImage(-1)">&lt;</button>
+      <img alt="이미지" id="flea-market-image" src=""/>
+      <button class="next" onclick="changeImage(1)">&gt;</button>
+    </div>
+
+    <div class="seller-container">
+      <div class="seller-image">
+        <img alt="유저 이미지" src="">
+      </div>
+      <div class="seller-info">
+        <div class="seller-info-nickname"></div>
+        <div class="seller-info-address"></div>
+      </div>
+      <div class="seller-temperature">
+        <div class="manner-container">
+          <div class="manner-temperature"></div>
+          <div class="manner-bar-container">
+            <div class="manner-bar"></div>
+          </div>
+        </div>
+        <span class="manner-emoji">😊</span>
+      </div>
+    </div>
+    <div class="flea-market-post">
+      <div class="flea-market-post-title"></div>
+      <div class="flea-market-product-info">
+        <div class="flea-market-product-category"></div>
+        <div class="flea-market-product-created-at"></div>
+      </div>
+      <div class="flea-market-product-price"></div>
+      <div class="flea-market-product-text"></div>
+    </div>
+
+    <div>
+      유저가 판매중인 다른상품
+    </div>
+  </div>
+  <script src="/js/flea-market-post.js" type="text/javascript"></script>
+</main>
+</html>

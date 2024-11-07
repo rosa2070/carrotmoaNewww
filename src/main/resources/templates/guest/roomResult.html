@@ -20,7 +20,8 @@
                 <p class="card-text" th:text="${room.roadAddress}">Address</p>
                 <p class="card-text price" th:text="${room.price} + ' 원 / 1주'">Price</p>
                 <p class="card-text">
-                  <span th:text="'방' + ${room.roomTypeCount[0]} + '/ 화장실 ' + ${room.roomTypeCount[1]} + '/ 거실 ' + ${room.roomTypeCount[2]} + '/ 주방 ' + ${room.roomTypeCount[3]}">RoomType</span>
+                  <span
+                      th:text="'방' + ${room.roomTypeCount[0]} + '/ 화장실 ' + ${room.roomTypeCount[1]} + '/ 거실 ' + ${room.roomTypeCount[2]} + '/ 주방 ' + ${room.roomTypeCount[3]}">RoomType</span>
                 </p>
                 <input name="id" th:value="${room.id}" type="hidden">
               </div>

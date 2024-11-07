@@ -15,10 +15,8 @@ import com.querydsl.core.types.Path;
 @Generated("com.querydsl.codegen.DefaultEntitySerializer")
 public class QPostLike extends EntityPathBase<PostLike> {
 
-    private static final long serialVersionUID = 1772293630L;
-
     public static final QPostLike postLike = new QPostLike("postLike");
-
+    private static final long serialVersionUID = 1772293630L;
     public final QBaseEntity _super = new QBaseEntity(this);
 
     //inherited

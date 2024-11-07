@@ -1,6 +1,10 @@
 package carrotmoa.carrotmoa.model.response;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Getter
 @Setter
@@ -20,8 +24,8 @@ public class AccommodationImageResponse {
 //            );
 //        }
         return AccommodationImageResponse.builder()
-                .accommodationId((Long) data[0])
-                .imageUrl((String) data[1])
-                .build();
+            .accommodationId((Long) data[0])
+            .imageUrl((String) data[1])
+            .build();
     }
 }
