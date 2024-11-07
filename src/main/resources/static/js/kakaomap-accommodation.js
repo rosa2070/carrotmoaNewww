@@ -80,7 +80,8 @@ function createContent(type, data) {
     const imgDiv = document.createElement('div');
     imgDiv.className = 'img';
     const img = document.createElement('img');
-    img.src = type === 'accommodation' ? "/images/accommdation-smaple.png" : "/images/accommdation-smaple.png"; // 이미지 URL 설정
+    // img.src = type === 'accommodation' ? "/images/accommdation-smaple.png" : "/images/accommdation-smaple.png"; // 이미지 URL 설정
+    img.src = data.imageUrl || "/images/accommdation-smaple.png";
     img.width = 73;
     img.height = 70;
     imgDiv.appendChild(img);
@@ -93,14 +94,14 @@ function createContent(type, data) {
 
     const performanceInfo = document.createElement('div');
     performanceInfo.className = 'accommodation-info';
-    performanceInfo.innerText = type === 'accommodation' ? data.theme : data.date;
+    performanceInfo.innerText = data.accommodationInfo;
 
     const ticketLinkDiv = document.createElement('div');
     const ticketLink = document.createElement('a');
-    ticketLink.href = "https://www.kakaocorp.com/main"; // 티켓 예매 링크
+    ticketLink.href = "/room/detail/" + data.accommodationId; // 숙소 예매 링크
     ticketLink.target = "_blank";
     ticketLink.className = 'link';
-    ticketLink.innerText = "숙소 예매하기"; // 링크 텍스트
+    ticketLink.innerText = data.name; // 링크 텍스트
 
     ticketLinkDiv.appendChild(ticketLink); // 링크를 div에 추가
 
@@ -114,16 +115,19 @@ function createContent(type, data) {
     return wrap; // DOM 요소 반환
 }
 
-// 숙소 콘텐츠 생성
-// function createAccommodationContent(accommodation) {
-//     return createContent('accommodation', accommodation);
-// }
 function createAccommodationContent(accommodation) {
+    const accommodationInfo =
+        `방 ${accommodation.room}/ ` +
+        `화장실 ${accommodation.bath}/ ` +
+        `거실 ${accommodation.living}/ ` +
+        `주방 ${accommodation.kitchen}`;
+
     return createContent('accommodation', {
         name: accommodation.title,
         imageUrl: accommodation.imageUrl, // responentity에서 이미지 URL 가져오기
         location: accommodation.lotAddress, // 숙소 위치
-        theme: accommodation.theme, // 테마
+        accommodationId: accommodation.accommodationId,
+        accommodationInfo: accommodationInfo
     });
 }
 
@@ -190,20 +194,3 @@ fetch("/api/accommodation-data")
         });
     })
     .catch(error => console.error('Error fetching accommodation data:', error));
-// 마커 필터링 함수
-// function filterMarkers() {
-//     const filterValue = document.getElementById('markerFilter').value;
-//
-//     // 클러스터러 초기화
-//     accommodationClusterer.clear();
-//
-//     // 모든 오버레이를 닫습니다.
-//     accommodationMarkers.forEach(marker => {
-//         if (marker.kakaoOverlay) {
-//             marker.kakaoOverlay.setMap(null); // 오버레이를 지도에서 제거합니다.
-//         }
-//     });
-// }
-
-// 이벤트 리스너 추가
-// document.getElementById('markerFilter').addEventListener('change', filterMarkers);

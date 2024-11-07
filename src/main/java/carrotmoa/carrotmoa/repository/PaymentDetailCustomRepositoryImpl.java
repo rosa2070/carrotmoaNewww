@@ -26,6 +26,7 @@ public class PaymentDetailCustomRepositoryImpl implements PaymentDetailCustomRep
         QUser user = QUser.user;
         QAccommodation accommodation = QAccommodation.accommodation;
         QPost post = QPost.post;
+        QUserProfile userProfile = QUserProfile.userProfile;
 
         BooleanBuilder whereClause = new BooleanBuilder();
         whereClause.and(reservation.checkOutDate.between(startDate, endDate))
@@ -42,13 +43,14 @@ public class PaymentDetailCustomRepositoryImpl implements PaymentDetailCustomRep
                 .select(Projections.fields(PaymentDetailResponse.class,
                         reservation.checkOutDate.as("settlementDate"), // 정산 일자
                         post.title,
-                        user.name,
+                        userProfile.nickname,
                         reservation.checkInDate,
                         payment.paymentAmount
                 ))
                 .from(payment)
                 .join(reservation).on(payment.reservationId.eq(reservation.id))
                 .join(user).on(reservation.userId.eq(user.id))
+                .join(userProfile).on(user.id.eq(userProfile.userId))
                 .join(accommodation).on(reservation.accommodationId.eq(accommodation.id))
                 .join(post).on(accommodation.postId.eq(post.id))
                 .where(whereClause)

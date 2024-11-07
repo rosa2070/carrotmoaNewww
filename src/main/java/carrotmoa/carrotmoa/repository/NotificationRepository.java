@@ -21,6 +21,7 @@ public interface NotificationRepository extends JpaRepository<Notification, Long
     // 4. 중고거래 찜 누를 경우 -> 알림 테이블에 저장 -> 해당 중고거래 게시글 작성자에게 알림 전송
 
     // 5. 숙소 알림 사용하는 경우 -> 여기에 추가하세요 !
+    // 게스트 숙소 찜 알림
 
     // 6. 그 외에 알림을 사용할 경우 -> 여기에 메서드 생성~!
 

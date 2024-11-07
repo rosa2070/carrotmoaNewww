@@ -10,48 +10,42 @@ import com.querydsl.core.types.Path;
 
 
 /**
- * QUser is a Querydsl query type for User
+ * QChatRoomUser is a Querydsl query type for ChatRoomUser
  */
 @Generated("com.querydsl.codegen.DefaultEntitySerializer")
-public class QUser extends EntityPathBase<User> {
+public class QChatRoomUser extends EntityPathBase<ChatRoomUser> {
 
-    private static final long serialVersionUID = -1347979022L;
+    private static final long serialVersionUID = -1242001179L;
 
-    public static final QUser user = new QUser("user");
+    public static final QChatRoomUser chatRoomUser = new QChatRoomUser("chatRoomUser");
 
     public final QBaseEntity _super = new QBaseEntity(this);
 
-    public final NumberPath<Long> authorityId = createNumber("authorityId", Long.class);
+    public final NumberPath<Long> chatRoomId = createNumber("chatRoomId", Long.class);
 
     //inherited
     public final DateTimePath<java.time.LocalDateTime> createdAt = _super.createdAt;
 
-    public final StringPath email = createString("email");
-
     //inherited
     public final NumberPath<Long> id = _super.id;
-
-    public final BooleanPath isWithdrawal = createBoolean("isWithdrawal");
-
-    public final StringPath name = createString("name");
-
-    public final StringPath password = createString("password");
 
     public final NumberPath<Integer> state = createNumber("state", Integer.class);
 
     //inherited
     public final DateTimePath<java.time.LocalDateTime> updatedAt = _super.updatedAt;
 
-    public QUser(String variable) {
-        super(User.class, forVariable(variable));
+    public final NumberPath<Long> userId = createNumber("userId", Long.class);
+
+    public QChatRoomUser(String variable) {
+        super(ChatRoomUser.class, forVariable(variable));
     }
 
-    public QUser(Path<? extends User> path) {
+    public QChatRoomUser(Path<? extends ChatRoomUser> path) {
         super(path.getType(), path.getMetadata());
     }
 
-    public QUser(PathMetadata metadata) {
-        super(User.class, metadata);
+    public QChatRoomUser(PathMetadata metadata) {
+        super(ChatRoomUser.class, metadata);
     }
 
 }

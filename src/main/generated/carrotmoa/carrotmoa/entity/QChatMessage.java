@@ -10,48 +10,44 @@ import com.querydsl.core.types.Path;
 
 
 /**
- * QUser is a Querydsl query type for User
+ * QChatMessage is a Querydsl query type for ChatMessage
  */
 @Generated("com.querydsl.codegen.DefaultEntitySerializer")
-public class QUser extends EntityPathBase<User> {
+public class QChatMessage extends EntityPathBase<ChatMessage> {
 
-    private static final long serialVersionUID = -1347979022L;
+    private static final long serialVersionUID = -1711949176L;
 
-    public static final QUser user = new QUser("user");
+    public static final QChatMessage chatMessage = new QChatMessage("chatMessage");
 
     public final QBaseEntity _super = new QBaseEntity(this);
 
-    public final NumberPath<Long> authorityId = createNumber("authorityId", Long.class);
+    public final NumberPath<Long> chatRoomId = createNumber("chatRoomId", Long.class);
 
     //inherited
     public final DateTimePath<java.time.LocalDateTime> createdAt = _super.createdAt;
 
-    public final StringPath email = createString("email");
-
     //inherited
     public final NumberPath<Long> id = _super.id;
 
-    public final BooleanPath isWithdrawal = createBoolean("isWithdrawal");
-
-    public final StringPath name = createString("name");
-
-    public final StringPath password = createString("password");
+    public final StringPath message = createString("message");
 
     public final NumberPath<Integer> state = createNumber("state", Integer.class);
 
     //inherited
     public final DateTimePath<java.time.LocalDateTime> updatedAt = _super.updatedAt;
 
-    public QUser(String variable) {
-        super(User.class, forVariable(variable));
+    public final NumberPath<Long> userId = createNumber("userId", Long.class);
+
+    public QChatMessage(String variable) {
+        super(ChatMessage.class, forVariable(variable));
     }
 
-    public QUser(Path<? extends User> path) {
+    public QChatMessage(Path<? extends ChatMessage> path) {
         super(path.getType(), path.getMetadata());
     }
 
-    public QUser(PathMetadata metadata) {
-        super(User.class, metadata);
+    public QChatMessage(PathMetadata metadata) {
+        super(ChatMessage.class, metadata);
     }
 
 }

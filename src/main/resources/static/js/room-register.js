@@ -164,7 +164,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 reader.onload = function (e) {
                     const imageItem = document.createElement('div');
                     imageItem.className = 'image_item';
-                    imageItem.innerHTML = `<img src="${e.target.result}" alt="미리보기 이미지">`;
+                    imageItem.innerHTML = `<img class="room_image" src="${e.target.result}" alt="미리보기 이미지">`;
                     resolve({index, element: imageItem});
                 };
                 reader.readAsDataURL(file);
