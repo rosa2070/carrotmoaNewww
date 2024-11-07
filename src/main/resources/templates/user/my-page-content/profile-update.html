@@ -6,7 +6,7 @@
 
         <input type="hidden" name="userId" id="userId"  th:field="*{userId}">
         <label for="nickname">별명</label>
-        <input id="nickname" name="nickname" th:field="*{nickname}" maxlength="10" required type="text"><br>
+        <input id="nickname" name="nickname" th:field="*{nickname}" maxlength="10" required type="text"><span id="nickname-duplication"></span><br>
         <label for="name">이름</label>
         <input id="name" name="name"  th:field="*{name}" required type="text"><br>
         <label for="phone">전화번호</label>
@@ -19,6 +19,6 @@
         <input type="submit" value="수정하기">
     </form>
 
-<script src="/js/user-my-page.js"></script>
 </div>
 </html>
+

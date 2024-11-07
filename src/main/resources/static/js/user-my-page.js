@@ -1,12 +1,13 @@
+if(document.getElementById('user-update')){
+
 document.getElementById('user-update').addEventListener('submit',function(updateEvent){
-    alert('function 호출');
     updateEvent.preventDefault();
     const formData = new FormData(this);
     const data = {};
     formData.forEach((value, key) => {
         data[key] = value;
     })
-    fetch("/chat/find-all-room", {
+    fetch("/api/user/update", {
         method: "POST",
         headers: {
             'Content-Type': 'application/json'
@@ -22,10 +23,11 @@ document.getElementById('user-update').addEventListener('submit',function(update
 
         .then(result => {
             if (result) {
-                alert('정상');
+                alert('수정완료');
                 window.location.href = "/user/my-page";
             } else {
                 console.log("비정상");
             }
         });
 });
+}

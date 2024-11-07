@@ -222,6 +222,7 @@ $('#authority-type').on('change',function(event){
         $('#host').css("display", 'none');
     }
 });
+if(document.getElementById('authority-type')){
 
 document.getElementById('authority-type').addEventListener('change',
     function (event) {
@@ -231,6 +232,8 @@ document.getElementById('authority-type').addEventListener('change',
             $('#host').css("display", 'none');
         }
     });
+}
+if(document.getElementById('join-form')){
 
 document.getElementById('join-form').addEventListener('submit',
     function (event) {
@@ -264,6 +267,8 @@ document.getElementById('join-form').addEventListener('submit',
             });
 
     })
+}
+
 function nicknameDuplicationCheck(nickname){
     console.log(nickname)
     return fetch(`/api/user/nickname-duplication?nickname=${nickname}`, {
