@@ -5,7 +5,7 @@ window.onload = function () {
     let chatRoomId = 0;
 
     if (document.getElementById('chat-modal-open')) {
-        document.getElementById('chat-modal-open').addEventListener('click', function () {
+        document.getElementById('chat-modal-open').addEventListener('click', function modalChat() {
             const modal = document.getElementById("chat-modal-content");
             const closeModalButtonId = 'chat-close-modal';
             fetch('/user/modal-content')
@@ -230,6 +230,7 @@ window.onload = function () {
 
                     //내 userId와 상대 userId를 보내서 채팅방 생성 중복시 이미 있는 채팅방 번호를 반환
                     function createChatRoom(myUserId, joinTargetUserId) {
+
                         fetch(`/api/chat/create-room?myUserId=${encodeURIComponent(myUserId)}&joinTargetUserId=${encodeURIComponent(joinTargetUserId)}`, {
                             method: 'GET',
                             headers: {
@@ -301,7 +302,9 @@ window.onload = function () {
                 return null;
             }
     }
-
+    function chat(myUserId, joinUserId){
+        modalChat();
+    }
 
 
 }
