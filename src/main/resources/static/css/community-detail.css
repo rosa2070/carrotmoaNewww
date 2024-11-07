@@ -182,7 +182,7 @@
 
 .community-detail-description {
     border-bottom: 1px solid #e9ecef;
-    padding: 32px 0;
+    padding-bottom: 15px;
 }
 
 .user-profile-link {
@@ -327,6 +327,10 @@
     align-items: center;
 }
 
+.community-detail-comments .detail-comment-region-name span {
+    padding-right: 5px;
+}
+
 .community-detail-comments .detail-comment-content {
     font-size: 15px;
     line-height: 1.47;
@@ -345,7 +349,6 @@
     align-items: center;
     justify-content: space-between;
     padding-bottom: 1px;
-    padding-left: 5px;
 }
 
 
@@ -426,7 +429,7 @@
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
-.community-detail-container .comment-input-section .comment-submit-button,  .reply-submit-button {
+.community-detail-container .comment-input-section .comment-submit-button, .reply-submit-button {
     padding: 10px 20px;
     font-size: 14px;
     font-weight: bold;
@@ -562,8 +565,6 @@
 .delete-button:hover {
     background-color: #e96d26;
 }
-
-
 
 
 #heartEffectContainer {

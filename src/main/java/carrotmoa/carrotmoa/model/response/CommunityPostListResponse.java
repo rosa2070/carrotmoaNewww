@@ -22,6 +22,10 @@ public class CommunityPostListResponse {
     private String imageUrl;
     private int commentCount;
     private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
+    private String formattedCreatedAt;
+    private String formattedUpdatedAt;
+
 
     public CommunityPostListResponse(Post post, CommunityPost communityPost, CommunityCategory communityCategory, UserAddress userAddress,
                                      PostImage postImage, int commentCount) {
@@ -33,5 +37,6 @@ public class CommunityPostListResponse {
         this.imageUrl = (postImage != null) ? postImage.getImageUrl() : null;
         this.commentCount = commentCount;
         this.createdAt = post.getCreatedAt();
+        this.updatedAt = post.getUpdatedAt();
     }
 }

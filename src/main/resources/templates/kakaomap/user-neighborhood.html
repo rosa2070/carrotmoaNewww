@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="/css/user-neighborhood.css">
 </head>
 <body>
-    <div th:fragment="setMyNeighborhoodMap">
+<div th:fragment="setMyNeighborhoodMap">
     <div class="map_wrap">
         <div id="map"></div>
         <button id="currentLocationBtn" onclick="setCurrentLocation()">
@@ -21,7 +21,8 @@
     <div id="addressDisplay" style="padding: 10px; font-weight: bold;"></div> <!-- 주소 표시할 요소 추가 -->
 </div>
 
-    <script type="text/javascript" src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=1330cd31f56b3c0190d9b719e06fe432&libraries=services"></script>
-    <script type="text/javascript" src="/js/user-neighborhood.js"></script>
+<script type="text/javascript"
+        src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=1330cd31f56b3c0190d9b719e06fe432&libraries=services"></script>
+<script type="text/javascript" src="/js/user-neighborhood.js"></script>
 </body>
 </html>

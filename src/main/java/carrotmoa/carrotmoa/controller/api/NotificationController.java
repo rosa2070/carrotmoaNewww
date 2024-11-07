@@ -4,7 +4,6 @@ import carrotmoa.carrotmoa.model.request.NotificationUpdateRequest;
 import carrotmoa.carrotmoa.model.response.NotificationResponse;
 import carrotmoa.carrotmoa.service.NotificationService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Slice;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -40,5 +39,4 @@ public class NotificationController {
         System.out.println("Updated Notification IDs: " + updatedNotificationIds);
         return ResponseEntity.ok(updatedNotificationIds); // 업데이트된 알림 반환
     }
-
 }

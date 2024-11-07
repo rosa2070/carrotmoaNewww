@@ -13,7 +13,7 @@ var mapContainer = document.getElementById('map'), // 지도를 표시할 div
 // 초기 위도, 경도 설정 (여기서는 예시로 설정)
 let locationName = "여기서 거래해요."; // 예시로 입력한 장소명
 let lastMakerLat = 37.651838298118726; // 예시 위도
-let lastMakerLon =  127.06643920700701; // 예시 경도
+let lastMakerLon = 127.06643920700701; // 예시 경도
 
 var map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
 
@@ -51,7 +51,7 @@ function displayTradeLocation() {
 }
 
 // 페이지가 로드되면 거래 장소를 표시
-window.onload = function() {
+window.onload = function () {
     displayTradeLocation();
 };
 
@@ -89,13 +89,13 @@ function updateMarkerPosition() {
     // 위치 정보 좌표를 얻은 후 행정 구역 반환하기
     var addressDisplay = document.getElementById('addressDisplay');
     var centerAddr = document.getElementById('centerAddr');
-    var callback = function(result, status) {
+    var callback = function (result, status) {
         if (status === kakao.maps.services.Status.OK) {
             for (var i = 0; i < result.length; i++) {
                 // console.log(result); // 값이 행정동 값과 법정동 값 두개 들어오는데, 그 중 h로 행정동의 값만 출력함.
                 if (result[i].region_type === 'H') { // 행정동일 경우
                     // console.log("행정동 이름: " + result[i].address_name); // 전체 주소 출력
-                    addressDisplay.innerHTML = "현재 마커의 위치는 '" + result[i].region_3depth_name +"' 입니다."
+                    addressDisplay.innerHTML = "현재 마커의 위치는 '" + result[i].region_3depth_name + "' 입니다."
                     centerAddr.innerHTML = result[i].address_name;
                     // 행정동 이름 출력
                     break; // 첫 번째 행정동 이름만 출력
@@ -108,7 +108,7 @@ function updateMarkerPosition() {
 
 if (navigator.geolocation) {
     // GeoLocation을 이용해서 접속 위치를 얻어옵니다
-    navigator.geolocation.getCurrentPosition(function(position) {
+    navigator.geolocation.getCurrentPosition(function (position) {
         lat = position.coords.latitude; // 위도
         lon = position.coords.longitude; // 경도
         var locPosition = new kakao.maps.LatLng(lat, lon); // 마커가 표시될 위치를 geolocation으로 얻어온 좌표로 생성
@@ -140,7 +140,7 @@ function fetchAddress(latitude, longitude) {
     var addressDisplay = document.getElementById('centerAddr');
 
     // 좌표를 행정 구역 주소로 변환
-    geocoder.coord2RegionCode(longitude, latitude, function(result, status) {
+    geocoder.coord2RegionCode(longitude, latitude, function (result, status) {
         if (status === kakao.maps.services.Status.OK) {
             for (var i = 0; i < result.length; i++) {
                 if (result[i].region_type === 'H') { // 행정동일 경우

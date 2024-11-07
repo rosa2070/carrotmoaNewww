@@ -20,9 +20,9 @@ var lon;
 // HTML5의 geolocation으로 사용할 수 있는지 확인 -> 만약 사용할 수 있다면 현재 위치와 메세지 변수를 저장해서 displayMarker 함수 실행.
 if (navigator.geolocation) {
     // GeoLocation을 이용해서 접속 위치를 얻어옵니다
-    navigator.geolocation.getCurrentPosition(function(position) {
-            lat = position.coords.latitude; // 위도
-            lon = position.coords.longitude; // 경도
+    navigator.geolocation.getCurrentPosition(function (position) {
+        lat = position.coords.latitude; // 위도
+        lon = position.coords.longitude; // 경도
         var locPosition = new kakao.maps.LatLng(lat, lon); // 마커가 표시될 위치를 geolocation으로 얻어온 좌표로 생성합니다
         // 마커와 인포윈도우를 표시합니다
         displayMarker(locPosition);
@@ -31,15 +31,15 @@ if (navigator.geolocation) {
         // 위치 정보 좌표를 얻은 후 행정 구역 반환하기
         var addressDisplay = document.getElementById('addressDisplay');
         var centerAddr = document.getElementById('centerAddr');
-        var callback = function(result, status) {
+        var callback = function (result, status) {
             if (status === kakao.maps.services.Status.OK) {
                 for (var i = 0; i < result.length; i++) {
                     console.log(result); // 값이 행정동 값과 법정동 값 두개 들어오는데, 그 중 h로 행정동의 값만 출력함.
                     if (result[i].region_type === 'H') { // 행정동일 경우
                         console.log("행정동 이름: " + result[i].address_name); // 전체 주소 출력
-                       addressDisplay.innerHTML = "현재 위치는 '" + result[i].region_3depth_name +"' 입니다."
+                        addressDisplay.innerHTML = "현재 위치는 '" + result[i].region_3depth_name + "' 입니다."
                         centerAddr.innerHTML = result[i].address_name;
-                            // 행정동 이름 출력
+                        // 행정동 이름 출력
                         break; // 첫 번째 행정동 이름만 출력
                     }
                 }
@@ -53,6 +53,7 @@ if (navigator.geolocation) {
     locPosition = new kakao.maps.LatLng(jhtaLat, jhtaLon);
     displayMarker(locPosition);
 }
+
 // 지도에 마커와 인포윈도우를 표시하는 함수입니다
 function displayMarker(locPosition) {
     var imageSrc = '/images/icons/currentlocation.svg', // 마커이미지의 주소

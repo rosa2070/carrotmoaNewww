@@ -15,13 +15,13 @@ import org.springframework.stereotype.Repository;
 public interface PostRepository extends JpaRepository<Post, Long> {
 
     @Query("SELECT new carrotmoa.carrotmoa.model.response.CommunityPostListResponse(p, c, ca, ua, i, 0) " +
-        "FROM Post p " +
-        "JOIN CommunityPost c ON p.id = c.postId " +
-        "LEFT JOIN PostImage i ON p.id = i.postId " +
-        "JOIN CommunityCategory ca ON c.communityCategoryId = ca.id " +
-        "JOIN UserAddress ua ON p.userId = ua.userId " +
-        "WHERE p.serviceId = :serviceId AND p.isDeleted = false " +
-        "order by p.createdAt desc ")
+            "FROM Post p " +
+            "JOIN CommunityPost c ON p.id = c.postId " +
+            "LEFT JOIN PostImage i ON p.id = i.postId " +
+            "JOIN CommunityCategory ca ON c.communityCategoryId = ca.id " +
+            "JOIN UserAddress ua ON p.userId = ua.userId " +
+            "WHERE p.serviceId = :serviceId AND p.isDeleted = false " +
+            "order by p.createdAt desc ")
     Slice<CommunityPostListResponse> getAllCommunityPosts(@Param("serviceId") Long serviceId, Pageable pageable);
 
     @Query("SELECT new carrotmoa.carrotmoa.model.response.CommunityPostListResponse(p, c, ca, ua, i, 0) " +
@@ -36,8 +36,8 @@ public interface PostRepository extends JpaRepository<Post, Long> {
 
     @Modifying(clearAutomatically = true)
     @Query("update Post p " +
-        "set p.isDeleted = true, p.updatedAt = current_timestamp " +
-        "where p.id = (select cp.postId from CommunityPost cp where cp.id = :communityPostId) ")
+            "set p.isDeleted = true, p.updatedAt = current_timestamp " +
+            "where p.id = (select cp.postId from CommunityPost cp where cp.id = :communityPostId) ")
     int deleteByCommunityPostId(@Param("communityPostId") Long communityPostId);
 
     @Modifying(clearAutomatically = true)
@@ -59,6 +59,4 @@ public interface PostRepository extends JpaRepository<Post, Long> {
             "ORDER BY p.created_at DESC",
             nativeQuery = true)
     Slice<CommunityPostSearchResponse> integratedSearchCommunityPost(@Param("keyword") String keyword, @Param("serviceId") Long serviceId, Pageable pageable);
-
-
 }

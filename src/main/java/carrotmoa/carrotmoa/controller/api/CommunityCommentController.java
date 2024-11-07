@@ -2,17 +2,14 @@ package carrotmoa.carrotmoa.controller.api;
 
 import carrotmoa.carrotmoa.model.request.SaveCommunityCommentRequest;
 import carrotmoa.carrotmoa.model.request.SaveCommunityReplyRequest;
-import carrotmoa.carrotmoa.model.response.CommunityCommentResponse;
-import carrotmoa.carrotmoa.model.response.SaveCommunityCommentResponse;
 import carrotmoa.carrotmoa.service.CommunityCommentService;
-import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import static carrotmoa.carrotmoa.entity.QCommunityComment.communityComment;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/community")
@@ -22,7 +19,7 @@ public class CommunityCommentController {
     final private CommunityCommentService communityCommentService;
 
     @PostMapping("/posts/{communityPostId}/comments")
-    public ResponseEntity<Long> createCommunityComment(@PathVariable("communityPostId")Long communityPostId, @RequestBody SaveCommunityCommentRequest saveCommunityCommentRequest) {
+    public ResponseEntity<Long> createCommunityComment(@PathVariable("communityPostId") Long communityPostId, @RequestBody SaveCommunityCommentRequest saveCommunityCommentRequest) {
         Long communityCommentId = communityCommentService.createCommunityComment(communityPostId, saveCommunityCommentRequest);
         return new ResponseEntity<>(communityCommentId, HttpStatus.CREATED);
     }
@@ -40,12 +37,8 @@ public class CommunityCommentController {
     }
 
 
-
-
-
-
     @PostMapping("/posts/{communityPostId}/comments/{commentId}/replies")
-    public ResponseEntity<Long> createCommunityReply(@PathVariable("communityPostId")Long communityPostId, @PathVariable("commentId") Long commentId, @RequestBody SaveCommunityReplyRequest saveCommunityCommentRequest) {
+    public ResponseEntity<Long> createCommunityReply(@PathVariable("communityPostId") Long communityPostId, @PathVariable("commentId") Long commentId, @RequestBody SaveCommunityReplyRequest saveCommunityCommentRequest) {
         Long replyId = communityCommentService.createCommunityReply(communityPostId, commentId, saveCommunityCommentRequest);
         return ResponseEntity.status(HttpStatus.CREATED).body(replyId);
     }

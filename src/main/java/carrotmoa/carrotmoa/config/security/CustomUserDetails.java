@@ -41,7 +41,7 @@ public class CustomUserDetails implements UserDetails {
 
     public UserLoginResponseDto getUserProfile() {
         UserLoginResponseDto userLoginResponseDto
-                = new UserLoginResponseDto(user,Objects.requireNonNull(userprofileRepository.findByUserId(user.getId())));
+            = new UserLoginResponseDto(user,Objects.requireNonNull(userprofileRepository.findByUserId(user.getId())));
 
         if (userLoginResponseDto.getPicUrl() == null) {
             userLoginResponseDto.setPicUrl(defaultProfileImageUrl);

@@ -3,7 +3,13 @@ package carrotmoa.carrotmoa.entity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
+import org.hibernate.annotations.DynamicUpdate;
 
 @Entity
 @Table(name = "user")
@@ -13,6 +19,7 @@ import lombok.*;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+//@DynamicUpdate
 public class User extends BaseEntity {
 
     @Column(name = "email")
@@ -29,4 +36,6 @@ public class User extends BaseEntity {
 
     @Column(name = "authority_id")
     private Long authorityId;
+    @Column(name = "state")
+    private int state;
 }

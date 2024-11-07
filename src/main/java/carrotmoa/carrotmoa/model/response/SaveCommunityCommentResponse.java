@@ -1,14 +1,14 @@
 package carrotmoa.carrotmoa.model.response;
 
 import carrotmoa.carrotmoa.entity.CommunityComment;
-import java.time.LocalDateTime;
-
 import carrotmoa.carrotmoa.entity.UserAddress;
 import carrotmoa.carrotmoa.entity.UserProfile;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -48,8 +48,6 @@ public class SaveCommunityCommentResponse {
         this.region3DepthName = userAddress.getRegion3DepthName();
         this.commentCount = commentCount;
     }
-
-
 
 
 }

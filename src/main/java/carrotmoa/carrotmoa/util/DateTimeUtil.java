@@ -1,4 +1,5 @@
 package carrotmoa.carrotmoa.util;
+
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -17,7 +18,7 @@ public class DateTimeUtil {
         Duration duration = Duration.between(createdAt, now);
 
         if (duration.getSeconds() < 60) {
-            if(duration.getSeconds() == 0) {
+            if (duration.getSeconds() == 0) {
                 return "1초 전";
             }
             return duration.getSeconds() + "초 전";

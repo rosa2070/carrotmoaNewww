@@ -30,30 +30,33 @@ public class SecurityConfig {
                         .requestMatchers("/guest/booking/list","/guest/booking/start","/guest/review").authenticated()
                         .requestMatchers("/community/write").authenticated()
                         .requestMatchers("/host/room/**").hasAuthority(AuthorityCode.HOST.name())
-                        //                            //.requestMatchers("/**").hasAnyRole(AuthorityCode.SUPER_ADMIN.name())
                         .anyRequest().permitAll()
-                )
 
-                .sessionManagement(session -> session
-                        .maximumSessions(1)
-                        .maxSessionsPreventsLogin(false)
-                )
+            )
 
-                .formLogin(formLogin -> formLogin
-                        .usernameParameter("login-email")
-                        .passwordParameter("login-password")
-                        .loginPage("/user/login-page")
-                        .loginProcessingUrl("/user/login")
-                        .defaultSuccessUrl("/")
-                        .permitAll()
-                )
+            .sessionManagement(session -> session
+                .maximumSessions(1)
+                .maxSessionsPreventsLogin(true)
 
-                .logout((logoutConfig) -> logoutConfig
-                        .logoutUrl("/user/logout")
-                        .logoutSuccessUrl("/user/login-page")
-                        .invalidateHttpSession(true)
-                )
-                .userDetailsService(detailService);
+
+            )
+
+            .formLogin(formLogin -> formLogin
+                .usernameParameter("login-email")
+                .passwordParameter("login-password")
+                .loginPage("/user/login-page")
+                .loginProcessingUrl("/user/login")
+                .defaultSuccessUrl("/")
+                .permitAll()
+            )
+
+            .logout((logoutConfig) -> logoutConfig
+                .logoutUrl("/user/logout")
+                .logoutSuccessUrl("/user/login-page")
+                .invalidateHttpSession(true)
+            )
+            .userDetailsService(detailService);
+                        //                            //.requestMatchers("/**").hasAnyRole(AuthorityCode.SUPER_ADMIN.name())
         return http.build();
     }
 }
