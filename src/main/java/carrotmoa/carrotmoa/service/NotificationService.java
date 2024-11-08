@@ -1,21 +1,29 @@
 package carrotmoa.carrotmoa.service;
 
 import carrotmoa.carrotmoa.entity.Notification;
+import carrotmoa.carrotmoa.entity.Payment;
+import carrotmoa.carrotmoa.entity.UserProfile;
 import carrotmoa.carrotmoa.enums.NotificationType;
 import carrotmoa.carrotmoa.model.request.NotificationUpdateRequest;
+import carrotmoa.carrotmoa.model.request.ReservationRequest;
 import carrotmoa.carrotmoa.model.request.SaveNotificationRequest;
 import carrotmoa.carrotmoa.model.response.NotificationResponse;
 import carrotmoa.carrotmoa.model.response.SseNotificationResponse;
-import carrotmoa.carrotmoa.repository.EmitterRepository;
-import carrotmoa.carrotmoa.repository.NotificationRepository;
+import carrotmoa.carrotmoa.repository.*;
+
 import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
+
+import static carrotmoa.carrotmoa.entity.QPayment.payment;
 
 @Service
 @RequiredArgsConstructor
@@ -24,6 +32,8 @@ public class NotificationService {
     private static final Long DEFAULT_TIMEOUT = 600L * 1000 * 60; // 연결 시간 10분
     private final EmitterRepository emitterRepository;
     private final NotificationRepository notificationRepository;
+    private final PaymentRepository paymentRepository;
+    private final UserProfileRepository userProfileRepository;
 
     // 계속 생성안되게 검증 로직 추가하기.
     public SseEmitter subscribe(Long userId) {
@@ -109,6 +119,30 @@ public class NotificationService {
             .collect(Collectors.toList()));
 
         return updatedNotificationIds;
+    }
+
+//    public void sendCancelReservationNotification(Long userId, String notificationUrl) {
+//        SaveNotificationRequest saveNotificationRequest = new SaveNotificationRequest(
+//                NotificationType.RESERVATION_CONFIRM,
+//                userId,
+//                userId,
+//                "결제가 성공적으로 취소되었습니다.",
+//                notificationUrl
+//        );
+//        UserProfile senderUser = userProfileRepository.findNicknameByUserId(userId);
+//        sendNotification(userId,saveNotificationRequest, senderUser.getNickname(), senderUser.getPicUrl());
+//    }
+
+    public void sendReservationNotification(NotificationType notificationType, Long senderId, Long receiverId, String notificationUrl, String message) {
+        SaveNotificationRequest saveNotificationRequest = new SaveNotificationRequest(
+                notificationType,
+                receiverId,
+                senderId,
+                message,
+                notificationUrl
+        );
+        UserProfile senderUser = userProfileRepository.findNicknameByUserId(senderId);
+        sendNotification(receiverId,saveNotificationRequest, senderUser.getNickname(), senderUser.getPicUrl());
     }
 }
 
