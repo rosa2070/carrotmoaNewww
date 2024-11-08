@@ -63,7 +63,7 @@ public class UserController {
     }
     @PostMapping("/address-update")
     public ResponseEntity<Boolean> userAddressUpdate(@RequestBody UserAddressUpdateRequest request){
-        return new ResponseEntity<>(userService.userAddreesUpdate(request),HttpStatus.OK);
+        return new ResponseEntity<>(userService.userAddressUpdate(request),HttpStatus.OK);
     }
 
     @GetMapping("/find-user/{searchType}/{searchKeyword}")

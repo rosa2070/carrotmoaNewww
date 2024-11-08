@@ -141,7 +141,7 @@ public class UserService {
         }
     }
     @Transactional
-    public boolean userAddreesUpdate(UserAddressUpdateRequest request){
+    public boolean userAddressUpdate(UserAddressUpdateRequest request){
         try{
         UserAddress userAddress = userAddressRepository.save(request.toEntityUserAddress());
         userProfileRepository.findByUserId(request.getUserId()).setAddressId(userAddress.getId());

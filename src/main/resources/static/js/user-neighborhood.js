@@ -98,7 +98,6 @@ if(document.getElementById("confirmButton")){
 }
 
 function userAddressUpdate(addressData) {
-    debugger;
     fetch("/api/user/address-update", {
         method: "POST",
         headers: {
