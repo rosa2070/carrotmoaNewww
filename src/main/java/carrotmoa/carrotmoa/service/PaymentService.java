@@ -149,15 +149,11 @@ public class PaymentService {
 
             // 로그인 된 유저의 ID 받아오기
             Long userId = payment.getUserId();
+            String notificationUrl = "/guest/booking/list";
 
 //            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 //            String userId = authentication.getName();
-
-            String notificationUrl = "/guest/booking/list";
-
-            SaveNotificationRequest saveNotificationRequest = new SaveNotificationRequest(NotificationType.RESERVATION_CONFIRM, userId, userId, "결제가 성공적으로 취소되었습니다.", notificationUrl);
-            UserProfile senderUser = userProfileRepository.findNicknameByUserId(userId);
-            notificationService.sendNotification(userId,saveNotificationRequest, senderUser.getNickname(), senderUser.getPicUrl());
+            notificationService.sendCancelReservationNotification(userId, notificationUrl);
         }
 
     }
