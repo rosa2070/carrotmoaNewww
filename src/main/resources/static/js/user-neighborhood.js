@@ -113,6 +113,7 @@ function userAddressUpdate(addressData) {
         .then(result => {
             if(result){
                 alert("업데이트 성공");
+                debugger;
                 window.location.href = "/user/my-page";
             } else {
                 alert("업데이트 실패");

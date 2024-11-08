@@ -32,4 +32,14 @@ public class UserAddressUpdateRequest {
                 .x(this.x)
                 .y(this.y).build();
     }
+    public void UserAddressUpdate(UserAddress entity){
+        entity.setAddressName(this.addressName);
+        entity.setCode(this.code);
+        entity.setRegion1DepthName(this.region1DepthName);
+        entity.setRegion2DepthName(this.region2DepthName);
+        entity.setRegion3DepthName(this.region3DepthName);
+        entity.setRegion4DepthName(this.region4DepthName);
+        entity.setX(this.x);
+        entity.setY(this.y);
+    }
 }

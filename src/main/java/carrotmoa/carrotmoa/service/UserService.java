@@ -141,15 +141,17 @@ public class UserService {
         }
     }
     @Transactional
-    public boolean userAddressUpdate(UserAddressUpdateRequest request){
-        try{
-        UserAddress userAddress = userAddressRepository.save(request.toEntityUserAddress());
-        userProfileRepository.findByUserId(request.getUserId()).setAddressId(userAddress.getId());
-        return true;
-        }catch(Exception e){
-            System.out.println(e.getMessage());
-            System.out.println(Arrays.toString(e.getStackTrace()));
-        return false;
+    public boolean userAddressUpdate(UserAddressUpdateRequest request) {
+        UserProfile profile = userProfileRepository.findByUserId(request.getUserId());
+        UserAddress entity = userAddressRepository.findByUserId(profile.getUserId());
+        if (entity == null) {
+            UserAddress userAddress = userAddressRepository.save(request.toEntityUserAddress());
+            userProfileRepository.findByUserId(request.getUserId()).setAddressId(userAddress.getId());
+            return true;
+        } else {
+            request.UserAddressUpdate(entity);
+
+            return true;
         }
     }
     public FindUserResponse findUserNickname(String searchType, String searchKeyword) throws EntityNotFoundException{
