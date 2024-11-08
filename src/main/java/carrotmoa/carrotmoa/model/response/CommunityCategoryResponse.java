@@ -13,7 +13,6 @@ public class CommunityCategoryResponse {
     private String name;
     private Long parentId;
 
-
     public CommunityCategoryResponse(CommunityCategory categories) {
         this.id = categories.getId();
         this.name = categories.getName();

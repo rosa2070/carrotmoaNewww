@@ -1,13 +1,12 @@
 package carrotmoa.carrotmoa.model.response;
 
+import java.math.BigDecimal;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
-import java.math.BigDecimal;
-
 @AllArgsConstructor
 @NoArgsConstructor
-public class AccommodationSearchResponseImpl implements AccommodationSearchResponse{
+public class AccommodationSearchResponseImpl implements AccommodationSearchResponse {
     private Long accommodationId;
     private String title;
     private String roadAddress;

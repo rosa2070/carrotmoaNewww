@@ -10,7 +10,6 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Slf4j
@@ -26,20 +25,18 @@ public class AccommodationSpaceService {
 
         if (accommodationSpaceRequests != null) {
             List<AccommodationSpace> accommodationSpaces = accommodationSpaceRequests.stream()
-                    .map(accommodationSpaceRequest -> AccommodationSpace.builder()
-                            .accommodationId(accommodationId)
-                            .spaceId(accommodationSpaceRequest.getSpaceId())
-                            .count(accommodationSpaceRequest.getCount())
-                            .build())
-                    .toList();
+                .map(accommodationSpaceRequest -> AccommodationSpace.builder()
+                    .accommodationId(accommodationId)
+                    .spaceId(accommodationSpaceRequest.getSpaceId())
+                    .count(accommodationSpaceRequest.getCount())
+                    .build())
+                .toList();
 
             accommodationSpaceRepository.saveAll(accommodationSpaces);
             log.info("Saved accommodation spaces: {}", accommodationSpaces);
 
         }
     }
-
-
 
 //    @Transactional
 //    public void updateAccommodationSpaces(Long accommodationId, UpdateAccommodationRequest updateAccommodationRequest) {
@@ -86,7 +83,7 @@ public class AccommodationSpaceService {
 
         // 기존 공간들을 Map으로 변환 (spaceId와 count만 저장)
         Map<Long, AccommodationSpace> currentSpaceMap = currentAccommodationSpaces.stream()
-                .collect(Collectors.toMap(AccommodationSpace::getSpaceId, accommodationSpace -> accommodationSpace));
+            .collect(Collectors.toMap(AccommodationSpace::getSpaceId, accommodationSpace -> accommodationSpace));
 
         // 요청으로부터 새로운 값 가져오기
         List<AccommodationSpaceRequest> newAccommodationSpaces = updateAccommodationRequest.getAccommodationSpaces();

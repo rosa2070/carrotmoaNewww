@@ -40,20 +40,18 @@ public class SaveCommunityPostRequest {
 
     public Post toPostEntity() {
         return Post.builder()
-                .serviceId(serviceId)
-                .userId(userId)
-                .title(title)
-                .content(content)
-                .isDeleted(false)
-                .build();
+            .serviceId(serviceId)
+            .userId(userId)
+            .title(title)
+            .content(content)
+            .isDeleted(false)
+            .build();
     }
 
     public CommunityPost toCommunityPostEntity(Long id) {
         return CommunityPost.builder()
-                .postId(id)
-                .communityCategoryId(communityCategoryId)
-                .build();
+            .postId(id)
+            .communityCategoryId(communityCategoryId)
+            .build();
     }
-
-
 }

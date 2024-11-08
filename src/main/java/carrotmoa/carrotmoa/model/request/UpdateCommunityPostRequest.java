@@ -24,14 +24,14 @@ public class UpdateCommunityPostRequest {
 
     public Post toPostEntity() {
         return Post.builder()
-                .title(title)
-                .content(content)
-                .build();
+            .title(title)
+            .content(content)
+            .build();
     }
 
     public CommunityPost toCommunityPostEntity() {
         return CommunityPost.builder()
-                .communityCategoryId(communityCategoryId)
-                .build();
+            .communityCategoryId(communityCategoryId)
+            .build();
     }
 }

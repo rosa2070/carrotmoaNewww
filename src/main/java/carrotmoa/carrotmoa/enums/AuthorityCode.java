@@ -1,9 +1,8 @@
 package carrotmoa.carrotmoa.enums;
 
-import lombok.Getter;
-
 import java.util.HashMap;
 import java.util.Map;
+import lombok.Getter;
 
 @Getter
 public enum AuthorityCode {
@@ -12,8 +11,8 @@ public enum AuthorityCode {
     USER(3L),
     PRISON_WARDEN(4L),
     TEST(5L),
-    HOST(6L),
-    ;
+    HOST(6L);
+
     private static final Map<Long, AuthorityCode> map = new HashMap<>();
 
     static {

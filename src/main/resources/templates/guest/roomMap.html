@@ -14,11 +14,12 @@
     <div id="map"></div>
     <div class="controls">
       <button id="currentLocationBtn" onclick="setCurrentLocation()">
-        <img id="currentLocation" src="/images/icons/gps.png" alt="현재 내 위치">
+        <img alt="현재 내 위치" id="currentLocation" src="/images/icons/gps.png">
       </button>
     </div>
   </div>
-  <script type="text/javascript" src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=1330cd31f56b3c0190d9b719e06fe432&libraries=services&libraries=clusterer"></script>
+  <script src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=1330cd31f56b3c0190d9b719e06fe432&libraries=services&libraries=clusterer"
+          type="text/javascript"></script>
   <script th:src="@{/js/kakaomap-accommodation.js}"></script>
 </main>
 <div th:replace="~{fragments/side-right::side-right}">오른쪽 사이드바</div>

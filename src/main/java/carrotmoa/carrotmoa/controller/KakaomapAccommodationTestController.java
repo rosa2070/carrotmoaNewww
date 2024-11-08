@@ -2,11 +2,14 @@ package carrotmoa.carrotmoa.controller;
 
 import carrotmoa.carrotmoa.testdto.ExhibitionDTO;
 import carrotmoa.carrotmoa.testdto.PerformanceDTO;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Random;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.*;
 
 @RestController
 @RequestMapping("/test")
@@ -34,11 +37,11 @@ public class KakaomapAccommodationTestController {
         List<ExhibitionDTO> exhibitions = new ArrayList<>();
         for (int i = 1; i <= 1000; i++) {
             exhibitions.add(new ExhibitionDTO(
-                    "전시회 " + i,
-                    "서울시 종로구 " + i,
-                    "테마 " + i,
-                    getRandomLatitude(), // 랜덤 위도 생성
-                    getRandomLongitude()  // 랜덤 경도 생성
+                "전시회 " + i,
+                "서울시 종로구 " + i,
+                "테마 " + i,
+                getRandomLatitude(), // 랜덤 위도 생성
+                getRandomLongitude()  // 랜덤 경도 생성
             ));
         }
 
@@ -46,11 +49,11 @@ public class KakaomapAccommodationTestController {
         List<PerformanceDTO> performances = new ArrayList<>();
         for (int i = 1; i <= 1000; i++) {
             performances.add(new PerformanceDTO(
-                    "공연 " + i,
-                    "서울시 강남구 " + i,
-                    "2024-10-" + String.format("%02d", i), // 날짜 값 변경
-                    getRandomLatitude(), // 랜덤 위도 생성
-                    getRandomLongitude()  // 랜덤 경도 생성
+                "공연 " + i,
+                "서울시 강남구 " + i,
+                "2024-10-" + String.format("%02d", i), // 날짜 값 변경
+                getRandomLatitude(), // 랜덤 위도 생성
+                getRandomLongitude()  // 랜덤 경도 생성
             ));
         }
 

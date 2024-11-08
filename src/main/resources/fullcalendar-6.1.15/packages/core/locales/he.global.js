@@ -4,27 +4,27 @@ Docs & License: https://fullcalendar.io
 (c) 2024 Adam Shaw
 */
 (function (index_js) {
-    'use strict';
+  'use strict';
 
-    var locale = {
-        code: 'he',
-        direction: 'rtl',
-        buttonText: {
-            prev: 'הקודם',
-            next: 'הבא',
-            today: 'היום',
-            year: 'שנה',
-            month: 'חודש',
-            week: 'שבוע',
-            day: 'יום',
-            list: 'סדר יום',
-        },
-        allDayText: 'כל היום',
-        moreLinkText: 'נוספים',
-        noEventsText: 'אין אירועים להצגה',
-        weekText: 'שבוע',
-    };
+  var locale = {
+    code: 'he',
+    direction: 'rtl',
+    buttonText: {
+      prev: 'הקודם',
+      next: 'הבא',
+      today: 'היום',
+      year: 'שנה',
+      month: 'חודש',
+      week: 'שבוע',
+      day: 'יום',
+      list: 'סדר יום',
+    },
+    allDayText: 'כל היום',
+    moreLinkText: 'נוספים',
+    noEventsText: 'אין אירועים להצגה',
+    weekText: 'שבוע',
+  };
 
-    index_js.globalLocales.push(locale);
+  index_js.globalLocales.push(locale);
 
 })(FullCalendar);

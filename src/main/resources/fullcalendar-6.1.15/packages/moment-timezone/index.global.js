@@ -4,32 +4,35 @@ Docs & License: https://fullcalendar.io/docs/moment-timezone-plugin
 (c) 2024 Adam Shaw
 */
 FullCalendar.MomentTimezone = (function (exports, core, moment, internal) {
-    'use strict';
+  'use strict';
 
-    function _interopDefault (e) { return e && e.__esModule ? e : { 'default': e }; }
+  function _interopDefault(e) {
+    return e && e.__esModule ? e : {'default': e};
+  }
 
-    var moment__default = /*#__PURE__*/_interopDefault(moment);
+  var moment__default = /*#__PURE__*/_interopDefault(moment);
 
-    class MomentNamedTimeZone extends internal.NamedTimeZoneImpl {
-        offsetForArray(a) {
-            return moment__default["default"].tz(a, this.timeZoneName).utcOffset();
-        }
-        timestampToArray(ms) {
-            return moment__default["default"].tz(ms, this.timeZoneName).toArray();
-        }
+  class MomentNamedTimeZone extends internal.NamedTimeZoneImpl {
+    offsetForArray(a) {
+      return moment__default["default"].tz(a, this.timeZoneName).utcOffset();
     }
 
-    var plugin = core.createPlugin({
-        name: '@fullcalendar/moment-timezone',
-        namedTimeZonedImpl: MomentNamedTimeZone,
-    });
+    timestampToArray(ms) {
+      return moment__default["default"].tz(ms, this.timeZoneName).toArray();
+    }
+  }
 
-    core.globalPlugins.push(plugin);
+  var plugin = core.createPlugin({
+    name: '@fullcalendar/moment-timezone',
+    namedTimeZonedImpl: MomentNamedTimeZone,
+  });
 
-    exports["default"] = plugin;
+  core.globalPlugins.push(plugin);
 
-    Object.defineProperty(exports, '__esModule', { value: true });
+  exports["default"] = plugin;
 
-    return exports;
+  Object.defineProperty(exports, '__esModule', {value: true});
+
+  return exports;
 
 })({}, FullCalendar, moment, FullCalendar.Internal);

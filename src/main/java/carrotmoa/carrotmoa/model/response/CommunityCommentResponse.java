@@ -1,14 +1,13 @@
 package carrotmoa.carrotmoa.model.response;
 
 import com.querydsl.core.annotations.QueryProjection;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
-
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
 @Getter
 @Setter
@@ -35,7 +34,6 @@ public class CommunityCommentResponse {
     private String formattedCreatedAt;
     private String formattedUpdatedAt;
 
-
 //    public CommunityCommentResponse(CommunityComment comment, UserProfile userProfile, UserAddress userAddress) {
 //        this.id = comment.getId();
 //        this.communityPostId = comment.getCommunityPostId();
@@ -55,9 +53,9 @@ public class CommunityCommentResponse {
 
     @QueryProjection
     public CommunityCommentResponse(Long id, Long communityPostId, Long parentId, Long userId,
-                                    String nickname, String picUrl, String region2DepthName,
-                                    String region3DepthName, String content, int depth, int orderInGroup,
-                                    boolean isDeleted, LocalDateTime createdAt, LocalDateTime updatedAt) {
+        String nickname, String picUrl, String region2DepthName,
+        String region3DepthName, String content, int depth, int orderInGroup,
+        boolean isDeleted, LocalDateTime createdAt, LocalDateTime updatedAt) {
         this.id = id;
         this.communityPostId = communityPostId;
         this.parentId = parentId;

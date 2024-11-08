@@ -13,14 +13,17 @@ import carrotmoa.carrotmoa.repository.CommunityPostRepository;
 import carrotmoa.carrotmoa.repository.PostRepository;
 import carrotmoa.carrotmoa.repository.UserProfileRepository;
 import carrotmoa.carrotmoa.util.DateTimeUtil;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.NoSuchElementException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
-
-import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -45,7 +48,8 @@ public class CommunityCommentService {
 
         if (!request.getUserId().equals(receiverId)) {
             String notificationUrl = "/community/posts/" + communityPostId;
-            SaveNotificationRequest saveNotificationRequest = new SaveNotificationRequest(NotificationType.COMMENT, receiverId, request.getUserId(), request.getContent(), notificationUrl);
+            SaveNotificationRequest saveNotificationRequest = new SaveNotificationRequest(NotificationType.COMMENT, receiverId, request.getUserId(),
+                request.getContent(), notificationUrl);
             UserProfile senderUser = userProfileRepository.findNicknameByUserId(commentEntity.getUserId());
             notificationService.sendNotification(receiverId, saveNotificationRequest, senderUser.getNickname(), senderUser.getPicUrl());
         }
@@ -93,7 +97,6 @@ public class CommunityCommentService {
             }
         }
     }
-
 
 //    @Transactional(readOnly = true)
 //    public Map<String, Object> findActiveCommentsByCommunityPostId(Long communityPostId) {
@@ -152,16 +155,17 @@ public class CommunityCommentService {
     public Long createCommunityReply(Long communityPostId, Long commentId, SaveCommunityReplyRequest saveCommunityCommentRequest) {
         // 부모 댓글 조회
         CommunityComment parentComment = communityCommentRepository.findById(commentId)
-                .orElseThrow(() -> new RuntimeException("Parent comment not found"));
+            .orElseThrow(() -> new RuntimeException("Parent comment not found"));
         // 새로운 대댓글 생성
-        CommunityComment replyComment = parentComment.createReply(communityPostId, saveCommunityCommentRequest.getUserId(), saveCommunityCommentRequest.getContent());
+        CommunityComment replyComment = parentComment.createReply(communityPostId, saveCommunityCommentRequest.getUserId(),
+            saveCommunityCommentRequest.getContent());
 
         // 같은 부모 댓글에 대한 최대 orderInGroup 조회
         List<CommunityComment> replies = communityCommentRepository.findByParentId(parentComment.getId());
         int maxOrderInGroup = replies.stream()
-                .mapToInt(CommunityComment::getOrderInGroup)
-                .max()
-                .orElse(0);
+            .mapToInt(CommunityComment::getOrderInGroup)
+            .max()
+            .orElse(0);
         replyComment.setOrderInGroup(maxOrderInGroup + 1); // 최대값 + 1
         // 대댓글 저장
         return communityCommentRepository.save(replyComment).getId(); // 저장 후 ID 반환
@@ -170,8 +174,8 @@ public class CommunityCommentService {
     @Transactional
     public Long softDeleteCommentById(Long commentId, Long communityPostId) {
         CommunityComment communityComment = communityCommentRepository
-                .findByIdAndCommunityPostId(commentId, communityPostId)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "댓글을 찾을 수 없습니다."));
+            .findByIdAndCommunityPostId(commentId, communityPostId)
+            .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "댓글을 찾을 수 없습니다."));
         communityComment.softDeleteComment(true);
         return communityComment.getId();
     }

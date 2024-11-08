@@ -1,10 +1,10 @@
 package carrotmoa.carrotmoa.enums;
 
 
-import lombok.Getter;
-
 import java.util.HashMap;
 import java.util.Map;
+import lombok.Getter;
+
 @Getter
 public enum State {
     NORMAL(1),
@@ -18,10 +18,13 @@ public enum State {
             statusMap.put(state.getStatus(), state);
         }
     }
+
     private final Integer status;
 
 
-    State(Integer status) {this.status = status;}
+    State(Integer status) {
+        this.status = status;
+    }
 
     public static String getStateName(Integer status) {
         State state = statusMap.get(status);

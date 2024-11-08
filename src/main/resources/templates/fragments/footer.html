@@ -1,8 +1,8 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <footer id="footer" th:fragment="footer">
-  <button th:if="${user != null}" class="chat-modal-button" id="chat-modal-open" type="button">채팅</button>
-  <div id="chat-modal-content" class="chat-modal-content"></div>
+  <button class="chat-modal-button" id="chat-modal-open" th:if="${user != null}" type="button">채팅</button>
+  <div class="chat-modal-content" id="chat-modal-content"></div>
   <div class="footer-container footer-container-underline">
     <div>
       <ul class="footer-ul">

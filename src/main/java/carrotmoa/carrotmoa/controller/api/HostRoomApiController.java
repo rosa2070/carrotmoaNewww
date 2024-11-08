@@ -6,19 +6,22 @@ import carrotmoa.carrotmoa.model.response.AccommodationDetailResponse;
 import carrotmoa.carrotmoa.model.response.HostManagedAccommodationResponse;
 import carrotmoa.carrotmoa.service.AccommodationHostService;
 import jakarta.validation.Valid;
-
-import java.time.LocalDate;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
-
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 @Slf4j
@@ -36,6 +39,7 @@ public class HostRoomApiController {
         this.accommodationHostService = accommodationHostService;
 
     }
+
     // 방 등록 폼 제출 후 테이블에 값 들어옴
     @PostMapping("/register")
     public ResponseEntity<?> registerAccommodation(
@@ -46,14 +50,14 @@ public class HostRoomApiController {
         // 유효성 검사 실패 시 처리
         if (bindingResult.hasErrors()) {
             List<String> errorMessages = bindingResult.getFieldErrors()
-                    .stream()
-                    .map(fieldError -> {
-                        String errorMessage = fieldError.getDefaultMessage();
-                        // 오류 메시지를 로그로 기록
-                        log.error("유효성 검사 오류 - 필드: {}, 메시지: {}", fieldError.getField(), errorMessage);
-                        return errorMessage;
-                    })
-                    .collect(Collectors.toList());
+                .stream()
+                .map(fieldError -> {
+                    String errorMessage = fieldError.getDefaultMessage();
+                    // 오류 메시지를 로그로 기록
+                    log.error("유효성 검사 오류 - 필드: {}, 메시지: {}", fieldError.getField(), errorMessage);
+                    return errorMessage;
+                })
+                .collect(Collectors.toList());
 
             // 이미지 업로드 관련 오류 메시지 추가
             List<MultipartFile> images = saveAccommodationRequest.getImages();
@@ -68,15 +72,12 @@ public class HostRoomApiController {
             return ResponseEntity.badRequest().body(errorMessages);
         }
 
-
         // 공간 초기화 메서드 호출
         if (saveAccommodationRequest.getAccommodationSpaces().isEmpty()) {
             saveAccommodationRequest.initializeSpaces(DEFAULT_SPACE_COUNT);
         }
 
-
         // 여기서 AOP가 자동으로 logBefore 메서드를 호출하여 로깅을 수행합니다.
-
 
         Long accommodationId = accommodationHostService.createAccommodation(saveAccommodationRequest);
         return new ResponseEntity<>(accommodationId, HttpStatus.CREATED);
@@ -117,9 +118,9 @@ public class HostRoomApiController {
     // 호스트가 등록한 방 리스트 보이기(방 관리)
     @GetMapping("/manage/{userId}")
     public ResponseEntity<List<HostManagedAccommodationResponse>> getAccommodationsByUserId(
-            @PathVariable("userId") Long userId,
-            @RequestParam(value = "lastId", defaultValue = "0") Long lastId, // 초기 값은 0
-            @RequestParam(value = "limit", defaultValue = "10") int limit) { // 한 번에 불러올 항목 수
+        @PathVariable("userId") Long userId,
+        @RequestParam(value = "lastId", defaultValue = "0") Long lastId, // 초기 값은 0
+        @RequestParam(value = "limit", defaultValue = "10") int limit) { // 한 번에 불러올 항목 수
         List<HostManagedAccommodationResponse> accommodations = accommodationHostService.getAccommodationsByUserId(userId, lastId, limit);
 
         if (accommodations == null || accommodations.isEmpty()) {
@@ -130,7 +131,7 @@ public class HostRoomApiController {
     }
 
     @GetMapping("/all/{userId}")
-    public ResponseEntity<List<HostManagedAccommodationResponse>> getAllHostRooms(@PathVariable("userId") Long userId ) {
+    public ResponseEntity<List<HostManagedAccommodationResponse>> getAllHostRooms(@PathVariable("userId") Long userId) {
         List<HostManagedAccommodationResponse> accommodations = accommodationHostService.getAllHostRooms(userId);
 
         if (accommodations == null || accommodations.isEmpty()) {

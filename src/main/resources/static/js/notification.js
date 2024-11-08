@@ -62,7 +62,7 @@ document.addEventListener("DOMContentLoaded", async function () {
 });
 
 
-// 로그인 유저의 알림 리스트 DB에서 조회하는 함수 -> 무한 스크롤 진행
+// 로그인 유저의 알림 리스트 DB에서 조회
 function fetchLoginUserNotifications() {
     const receiverId = userObject.userProfile.userId; // 로그인한 사용자 ID
 
@@ -77,6 +77,11 @@ function fetchLoginUserNotifications() {
             console.log(`로그인 시, 첫 알림 데이터는 DB에서 가져오기`);
             console.log(data);
             localStorage.setItem('notifications', JSON.stringify(data));
+            // 알림이 하나라도 있는지 & 전부 다, read가 false인지 확인.
+            console.log(data.every(notification => notification.read === true));
+            if (data.length > 0 &&  !data.every(notification => notification.read === true)) {
+                updateNotificationIcon(); // 알림 아이콘 변경
+            }
             return data; // 데이터 반환
         })
         .catch(error => {
@@ -97,7 +102,6 @@ function notificationStorageList(notifications) {
     if (notifications.length === 0) {
         displayNoNotificationsMessage();
     }
-
 
     notifications.forEach(notification => {
         if (notification.deleted) {
@@ -286,7 +290,12 @@ function formatElapsedTime(createdAt) {
     const now = new Date();
     const seconds = Math.floor((now - createdDate) / 1000);
 
-    if (seconds < 60) return `${seconds}초 전`;
+    if (seconds < 60) {
+        if(seconds === 0) {
+            return '1초 전';
+        }
+        return `${seconds}초 전`;
+    }
     const minutes = Math.floor(seconds / 60);
     if (minutes < 60) return `${minutes}분 전`;
     const hours = Math.floor(minutes / 60);
@@ -319,7 +328,6 @@ document.addEventListener("DOMContentLoaded", function () {
         const deleteIcon = event.target.closest(".notification-delete-icon");
         if (deleteIcon) {
             const notificationEntry = deleteIcon.closest(".notification-entry");
-            alert(notificationEntry.getAttribute("data-id"));
             const deleteButton = notificationEntry.querySelector(".notification-delete-button");
             const isButtonVisible = deleteButton.style.display === "inline-block";
             deleteButton.style.display = isButtonVisible ? "none" : "inline-block";
@@ -348,7 +356,6 @@ document.addEventListener("DOMContentLoaded", function () {
                 storedNotification.deleted = true; // deleted 값을 true로 변경
                 localStorage.setItem('notifications', JSON.stringify(storedNotifications));
             }
-
 
             // UI 업데이트 - 해당 알림을 숨기거나 삭제된 상태로 표시
             notificationEntry.style.display = "none";

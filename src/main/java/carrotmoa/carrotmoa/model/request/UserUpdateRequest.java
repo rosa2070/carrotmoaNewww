@@ -3,11 +3,10 @@ package carrotmoa.carrotmoa.model.request;
 import carrotmoa.carrotmoa.config.security.CustomUserDetails;
 import carrotmoa.carrotmoa.entity.User;
 import carrotmoa.carrotmoa.entity.UserProfile;
+import java.time.LocalDate;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.time.LocalDate;
 
 @Data
 @AllArgsConstructor
@@ -20,7 +19,7 @@ public class UserUpdateRequest {
     private String bio;
     private LocalDate birthday;
 
-    public UserUpdateRequest(CustomUserDetails user){
+    public UserUpdateRequest(CustomUserDetails user) {
         this.userId = user.getUserProfile().getUserId();
         this.nickname = user.getUserProfile().getNickname();
         this.name = user.getUserProfile().getName();
@@ -28,7 +27,8 @@ public class UserUpdateRequest {
         this.bio = user.getUserProfile().getBio();
         this.birthday = user.getUserProfile().getBirthday();
     }
-    public void updateUser(User user,UserProfile userProfile){
+
+    public void updateUser(User user, UserProfile userProfile) {
         user.setName(this.name);
         userProfile.setNickname(this.nickname);
         userProfile.setBio(this.bio);

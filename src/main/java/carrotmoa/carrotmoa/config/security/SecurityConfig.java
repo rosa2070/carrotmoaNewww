@@ -23,21 +23,20 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .csrf(AbstractHttpConfigurer::disable)
-                .authorizeHttpRequests(authz -> authz
-                        .requestMatchers("/service/**").authenticated()
-                        .requestMatchers("/admin/**").hasRole(AuthorityCode.ADMIN.name())
-                        .requestMatchers("/guest/booking/list","/guest/booking/start","/guest/review").authenticated()
-                        .requestMatchers("/community/write").authenticated()
-                        .requestMatchers("/host/room/**").hasAuthority(AuthorityCode.HOST.name())
-                        .anyRequest().permitAll()
+            .csrf(AbstractHttpConfigurer::disable)
+            .authorizeHttpRequests(authz -> authz
+                .requestMatchers("/service/**").authenticated()
+                .requestMatchers("/admin/**").hasRole(AuthorityCode.ADMIN.name())
+                .requestMatchers("/guest/booking/list", "/guest/booking/start", "/guest/review").authenticated()
+                .requestMatchers("/community/write").authenticated()
+                .requestMatchers("/host/room/**").hasAuthority(AuthorityCode.HOST.name())
+                .anyRequest().permitAll()
 
             )
 
             .sessionManagement(session -> session
                 .maximumSessions(1)
                 .maxSessionsPreventsLogin(true)
-
 
             )
 
@@ -56,7 +55,7 @@ public class SecurityConfig {
                 .invalidateHttpSession(true)
             )
             .userDetailsService(detailService);
-                        //                            //.requestMatchers("/**").hasAnyRole(AuthorityCode.SUPER_ADMIN.name())
+        //                            //.requestMatchers("/**").hasAnyRole(AuthorityCode.SUPER_ADMIN.name())
         return http.build();
     }
 }

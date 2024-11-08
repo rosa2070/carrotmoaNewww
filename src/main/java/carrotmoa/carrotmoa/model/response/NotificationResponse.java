@@ -3,12 +3,11 @@ package carrotmoa.carrotmoa.model.response;
 import carrotmoa.carrotmoa.entity.Notification;
 import carrotmoa.carrotmoa.entity.NotificationType;
 import carrotmoa.carrotmoa.entity.UserProfile;
+import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-import java.time.LocalDateTime;
 
 @Getter
 @Setter

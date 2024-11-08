@@ -2,12 +2,11 @@ package carrotmoa.carrotmoa.repository;
 
 import carrotmoa.carrotmoa.entity.Notification;
 import carrotmoa.carrotmoa.model.response.NotificationResponse;
+import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
-
-import java.util.List;
 
 @Repository
 public interface NotificationRepository extends JpaRepository<Notification, Long> {
@@ -27,12 +26,12 @@ public interface NotificationRepository extends JpaRepository<Notification, Long
 
     // 7. 로그인한 유저(receiverId)의 isDeleted가 false인 모든 알림을 화면에 보여주기
     @Query("SELECT new carrotmoa.carrotmoa.model.response.NotificationResponse(" +
-            "n, nt, up) " +
-            "FROM Notification n " +
-            "JOIN NotificationType nt ON n.typeId = nt.id " +
-            "JOIN UserProfile up ON n.senderId = up.userId " +
-            "WHERE n.receiverId = :receiverId AND n.isDeleted = false " +
-            "ORDER BY n.createdAt DESC")
+        "n, nt, up) " +
+        "FROM Notification n " +
+        "JOIN NotificationType nt ON n.typeId = nt.id " +
+        "JOIN UserProfile up ON n.senderId = up.userId " +
+        "WHERE n.receiverId = :receiverId AND n.isDeleted = false " +
+        "ORDER BY n.createdAt DESC")
     List<NotificationResponse> findNotificationsByReceiverId(@Param("receiverId") Long receiverId);
 
 

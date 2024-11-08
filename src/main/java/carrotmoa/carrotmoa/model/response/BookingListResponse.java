@@ -1,10 +1,11 @@
 package carrotmoa.carrotmoa.model.response;
 
-import lombok.*;
-import lombok.extern.slf4j.Slf4j;
-
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 
 @Getter
 @Setter
@@ -30,18 +31,18 @@ public class BookingListResponse {
 
     public static BookingListResponse fromData(Object[] data) {
         return BookingListResponse.builder()
-                .id((Long) data[0])
-                .accommodationId((Long) data[1])
-                .checkInDate((LocalDate) data[2])
-                .checkOutDate((LocalDate) data[3])
-                .status((Integer) data[4])
-                .totalPrice((BigDecimal) data[5])
-                .title((String) data[6])
-                .lotAddress((String) data[7])
-                .detailAddress((String) data[8])
-                .floor((Integer) data[9])
-                .nickname((String) data[10])
-                .imageUrl((String) data[11])
-                .build();
+            .id((Long) data[0])
+            .accommodationId((Long) data[1])
+            .checkInDate((LocalDate) data[2])
+            .checkOutDate((LocalDate) data[3])
+            .status((Integer) data[4])
+            .totalPrice((BigDecimal) data[5])
+            .title((String) data[6])
+            .lotAddress((String) data[7])
+            .detailAddress((String) data[8])
+            .floor((Integer) data[9])
+            .nickname((String) data[10])
+            .imageUrl((String) data[11])
+            .build();
     }
 }

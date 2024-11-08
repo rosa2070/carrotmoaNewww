@@ -63,12 +63,29 @@ document.addEventListener("DOMContentLoaded", function () {
                 e.preventDefault();
                 const editorContent = editor.getData();
                 const form = document.getElementById('community-post-form');
+
                 const formData = {
                     userId: form.userId.value,
                     communityCategoryId: form.communityCategoryId.value,
                     title: form.title.value,
                     content: editorContent
                 };
+
+                // 제목 길이 체크
+                if (formData.title.trim().length < 2) {
+                    alert("제목은 2자 이상 입력해야 합니다."); // 경고 메시지
+                    return; // 함수 종료
+                }
+
+                // 내용 길이 체크
+                const textOnlyContent = new DOMParser().parseFromString(editorContent, 'text/html').body.textContent || "";
+                if (textOnlyContent.trim().length < 5) {
+                    alert("내용은 5자 이상 입력해야 합니다."); // 경고 메시지
+                    return; // 함수 종료
+                }
+
+
+
                 fetch('/api/community/posts', {
                     method: 'post',
                     headers: {

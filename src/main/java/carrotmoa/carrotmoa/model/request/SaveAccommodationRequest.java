@@ -5,11 +5,9 @@ import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
-
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
@@ -75,9 +73,9 @@ public class SaveAccommodationRequest implements RequestDTO {
         accommodationSpaces.clear(); // 기존 공간 초기화
         for (int i = 0; i < spaceCount; i++) {
             AccommodationSpaceRequest accommodationSpaceRequest = AccommodationSpaceRequest.builder()
-                    .spaceId(i + 1) // 공간 ID는 1부터 시작
-                    .count(0) // 초기 개수는 0
-                    .build();
+                .spaceId(i + 1) // 공간 ID는 1부터 시작
+                .count(0) // 초기 개수는 0
+                .build();
             accommodationSpaces.add(accommodationSpaceRequest);
         }
     }

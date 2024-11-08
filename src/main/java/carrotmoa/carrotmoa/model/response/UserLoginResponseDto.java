@@ -2,14 +2,10 @@ package carrotmoa.carrotmoa.model.response;
 
 import carrotmoa.carrotmoa.entity.User;
 import carrotmoa.carrotmoa.entity.UserProfile;
+import java.time.LocalDate;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.security.core.userdetails.UserDetails;
-
-import java.time.LocalDate;
-
-import java.time.LocalDate;
 
 
 @Data

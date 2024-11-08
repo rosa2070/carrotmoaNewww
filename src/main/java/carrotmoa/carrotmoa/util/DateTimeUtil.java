@@ -10,9 +10,11 @@ public class DateTimeUtil {
 
     /**
      * 생성일자와 현재 시간의 차이를 계산해 경과 시간을 문자열로 반환하는 메서드
+     *
      * @param createdAt 생성일자
      * @return 경과 시간 문자열
      */
+
     public static String formatElapsedTime(LocalDateTime createdAt) {
         LocalDateTime now = LocalDateTime.now();
         Duration duration = Duration.between(createdAt, now);

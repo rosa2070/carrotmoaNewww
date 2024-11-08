@@ -2,10 +2,9 @@ package carrotmoa.carrotmoa.service;
 
 import carrotmoa.carrotmoa.model.response.PaymentDetailResponse;
 import carrotmoa.carrotmoa.repository.PaymentDetailCustomRepository;
-import org.springframework.stereotype.Service;
-
 import java.time.LocalDate;
 import java.util.List;
+import org.springframework.stereotype.Service;
 
 @Service
 public class SettlementService {
@@ -19,8 +18,6 @@ public class SettlementService {
     public List<PaymentDetailResponse> getSettlementList(Long hostId, Long accommodationId, LocalDate startDate, LocalDate endDate) {
         return paymentDetailCustomRepository.getSettlementList(hostId, accommodationId, startDate, endDate);
     }
-
-
 
 
 }

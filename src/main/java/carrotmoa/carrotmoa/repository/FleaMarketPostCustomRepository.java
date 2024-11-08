@@ -1,16 +1,21 @@
 package carrotmoa.carrotmoa.repository;
 
+import carrotmoa.carrotmoa.model.response.FleaMarketPostProductResponse;
 import carrotmoa.carrotmoa.model.response.FleaMarketPostResponse;
-import org.springframework.data.domain.Page;
+import carrotmoa.carrotmoa.model.response.FleaMarketPostUserResponse;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Repository;
-
-import java.util.List;
 
 @Repository
 public interface FleaMarketPostCustomRepository {
+    Slice<FleaMarketPostResponse> findPostList(Pageable pageable);
 
-    Page<FleaMarketPostResponse> findPostListToPage(Pageable pageable);
+    FleaMarketPostProductResponse findPostProductById(Long id);
 
-    List<FleaMarketPostResponse> findPostList();
+    FleaMarketPostUserResponse findPostUserById(Long id);
+
+    Slice<FleaMarketPostResponse> findByKeyword(String keyword, Pageable pageable);
+
+    Slice<FleaMarketPostResponse> findByUserId(Pageable pageable, Long id);
 }

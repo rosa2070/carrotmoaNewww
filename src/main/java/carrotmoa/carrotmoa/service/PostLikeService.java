@@ -3,22 +3,21 @@ package carrotmoa.carrotmoa.service;
 import carrotmoa.carrotmoa.entity.PostLike;
 import carrotmoa.carrotmoa.repository.CommunityPostRepository;
 import carrotmoa.carrotmoa.repository.PostLikeRepository;
+import java.util.Optional;
+import java.util.concurrent.TimeUnit;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Optional;
-import java.util.concurrent.TimeUnit;
-
 @Service
 @RequiredArgsConstructor
 public class PostLikeService {
+    private static final String LIKE_KEY_FORMAT = "post:%d:user:%d:like:isCanceled";
+    private static final String LIKE_COUNT_KEY_FORMAT = "post:%d:likeCount";
     private final PostLikeRepository postLikeRepository;
     private final CommunityPostRepository communityPostRepository;
     private final RedisTemplate<String, Object> likeRedisTemplate;
-    private static final String LIKE_KEY_FORMAT = "post:%d:user:%d:like:isCanceled";
-    private static final String LIKE_COUNT_KEY_FORMAT = "post:%d:likeCount";
 
     @Transactional
     public boolean toggleLike(Long postId, Long userId) {
@@ -51,7 +50,6 @@ public class PostLikeService {
         updateDatabaseLikeStatus(communityPostId, userId, newStatus);
         // 좋아요 개수 업데이트
         updateLikeCount(communityPostId, newStatus);
-
         return !newStatus; // UI에서는 좋아요 상태가 false일 때 활성화되므로 반전된 값을 반환
     }
 

@@ -16,8 +16,8 @@ public class SaveCommunityReplyRequest {
 
     public CommunityComment toCommunityCommentEntity() {
         return CommunityComment.builder()
-                .userId(userId)
-                .content(content)
-                .build();
+            .userId(userId)
+            .content(content)
+            .build();
     }
 }

@@ -17,7 +17,7 @@ public class ReviewViewController {
     @GetMapping("/{reservationId}")
     public String gotoReviewView(@PathVariable("reservationId") Long reservationId, RedirectAttributes redirectAttributes) {
         // 리뷰가 존재하는지 확인
-        if(reviewService.getReservationId(reservationId) != null) {
+        if (reviewService.getReservationId(reservationId) != null) {
             redirectAttributes.addFlashAttribute("error", "이미 리뷰를 작성하셨습니다.");
             return "redirect:/guest/booking/list";
         }

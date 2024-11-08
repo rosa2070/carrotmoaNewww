@@ -32,15 +32,13 @@ public class SaveNotificationRequest {
 
     public Notification toNotificationEntity() {
         return Notification.builder()
-                .typeId(type.getTypeId())
-                .receiverId(receiverId)
-                .senderId(senderId)
-                .message(message)
-                .url(url)
-                .isRead(isRead)
-                .isDeleted(isDeleted)
-                .build();
+            .typeId(type.getTypeId())
+            .receiverId(receiverId)
+            .senderId(senderId)
+            .message(message)
+            .url(url)
+            .isRead(isRead)
+            .isDeleted(isDeleted)
+            .build();
     }
-
-
 }

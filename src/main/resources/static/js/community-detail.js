@@ -11,8 +11,6 @@ document.addEventListener("DOMContentLoaded", function () {
         commentInput.placeholder = "로그인 후 이용 가능합니다.";
     }
 
-
-
     fetch(`/api/community/posts/${communityPostId}/likes/${currentUserId}`)
         .then(response => response.json())
         .then(data => {
@@ -253,6 +251,11 @@ document.addEventListener("DOMContentLoaded", function () {
 document.getElementById("submitCommentBtn").addEventListener("click", function (e) {
     e.preventDefault();
     const content = document.getElementById("commentInput").value;
+    // 댓글 입력값이 1자 이상인지 확인
+    if (content.trim().length < 1) {
+        alert("댓글은 1자 이상 입력해야 합니다."); // 경고 메시지
+        return; // 함수 종료
+    }
     const data = {
         content: content,
         userId: currentUserId,

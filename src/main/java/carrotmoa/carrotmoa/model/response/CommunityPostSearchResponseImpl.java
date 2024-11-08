@@ -5,7 +5,7 @@ import lombok.NoArgsConstructor;
 
 @AllArgsConstructor
 @NoArgsConstructor
-public class CommunityPostSearchResponseImpl implements CommunityPostSearchResponse{
+public class CommunityPostSearchResponseImpl implements CommunityPostSearchResponse {
     private Long postId;
     private String addressName;
     private String content;
