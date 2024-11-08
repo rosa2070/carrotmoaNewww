@@ -15,7 +15,7 @@ public class FleaMarketViewController {
     }
 
     @GetMapping("/posts/{postId}")
-    public String getPost(@PathVariable Long postId) {
+    public String getPost(@PathVariable("postId") Long postId) {
         return "fleamarket/flea-market-post";
     }
 
@@ -25,7 +25,7 @@ public class FleaMarketViewController {
     }
 
     @GetMapping("/update/{postId}")
-    public String updatePost(@PathVariable Long postId) {
+    public String updatePost(@PathVariable("postId") Long postId) {
         return "fleamarket/flea-market-update";
     }
 }
