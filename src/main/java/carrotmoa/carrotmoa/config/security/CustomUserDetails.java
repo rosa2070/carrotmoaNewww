@@ -14,6 +14,7 @@ import java.util.Objects;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.parameters.P;
 import org.springframework.security.core.userdetails.UserDetails;
 
 @RequiredArgsConstructor
@@ -52,7 +53,11 @@ public class CustomUserDetails implements UserDetails {
     }
 
     public UserAddressResponse getUserAddress() {
+        if(useraddressRepository.findByUserId(user.getId()) != null){
         return new UserAddressResponse(useraddressRepository.findByUserId(user.getId()));
+        } else {
+            return new UserAddressResponse();
+        }
     }
 
     public String getUserAuthority() {

@@ -1,9 +1,13 @@
 package carrotmoa.carrotmoa.model.response;
 
 import carrotmoa.carrotmoa.entity.UserAddress;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class UserAddressResponse {
     private long addressId;
     private String addressName;

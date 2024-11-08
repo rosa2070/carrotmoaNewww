@@ -8,6 +8,7 @@ import carrotmoa.carrotmoa.model.request.UserAddressUpdateRequest;
 import carrotmoa.carrotmoa.model.request.UserJoinDto;
 import carrotmoa.carrotmoa.model.request.UserUpdateRequest;
 import carrotmoa.carrotmoa.model.response.FindUserResponse;
+import carrotmoa.carrotmoa.repository.AccountRepository;
 import carrotmoa.carrotmoa.repository.UserAddressRepository;
 import carrotmoa.carrotmoa.repository.UserProfileRepository;
 import carrotmoa.carrotmoa.repository.UserRepository;
