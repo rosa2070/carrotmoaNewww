@@ -1,9 +1,8 @@
 package carrotmoa.carrotmoa.model.response;
 
+import lombok.*;
+
 import java.math.BigDecimal;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
 
 @Getter
 @Setter
@@ -24,16 +23,16 @@ public class AccommodationAvailableResponse {
     public static AccommodationAvailableResponse fromData(Object[] data) {
 
         return AccommodationAvailableResponse.builder()
-            .accommodationId((Long) data[0])
-            .title((String) data[1])
-            .latitude((BigDecimal) data[2])
-            .longitude((BigDecimal) data[3])
-            .lotAddress((String) data[4])
-            .imageUrl((String) data[5])
-            .room((Integer) data[6])
-            .bath((Integer) data[7])
-            .living((Integer) data[8])
-            .kitchen((Integer) data[9])
-            .build();
+                .accommodationId((Long) data[0])
+                .title((String) data[1])
+                .latitude((BigDecimal) data[2])
+                .longitude((BigDecimal) data[3])
+                .lotAddress((String) data[4])
+                .imageUrl((String) data[5])
+                .room((Integer) data[6])
+                .bath((Integer) data[7])
+                .living((Integer) data[8])
+                .kitchen((Integer) data[9])
+                .build();
     }
 }
