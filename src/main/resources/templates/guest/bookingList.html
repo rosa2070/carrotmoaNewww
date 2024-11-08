@@ -32,7 +32,9 @@
             </dd>
           </dl>
           <strong class="room.pay" th:text="${booking.totalPrice}"></strong>
-          <button class="btn white" id="btn-cancel-booking-popup" th:data-imp-uid="${booking.impUid}" type="button">취소</button>
+<!--          <button class="btn white" id="btn-cancel-booking-popup" th:data-imp-uid="${booking.impUid}" type="button">취소</button>-->
+          <button class="btn white btn-cancel-booking-popup" th:data-imp-uid="${booking.impUid}" type="button">취소</button>
+
         </div>
       </div>
       <h4>만료된 계약</h4>
@@ -86,6 +88,6 @@
     </div>
   </section>
   <script th:src="@{/js/guest_bookingList.js}"></script>
-  <script th:src="@{/js/show-alert.js}"></script>
+<!--  <script th:src="@{/js/show-alert.js}"></script>-->
 </main>
 </html>

@@ -10,14 +10,5 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 @ControllerAdvice
 public class GlobalUserAttribute {
     @ModelAttribute("user")
-    public void user(@AuthenticationPrincipal CustomUserDetails user, Model model) {
-        model.addAttribute("user", user);
-        if (user != null) {
-            String authority = user.getAuthorities().stream()
-                    .map(GrantedAuthority::getAuthority)
-                    .findFirst()
-                    .orElse("NO_ROLE");
-            model.addAttribute("authority", authority);
-        }
-    }
+    public CustomUserDetails user(@AuthenticationPrincipal CustomUserDetails user) {return user;}
 }
