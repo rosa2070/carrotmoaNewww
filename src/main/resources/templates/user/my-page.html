@@ -29,17 +29,11 @@
           </div>
         </div>
         <div class="my-page-profile-detail">
-          <p>사는곳</p>
+          <p th:text="${user.getUserAddress().getAddressName()}">사는곳</p>
           <p>한줄 소개</p>
           <p class="user-my-page-profile-bio" th:text="${user.getUserProfile().getBio()}"></p>
         </div>
       </div>
-      <div class="my-page-profile-detail">
-        <p th:text="${user.getUserAddress().getAddressName()}">사는곳</p>
-        <p>한줄 소개</p>
-        <p class="user-my-page-profile-bio" th:text="${user.getUserProfile().getBio()}"></p>
-      </div>
-    </div>
 
     <div style="flex: 2;" layout:insert="~{/user/my-page-content/my-page-main}" th:if="${fragment} == 'main'"></div>
     <div style="flex: 2; padding-left: 172px; padding-top: 2%;" layout:insert="~{/user/my-page-content/profile-update}" th:if="${fragment} == 'profile-update'"></div>

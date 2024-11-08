@@ -45,7 +45,6 @@ if (navigator.geolocation) {
                         console.log("행정동 이름: " + result[i].address_name); // 전체 주소 출력
                         addressDisplay.innerHTML = "현재 위치는 '" + result[i].region_3depth_name + "' 입니다."
                         centerAddr.innerHTML = result[i].address_name;
-                        debugger;
                         address = result[i];
                         address.userId = userId;
                         addressData = JSON.stringify(address);
