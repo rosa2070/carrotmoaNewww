@@ -72,10 +72,14 @@ public class PaymentService {
 
             if (!reservationRequest.getUserId().equals(receiverId)) {
                 String notificationUrl = "/host/room/contract";
-                SaveNotificationRequest saveNotificationRequest = new SaveNotificationRequest(NotificationType.RESERVATION_CONFIRM, receiverId,
-                    reservationRequest.getUserId(), roomName + " 방을 예약했어요", notificationUrl);
-                UserProfile senderUser = userProfileRepository.findNicknameByUserId(reservationRequest.getUserId());
-                notificationService.sendNotification(receiverId, saveNotificationRequest, senderUser.getNickname(), senderUser.getPicUrl());
+                String message = roomName + "방을 예약했어요";
+                Long senderId = reservationRequest.getUserId();
+
+                notificationService.sendReservationNotification(senderId, receiverId, notificationUrl, message);
+//                SaveNotificationRequest saveNotificationRequest = new SaveNotificationRequest(NotificationType.RESERVATION_CONFIRM, receiverId,
+//                    reservationRequest.getUserId(), roomName + " 방을 예약했어요", notificationUrl);
+//                UserProfile senderUser = userProfileRepository.findNicknameByUserId(reservationRequest.getUserId());
+//                notificationService.sendNotification(receiverId, saveNotificationRequest, senderUser.getNickname(), senderUser.getPicUrl());
             }
 
         }

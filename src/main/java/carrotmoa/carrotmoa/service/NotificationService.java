@@ -132,6 +132,18 @@ public class NotificationService {
         UserProfile senderUser = userProfileRepository.findNicknameByUserId(userId);
         sendNotification(userId,saveNotificationRequest, senderUser.getNickname(), senderUser.getPicUrl());
     }
+
+    public void sendReservationNotification(Long senderId, Long receiverId, String notificationUrl, String message) {
+        SaveNotificationRequest saveNotificationRequest = new SaveNotificationRequest(
+                NotificationType.RESERVATION_CONFIRM,
+                receiverId,
+                senderId,
+                message,
+                notificationUrl
+        );
+        UserProfile senderUser = userProfileRepository.findNicknameByUserId(senderId);
+        sendNotification(receiverId,saveNotificationRequest, senderUser.getNickname(), senderUser.getPicUrl());
+    }
 }
 
 
