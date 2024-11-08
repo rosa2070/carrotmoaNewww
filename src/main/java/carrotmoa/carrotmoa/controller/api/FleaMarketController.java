@@ -47,7 +47,7 @@ public class FleaMarketController {
     }
 
     @GetMapping("/posts/{id}")
-    public FleaMarketPostDetailResponse getPost(@PathVariable Long id) {
+    public FleaMarketPostDetailResponse getPost(@PathVariable("id") Long id) {
         return fleaMarketService.getPost(id);
     }
 
@@ -57,17 +57,17 @@ public class FleaMarketController {
     }
 
     @DeleteMapping("/posts/{postId}")
-    public Long deletePost(@PathVariable Long postId) {
+    public Long deletePost(@PathVariable("postId") Long postId) {
         return fleaMarketService.deletePost(postId);
     }
 
     @PutMapping("/posts/{id}")
-    public Long updatePost(@RequestBody UpdateFleaMarketPostRequest updateFleaMarketPostRequest, @PathVariable Long id) {
+    public Long updatePost(@RequestBody UpdateFleaMarketPostRequest updateFleaMarketPostRequest, @PathVariable("id") Long id) {
         return fleaMarketService.updatePost(updateFleaMarketPostRequest,id);
     }
 
     @GetMapping("/images/{id}")
-    public List<FleaMarketPostImageResponse> getPostImage(@PathVariable Long id) {
+    public List<FleaMarketPostImageResponse> getPostImage(@PathVariable("id") Long id) {
         return fleaMarketService.getPostImages(id);
     }
 
