@@ -40,13 +40,19 @@
         <a class="my-page-btn-edit" th:href="@{/user/my-page-service2}">관리</a>
       </div>
 
-      <div class="my-page-main-content-item my-page-content-row">
-        <span class="my-page-item-text">숙소</span>
-        <a class="my-page-btn-edit" th:href="@{/user/my-page-service3}">관리</a>
+      <div class="my-page-main-content-item my-page-content-row" th:if="${authority =='HOST'}">
+        <span class="my-page-item-text">내 방 관리</span>
+        <a class="my-page-btn-edit" th:href="@{/host/room/manage}">관리</a>
       </div>
 
       <div class="my-page-main-content-item my-page-content-row">
-        <span class="my-page-item-text">동내생활</span>
+        <span class="my-page-item-text">예약한 방 계약 관리</span>
+        <a class="my-page-btn-edit" th:href="@{/guest/booking/list}">관리</a>
+      </div>
+
+
+      <div class="my-page-main-content-item my-page-content-row">
+        <span class="my-page-item-text">동네생활</span>
         <a class="my-page-btn-edit" th:href="@{#}">관리</a>
       </div>
     </div>
