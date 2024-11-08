@@ -1,12 +1,15 @@
 package carrotmoa.carrotmoa.service;
 
 import carrotmoa.carrotmoa.entity.User;
+import carrotmoa.carrotmoa.entity.UserAddress;
 import carrotmoa.carrotmoa.entity.UserProfile;
 import carrotmoa.carrotmoa.enums.AuthorityCode;
+import carrotmoa.carrotmoa.model.request.UserAddressUpdateRequest;
 import carrotmoa.carrotmoa.model.request.UserJoinDto;
 import carrotmoa.carrotmoa.model.request.UserUpdateRequest;
 import carrotmoa.carrotmoa.repository.AccountRepository;
 import carrotmoa.carrotmoa.model.response.FindUserResponse;
+import carrotmoa.carrotmoa.repository.UserAddressRepository;
 import carrotmoa.carrotmoa.repository.UserProfileRepository;
 import carrotmoa.carrotmoa.repository.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -19,6 +22,7 @@ import org.springframework.stereotype.Service;
 
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
+import java.util.Arrays;
 import java.util.Optional;
 import java.util.Random;
 import java.util.concurrent.CompletableFuture;
@@ -34,6 +38,7 @@ public class UserService {
     private final RedisService redisService;
     private final BCryptPasswordEncoder passwordEncoder;
     private final AccountRepository accountRepository;
+    private final UserAddressRepository userAddressRepository;
 
     //이미 존재하는지 체크
     public boolean emailCheck(String email) {
@@ -132,6 +137,18 @@ public class UserService {
             System.out.println("UserUpdateException");
             System.out.println(updateException.getMessage());
           return false;
+        }
+    }
+    @Transactional
+    public boolean userAddreesUpdate(UserAddressUpdateRequest request){
+        try{
+        UserAddress userAddress = userAddressRepository.save(request.toEntityUserAddress());
+        userProfileRepository.findByUserId(request.getUserId()).setAddressId(userAddress.getId());
+        return true;
+        }catch(Exception e){
+            System.out.println(e.getMessage());
+            System.out.println(Arrays.toString(e.getStackTrace()));
+        return false;
         }
     }
     public FindUserResponse findUserNickname(String searchType, String searchKeyword) throws EntityNotFoundException{

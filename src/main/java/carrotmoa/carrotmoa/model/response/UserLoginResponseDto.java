@@ -1,13 +1,11 @@
 package carrotmoa.carrotmoa.model.response;
 
 import carrotmoa.carrotmoa.entity.User;
+import carrotmoa.carrotmoa.entity.UserAddress;
 import carrotmoa.carrotmoa.entity.UserProfile;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.security.core.userdetails.UserDetails;
-
-import java.time.LocalDate;
 
 import java.time.LocalDate;
 
@@ -34,10 +32,6 @@ public class UserLoginResponseDto {
             this.picUrl = userProfile.getPicUrl();
         }
 
-        if (userProfile.getAddressId() != null) {
-            this.addressId = userProfile.getAddressId();
-        }
-
         if (userProfile.getPhoneNumber() != null) {
             this.phoneNumber = userProfile.getPhoneNumber();
         }
@@ -59,6 +53,4 @@ public class UserLoginResponseDto {
         }
     }
 
-//    public <T> UserLoginResponseDto(T byUserId) {
-//    }
 }

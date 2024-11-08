@@ -28,7 +28,7 @@
         </div>
       </div>
       <div class="my-page-profile-detail">
-        <p>사는곳</p>
+        <p th:text="${user.getUserAddress().getAddressName()}">사는곳</p>
         <p>한줄 소개</p>
         <p class="user-my-page-profile-bio" th:text="${user.getUserProfile().getBio()}"></p>
       </div>
