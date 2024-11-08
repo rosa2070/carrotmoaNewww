@@ -142,27 +142,22 @@ public class PaymentService {
         // 예약
         if (payment.getReservationId() != null) {
             Reservation reservation = reservationRepository.findById(payment.getReservationId())
-                .orElseThrow(() -> new IllegalArgumentException("Reservation not found with id: " + payment.getReservationId()));
+                    .orElseThrow(() -> new IllegalArgumentException("Reservation not found with id: " + payment.getReservationId()));
 
             // 예약 상태를 변경 (예약 취소: 2)
             reservation.setStatus(2);
 
-            // 게스트 예약 취소시 알림보내는 영역
-//            Accommodation accommodation = accommodationRepository.findById(reservation.getAccommodationId())
-//                    .orElseThrow(() -> new EntityNotFoundException("Accommodation not found"));
-//
-//            Post post = postRepository.findById(accommodation.getPostId())
-//                    .orElseThrow(() -> new EntityNotFoundException("Post not found"));
-//
-//            Long receiverId = post.getUserId();
-//            String roomName = post.getTitle();
+            // 로그인 된 유저의 ID 받아오기
+            Long userId = payment.getUserId();
 
-//            if (!reservationRequest.getUserId().equals(receiverId)) {
-//                String notificationUrl = "/host/room/contract";
-//                SaveNotificationRequest saveNotificationRequest = new SaveNotificationRequest(NotificationType.RESERVATION_CONFIRM, receiverId, reservationRequest.getUserId(), roomName + " 방을 예약했어요", notificationUrl);
-//                UserProfile senderUser = userProfileRepository.findNicknameByUserId(reservationRequest.getUserId());
-//                notificationService.sendNotification(receiverId,saveNotificationRequest, senderUser.getNickname(), senderUser.getPicUrl());
-//            }
+//            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//            String userId = authentication.getName();
+
+            String notificationUrl = "/guest/booking/list";
+
+            SaveNotificationRequest saveNotificationRequest = new SaveNotificationRequest(NotificationType.RESERVATION_CONFIRM, userId, userId, "결제가 성공적으로 취소되었습니다.", notificationUrl);
+            UserProfile senderUser = userProfileRepository.findNicknameByUserId(userId);
+            notificationService.sendNotification(userId,saveNotificationRequest, senderUser.getNickname(), senderUser.getPicUrl());
         }
 
     }
