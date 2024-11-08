@@ -58,7 +58,7 @@ public class PaymentService {
         if ("paid".equals(payment.getStatus())) {
             Reservation reservation = saveReservation(reservationRequest);
             payment.setReservationId(reservation.getId());
-            paymentRepository.save(payment);
+//            paymentRepository.save(payment);
 
             // 계약하려는 방 호스트의 ID 받아오기
             Accommodation accommodation = accommodationRepository.findById(reservation.getAccommodationId())
