@@ -10,5 +10,5 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 @ControllerAdvice
 public class GlobalUserAttribute {
     @ModelAttribute("user")
-    public CustomUserDetails user(@AuthenticationPrincipal CustomUserDetails user) {return user;}
+    public CustomUserDetails user(@AuthenticationPrincipal CustomUserDetails user) {return  user;}
 }
