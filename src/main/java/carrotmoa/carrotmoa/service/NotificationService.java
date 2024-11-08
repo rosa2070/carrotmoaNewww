@@ -121,16 +121,28 @@ public class NotificationService {
         return updatedNotificationIds;
     }
 
-    public void sendCancelReservationNotification(Long userId, String notificationUrl) {
+//    public void sendCancelReservationNotification(Long userId, String notificationUrl) {
+//        SaveNotificationRequest saveNotificationRequest = new SaveNotificationRequest(
+//                NotificationType.RESERVATION_CONFIRM,
+//                userId,
+//                userId,
+//                "결제가 성공적으로 취소되었습니다.",
+//                notificationUrl
+//        );
+//        UserProfile senderUser = userProfileRepository.findNicknameByUserId(userId);
+//        sendNotification(userId,saveNotificationRequest, senderUser.getNickname(), senderUser.getPicUrl());
+//    }
+
+    public void sendReservationNotification(NotificationType notificationType, Long senderId, Long receiverId, String notificationUrl, String message) {
         SaveNotificationRequest saveNotificationRequest = new SaveNotificationRequest(
-                NotificationType.RESERVATION_CONFIRM,
-                userId,
-                userId,
-                "결제가 성공적으로 취소되었습니다.",
+                notificationType,
+                receiverId,
+                senderId,
+                message,
                 notificationUrl
         );
-        UserProfile senderUser = userProfileRepository.findNicknameByUserId(userId);
-        sendNotification(userId,saveNotificationRequest, senderUser.getNickname(), senderUser.getPicUrl());
+        UserProfile senderUser = userProfileRepository.findNicknameByUserId(senderId);
+        sendNotification(receiverId,saveNotificationRequest, senderUser.getNickname(), senderUser.getPicUrl());
     }
 }
 

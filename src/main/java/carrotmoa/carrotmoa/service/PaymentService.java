@@ -72,10 +72,12 @@ public class PaymentService {
 
             if (!reservationRequest.getUserId().equals(receiverId)) {
                 String notificationUrl = "/host/room/contract";
-                SaveNotificationRequest saveNotificationRequest = new SaveNotificationRequest(NotificationType.RESERVATION_CONFIRM, receiverId,
-                    reservationRequest.getUserId(), roomName + " 방을 예약했어요", notificationUrl);
-                UserProfile senderUser = userProfileRepository.findNicknameByUserId(reservationRequest.getUserId());
-                notificationService.sendNotification(receiverId, saveNotificationRequest, senderUser.getNickname(), senderUser.getPicUrl());
+                String message = roomName + "방을 예약했어요";
+                Long senderId = reservationRequest.getUserId();
+                NotificationType notificationType = NotificationType.RESERVATION_CONFIRM;
+
+                notificationService.sendReservationNotification(notificationType, senderId, receiverId, notificationUrl, message);
+                notificationService.sendReservationNotification(notificationType, senderId, senderId, notificationUrl, message); // 변수명 게스트 호스트로 변경하는게 나을 거 같음
             }
 
         }
@@ -148,12 +150,16 @@ public class PaymentService {
             reservation.setStatus(2);
 
             // 로그인 된 유저의 ID 받아오기
-            Long userId = payment.getUserId();
+            Long senderId = payment.getUserId();
+            Long receiverId = payment.getUserId();
             String notificationUrl = "/guest/booking/list";
+            String message = "결제를 취소했어요";
+            NotificationType notificationType = NotificationType.GUEST_CANCEL;
 
 //            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 //            String userId = authentication.getName();
-            notificationService.sendCancelReservationNotification(userId, notificationUrl);
+
+            notificationService.sendReservationNotification(notificationType, senderId, receiverId, notificationUrl, message);
         }
 
     }
