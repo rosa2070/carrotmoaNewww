@@ -1,0 +1,48 @@
+package carrotmoa.carrotmoa.repository;
+
+import carrotmoa.carrotmoa.entity.QAccommodation;
+import carrotmoa.carrotmoa.entity.QAccommodationImage;
+import carrotmoa.carrotmoa.entity.QPost;
+import carrotmoa.carrotmoa.entity.QReservation;
+import carrotmoa.carrotmoa.model.response.BestAccommodationResponse;
+import com.querydsl.core.types.Projections;
+import com.querydsl.jpa.impl.JPAQueryFactory;
+import org.springframework.stereotype.Repository;
+
+import java.util.List;
+
+@Repository
+public class BestAccommodationCustomRepositoryImpl implements BestAccommodationCustomRepository {
+
+    private final JPAQueryFactory jpaQueryFactory;
+
+    private final QReservation reservation = QReservation.reservation;
+    private final QAccommodation accommodation = QAccommodation.accommodation;
+    private final QAccommodationImage accommodationImage = QAccommodationImage.accommodationImage;
+    private final QPost post = QPost.post;
+
+    public BestAccommodationCustomRepositoryImpl(JPAQueryFactory jpaQueryFactory) {
+        this.jpaQueryFactory = jpaQueryFactory;
+    }
+
+    @Override
+    public List<BestAccommodationResponse> getBestAccommodations() {
+        return jpaQueryFactory
+                .select(Projections.fields(BestAccommodationResponse.class,
+                        accommodation.id,
+                        post.title,
+                        accommodation.lotAddress,
+                        accommodation.price,
+                        accommodationImage.imageUrl))
+                .from(reservation)
+                .join(accommodation).on(reservation.accommodationId.eq(accommodation.id))
+                .join(accommodationImage).on(accommodationImage.accommodationId.eq(accommodation.id))
+                .join(post).on(post.id.eq(accommodation.postId))
+                .where(reservation.status.eq(1).and(accommodationImage.imageOrder.eq(0)))
+                .groupBy(reservation.accommodationId)
+                .orderBy(reservation.count().desc())
+                .fetch();
+    }
+
+
+}
