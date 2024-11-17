@@ -1,38 +1,44 @@
-// 페이지 로드 시 인기 호스트 방 목록을 가져와서 화면에 표시
-window.onload = function() {
-    fetch('/api/getPopularRooms')
-        .then(response => response.json()) // JSON 형태로 응답 처리
-        .then(rooms => {
-            const container = document.getElementById('resultRoomContainer');
-            rooms.forEach(room => {
-                // 각 방의 HTML 구조를 생성
-                const roomElement = document.createElement('a');
-                roomElement.href = `/room/detail/${room.roomId}`;
-                roomElement.target = "_blank"; // 새탭에서 열기
+document.addEventListener('DOMContentLoaded', async function() {
+    try {
+        console.log('Script loaded'); // 스크립트가 실행되었는지 확인
+        const response = await fetch('/api/accommodations/best'); // API 호출
+        if (!response.ok) {
+            throw new Error('인기 호스트 방 목록을 가져오는 데 실패했습니다.');
+        }
 
-                roomElement.innerHTML = `
-                    <dl class="room_item">
-                        <dt>
-                            <img class="room_img" src="https://example.com/room/${room.roomId}.png" alt="${room.roomName}">
-                            <div class="group">
-                                <span class="badge black">인기 호스트</span>
-                            </div>
-                        </dt>
-                        <dd class="room_name">${room.roomName}</dd>
-                        <dd class="room_address">${room.roomAddress}</dd>
-                        <dd class="room_pay">
-                            <p>
-                                <strong>${room.contractCount * 10000}</strong><em>원</em>
-                                <span>/1박</span>
-                            </p>
-                        </dd>
-                    </dl>
-                `;
+        const rooms = await response.json(); // JSON 형태로 응답 처리
+        console.log('Rooms:', rooms); // 응답 내용 확인
 
-                container.appendChild(roomElement); // 생성된 엘리먼트를 컨테이너에 추가
-            });
-        })
-        .catch(error => {
-            console.error('Error fetching popular rooms:', error);
+        const container = document.getElementById('resultRoomContainer');
+        container.innerHTML = ''; // 기존 콘텐츠를 초기화
+
+        rooms.forEach(room => {
+            const roomElement = document.createElement('a');
+            roomElement.href = `/room/detail/${room.id}`;
+            roomElement.target = "_blank"; // 새탭에서 열기
+
+            roomElement.innerHTML = `
+                <dl class="room_item">
+                    <dt>
+                        <img class="room_img" src="${room.imageUrl}" alt="${room.title}">
+                        <div class="group">
+                            <span class="badge black">인기 호스트</span>
+                        </div>
+                    </dt>
+                    <dd class="room_name">${room.title}</dd>
+                    <dd class="room_address">${room.lotAddress}</dd>
+                    <dd class="room_pay">
+                        <p>
+                            <strong>${room.price}</strong><em>원</em>
+                            <span>/1박</span>
+                        </p>
+                    </dd>
+                </dl>
+            `;
+
+            container.appendChild(roomElement);
         });
-};
+    } catch (error) {
+        console.error('Error fetching popular rooms:', error);
+    }
+});
