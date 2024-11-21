@@ -41,6 +41,7 @@ public class BestAccommodationCustomRepositoryImpl implements BestAccommodationC
                 .where(reservation.status.eq(1).and(accommodationImage.imageOrder.eq(0)))
                 .groupBy(reservation.accommodationId)
                 .orderBy(reservation.count().desc())
+                .limit(8)
                 .fetch();
     }
 

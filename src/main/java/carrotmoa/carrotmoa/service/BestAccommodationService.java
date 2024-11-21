@@ -16,7 +16,7 @@ public class BestAccommodationService {
         this.bestAccommodationCustomRepository = bestAccommodationCustomRepository;
     }
 
-    @Cacheable(cacheNames = "getBestAccommodations", key = "'bestAccommodations'", cacheManager = "bestAccommodationCacheManager")
+//    @Cacheable(cacheNames = "getBestAccommodations", key = "'bestAccommodations'", cacheManager = "bestAccommodationCacheManager")
     public List<BestAccommodationResponse> getBestAccommodations() {
         return bestAccommodationCustomRepository.getBestAccommodations();
     }
