@@ -6,14 +6,12 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.core.ZSetOperations;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
-@Slf4j // Lombok의 @Slf4j 어노테이션을 추가하여 로깅 기능을 활성화합니다.
+@Slf4j
 @Service
 public class BestAccommodationService {
 
@@ -29,57 +27,46 @@ public class BestAccommodationService {
         this.objectMapper = objectMapper;
     }
 
-    //    @Cacheable(cacheNames = "getBestAccommodations", key = "'bestAccommodations'", cacheManager = "bestAccommodationCacheManager")
-    public List<BestAccommodationResponse> getBestAccommodations() {
+    // RDS에서 이미 정렬된 인기 숙소 8개를 가져오는 메서드
+    public List<BestAccommodationResponse> getBestAccommodationsFromRds() {
         log.info("Fetching best accommodations from RDS.");
         return bestAccommodationCustomRepository.getBestAccommodations();
     }
 
-    // Redis에서 인기 숙소를 가져오는 메서드
+    // Redis에서 인기 숙소 8개를 가져오는 메서드
     public List<BestAccommodationResponse> getBestAccommodationsFromRedis() {
-        String sortedSetKey = "best_accommodations";
-        log.info("Fetching best accommodations from Redis sorted set: {}", sortedSetKey);
+        String redisKey = "best_accommodations";
+        log.info("Fetching best accommodations from Redis list: {}", redisKey);
 
-        // ZSetOperations 객체 생성
-        ZSetOperations<String, Object> zSetOperations = bestAccommodationRedisTemplate.opsForZSet();
-
-        // Redis에서 상위 8개 인기 숙소의 ID를 가져옵니다.
-        Set<Object> top8Accommodations = zSetOperations.reverseRange(sortedSetKey, 0, 7);
-        if (top8Accommodations == null || top8Accommodations.isEmpty()) {
-            log.info("No data found in Redis for top 8 accommodations. Fetching from RDS.");
+        // Redis에서 데이터가 없으면 RDS에서 가져와서 Redis에 저장
+        List<Object> redisData = bestAccommodationRedisTemplate.opsForList().range(redisKey, 0, -1);
+        if (redisData == null || redisData.isEmpty()) {
+            log.info("No data found in Redis. Fetching from RDS.");
             // RDS에서 인기 숙소 데이터를 가져옵니다.
-            List<BestAccommodationResponse> bestAccommodations = bestAccommodationCustomRepository.getBestAccommodations();
+            List<BestAccommodationResponse> bestAccommodations = getBestAccommodationsFromRds();
 
             // RDS에서 가져온 데이터를 Redis에 저장
             saveBestAccommodationsToRedis(bestAccommodations);
 
             // Redis에서 데이터를 가져오기 위해 다시 조회
-            // (Redis에 데이터가 저장된 후 바로 Redis에서 가져오기)
-            top8Accommodations = zSetOperations.reverseRange(sortedSetKey, 0, 7);
+            redisData = bestAccommodationRedisTemplate.opsForList().range(redisKey, 0, -1);
         }
 
-        log.info("Fetched {} accommodations from Redis.", top8Accommodations.size());
-        return getAccommodationsFromRedis(top8Accommodations);
+        log.info("Fetched {} accommodations from Redis.", redisData.size());
+        return getAccommodationsFromRedis(redisData);
     }
 
     // RDS에서 가져온 데이터를 Redis에 저장하는 메서드
     public void saveBestAccommodationsToRedis(List<BestAccommodationResponse> bestAccommodations) {
-        String sortedSetKey = "best_accommodations"; // Redis의 key
-        ZSetOperations<String, Object> zSetOperations = bestAccommodationRedisTemplate.opsForZSet(); // ZSetOperations 객체 생성
-
+        String redisKey = "best_accommodations"; // Redis의 key
+        // Redis List에 데이터를 저장
         for (BestAccommodationResponse accommodation : bestAccommodations) {
             try {
-                // 인기 숙소의 예약 수를 점수로 사용
-                double score = (double) accommodation.getReservationCount(); // 예약 수를 점수로 사용
-
                 // 숙소의 모든 정보를 JSON 문자열로 변환
                 String accommodationJson = objectMapper.writeValueAsString(accommodation);
 
-                // Redis Sorted Set에 숙소의 ID(직접 Long 타입 사용)와 예약 수를 저장
-                zSetOperations.add(sortedSetKey, accommodation.getId(), score);
-
-                // 숙소 정보는 Redis String에 저장 (숙소 ID를 Long으로 사용)
-                bestAccommodationRedisTemplate.opsForValue().set("accommodation:" + accommodation.getId(), accommodationJson);
+                // Redis List에 순차적으로 저장
+                bestAccommodationRedisTemplate.opsForList().rightPush(redisKey, accommodationJson);
 
                 log.info("Saved accommodation with ID {} to Redis.", accommodation.getId());
             } catch (JsonProcessingException e) {
@@ -88,26 +75,19 @@ public class BestAccommodationService {
         }
     }
 
-    // Redis에서 인기 숙소 데이터를 가져오는 메서드
-    private List<BestAccommodationResponse> getAccommodationsFromRedis(Set<Object> accommodationIds) {
+    // Redis에서 숙소 정보를 가져오는 메서드
+    private List<BestAccommodationResponse> getAccommodationsFromRedis(List<Object> redisData) {
         List<BestAccommodationResponse> accommodations = new ArrayList<>();
-        log.info("Fetching accommodation details from Redis for IDs: {}", accommodationIds);
+        log.info("Fetching accommodation details from Redis.");
 
-        for (Object id : accommodationIds) {
-            // Redis String에서 숙소의 상세 정보를 가져오기
-            String accommodationJson = (String) bestAccommodationRedisTemplate.opsForValue().get("accommodation:" + id);
-
-            if (accommodationJson != null) {
-                try {
-                    // JSON 문자열을 BestAccommodationResponse 객체로 변환
-                    BestAccommodationResponse accommodation = objectMapper.readValue(accommodationJson, BestAccommodationResponse.class);
-                    accommodations.add(accommodation);
-                    log.info("Fetched accommodation with ID {} from Redis.", id);
-                } catch (JsonProcessingException e) {
-                    log.error("Failed to parse accommodation JSON for ID {}.", id, e);
-                }
-            } else {
-                log.warn("Accommodation with ID {} not found in Redis.", id);
+        for (Object accommodationJson : redisData) {
+            try {
+                // JSON 문자열을 BestAccommodationResponse 객체로 변환
+                BestAccommodationResponse accommodation = objectMapper.readValue((String) accommodationJson, BestAccommodationResponse.class);
+                accommodations.add(accommodation);
+                log.info("Fetched accommodation from Redis.");
+            } catch (JsonProcessingException e) {
+                log.error("Failed to parse accommodation JSON.", e);
             }
         }
 

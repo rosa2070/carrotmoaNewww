@@ -20,7 +20,7 @@ public class BestAccommodationController {
         this.bestAccommodationService = bestAccommodationService;
     }
 
-//    @GetMapping("/best")
+//    @GetMapping("/best-room")
 //    public ResponseEntity<List<BestAccommodationResponse>> getBestAccommodations() {
 //        List<BestAccommodationResponse> bestAccommodations = bestAccommodationService.getBestAccommodations();
 //        return ResponseEntity.ok(bestAccommodations);
