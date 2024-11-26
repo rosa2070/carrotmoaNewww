@@ -33,6 +33,14 @@ jobs:
     - name: Setup Gradle
       uses: gradle/actions/setup-gradle@af1da67850ed9a4cedd57bfd976089dd991e2582 # v4.0.0
 
+    - name: Set up environment variables
+      env:
+        JASYPT_ENCRYPTOR_PASSWORD: ${{ secrets.CATTOMOA_TOTAL_ENV_KEY }}
+      run: |
+        echo "Environment variable JASYPT_ENCRYPTOR_PASSWORD set"
+        # 디버깅을 위해 필요한 경우 환경 변수 값 확인 (보안상 비추천)
+        # echo $JASYPT_ENCRYPTOR_PASSWORD
+
     - name: Build with Gradle Wrapper
       run: ./gradlew build
 
