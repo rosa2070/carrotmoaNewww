@@ -64,7 +64,3 @@ tasks.named('test') {
     useJUnitPlatform()
     systemProperty 'jasypt.encryptor.password', findProperty("jasypt.encryptor.password")
 }
-//test {
-//    useJUnitPlatform()
-//    systemProperty 'jasypt.encryptor.password', System.getenv("CARROTMOA_TOTAL_ENV_KEY")
-//}
