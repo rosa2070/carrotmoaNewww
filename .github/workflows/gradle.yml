@@ -67,7 +67,7 @@ jobs:
            docker stop $(docker ps -a -q) || true
            docker rm $(docker ps -a -q) || true
            docker pull jaeeun111/carrotmoa_final
-           docker run -d -e JASYPT_PASSWORD="${{ secrets.JASYPT_PASSWORD }}" -p 8080:8080 jaeeun111/carrotmoa_final:latest
+           docker run -e JASYPT_PASSWORD="${{ secrets.JASYPT_PASSWORD }}" -p 8080:8080 jaeeun111/carrotmoa_final:latest
 #           docker run -d -p 8080:8080 --name carrotmoaContainer jaeeun111/carrotmoa_final
 
 #      # Configure Gradle for optimal use in GitHub Actions, including caching of downloaded dependencies.
