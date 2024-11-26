@@ -42,7 +42,9 @@ jobs:
         echo "JAVA_OPTS set: $JAVA_OPTS"
 
     - name: Build with Gradle Wrapper
-      run: JAVA_OPTS='-Djasypt.encryptor.password=${{ secrets.CARROTMOA_TOTAL_ENV_KEY }}' ./gradlew build
+      run: ./gradlew build
+      env:
+        JAVA_OPTS: '-Djasypt.encryptor.password=${{ secrets.CARROTMOA_TOTAL_ENV_KEY }}'
 
     - name: Build and test
       run: ./gradlew clean build --info
