@@ -20,13 +20,13 @@ public class BestAccommodationController {
         this.bestAccommodationService = bestAccommodationService;
     }
 
-//    @GetMapping("/best-room")
-//    public ResponseEntity<List<BestAccommodationResponse>> getBestAccommodations() {
-//        List<BestAccommodationResponse> bestAccommodations = bestAccommodationService.getBestAccommodations();
-//        return ResponseEntity.ok(bestAccommodations);
-////                .contentType(MediaType.APPLICATION_JSON) // Content-Type을 application/json으로 명시
-////                .body(bestAccommodations);
-//    }
+    @GetMapping("/best-room")
+    public ResponseEntity<List<BestAccommodationResponse>> getBestAccommodations() {
+        List<BestAccommodationResponse> bestAccommodations = bestAccommodationService.getBestAccommodationsFromRds();
+        return ResponseEntity.ok(bestAccommodations);
+//                .contentType(MediaType.APPLICATION_JSON) // Content-Type을 application/json으로 명시
+//                .body(bestAccommodations);
+    }
 
     // 인기 숙소 목록을 가져오는 API
     @GetMapping("/best")
