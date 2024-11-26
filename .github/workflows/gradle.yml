@@ -36,8 +36,10 @@ jobs:
     - name: Set up environment variables
       env:
         JASYPT_ENCRYPTOR_PASSWORD: ${{ secrets.CARROTMOA_TOTAL_ENV_KEY }}
+        JAVA_OPTS: '-Djasypt.encryptor.password=${{ secrets.CARROTMOA_TOTAL_ENV_KEY }}'
       run: |
         echo "Environment variable JASYPT_ENCRYPTOR_PASSWORD set"
+        echo "JAVA_OPTS set: $JAVA_OPTS"
 
     - name: Build with Gradle Wrapper
       run: ./gradlew build
