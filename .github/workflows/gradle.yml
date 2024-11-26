@@ -41,7 +41,7 @@ jobs:
 
   # docker image build
     - name: Build docker image
-      run: docker build -t jaeeun111/carrotmoa_final
+      run: docker build -t jaeeun111/carrotmoa_final .
 
   # docker hub
     - name: Login docker hub
