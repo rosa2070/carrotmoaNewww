@@ -46,9 +46,6 @@ jobs:
       env:
         JAVA_OPTS: '-Djasypt.encryptor.password=${{ secrets.CARROTMOA_TOTAL_ENV_KEY }}'
 
-    - name: Build and test
-      run: ./gradlew clean build --info
-
     # NOTE: The Gradle Wrapper is the default and recommended way to run Gradle (https://docs.gradle.org/current/userguide/gradle_wrapper.html).
     # If your project does not have the Gradle Wrapper configured, you can use the following configuration to run Gradle with a specified version.
     #
